@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="de3831ec-97e4-42d1-910c-d1b28211692a"
+  name="Cells" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="43aa89e4-09d2-4fca-965e-85cdba017450"
+        name="StateGame"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="4090383e-5eca-4643-8f29-a7f14af883b0"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b01503ee-b34d-452e-b8fe-2a82f29bf718"
+              LastKnownName="State"
+              LastKnownLocation="Package_1458.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5f169b95-7281-4c8c-b1e4-f9278ca1280b"
+        name="StateMenu"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="54ffb72c-5bee-4cd6-b09a-aaa643993d84"
+            isSubstitutable="false">
+            <classMoniker
+              Id="b01503ee-b34d-452e-b8fe-2a82f29bf718"
+              LastKnownName="State"
+              LastKnownLocation="Package_1458.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -1,0 +1,4 @@
+ruleCollisions.tmx
+ruleWater.tmx
+ruleGrass.tmx
+ruleTrees.tmx

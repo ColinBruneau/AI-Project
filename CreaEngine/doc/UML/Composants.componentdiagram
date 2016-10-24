@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<componentModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" dslVersion="1.0.0.0" Id="c4c4eefb-0e6b-414f-ac96-1512e9d9e8ef" name="Composants" linkedPackageId="429434f0-e678-46ac-8569-d051e957c734" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="1b651930-494b-48c8-8767-64ff341079db">
+      <profileInstance Id="13bf8b57-21b6-4be7-9e82-6340fc210c2f" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="352bad2c-e58d-4555-8691-0e9f64b20b7c">
+      <profileInstance Id="e0d233b2-a04c-410e-8b71-99ecfd433fea" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <componentModelHasComponents>
+      <component Id="191b8a61-3355-4fe3-89f2-193c7142dfea" name="Cells" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d149516c-71e9-4bbd-bb84-535c80e7a3da" />
+        <suppliersInternal>
+          <dependency Id="2813d7b9-e1e1-42b4-bbcf-31f812d1078e" name="Dépend de">
+            <componentMoniker Id="0989a569-8589-4730-9152-25e33bb9ab32" LastKnownName="CreaEngine" />
+            <elementDefinition Id="d6bd619c-a48c-4d34-a202-fe485d381f04" />
+          </dependency>
+          <dependency Id="e74afc15-a55c-4259-9d5f-d399557ccf46" name="Dépend de">
+            <componentMoniker Id="ab57c930-e8b0-4434-88d9-b7f9881f0872" LastKnownName="CreaSFML" />
+            <elementDefinition Id="2c365852-f2d2-45de-a281-e96a945f8c83" />
+          </dependency>
+          <dependency Id="d1e0beda-0e5e-4562-8c8b-2bf66d901d43" name="Dépend de">
+            <componentMoniker Id="ac28fccb-ff78-48d6-93ca-0b0338cb6cd6" LastKnownName="SFML" />
+            <elementDefinition Id="a3af4cd7-82c0-4f40-bae1-8ac08cf42d78" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="0989a569-8589-4730-9152-25e33bb9ab32" name="CreaEngine" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="737b6d5c-884d-4815-8c6d-e96c83ca5fbe" />
+        <suppliersInternal>
+          <dependency Id="d95a998f-a229-4ebb-b95b-21a9748e9a0e" name="Utilise">
+            <componentMoniker Id="9b7b5072-19bd-482a-8935-e15e022d5e5a" LastKnownName="Data" />
+            <elementDefinition Id="1e58f040-9ec5-4e70-911c-df27954633b7" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="ab57c930-e8b0-4434-88d9-b7f9881f0872" name="CreaSFML" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="4401c2d0-c3bf-48c0-9316-b0c4c83c534d" />
+        <suppliersInternal>
+          <dependency Id="0d7025f0-72c6-4e3a-81dc-a602ddc68a28">
+            <componentMoniker Id="ac28fccb-ff78-48d6-93ca-0b0338cb6cd6" LastKnownName="SFML" />
+            <elementDefinition Id="eef31fd4-b5f3-4f0f-a0bf-c3f1b6ea9e49" />
+          </dependency>
+          <dependency Id="08d34aa7-cc33-44bd-abc2-e57aac2d2f58">
+            <componentMoniker Id="0989a569-8589-4730-9152-25e33bb9ab32" LastKnownName="CreaEngine" />
+            <elementDefinition Id="af454000-0d4f-4c14-a4e4-042a491bfb4b" />
+          </dependency>
+        </suppliersInternal>
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="ac28fccb-ff78-48d6-93ca-0b0338cb6cd6" name="SFML" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="0c9654ee-846b-4d52-adfa-e430527ecdd5" />
+      </component>
+    </componentModelHasComponents>
+    <componentModelHasComponents>
+      <component Id="9b7b5072-19bd-482a-8935-e15e022d5e5a" name="Data" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6707dcae-232f-4bd1-95aa-69b99ff7d835" />
+      </component>
+    </componentModelHasComponents>
+  </packagedElements>
+  <package Id="429434f0-e678-46ac-8569-d051e957c734" name="UML">
+    <elementDefinition Id="522d6b0a-0e8d-4919-8957-00509f0d10dd" />
+  </package>
+</componentModel>

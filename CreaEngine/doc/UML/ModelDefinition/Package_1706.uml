@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="34e65a27-0b11-4436-8d5f-7eca82758e7c"
+  name="Cells" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="5c51ee66-4958-4404-b39a-759bec250c69">
+      <body>	
+	// Load Map
+	m_pEntity3 = m_pGM-&gt;getEntity(string("map1"));
+	m_pGM-&gt;addEntity(m_pEntity3);
+	m_pMap = m_pGM-&gt;getMap("map1.json"); 
+	m_pMapRenderer = new crea::MapRenderer();
+	m_pMapRenderer-&gt;setMap(m_pMap);
+	m_pEntity3-&gt;addComponent(m_pMapRenderer);</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="34981b0a-f888-451c-ba8d-88151fc896d1"
+        name="StateGame"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="3c7700e4-dcf5-4f4d-92f2-3789c8b7d295"
+            isDerived="false"
+            sourceEndRoleName="StateGame"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="ed3ca5d4-dff2-418f-9a0a-38a149cec672"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_1705.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ce1833f2-d3e1-4347-8eab-ef787f7b7c78"
+                  name="StateGame"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ddd8402b-8db5-4346-a678-eaa80dc367a8"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

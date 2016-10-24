@@ -1,0 +1,15 @@
+Animation peon_walkN
+{
+	isSpriteSheet 1
+	hasOffset 1
+	fileSubRectNumber 1 65
+	loops -1
+	Frames 5
+	{
+		Peon.png -1 -1 -1 66.66 0 0 
+		Peon.png -1 -1 -1 66.66 0 4
+		Peon.png -1 -1 -1 66.66 0 8
+		Peon.png -1 -1 -1 66.66 0 12
+		Peon.png -1 -1 -1 66.66 0 16
+	}
+}
