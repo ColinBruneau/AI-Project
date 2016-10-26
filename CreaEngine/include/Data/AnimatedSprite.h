@@ -26,7 +26,7 @@
 
 #include "Data\Animation.h"
 #include "Graphics\Transformable.h"
-#include "Core\ICore.h"
+#include "Core\Time.h"
 #include "Graphics\IGraphics.h"
 
 namespace crea

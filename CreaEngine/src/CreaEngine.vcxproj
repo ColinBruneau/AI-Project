@@ -17,6 +17,7 @@
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
     <ClInclude Include="..\include\Core\ICore.h" />
+    <ClInclude Include="..\include\Core\Time.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
     <ClInclude Include="..\include\Core\SceneManager.h" />
     <ClInclude Include="..\include\Core\State.h" />
@@ -51,6 +52,7 @@
     <ClCompile Include="Core\Plugin.cpp" />
     <ClCompile Include="Core\SceneManager.cpp" />
     <ClCompile Include="Core\State.cpp" />
+    <ClCompile Include="Core\Time.cpp" />
     <ClCompile Include="CreaEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -121,7 +123,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>CREAENGINE_EXPORTS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\AI Project\CreaEngine\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>

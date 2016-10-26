@@ -50,7 +50,7 @@ namespace crea
 		m_isPaused = false;
 	}
 
-	void AnimatedSprite::play( Animation& animation)
+	void AnimatedSprite::play(Animation& animation)
 	{
 		if (getAnimation() != &animation)
 			setAnimation(animation);
@@ -131,7 +131,10 @@ namespace crea
 			{
 				// reset time, but keep the remainder
 				//m_currentTime = Imicroseconds(m_currentTime.asMicroseconds() % m_frameTime.asMicroseconds());
-				m_currentTime = (float) (m_currentTime.asMicroseconds() % m_frameTime.asMicroseconds());
+				int cur = m_currentTime.asMicroseconds();
+				int mod = m_frameTime.asMicroseconds();
+				int res = cur % mod;
+				m_currentTime.setAsMicroSeconds(res);
 
 				// get next Frame index
 				if (m_currentFrame + 1 < m_animation->getSize())
@@ -152,17 +155,4 @@ namespace crea
 			}
 		}
 	}
-	/*
-	bool AnimatedSprite::draw()
-	{
-		if (m_animation && m_texture)
-		{
-			states.transform *= getTransform();
-			states.texture = m_texture;
-			target.draw(m_vertices, 4, IQuads, states);
-		}
-		
-		return true;
-	}
-	*/
 } // namespace crea

@@ -1,3 +1,20 @@
+# Visual
+tmp
+v14
+ipch
+*.opendb
+*.filters
+*.user
+*.db
+*.sdf
+*.pdb
+*.ipdb
+*.iobj
+*.ilk
+*.bsc
+*.suo
+*.exp
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db

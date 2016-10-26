@@ -151,7 +151,7 @@ bool StateGame::onUpdate()
 	// Animated Sprite
 	crea::Time frameTime = frameClock.restart();
 	m_pTextFPS->setString("                              " + to_string((int)(1/frameTime.asSeconds())) + " fps");
-
+	//m_pTextFPS->setString("                              " + to_string((int)frameClock.getElapsedTime().asSeconds()) + " s");
 	// if a key was pressed set the correct animation and move correctly
 	crea::Vector2f movement(0.f, 0.f);
 	if (m_pGM->isKeyPressed('a'))
@@ -179,7 +179,7 @@ bool StateGame::onUpdate()
 		noKeyWasPressed = false;
 	}
 	m_pAnimatedSprite1->play(*currentAnimation);
-	m_pAnimatedSprite1->move(movement * frameTime.asSeconds());
+	m_pAnimatedSprite1->move(movement * (float) frameTime.asSeconds());
 
 	// if no key was pressed stop the animation
 	if (noKeyWasPressed)

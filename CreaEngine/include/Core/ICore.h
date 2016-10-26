@@ -5,57 +5,9 @@
 /***************************************************/
 #ifndef _ICore_H
 #define _ICore_H
-#include <Windows.h>
 
 namespace crea
 {
-	class CREAENGINE_API Time
-	{
-		float m_fTime;
-	public:
-
-		Time()
-		{
-			m_fTime = 0;
-		}
-
-		Time(float _fTime)
-		{
-			m_fTime = _fTime;
-		}
-
-		~Time()
-		{
-		}
-
-		virtual Time& operator=(float _fTime) { m_fTime = _fTime; return *this; }
-		virtual Time& operator+=(Time& _Time) { m_fTime += _Time.m_fTime; return *this; }
-		virtual bool operator>=(Time& _Time) { return m_fTime >= _Time.m_fTime; }
-
-		int asMicroseconds() { return (int) (m_fTime * 1000); }
-		int asMilliseconds() { return (int) m_fTime; }
-		float asSeconds() { return (float) m_fTime * 0.001f; }
-
-	};
-
-	class CREAENGINE_API Clock
-	{
-		DWORD m_dwFirstTime;
-	public:
-
-		Clock()
-		{
-			m_dwFirstTime = timeGetTime(); // milliseconds since Windows was started
-		}
-		
-		~Clock()
-		{
-		}
-		
-		Time getElapsedTime() { return Time((float)(timeGetTime() - m_dwFirstTime)); }
-		Time restart() { Time dt = getElapsedTime();  m_dwFirstTime = timeGetTime(); return (dt.asMilliseconds() > 0 ? dt : Time(1)); }
-	};
-
 	class CREAENGINE_API Vector2f
 	{
 		float m_fX;
