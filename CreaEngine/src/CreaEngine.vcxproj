@@ -31,7 +31,7 @@
     <ClInclude Include="..\include\Graphics\AnimatedSpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\IDrawable.h" />
     <ClInclude Include="..\include\Graphics\IGraphics.h" />
-    <ClInclude Include="..\include\Graphics\IRenderer.h" />
+    <ClInclude Include="..\include\Graphics\IFacade.h" />
     <ClInclude Include="..\include\Graphics\ISprite.h" />
     <ClInclude Include="..\include\Graphics\Transformable.h" />
     <ClInclude Include="..\include\Graphics\MapRenderer.h" />
@@ -63,7 +63,7 @@
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="Data\Node.cpp" />
     <ClCompile Include="Graphics\AnimatedSpriteRenderer.cpp" />
-    <ClCompile Include="Graphics\IRenderer.cpp" />
+    <ClCompile Include="Graphics\IFacade.cpp" />
     <ClCompile Include="Graphics\MapRenderer.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\TextRenderer.cpp" />

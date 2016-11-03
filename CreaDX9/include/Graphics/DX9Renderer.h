@@ -6,7 +6,7 @@
 #ifndef _DX9Renderer_H
 #define _DX9Renderer_H
 
-#include "IRenderer.h"
+#include "IFacade.h"
 #include <d3d9.h>
 #include <d3dx9.h>
 

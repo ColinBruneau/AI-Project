@@ -26,8 +26,8 @@ namespace crea
 		return true;
 	}
 
-	bool InputManager::isKeyPressed(char _key)
+	bool InputManager::isKeyPressed(Key _key)
 	{
-		return IRenderer::get().isKeyPressed(_key);
+		return IFacade::get().isKeyPressed(_key);
 	}
 } // namespace crea

@@ -1,29 +1,29 @@
 /***************************************************/
-/* Nom:	SFMLRenderer.h
-/* Description: SFMLRenderer
+/* Nom:	SFMLFacade.h
+/* Description: SFMLFacade
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef _SFMLRenderer_H
-#define _SFMLRenderer_H
+#ifndef _SFMLFacade_H
+#define _SFMLFacade_H
 
-#include "Graphics\IRenderer.h"
+#include "Graphics\IFacade.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace crea
 {
-	class SFMLRenderer
+	class SFMLFacade
 	{
 
 	private:
 		// Données membres
-		SFMLRenderer();
+		SFMLFacade();
 
 	public:
-		~SFMLRenderer();
+		~SFMLFacade();
 
 		// Renvoie l'instance du renderer
-		static SFMLRenderer& Instance();
+		static SFMLFacade& Instance();
 
 		// Initialise le renderer
 		virtual void initialize();
@@ -53,7 +53,7 @@ namespace crea
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
 
-		virtual bool isKeyPressed(char _key);
+		virtual bool isKeyPressed(Key _key);
 
 		sf::RenderWindow* m_pWindow;
 
@@ -61,4 +61,4 @@ namespace crea
 
 } // namespace crea
 
-#endif // _SFMLRenderer_H
+#endif // _SFMLFacade_H

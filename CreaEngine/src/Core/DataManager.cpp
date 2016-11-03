@@ -33,7 +33,7 @@ namespace crea
 		MapStringFont::iterator it = m_pFonts.find(_szName);
 		if (it == m_pFonts.end())
 		{
-			IFont* pFont = IRenderer::get().createIFont();
+			IFont* pFont = IFacade::get().createIFont();
 
 			if (!pFont->loadFromFile(DATAFONTPATH + _szName))
 			{
@@ -48,7 +48,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IRenderer::get().createIFont(it->second);
+				return IFacade::get().createIFont(it->second);
 			}
 			else
 			{
@@ -62,7 +62,7 @@ namespace crea
 		MapStringTexture::iterator it = m_pTextures.find(_szName);
 		if (it == m_pTextures.end())
 		{
-			ITexture* pTexture = IRenderer::get().createITexture();
+			ITexture* pTexture = IFacade::get().createITexture();
 
 			if (!pTexture->loadFromFile(DATATEXTUREPATH + _szName))
 			{
@@ -77,7 +77,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IRenderer::get().createITexture(it->second);
+				return IFacade::get().createITexture(it->second);
 			}
 			else
 			{
@@ -91,7 +91,7 @@ namespace crea
 		MapStringColor::iterator it = m_pColors.find(_szName);
 		if (it == m_pColors.end())
 		{
-			IColor* pColor = IRenderer::get().createIColor(); // Create a default Color if none exist
+			IColor* pColor = IFacade::get().createIColor(); // Create a default Color if none exist
 			m_pColors[_szName] = pColor;
 			return pColor;
 		}
@@ -99,7 +99,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IRenderer::get().createIColor(it->second);
+				return IFacade::get().createIColor(it->second);
 			}
 			else
 			{
@@ -114,7 +114,7 @@ namespace crea
 		MapStringText::iterator it = m_pTexts.find(_szName);
 		if (it == m_pTexts.end())
 		{
-			IText* pText = IRenderer::get().createIText(); // Create a default Text if none exist
+			IText* pText = IFacade::get().createIText(); // Create a default Text if none exist
 			m_pTexts[_szName] = pText;
 			return pText;
 		}
@@ -122,7 +122,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IRenderer::get().createIText(it->second);
+				return IFacade::get().createIText(it->second);
 			}
 			else
 			{
@@ -137,7 +137,7 @@ namespace crea
 		MapStringSprite::iterator it = m_pSprites.find(_szName);
 		if (it == m_pSprites.end())
 		{
-			ISprite* pSprite = IRenderer::get().createISprite(); // Create a default Sprite if none exist
+			ISprite* pSprite = IFacade::get().createISprite(); // Create a default Sprite if none exist
 			m_pSprites[_szName] = pSprite;
 			return pSprite;
 		}
@@ -145,7 +145,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IRenderer::get().createISprite(it->second);
+				return IFacade::get().createISprite(it->second);
 			}
 			else
 			{

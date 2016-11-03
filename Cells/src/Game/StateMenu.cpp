@@ -48,12 +48,12 @@ bool StateMenu::onInit()
 bool StateMenu::onUpdate()
 {
 	// Get direction from keyboard
-	if(m_pGM->isKeyPressed('2'))
+	if(m_pGM->isKeyPressed(crea::Key::Num2))
 	{
 		m_pGM->setState(new StateGame());
 	}
 
-	if (m_pGM->isKeyPressed('3'))
+	if (m_pGM->isKeyPressed(crea::Key::Num3))
 	{
 		m_pGM->setState(new StateMap());
 		return true;

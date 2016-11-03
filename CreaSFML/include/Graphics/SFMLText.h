@@ -28,7 +28,7 @@ namespace crea
 
 		virtual void draw()
 		{
-			sf::RenderWindow* pWin = SFMLRenderer::Instance().m_pWindow;
+			sf::RenderWindow* pWin = SFMLFacade::Instance().m_pWindow;
 			pWin->draw(this->m_text);
 		}
 

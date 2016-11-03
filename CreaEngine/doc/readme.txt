@@ -23,5 +23,4 @@ To do:
 - json pour les animations
 - lien tiled - animation
 - ajouter AnimatedRenderer à CreaSFML
-- ajouter une enum pour les touches
 

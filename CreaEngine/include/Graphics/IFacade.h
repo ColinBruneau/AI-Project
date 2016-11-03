@@ -1,10 +1,10 @@
 /***************************************************/
-/* Nom:	IRenderer.h
-/* Description: IRenderer
+/* Nom:	IFacade.h
+/* Description: IFacade
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef _IRenderer_H
-#define _IRenderer_H
+#ifndef _IFacade_H
+#define _IFacade_H
 
 #include "Core\Plugin.h"
 #include "Graphics\IDrawable.h"
@@ -14,10 +14,10 @@ namespace crea
 	class IFont;
 	class ITexture;
 
-	class CREAENGINE_API IRenderer
+	class CREAENGINE_API IFacade
 	{
 	public:
-		~IRenderer()
+		~IFacade()
 		{
 			destroy();
 		}
@@ -38,7 +38,7 @@ namespace crea
 		}
 
 		// Renvoie l'instance du renderer
-		static IRenderer& get()
+		static IFacade& get()
 		{
 			assert(s_Instance != NULL);
 			return *s_Instance;
@@ -72,20 +72,20 @@ namespace crea
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr) = 0;
 
-		virtual bool isKeyPressed(char _key) = 0;
+		virtual bool isKeyPressed(Key _key) = 0;
 
 	protected:
-		IRenderer()
+		IFacade()
 		{
 			s_Instance = NULL;
 		}
 
 	private:
 		// Données membres
-		static IRenderer*        s_Instance; // Instance du renderer chargée
-		static Plugin<IRenderer> s_Library;  // Helper pour manipuler la DLL
+		static IFacade*        s_Instance; // Instance du renderer chargée
+		static Plugin<IFacade> s_Library;  // Helper pour manipuler la DLL
 	};
 
 } // namespace crea
 
-#endif // _IRenderer_H
+#endif // _IFacade_H

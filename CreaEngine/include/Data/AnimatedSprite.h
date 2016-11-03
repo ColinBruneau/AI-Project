@@ -39,7 +39,7 @@ namespace crea
 		explicit AnimatedSprite(Time& frameTime = Time(0.2f), bool paused = false, bool looped = true);
 
 		void update(Time& deltaTime);
-		void setAnimation( Animation& animation);
+		void setAnimation(Animation& animation);
 		void setFrameTime(Time& time);
 		void play();
 		void play( Animation& animation);

@@ -6,7 +6,7 @@
 #ifndef _SFMLGraphics_H
 #define _SFMLGraphics_H
 
-#include "SFMLRenderer.h"
+#include "SFMLFacade.h"
 #include "Graphics\IGraphics.h"
 #include "Graphics\IFont.h"
 #include "Graphics\ITexture.h"

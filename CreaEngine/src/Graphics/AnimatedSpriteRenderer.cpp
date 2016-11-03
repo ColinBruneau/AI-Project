@@ -31,18 +31,22 @@ namespace crea
 	{
 		if (m_pAnimatedSprite)
 		{
-			m_pSprite->setTexture(m_pAnimatedSprite->getTexture());
+			ITexture* pTexture = m_pAnimatedSprite->getTexture();
+			if (pTexture)
+			{
+				m_pSprite->setTexture(pTexture);
 
-			IntRect rect = m_pAnimatedSprite->getFrame();
-			m_pSprite->setTextureRect(	(int)rect.getLeft(), 
-										(int)rect.getTop(), 
-										(int)rect.getWidth(), 
-										(int)rect.getHeight());
+				IntRect rect = m_pAnimatedSprite->getFrame();
+				m_pSprite->setTextureRect((int)rect.getLeft(),
+					(int)rect.getTop(),
+					(int)rect.getWidth(),
+					(int)rect.getHeight());
 
-			Vector2f _v;
-			m_pAnimatedSprite->getPosition(_v);
-			m_pSprite->setPosition(_v.getX(), _v.getY());
-			m_pSprite->draw();
+				Vector2f _v;
+				m_pAnimatedSprite->getPosition(_v);
+				m_pSprite->setPosition(_v.getX(), _v.getY());
+				m_pSprite->draw();
+			}
 		}
 
 		return true;

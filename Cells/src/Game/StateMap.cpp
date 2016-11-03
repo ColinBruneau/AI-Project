@@ -32,20 +32,20 @@ bool StateMap::onInit()
 
 bool StateMap::onUpdate()
 {
-	if (m_pGM->isKeyPressed('1'))
+	if (m_pGM->isKeyPressed(crea::Key::Num1))
 	{
 		m_pGM->setState(new StateMenu());
 		return true;
 	}
 
-	if (m_pGM->isKeyPressed('2'))
+	if (m_pGM->isKeyPressed(crea::Key::Num2))
 	{
 		m_pGM->setState(new StateGame());
 		return true;
 	}
 
 	// Collision
-	if (m_pGM->isKeyPressed('c'))
+	if (m_pGM->isKeyPressed(crea::Key::C))
 	{
 		m_pMap->setDisplayCollision(true);
 	}

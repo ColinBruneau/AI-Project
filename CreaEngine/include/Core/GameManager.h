@@ -10,7 +10,7 @@
 #include "EntityManager.h"
 #include "Core\DataManager.h"
 #include "Input\InputManager.h"
-#include "Graphics\IRenderer.h"
+#include "Graphics\IFacade.h"
 
 namespace crea
 {
@@ -19,18 +19,18 @@ namespace crea
 	{
 		GameManager();
 
-		IRenderer* m_pRenderer;
+		IFacade* m_pRenderer;
 
 	public:
 		~GameManager();
 
 		static GameManager* getSingleton();
 
-		inline IRenderer* getRenderer() { return m_pRenderer; }
+		inline IFacade* getRenderer() { return m_pRenderer; }
 
 		inline void setState(State* s) { SceneManager::getSingleton()->setState(s); }
 
-		inline bool isKeyPressed(char _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
+		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
 
 		inline IFont* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
 
