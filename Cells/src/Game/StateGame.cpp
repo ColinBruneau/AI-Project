@@ -154,25 +154,25 @@ bool StateGame::onUpdate()
 	//m_pTextFPS->setString("                              " + to_string((int)frameClock.getElapsedTime().asSeconds()) + " s");
 	// if a key was pressed set the correct animation and move correctly
 	crea::Vector2f movement(0.f, 0.f);
-	if (m_pGM->isKeyPressed(crea::Key::A))
+	if (m_pGM->isKeyPressed(crea::Key::Up))
 	{
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkUp, nullptr)); //&walkingAnimationUp;
 		movement.addY(-speed);
 		noKeyWasPressed = false;
 	}
-	if (m_pGM->isKeyPressed(crea::Key::Q))
+	if (m_pGM->isKeyPressed(crea::Key::Down))
 	{
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkDown, nullptr)); //&walkingAnimationDown;
 		movement.addY(+speed);
 		noKeyWasPressed = false;
 	}
-	if (m_pGM->isKeyPressed(crea::Key::O))
+	if (m_pGM->isKeyPressed(crea::Key::Left))
 	{
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkLeft, nullptr)); //&walkingAnimationLeft;
 		movement.addX(-speed);
 		noKeyWasPressed = false;
 	}
-	if (m_pGM->isKeyPressed(crea::Key::P))
+	if (m_pGM->isKeyPressed(crea::Key::Right))
 	{
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkRight, nullptr)); //&walkingAnimationRight;
 		movement.addX(speed);
