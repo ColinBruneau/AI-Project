@@ -22,5 +22,4 @@ To do:
 - EntityManager: comme pour DataManager...
 - json pour les animations
 - lien tiled - animation
-- ajouter AnimatedRenderer à CreaSFML
 
