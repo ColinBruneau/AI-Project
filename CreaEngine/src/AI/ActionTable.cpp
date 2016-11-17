@@ -119,85 +119,20 @@ namespace crea
 		return stoi(_s.substr(startPos + 1, findPos - 1));
 	}
 
-	bool ActionTable::loadFromFile(string& _filename)
-	{
-		ifstream isFile;
-		char caLine[256];
-		string szAnimationName;
-		char cConditionId = 0, cActionId = 0;
-		bool bInConditions = false;
-		bool bInActions = false;
-		bool bInAction = false;
-
-		// On ouvre le fichier
-		isFile.open(_filename, ios::in);
-		if (isFile.fail())
-		{
-			cerr << "erreur d'ouverture " << _filename << endl;
-			return false;
-		}
-
-		do
-		{
-			// On parcourt le fichier
-			isFile.getline(caLine, sizeof(caLine));
-			string szLine(caLine);
-			if (!bInConditions && szLine.find("conditions") != std::string::npos)
-			{
-				bInConditions = true;
-			}
-			if (bInConditions && !bInActions && szLine.find("\"id") != std::string::npos)
-			{
-				cConditionId = getValue(caLine);
-			}
-			if (bInConditions && szLine.find("actions") != std::string::npos)
-			{
-				bInActions = true;
-			}
-			if (bInConditions && bInActions && szLine.find("\"id") != std::string::npos)
-			{
-				bInAction = true;
-				cActionId = getValue(caLine);
-			}
-			if (bInConditions && bInAction && szLine.find("animation") != std::string::npos)
-			{
-				szAnimationName = getParamInQuotes(caLine);
-				addAnimation(cConditionId, cActionId, &szAnimationName);
-				bInAction = false;
-			}
-			if (bInConditions && bInActions && szLine.find("]") != std::string::npos)
-			{
-				bInActions = false;
-			}
-			if (bInConditions && !bInActions && szLine.find("]") != std::string::npos)
-			{
-				bInConditions = false;
-			}
-		} while (!isFile.eof());
-
-		isFile.close();
-
-		return true;
-	}
-
 	bool ActionTable::loadFromFileJSON(string& _filename)
 	{
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);
 		config_doc >> root;
 
-		//cout << root << "\n";
-
 		Json::Value conditions = root["conditions"];
 
 		for (unsigned int iCond = 0; iCond < conditions.size(); ++iCond)
 		{
-			//cout << conditions[index]["actions"];
 			Json::Value actions = conditions[iCond]["actions"];
 			for (unsigned int iAct = 0; iAct < actions.size(); ++iAct)
 			{
 				Json::Value action = actions[iAct];
-				cout << action["name"] << action["id"] << action["animation"];
 				addAnimation(conditions[iCond]["id"].asInt(), action["id"].asInt(), &action["animation"].asString());
 			}
 		}

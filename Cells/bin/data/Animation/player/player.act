@@ -13,24 +13,85 @@
 				 "animation":"player/default-idle.anm"
 				},
 				{
-				 "name":"WalkDown",
+				 "name":"Walk",
 				 "id":2,
-				 "animation":"player/default-walkdown.anm"
+				 "animation":"player/default-walk.anm"
+				}]
+		},	
+		{"name":"Up",
+		"id":1,
+		"actions":[
+				{
+				 "name":"Default",
+				 "id":0,
+				 "animation":"player/up.anm"
 				},
 				{
-				 "name":"WalkLeft",
-				 "id":3,
-				 "animation":"player/default-walkleft.anm"
+				 "name":"Idle",
+				 "id":1,
+				 "animation":"player/up-idle.anm"
 				},
 				{
-				 "name":"WalkRight",
-				 "id":4,
-				 "animation":"player/default-walkright.anm"
+				 "name":"Walk",
+				 "id":2,
+				 "animation":"player/up-walk.anm"
+				}]
+		},
+		{"name":"Right",
+		"id":2,
+		"actions":[
+				{
+				 "name":"Default",
+				 "id":0,
+				 "animation":"player/right.anm"
 				},
 				{
-				 "name":"WalkUp",
-				 "id":5,
-				 "animation":"player/default-walkup.anm"
+				 "name":"Idle",
+				 "id":1,
+				 "animation":"player/right-idle.anm"
+				},
+				{
+				 "name":"Walk",
+				 "id":2,
+				 "animation":"player/right-walk.anm"
+				}]
+		},
+		{"name":"Down",
+		"id":3,
+		"actions":[
+				{
+				 "name":"Default",
+				 "id":0,
+				 "animation":"player/down.anm"
+				},
+				{
+				 "name":"Idle",
+				 "id":1,
+				 "animation":"player/down-idle.anm"
+				},
+				{
+				 "name":"Walk",
+				 "id":2,
+				 "animation":"player/down-walk.anm"
+				}]
+		},
+		{"name":"Left",
+		"id":4,
+		"actions":[
+				{
+				 "name":"Default",
+				 "id":0,
+				 "animation":"player/left.anm"
+				},
+				{
+				 "name":"Idle",
+				 "id":1,
+				 "animation":"player/left-idle.anm"
+				},
+				{
+				 "name":"Walk",
+				 "id":2,
+				 "animation":"player/left-walk.anm"
 				}]
 		}]
 }

@@ -76,56 +76,18 @@ bool StateGame::onInit()
 	m_pEntity2 = m_pGM->getEntity(string("animated sprite 1"));
 	m_pEntity2->addComponent(m_pAnimatedSpriteRenderer);
 
-	/*
-	// set up the animations for all four directions (set spritesheet and push frames)
-	walkingAnimationDown.setSpriteSheet(*texture);
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(64, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(32, 0, 32, 32));
-	walkingAnimationDown.addFrame(sf::IntRect(0, 0, 32, 32));
-
-	walkingAnimationLeft.setSpriteSheet(*texture);
-	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(64, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(32, 32, 32, 32));
-	walkingAnimationLeft.addFrame(sf::IntRect(0, 32, 32, 32));
-
-	walkingAnimationRight.setSpriteSheet(*texture);
-	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(64, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(32, 64, 32, 32));
-	walkingAnimationRight.addFrame(sf::IntRect(0, 64, 32, 32));
-
-	walkingAnimationUp.setSpriteSheet(*texture);
-	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(64, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(32, 96, 32, 32));
-	walkingAnimationUp.addFrame(sf::IntRect(0, 96, 32, 32));
-	*/
-	
 	// Load Animations
 	currentAnimation = m_pGM->getAnimation("player/default.anm");
 	m_pGM->getAnimation("player/default-idle.anm");
-	m_pGM->getAnimation("player/default-walkdown.anm");
-	m_pGM->getAnimation("player/default-walkleft.anm");
-	m_pGM->getAnimation("player/default-walkright.anm");
-	m_pGM->getAnimation("player/default-walkup.anm");
+	m_pGM->getAnimation("player/down-walk.anm");
+	m_pGM->getAnimation("player/left-walk.anm");
+	m_pGM->getAnimation("player/right-walk.anm");
+	m_pGM->getAnimation("player/up-walk.anm");
 
 	speed = 80.f;
 	noKeyWasPressed = true;
 
 	m_pGM->addEntity(m_pEntity2);
-
-	// Fill ActionTable
-	/*
-	m_pActionTable = new crea::ActionTable();
-	m_pActionTable->addAnimation(kACond_Default, kAct_Default, &string("player/default.anm"));
-	m_pActionTable->addAnimation(kACond_Default, kAct_Idle, &string("player/default-idle.anm"));
-	m_pActionTable->addAnimation(kACond_Default, kAct_WalkDown, &string("player/default-walkdown.anm"));
-	m_pActionTable->addAnimation(kACond_Default, kAct_WalkLeft, &string("player/default-walkleft.anm"));
-	m_pActionTable->addAnimation(kACond_Default, kAct_WalkRight, &string("player/default-walkright.anm"));
-	m_pActionTable->addAnimation(kACond_Default, kAct_WalkUp, &string("player/default-walkup.anm"));
-	*/
 
 	// Load ActionTable
 	m_pActionTable = m_pGM->getActionTable("player/player.act");
@@ -151,30 +113,30 @@ bool StateGame::onUpdate()
 	// Animated Sprite
 	crea::Time frameTime = frameClock.restart();
 	m_pTextFPS->setString("                              " + to_string((int)(1/frameTime.asSeconds())) + " fps");
-	//m_pTextFPS->setString("                              " + to_string((int)frameClock.getElapsedTime().asSeconds()) + " s");
+
 	// if a key was pressed set the correct animation and move correctly
 	crea::Vector2f movement(0.f, 0.f);
 	if (m_pGM->isKeyPressed(crea::Key::Up))
 	{
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkUp, nullptr)); //&walkingAnimationUp;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Up, kAct_Walk, nullptr)); //&walkingAnimationUp;
 		movement.addY(-speed);
 		noKeyWasPressed = false;
 	}
 	if (m_pGM->isKeyPressed(crea::Key::Down))
 	{
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkDown, nullptr)); //&walkingAnimationDown;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Down, kAct_Walk, nullptr)); //&walkingAnimationDown;
 		movement.addY(+speed);
 		noKeyWasPressed = false;
 	}
 	if (m_pGM->isKeyPressed(crea::Key::Left))
 	{
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkLeft, nullptr)); //&walkingAnimationLeft;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Left, kAct_Walk, nullptr)); //&walkingAnimationLeft;
 		movement.addX(-speed);
 		noKeyWasPressed = false;
 	}
 	if (m_pGM->isKeyPressed(crea::Key::Right))
 	{
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Default, kAct_WalkRight, nullptr)); //&walkingAnimationRight;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kACond_Right, kAct_Walk, nullptr)); //&walkingAnimationRight;
 		movement.addX(speed);
 		noKeyWasPressed = false;
 	}

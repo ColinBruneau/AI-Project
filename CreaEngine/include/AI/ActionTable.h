@@ -39,7 +39,6 @@ namespace crea
 									string* _pszAnimFileName,
 									string* _pszActionDesc = nullptr);
 
-		bool		loadFromFile(string& _filename);
 		bool		loadFromFileJSON(string& _filename);
 
 	};

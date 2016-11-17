@@ -13,10 +13,10 @@ enum EnumAnimCondition
 {
 	kACond_Invalid = -1,
 	kACond_Default = 0,
-	kACond_OneHanded,
-	kACond_TwoHanded,
-	kACond_Bow,
-	kACond_Staff,
+	kACond_Up,
+	kACond_Right,
+	kACond_Down,
+	kACond_Left,
 };
 
 enum EnumAction
@@ -24,10 +24,7 @@ enum EnumAction
 	kAct_Invalid = -1,
 	kAct_Default = 0,
 	kAct_Idle,
-	kAct_WalkDown,
-	kAct_WalkLeft,
-	kAct_WalkRight,
-	kAct_WalkUp,
+	kAct_Walk,
 };
 
 class StateGame : public crea::State

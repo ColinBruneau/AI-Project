@@ -162,7 +162,7 @@ namespace crea
 		{
 			crea::Animation* pAnimation = new crea::Animation();
 
-			if (!pAnimation->loadFromFile(DATAANIMATIONPATH + _szName))
+			if (!pAnimation->loadFromFileJSON(DATAANIMATIONPATH + _szName))
 			{
 				delete pAnimation;
 				cerr << "Unable to open Animation" << endl;

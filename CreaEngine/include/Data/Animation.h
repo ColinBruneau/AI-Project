@@ -41,7 +41,7 @@ namespace crea
 		std::size_t getSize();
 		IntRect& getFrame(std::size_t n);
 
-		bool loadFromFile(string _filename);
+		bool loadFromFileJSON(string _filename);
 
 	private:
 		std::vector<IntRect> m_frames;
