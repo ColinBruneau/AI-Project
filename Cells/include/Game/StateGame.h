@@ -9,14 +9,25 @@
 #include "Core\State.h"
 #include "AI\ActionTable.h"
 
+enum EnumAnimDirection
+{
+	kADir_Invalid = -1,
+	kADir_Up,
+	kADir_UpRight,
+	kADir_Right,
+	kADir_DownRight,
+	kADir_Down,
+	kADir_DownLeft,
+	kADir_Left,
+	kADir_UpLeft,
+};
+
 enum EnumAnimCondition
 {
 	kACond_Invalid = -1,
 	kACond_Default = 0,
-	kACond_Up,
-	kACond_Right,
-	kACond_Down,
-	kACond_Left,
+	kACond_Lumber,
+	kACond_Gold,
 };
 
 enum EnumAction
@@ -40,10 +51,6 @@ class StateGame : public crea::State
 	crea::Entity* m_pEntity2;
 	crea::AnimatedSprite* m_pAnimatedSprite1;
 	crea::AnimatedSpriteRenderer* m_pAnimatedSpriteRenderer;
-	crea::Animation walkingAnimationDown;
-	crea::Animation walkingAnimationLeft;
-	crea::Animation walkingAnimationRight;
-	crea::Animation walkingAnimationUp;
 	crea::Animation* currentAnimation;
 
 	crea::Clock frameClock;
@@ -51,6 +58,8 @@ class StateGame : public crea::State
 	bool noKeyWasPressed;
 
 	crea::ActionTable* m_pActionTable;
+	EnumAnimDirection m_CurrentDirection;
+	EnumAnimCondition m_CurrentCondition;
 
 public:
 	StateGame();

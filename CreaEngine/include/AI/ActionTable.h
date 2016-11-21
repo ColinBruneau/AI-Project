@@ -8,7 +8,7 @@
 
 namespace crea
 {
-	#define CREATE_KEY(condition, action) (condition << 16) | action
+	#define CREATE_KEY(direction, action) (direction << 16) | action
 
 	class CREAENGINE_API ActionAnimInfo
 	{
@@ -18,10 +18,11 @@ namespace crea
 	};
 
 	class CREAENGINE_API MapActionAnimation : public std::map<char, ActionAnimInfo*> {};
-	class CREAENGINE_API MapConditionAction : public std::map<char, MapActionAnimation*> {};
+	class CREAENGINE_API MapConditionAction : public std::map<int, MapActionAnimation*> {};
 
 	class CREAENGINE_API ActionTable
 	{
+		crea::GameManager*	m_pGM;
 
 	protected:
 		MapConditionAction	m_condActionMap;
@@ -31,10 +32,12 @@ namespace crea
 		virtual ~ActionTable();
 
 		void		read();
-		string*		getAnimation(	char _cAnimCond,
+		string*		getAnimation(	char _cAnimDir,
+									char _cAnimCond,
 									char _cAction,
-									string* _pszActionDesc);
-		bool		addAnimation(	char _cAnimCond,
+									string* _pszActionDesc = nullptr);
+		bool		addAnimation(	char _cAnimDir, 
+									char _cAnimCond,
 									char _cAction,
 									string* _pszAnimFileName,
 									string* _pszActionDesc = nullptr);

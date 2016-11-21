@@ -37,11 +37,18 @@ namespace crea
 				m_pSprite->setTexture(pTexture);
 
 				IntRect rect = m_pAnimatedSprite->getFrame();
+				float fFlipH = (rect.getWidth() < 0) ? -1.0f : 1.0f;// width < 0 means flipH
+				float fFlipV = (rect.getHeight() < 0) ? -1.0f : 1.0f;// height < 0 means flipV
+
 				m_pSprite->setTextureRect((int)rect.getLeft(),
 					(int)rect.getTop(),
-					(int)rect.getWidth(),
-					(int)rect.getHeight());
+					(int)rect.getWidth()*fFlipH,	
+					(int)rect.getHeight()*fFlipV);
 
+				m_pSprite->setScale(fFlipH, fFlipV);
+
+				m_pSprite->setOrigin(rect.getWidth()*0.5f*fFlipH, rect.getHeight()*0.5f*fFlipV);
+				
 				Vector2f _v;
 				m_pAnimatedSprite->getPosition(_v);
 				m_pSprite->setPosition(_v.getX(), _v.getY());

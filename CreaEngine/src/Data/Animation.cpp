@@ -73,6 +73,18 @@ namespace crea
 			addFrame(IntRect(frame["x"].asInt(), frame["y"].asInt(), frame["w"].asInt(), frame["h"].asInt()));
 		}
 
+		Json::Value multiframes = root["multiframes"];
+		for (unsigned int imultiFrame = 0; imultiFrame < multiframes.size(); ++imultiFrame)
+		{
+			Json::Value multiframe = multiframes[imultiFrame];
+			for (int i = 0; i < multiframe["frames"].asInt(); i++)
+			{
+				addFrame(IntRect(	multiframe["x"].asInt()+i*multiframe["offsetx"].asInt(), 
+									multiframe["y"].asInt()+i*multiframe["offsety"].asInt(), 
+									multiframe["w"].asInt(), 
+									multiframe["h"].asInt()));
+			}
+		}
 		return true;
 	}
 } // namespace crea

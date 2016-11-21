@@ -32,12 +32,22 @@ namespace crea
 
 		virtual void setPosition(float _x, float _y)
 		{
-			m_sprite.setPosition(sf::Vector2f(_x, _y));
+			m_sprite.setPosition(_x, _y);
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h)
 		{
 			m_sprite.setTextureRect(sf::IntRect(_x, _y, _w, _h));
+		}
+
+		virtual void setScale(float _x, float _y)
+		{
+			m_sprite.setScale(_x, _y);
+		}
+
+		virtual void setOrigin(float _x, float _y)
+		{
+			m_sprite.setOrigin(_x, _y);
 		}
 	};
 

@@ -10,7 +10,7 @@ namespace crea
 {
 	ActionTable::ActionTable()
 	{
-
+		m_pGM = crea::GameManager::getSingleton();
 	}
 
 	ActionTable::~ActionTable()
@@ -38,15 +38,18 @@ namespace crea
 
 	}
 
-	string* ActionTable::getAnimation(	char _cAnimCond,
+	string* ActionTable::getAnimation(	char _cAnimDir, 
+										char _cAnimCond,
 										char _cAction, 
 										string* _pszActionDesc)
 	{
+		// CB: use CREATE_KEY(_cAnimDir, _cAnimCond) to get 1 key
 		//unsigned long key = CREATE_KEY(_cAnimCond, _cAction);
 		MapConditionAction::iterator ca_it;
 		MapActionAnimation::iterator aa_it;
 		ActionAnimInfo*  pAnimInfo = nullptr;
-		ca_it = m_condActionMap.find(_cAnimCond);
+		int keyDirCond = CREATE_KEY(_cAnimDir, _cAnimCond);
+		ca_it = m_condActionMap.find(keyDirCond);
 		// Get list of actions for this animation condition
 		if (ca_it != m_condActionMap.end())
 		{
@@ -60,14 +63,15 @@ namespace crea
 			return &pAnimInfo->szAnimFileName;
 		}
 		// No animation was found for the specified eAnimCond and eAction, so get default animation
-		if (_cAnimCond != 0)
+		if (keyDirCond != 0)
 		{
-			return getAnimation(0, _cAction, _pszActionDesc);
+			return getAnimation(0, 0, _cAction, _pszActionDesc);
 		}
 		return nullptr;
 	}
 
-	bool ActionTable::addAnimation(	char _cAnimCond,
+	bool ActionTable::addAnimation(	char _cAnimDir, 
+									char _cAnimCond,
 									char _cAction,
 									string* _pszAnimFileName,
 									string* _pszActionDesc)
@@ -75,7 +79,8 @@ namespace crea
 		MapConditionAction::iterator ca_it;
 		MapActionAnimation::iterator aa_it;
 		ActionAnimInfo*  pAnimInfo = nullptr;
-		ca_it = m_condActionMap.find(_cAnimCond);
+		int keyDirCond = CREATE_KEY(_cAnimDir, _cAnimCond);
+		ca_it = m_condActionMap.find(keyDirCond);
 		// Get list of actions for this animation condition
 		if (ca_it != m_condActionMap.end())
 		{
@@ -93,30 +98,18 @@ namespace crea
 				pAnimInfo = new ActionAnimInfo;
 			}
 			pAnimInfo->szAnimFileName = *_pszAnimFileName;
+
+			// Load animation
+			m_pGM->getAnimation(pAnimInfo->szAnimFileName);
+
 			pAnimInfo->szActionDesc = (_pszActionDesc ? *_pszActionDesc : "");
 			(*pActionAnimMap)[_cAction] = pAnimInfo;
 			return true;
 		}
 		// No condition was found so create a new map of actions for this condition
-		m_condActionMap[_cAnimCond] = new MapActionAnimation;
+		m_condActionMap[keyDirCond] = new MapActionAnimation;
 		//And add the action and animation
-		return addAnimation(_cAnimCond, _cAction, _pszAnimFileName, _pszActionDesc);
-	}
-
-	string getParamInQuotes(string _s)
-	{
-		string tester = "\""; 
-		int startPos = _s.find(":");
-		int findPos = _s.find(tester, startPos + 1); //finds first quote mark
-		int findPos2 = _s.find(tester, findPos + 1); //finds second quote mark
-		return _s.substr(findPos+1, findPos2 - findPos -1);
-	}
-
-	int getValue(string _s)
-	{
-		int startPos = _s.find(":");
-		int findPos = _s.find(",", startPos + 1); //finds first quote mark
-		return stoi(_s.substr(startPos + 1, findPos - 1));
+		return addAnimation(_cAnimDir, _cAnimCond, _cAction, _pszAnimFileName, _pszActionDesc);
 	}
 
 	bool ActionTable::loadFromFileJSON(string& _filename)
@@ -133,7 +126,12 @@ namespace crea
 			for (unsigned int iAct = 0; iAct < actions.size(); ++iAct)
 			{
 				Json::Value action = actions[iAct];
-				addAnimation(conditions[iCond]["id"].asInt(), action["id"].asInt(), &action["animation"].asString());
+				Json::Value animations = action["animations"];
+				for (unsigned int iAnimation = 0; iAnimation < animations.size(); ++iAnimation)
+				{
+					Json::Value animation = animations[iAnimation];
+					addAnimation(iAnimation, conditions[iCond]["id"].asInt(), action["id"].asInt(), &animation.asString());
+				}
 			}
 		}
 
