@@ -37,15 +37,22 @@ namespace crea
 
 		void addFrame(IntRect rect);
 		void setSpriteSheet(ITexture& texture);
-		ITexture* getSpriteSheet();
-		std::size_t getSize();
-		IntRect& getFrame(std::size_t n);
 
+		inline ITexture* getSpriteSheet()		{ return m_texture; }
+		inline size_t getSize()					{ return m_frames.size(); }
+		inline IntRect& getFrame(std::size_t n) { return m_frames[n]; }
+		inline string getName()					{ return m_szName; }
+		inline Time& getDuration()				{ return m_duration; }
+		inline bool getLooping()				{ return m_bLooping; }
+		 
 		bool loadFromFileJSON(string _filename);
 
 	private:
-		std::vector<IntRect> m_frames;
+		string m_szName;
+		vector<IntRect> m_frames;
 		ITexture* m_texture;
+		Time m_duration;
+		bool m_bLooping;
 	};
 
 } // namespace crea

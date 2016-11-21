@@ -1,10 +1,10 @@
 /***************************************************/
-/* Nom:	Time.h
-/* Description: ITime
+/* Nom:	TimeManager.h
+/* Description: TimeManager
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef _Time_H
-#define _Time_H
+#ifndef _TimeManager_H
+#define _TimeManager_H
 #include <chrono>
 
 using namespace std::chrono;
@@ -49,6 +49,26 @@ namespace crea
 		Time restart();
 	};
 
+	class CREAENGINE_API TimeManager
+	{
+		TimeManager();
+
+		Clock m_Clock;
+		Time m_FrameTime;
+
+	public:
+		~TimeManager();
+
+		static TimeManager* getSingleton();
+
+		Time getFrameTime();
+
+		void init();
+
+		void update();
+
+	};
+
 } // namespace crea
 
-#endif // _Time_H
+#endif // _TimeManager_H

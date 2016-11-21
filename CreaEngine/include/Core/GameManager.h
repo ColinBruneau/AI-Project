@@ -57,10 +57,8 @@ namespace crea
 		inline SpriteRenderer* getSpriteRenderer(string _szName) { return EntityManager::getSingleton()->getSpriteRenderer(_szName); }
 
 		inline MapRenderer* getMapRenderer(string _szName) { return EntityManager::getSingleton()->getMapRenderer(_szName); }
-
-		inline AnimatedSprite* getAnimatedSprite(string _szName) { return DataManager::getSingleton()->getAnimatedSprite(_szName); }
-
-		inline AnimatedSpriteRenderer* getAnimatedSpriteRenderer(string _szName) { return EntityManager::getSingleton()->getAnimatedSpriteRenderer(_szName); }
+		
+		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
 
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }
 

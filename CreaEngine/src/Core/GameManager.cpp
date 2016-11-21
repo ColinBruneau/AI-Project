@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Core\GameManager.h"
+#include "Core\TimeManager.h"
 
 namespace crea
 {
@@ -33,6 +34,8 @@ namespace crea
 		m_pRenderer = &IFacade::get();
 
 		m_pRenderer->initialize();
+
+		TimeManager::getSingleton()->init();
 	}
 
 	void GameManager::update()
@@ -40,6 +43,7 @@ namespace crea
 		while (m_pRenderer->update())
 		{
 			// Time
+			TimeManager::getSingleton()->update();
 
 			// Input
 			InputManager::getSingleton()->update();

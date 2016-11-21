@@ -15,11 +15,11 @@
 10/2016:	Refactoring de l'architecture
 		Module Animation
 		Chargement map (JSON)
+11/2017 Chargement des animations (Action Table)
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
 - EntityManager: comme pour DataManager...
 - lien tiled - animation
-- changer AnimatedTile par Animator vu en cours
 

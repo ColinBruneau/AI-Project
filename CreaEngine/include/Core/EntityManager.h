@@ -16,7 +16,7 @@ namespace crea
 	class TextRenderer;
 	class SpriteRenderer;
 	class MapRenderer;
-	class AnimatedSpriteRenderer;
+	class Animator;
 	class Entity;
 }
 
@@ -25,7 +25,7 @@ namespace crea
 	class CREAENGINE_API MapStringTextRenderer : public map<string, TextRenderer*> {};
 	class CREAENGINE_API MapStringSpriteRenderer : public map<string, SpriteRenderer*> {};
 	class CREAENGINE_API MapStringMapRenderer : public map<string, MapRenderer*> {};
-	class CREAENGINE_API MapStringAnimatedSpriteRenderer : public map<string, AnimatedSpriteRenderer*> {};
+	class CREAENGINE_API MapStringAnimator : public map<string, Animator*> {};
 
 	class CREAENGINE_API EntityManager
 	{
@@ -35,9 +35,11 @@ namespace crea
 
 		MapStringMapRenderer m_pMapRenderers;
 
-		MapStringAnimatedSpriteRenderer m_pAnimatedSpriteRenderers;
+		MapStringAnimator m_pAnimators;
 
 		Entity* m_pRoot;
+
+		Entity* m_pCurrent;
 
 		EntityManager();
 
@@ -48,6 +50,10 @@ namespace crea
 
 		Entity* getEntity(string& _szName);
 
+		Entity* getCurrentEntity();
+
+		void setCurrentEntity(Entity* _pEntity);
+
 		void addEntity(Entity* _pEntity, Entity* _pParent = nullptr);
 
 		TextRenderer* getTextRenderer(string _szName, bool _bCloned = false);
@@ -56,7 +62,7 @@ namespace crea
 
 		MapRenderer* getMapRenderer(string _szName, bool _bCloned = false);
 
-		AnimatedSpriteRenderer* getAnimatedSpriteRenderer(string _szName, bool _bCloned = false);
+		Animator* getAnimator(string _szName, bool _bCloned = false);
 
 		bool update();
 

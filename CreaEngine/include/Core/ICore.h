@@ -48,6 +48,7 @@ namespace crea
 		int m_iY;
 		int m_iW;
 		int m_iH;
+
 	public:
 
 		IntRect()

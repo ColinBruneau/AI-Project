@@ -6,13 +6,14 @@
 #ifndef __Entity_H_
 #define __Entity_H_
 
+#include "Graphics\Transformable.h"
 #include <vector>
 
 namespace crea
 {
 	class Component;
 
-	class CREAENGINE_API Entity
+	class CREAENGINE_API Entity : public Transformable // Every entity is transformable
 	{
 		// Name
 		string m_szName;

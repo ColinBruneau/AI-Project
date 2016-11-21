@@ -7,6 +7,7 @@
 #include "Core\ICore.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\ISprite.h"
+#include "Core\TimeManager.h"
 
 
 StateGame::StateGame()
@@ -65,14 +66,18 @@ bool StateGame::onInit()
 	m_pGM->addEntity(m_pEntity1);
 
 	// Animated Sprite
-	m_pAnimatedSprite1 = m_pGM->getAnimatedSprite("AnimatedSprite1");
-	m_pAnimatedSprite1->setPosition(crea::Vector2f(150.f, 150.f));
+	m_pSprite2 = m_pGM->getSprite("Sprite2");
+	
+	m_pSpriteRenderer2 = m_pGM->getSpriteRenderer("SpriteRenderer2");
+	m_pSpriteRenderer2->setSprite(m_pSprite2);
 
-	m_pAnimatedSpriteRenderer = m_pGM->getAnimatedSpriteRenderer("AnimatedSpriteRenderer1");
-	m_pAnimatedSpriteRenderer->setAnimatedSprite(m_pAnimatedSprite1);
+	m_pAnimator = m_pGM->getAnimator("Animator1");
+	m_pAnimator->setSprite(m_pSprite2);
 
 	m_pEntity2 = m_pGM->getEntity(string("animated sprite 1"));
-	m_pEntity2->addComponent(m_pAnimatedSpriteRenderer);
+	m_pEntity2->addComponent(m_pSpriteRenderer2);
+	m_pEntity2->addComponent(m_pAnimator);
+	m_pEntity2->setPosition(crea::Vector2f(150.f, 150.f));
 
 	speed = 80.f;
 	noKeyWasPressed = true;
@@ -83,6 +88,7 @@ bool StateGame::onInit()
 	m_pActionTable = m_pGM->getActionTable("Peon/Peon.act");
 	currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kADir_Down, kACond_Default, kAct_Default, nullptr));
 	m_CurrentCondition = kACond_Default;
+	m_bAlive = true;
 
 	return true;
 }
@@ -106,90 +112,105 @@ bool StateGame::onUpdate()
 	{
 		m_CurrentCondition = kACond_Default;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
+		m_bAlive = true;
 	}
 
 	if (m_pGM->isKeyPressed(crea::Key::G))
 	{
 		m_CurrentCondition = kACond_Gold;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
+		m_bAlive = true;
 	}
 
 	if (m_pGM->isKeyPressed(crea::Key::L))
 	{
 		m_CurrentCondition = kACond_Lumber;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
+		m_bAlive = true;
+	}
+
+	if (m_pGM->isKeyPressed(crea::Key::K))
+	{
+		m_CurrentCondition = kACond_Default;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Die));
+		m_bAlive = false;
+		m_pAnimator->setLooped(false);
+		m_pAnimator->play(*currentAnimation);
 	}
 
 	// FPS
-	crea::Time frameTime = frameClock.restart();
+	crea::Time frameTime = crea::TimeManager::getSingleton()->getFrameTime();
 	m_pTextFPS->setString("                              " + to_string((int)(1/frameTime.asSeconds())) + " fps");
 
-	// Animated Sprite
-	// if a key was pressed set the correct animation and move correctly
-	crea::Vector2f movement(0.f, 0.f);
-	if (m_pGM->isKeyPressed(crea::Key::Up))
+	if (m_bAlive)
 	{
-		m_CurrentDirection = kADir_Up;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-		movement.addY(-speed);
-		noKeyWasPressed = false;
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Down))
-	{
-		m_CurrentDirection = kADir_Down;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-		movement.addY(+speed);
-		noKeyWasPressed = false;
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Left))
-	{
-		m_CurrentDirection = kADir_Left;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-		movement.addX(-speed);
-		noKeyWasPressed = false;
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Right))
-	{
-		m_CurrentDirection = kADir_Right;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-		movement.addX(speed);
-		noKeyWasPressed = false;
+		// if a key was pressed set the correct animation and move correctly
+		crea::Vector2f movement(0.f, 0.f);
+		if (m_pGM->isKeyPressed(crea::Key::Up))
+		{
+			m_CurrentDirection = kADir_Up;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+			movement.addY(-speed);
+			noKeyWasPressed = false;
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Down))
+		{
+			m_CurrentDirection = kADir_Down;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+			movement.addY(+speed);
+			noKeyWasPressed = false;
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Left))
+		{
+			m_CurrentDirection = kADir_Left;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+			movement.addX(-speed);
+			noKeyWasPressed = false;
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Right))
+		{
+			m_CurrentDirection = kADir_Right;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+			movement.addX(speed);
+			noKeyWasPressed = false;
+		}
+
+		// Diagonals
+		if (m_pGM->isKeyPressed(crea::Key::Up) && m_pGM->isKeyPressed(crea::Key::Right))
+		{
+			m_CurrentDirection = kADir_UpRight;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Up) && m_pGM->isKeyPressed(crea::Key::Left))
+		{
+			m_CurrentDirection = kADir_UpLeft;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Down) && m_pGM->isKeyPressed(crea::Key::Right))
+		{
+			m_CurrentDirection = kADir_DownRight;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+		}
+		if (m_pGM->isKeyPressed(crea::Key::Down) && m_pGM->isKeyPressed(crea::Key::Left))
+		{
+			m_CurrentDirection = kADir_DownLeft;
+			currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
+		}
+
+		m_pAnimator->play(*currentAnimation);
+		m_pEntity2->move(movement * (float)frameTime.asSeconds());
+
+		// if no key was pressed stop the animation
+		if (noKeyWasPressed)
+		{
+			m_pAnimator->stop();
+		}
+		noKeyWasPressed = true;
 	}
 
-	// Diagonals
-	if (m_pGM->isKeyPressed(crea::Key::Up)&& m_pGM->isKeyPressed(crea::Key::Right))
-	{
-		m_CurrentDirection = kADir_UpRight;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Up) && m_pGM->isKeyPressed(crea::Key::Left))
-	{
-		m_CurrentDirection = kADir_UpLeft;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Down) && m_pGM->isKeyPressed(crea::Key::Right))
-	{
-		m_CurrentDirection = kADir_DownRight;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-	}
-	if (m_pGM->isKeyPressed(crea::Key::Down) && m_pGM->isKeyPressed(crea::Key::Left))
-	{
-		m_CurrentDirection = kADir_DownLeft;
-		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Walk));
-	}
-
-	m_pAnimatedSprite1->play(*currentAnimation);
-	m_pAnimatedSprite1->move(movement * (float) frameTime.asSeconds());
-
-	// if no key was pressed stop the animation
-	if (noKeyWasPressed)
-	{
-		m_pAnimatedSprite1->stop();
-	}
-	noKeyWasPressed = true;
 
 	// update AnimatedSprite
-	m_pAnimatedSprite1->update(frameTime);
+	m_pAnimator->update();
 
 	return true;
 }

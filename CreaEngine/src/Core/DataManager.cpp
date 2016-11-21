@@ -242,29 +242,6 @@ namespace crea
 		}
 	}
 
-	AnimatedSprite* DataManager::getAnimatedSprite(string _szName, bool _bCloned)
-	{
-		MapStringAnimatedSprite::iterator it = m_pAnimatedSprites.find(_szName);
-		if (it == m_pAnimatedSprites.end())
-		{
-			AnimatedSprite* pAnimatedSprite = new AnimatedSprite(); // Create a default AnimatedSprite if none exist
-			m_pAnimatedSprites[_szName] = pAnimatedSprite;
-			return pAnimatedSprite;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				return new AnimatedSprite();
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
-	}
-
 	void DataManager::clear()
 	{
 		MapStringFont::iterator itFont = m_pFonts.begin();
@@ -315,11 +292,6 @@ namespace crea
 			itMap = m_pMaps.erase(itMap);
 		}
 
-		MapStringAnimatedSprite::iterator itAnimatedSprite = m_pAnimatedSprites.begin();
-		while (itAnimatedSprite != m_pAnimatedSprites.end()) {
-			delete (*itAnimatedSprite).second;
-			itAnimatedSprite = m_pAnimatedSprites.erase(itAnimatedSprite);
-		}
 	}
 
 } // namespace crea

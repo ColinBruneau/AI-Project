@@ -17,18 +17,17 @@
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
     <ClInclude Include="..\include\Core\ICore.h" />
-    <ClInclude Include="..\include\Core\Time.h" />
+    <ClInclude Include="..\include\Core\TimeManager.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
     <ClInclude Include="..\include\Core\SceneManager.h" />
     <ClInclude Include="..\include\Core\State.h" />
     <ClInclude Include="..\include\CreaImport.h" />
-    <ClInclude Include="..\include\Data\AnimatedSprite.h" />
     <ClInclude Include="..\include\Data\Animation.h" />
     <ClInclude Include="..\include\Data\Entity.h" />
     <ClInclude Include="..\include\Data\Map.h" />
     <ClInclude Include="..\include\Data\Node.h" />
     <ClInclude Include="..\include\Data\TileSet.h" />
-    <ClInclude Include="..\include\Graphics\AnimatedSpriteRenderer.h" />
+    <ClInclude Include="..\include\Graphics\Animator.h" />
     <ClInclude Include="..\include\Graphics\IDrawable.h" />
     <ClInclude Include="..\include\Graphics\IGraphics.h" />
     <ClInclude Include="..\include\Graphics\IFacade.h" />
@@ -52,17 +51,16 @@
     <ClCompile Include="Core\Plugin.cpp" />
     <ClCompile Include="Core\SceneManager.cpp" />
     <ClCompile Include="Core\State.cpp" />
-    <ClCompile Include="Core\Time.cpp" />
+    <ClCompile Include="Core\TimeManager.cpp" />
     <ClCompile Include="CreaEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Data\AnimatedSprite.cpp" />
     <ClCompile Include="Data\Animation.cpp" />
     <ClCompile Include="Data\Entity.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="Data\Node.cpp" />
-    <ClCompile Include="Graphics\AnimatedSpriteRenderer.cpp" />
+    <ClCompile Include="Graphics\Animator.cpp" />
     <ClCompile Include="Graphics\IFacade.cpp" />
     <ClCompile Include="Graphics\MapRenderer.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />

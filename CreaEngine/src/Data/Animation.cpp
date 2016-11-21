@@ -10,7 +10,7 @@
 
 namespace crea
 {
-	Animation::Animation() : m_texture(NULL)
+	Animation::Animation() : m_texture(NULL), m_duration(1.0), m_bLooping(true)
 	{
 
 	}
@@ -24,39 +24,7 @@ namespace crea
 	{
 		m_texture = &texture;
 	}
-
-	ITexture* Animation::getSpriteSheet()
-	{
-		return m_texture;
-	}
-
-	std::size_t Animation::getSize()
-	{
-		return m_frames.size();
-	}
-
-	IntRect& Animation::getFrame(std::size_t n)
-	{
-		return m_frames[n];
-	}
-
-	string getParam(string _s, int _i)
-	{
-		istringstream iss(_s);
-		string token;
-		int i = 0;
-		getline(iss, token, ':');
-		while (getline(iss, token, ','))
-		{
-			if (i == _i)
-			{
-				return token;
-			}
-			i++;
-		}
-		return "";
-	}
-
+	
 	bool Animation::loadFromFileJSON(string _filename)
 	{
 		Json::Value root;
@@ -71,6 +39,12 @@ namespace crea
 		{
 			Json::Value frame = frames[iFrame];
 			addFrame(IntRect(frame["x"].asInt(), frame["y"].asInt(), frame["w"].asInt(), frame["h"].asInt()));
+		}
+
+		Json::Value loop = root["loop"];
+		if (loop.isBool())
+		{
+			m_bLooping = loop.asBool();
 		}
 
 		Json::Value multiframes = root["multiframes"];

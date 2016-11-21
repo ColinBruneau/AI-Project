@@ -5,7 +5,7 @@
 #include "Graphics\TextRenderer.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\MapRenderer.h"
-#include "Graphics\AnimatedSpriteRenderer.h"
+#include "Graphics\Animator.h"
 
 namespace crea
 {
@@ -13,6 +13,7 @@ namespace crea
 	{
 		m_pRoot = new Entity();
 		m_pRoot->setName(string("root"));
+		m_pCurrent = m_pRoot;
 	}
 
 	EntityManager::~EntityManager()
@@ -50,6 +51,18 @@ namespace crea
 			pEntity->setName(_szName);
 		}
 		return pEntity;
+	}
+
+	// get the current entity (set by the Entity update and draw functions)
+	Entity* EntityManager::getCurrentEntity()
+	{		
+		return m_pCurrent;
+	}
+
+	// set the current entity (set by the Entity update and draw functions)
+	void EntityManager::setCurrentEntity(Entity* _pEntity)
+	{
+		m_pCurrent = _pEntity;
 	}
 
 	TextRenderer* EntityManager::getTextRenderer(string _szName, bool _bCloned)
@@ -121,20 +134,20 @@ namespace crea
 		return nullptr;
 	}
 
-	AnimatedSpriteRenderer* EntityManager::getAnimatedSpriteRenderer(string _szName, bool _bCloned)
+	Animator* EntityManager::getAnimator(string _szName, bool _bCloned)
 	{
-		MapStringAnimatedSpriteRenderer::iterator it = m_pAnimatedSpriteRenderers.find(_szName);
-		if (it == m_pAnimatedSpriteRenderers.end())
+		MapStringAnimator::iterator it = m_pAnimators.find(_szName);
+		if (it == m_pAnimators.end())
 		{
-			AnimatedSpriteRenderer* pAnimatedSpriteRenderer = new AnimatedSpriteRenderer(_szName); // Create a default AnimatedSpriteRenderer if none exist
-			m_pAnimatedSpriteRenderers[_szName] = pAnimatedSpriteRenderer;
-			return pAnimatedSpriteRenderer;
+			Animator* pAnimator = new Animator(); // Create a default Animator if none exist
+			m_pAnimators[_szName] = pAnimator;
+			return pAnimator;
 		}
 		else
 		{
 			if (_bCloned)
 			{
-				//return new AnimatedSpriteRenderer(it->second); // CB is it useful to clone?
+				//return new Animator(it->second); // CB is it useful to clone?
 			}
 			else
 			{
@@ -174,10 +187,10 @@ namespace crea
 			itMapRenderer = m_pMapRenderers.erase(itMapRenderer);
 		}
 
-		MapStringAnimatedSpriteRenderer::iterator itAnimatedSpriteRenderer = m_pAnimatedSpriteRenderers.begin();
-		while (itAnimatedSpriteRenderer != m_pAnimatedSpriteRenderers.end()) {
-			delete (*itAnimatedSpriteRenderer).second;
-			itAnimatedSpriteRenderer = m_pAnimatedSpriteRenderers.erase(itAnimatedSpriteRenderer);
+		MapStringAnimator::iterator itAnimator = m_pAnimators.begin();
+		while (itAnimator != m_pAnimators.end()) {
+			delete (*itAnimator).second;
+			itAnimator = m_pAnimators.erase(itAnimator);
 		}
 
 		if (m_pRoot)

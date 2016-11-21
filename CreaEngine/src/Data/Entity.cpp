@@ -29,6 +29,8 @@ namespace crea
 
 	bool Entity::update()
 	{
+		EntityManager::getSingleton()->setCurrentEntity(this);
+
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
@@ -48,6 +50,8 @@ namespace crea
 
 	bool Entity::draw()
 	{
+		EntityManager::getSingleton()->setCurrentEntity(this);
+
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
@@ -67,6 +71,8 @@ namespace crea
 
 	void Entity::clear()
 	{
+		EntityManager::getSingleton()->setCurrentEntity(nullptr);
+
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)

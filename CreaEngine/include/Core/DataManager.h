@@ -81,9 +81,7 @@ namespace crea
 		ActionTable* getActionTable(string _szName, bool _bCloned = false);
 
 		Map* getMap(string _szName, bool _bCloned = false);
-
-		AnimatedSprite* getAnimatedSprite(string _szName, bool _bCloned = false);
-
+		
 		void clear();
 	};
 

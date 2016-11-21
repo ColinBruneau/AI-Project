@@ -43,6 +43,20 @@
 							"Peon/Default/Walk/left.anm",
 							"Peon/Default/Walk/upleft.anm"
 							]
+				},
+				{
+				 "name":"Die",
+				 "id":3,
+				 "animations":[
+							"Peon/Default/Die/up.anm",
+							"Peon/Default/Die/upright.anm",
+							"Peon/Default/Die/right.anm",
+							"Peon/Default/Die/downright.anm",
+							"Peon/Default/Die/down.anm",
+							"Peon/Default/Die/downleft.anm",
+							"Peon/Default/Die/left.anm",
+							"Peon/Default/Die/upleft.anm"
+							]
 				}]
 		},	
 		{"name":"Lumber",

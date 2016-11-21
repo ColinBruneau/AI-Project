@@ -36,6 +36,7 @@ enum EnumAction
 	kAct_Default = 0,
 	kAct_Idle,
 	kAct_Walk,
+	kAct_Die,
 };
 
 class StateGame : public crea::State
@@ -49,8 +50,9 @@ class StateGame : public crea::State
 	crea::SpriteRenderer* m_pSpriteRenderer;
 
 	crea::Entity* m_pEntity2;
-	crea::AnimatedSprite* m_pAnimatedSprite1;
-	crea::AnimatedSpriteRenderer* m_pAnimatedSpriteRenderer;
+	crea::ISprite* m_pSprite2;
+	crea::SpriteRenderer* m_pSpriteRenderer2;
+	crea::Animator* m_pAnimator;
 	crea::Animation* currentAnimation;
 
 	crea::Clock frameClock;
@@ -60,6 +62,7 @@ class StateGame : public crea::State
 	crea::ActionTable* m_pActionTable;
 	EnumAnimDirection m_CurrentDirection;
 	EnumAnimCondition m_CurrentCondition;
+	bool m_bAlive;
 
 public:
 	StateGame();

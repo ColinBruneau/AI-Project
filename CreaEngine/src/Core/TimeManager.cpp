@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Core\Time.h"
+#include "Core\TimeManager.h"
 
 namespace crea
 {
@@ -55,6 +55,35 @@ namespace crea
 		duration<double> time_span = duration_cast<duration<double>>(t2 - m_t1);
 		m_t1 = t2;
 		return time_span.count();
+	}
+
+	TimeManager::TimeManager()
+	{
+	}
+
+	TimeManager::~TimeManager()
+	{
+	}
+	TimeManager* TimeManager::getSingleton()
+	{
+		static TimeManager instanceUnique;
+		return
+			&instanceUnique;
+	}
+
+	Time TimeManager::getFrameTime() 
+	{ 
+		return m_FrameTime;
+	}
+
+	void TimeManager::init() 
+	{ 
+		m_Clock.restart();
+	}
+
+	void TimeManager::update()
+	{
+		m_FrameTime = m_Clock.restart();
 	}
 
 } // namespace crea
