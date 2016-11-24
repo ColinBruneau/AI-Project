@@ -57,6 +57,20 @@
 							"Peon/Default/Die/left.anm",
 							"Peon/Default/Die/upleft.anm"
 							]
+				},
+				{
+				 "name":"Chop",
+				 "id":4,
+				 "animations":[
+							"Peon/Default/Chop/up.anm",
+							"Peon/Default/Chop/upright.anm",
+							"Peon/Default/Chop/right.anm",
+							"Peon/Default/Chop/downright.anm",
+							"Peon/Default/Chop/down.anm",
+							"Peon/Default/Chop/downleft.anm",
+							"Peon/Default/Chop/left.anm",
+							"Peon/Default/Chop/upleft.anm"
+							]
 				}]
 		},	
 		{"name":"Lumber",

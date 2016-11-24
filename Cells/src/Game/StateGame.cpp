@@ -89,6 +89,7 @@ bool StateGame::onInit()
 	currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kADir_Down, kACond_Default, kAct_Default, nullptr));
 	m_CurrentCondition = kACond_Default;
 	m_bAlive = true;
+	m_bMoving = true;
 
 	return true;
 }
@@ -113,6 +114,7 @@ bool StateGame::onUpdate()
 		m_CurrentCondition = kACond_Default;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
 		m_bAlive = true;
+		m_bMoving = true;
 	}
 
 	if (m_pGM->isKeyPressed(crea::Key::G))
@@ -120,6 +122,7 @@ bool StateGame::onUpdate()
 		m_CurrentCondition = kACond_Gold;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
 		m_bAlive = true;
+		m_bMoving = true;
 	}
 
 	if (m_pGM->isKeyPressed(crea::Key::L))
@@ -127,6 +130,16 @@ bool StateGame::onUpdate()
 		m_CurrentCondition = kACond_Lumber;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Idle));
 		m_bAlive = true;
+		m_bMoving = true;
+	}
+
+	if (m_pGM->isKeyPressed(crea::Key::C))
+	{
+		m_CurrentCondition = kACond_Default;
+		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Chop));
+		m_bAlive = true;
+		m_bMoving = false;
+		m_pAnimator->play(*currentAnimation);
 	}
 
 	if (m_pGM->isKeyPressed(crea::Key::K))
@@ -134,6 +147,7 @@ bool StateGame::onUpdate()
 		m_CurrentCondition = kACond_Default;
 		currentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_CurrentDirection, m_CurrentCondition, kAct_Die));
 		m_bAlive = false;
+		m_bMoving = false;
 		m_pAnimator->setLooped(false);
 		m_pAnimator->play(*currentAnimation);
 	}
@@ -198,13 +212,17 @@ bool StateGame::onUpdate()
 		}
 
 		m_pAnimator->play(*currentAnimation);
-		m_pEntity2->move(movement * (float)frameTime.asSeconds());
-
-		// if no key was pressed stop the animation
-		if (noKeyWasPressed)
+		if (m_bMoving)
 		{
-			m_pAnimator->stop();
+			m_pEntity2->move(movement * (float)frameTime.asSeconds());
+
+			// if no key was pressed stop the animation
+			if (noKeyWasPressed)
+			{
+				m_pAnimator->stop();
+			}
 		}
+
 		noKeyWasPressed = true;
 	}
 

@@ -37,6 +37,7 @@ enum EnumAction
 	kAct_Idle,
 	kAct_Walk,
 	kAct_Die,
+	kAct_Chop,
 };
 
 class StateGame : public crea::State
@@ -63,6 +64,7 @@ class StateGame : public crea::State
 	EnumAnimDirection m_CurrentDirection;
 	EnumAnimCondition m_CurrentCondition;
 	bool m_bAlive;
+	bool m_bMoving;
 
 public:
 	StateGame();
