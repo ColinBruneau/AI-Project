@@ -18,6 +18,9 @@ namespace crea
 	class MapRenderer;
 	class Animator;
 	class Entity;
+	class CharacterController;
+	class UserController;
+	class Collider;
 }
 
 namespace crea
@@ -26,6 +29,9 @@ namespace crea
 	class CREAENGINE_API MapStringSpriteRenderer : public map<string, SpriteRenderer*> {};
 	class CREAENGINE_API MapStringMapRenderer : public map<string, MapRenderer*> {};
 	class CREAENGINE_API MapStringAnimator : public map<string, Animator*> {};
+	class CREAENGINE_API MapStringCharacterController : public map<string, CharacterController*> {};
+	class CREAENGINE_API MapStringUserController : public map<string, UserController*> {};
+	class CREAENGINE_API MapStringCollider : public map<string, Collider*> {};
 
 	class CREAENGINE_API EntityManager
 	{
@@ -37,9 +43,13 @@ namespace crea
 
 		MapStringAnimator m_pAnimators;
 
-		Entity* m_pRoot;
+		MapStringCharacterController m_pCharacterControllers;
 
-		Entity* m_pCurrent;
+		MapStringUserController m_pUserControllers;
+
+		MapStringCollider m_pColliders;
+
+		Entity* m_pRoot;
 
 		EntityManager();
 
@@ -50,10 +60,6 @@ namespace crea
 
 		Entity* getEntity(string& _szName);
 
-		Entity* getCurrentEntity();
-
-		void setCurrentEntity(Entity* _pEntity);
-
 		void addEntity(Entity* _pEntity, Entity* _pParent = nullptr);
 
 		TextRenderer* getTextRenderer(string _szName, bool _bCloned = false);
@@ -63,6 +69,14 @@ namespace crea
 		MapRenderer* getMapRenderer(string _szName, bool _bCloned = false);
 
 		Animator* getAnimator(string _szName, bool _bCloned = false);
+
+		CharacterController* getCharacterController(string _szName, bool _bCloned = false);
+
+		UserController* getUserController(string _szName, bool _bCloned = false);
+
+		Collider* getCollider(string _szName, bool _bCloned = false);
+
+		bool init();
 
 		bool update();
 

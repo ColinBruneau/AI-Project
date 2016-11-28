@@ -41,6 +41,8 @@ namespace crea
 
 		void addComponent(Component* _pComponent);
 
+		bool init();
+
 		bool update();
 
 		bool draw();

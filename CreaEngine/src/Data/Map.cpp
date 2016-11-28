@@ -7,6 +7,8 @@
 #include <iostream>
 #include <sstream>
 #include "Graphics\ISprite.h"
+#include "Core\PhysicsManager.h"
+#include "Physics\Collider.h"
 
 namespace crea
 {
@@ -132,6 +134,15 @@ namespace crea
 						else if (bIsCollision)
 						{
 							m_Grid[i][j]->setTileCollisionId(nIndex);
+
+							if (nIndex != 0)
+							{
+								Collider* pCollider = new Collider(Collider_Box);
+								BoxCollider* pBoxCollider = (BoxCollider*)pCollider->getCollider();
+								pBoxCollider->getCenter() = Vector2f((float)i*m_nTileWidth, (float)j*m_nTileHeight);
+								pBoxCollider->getSize() = Vector2f(m_nTileWidth, m_nTileHeight);
+								PhysicsManager::getSingleton()->addCollider(pCollider);
+							}
 						}
 					}
 				}
@@ -291,6 +302,11 @@ namespace crea
 				pTileSet->m_pSprite->draw();
 			}
 		}
+
+		// CB: add a flag to draw or not
+		// Display map colliders
+		PhysicsManager::getSingleton()->draw();
+
 		return true;
 	}
 

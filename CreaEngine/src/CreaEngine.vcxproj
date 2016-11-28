@@ -17,6 +17,7 @@
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
     <ClInclude Include="..\include\Core\ICore.h" />
+    <ClInclude Include="..\include\Core\PhysicsManager.h" />
     <ClInclude Include="..\include\Core\TimeManager.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
     <ClInclude Include="..\include\Core\SceneManager.h" />
@@ -37,8 +38,11 @@
     <ClInclude Include="..\include\Graphics\SpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
     <ClInclude Include="..\include\Input\InputManager.h" />
+    <ClInclude Include="..\include\Input\UserController.h" />
     <ClInclude Include="..\include\json\json-forwards.h" />
     <ClInclude Include="..\include\json\json.h" />
+    <ClInclude Include="..\include\Physics\CharacterController.h" />
+    <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
   </ItemGroup>
@@ -48,6 +52,7 @@
     <ClCompile Include="Core\DataManager.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\GameManager.cpp" />
+    <ClCompile Include="Core\PhysicsManager.cpp" />
     <ClCompile Include="Core\Plugin.cpp" />
     <ClCompile Include="Core\SceneManager.cpp" />
     <ClCompile Include="Core\State.cpp" />
@@ -66,7 +71,10 @@
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\TextRenderer.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
+    <ClCompile Include="Input\UserController.cpp" />
     <ClCompile Include="json\jsoncpp.cpp" />
+    <ClCompile Include="Physics\CharacterController.cpp" />
+    <ClCompile Include="Physics\Collider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\doc\readme.txt" />

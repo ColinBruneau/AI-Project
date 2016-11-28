@@ -24,7 +24,6 @@ namespace crea
 	void Animator::setAnimation(Animation& animation)
 	{
 		m_animation = &animation;
-		m_texture = m_animation->getSpriteSheet();
 		m_currentFrame = 0;
 		m_currentTime = 0.f;
 	}
@@ -34,19 +33,9 @@ namespace crea
 		m_frameTime = time;
 	}
 
-	void Animator::setLooped(bool looped)
-	{
-		m_isLooped = looped;
-	}
-
 	Animation* Animator::getAnimation()
 	{
 		return m_animation;
-	}
-
-	bool Animator::isLooped()
-	{
-		return m_isLooped;
 	}
 
 	bool Animator::isPlaying()
@@ -119,40 +108,11 @@ namespace crea
 			{
 				m_currentFrame = iNumFrames - 1; // Show last frame
 			}
-
-/*
-			// if current time is bigger then the frame time advance one frame
-			if (m_currentTime >= m_frameTime)
-			{
-				// reset time, but keep the remainder
-				int cur = m_currentTime.asMicroseconds();
-				int mod = m_frameTime.asMicroseconds();
-				int res = cur % mod;
-				m_currentTime.setAsMicroSeconds(res);
-
-				// get next Frame index
-				if (m_currentFrame + 1 < m_animation->getSize())
-					m_currentFrame++;
-				else
-				{
-					// animation has ended
-					m_currentFrame = 0; // reset to start
-
-					if (!m_isLooped)
-					{
-						m_isPaused = true;
-					}
-
-				}
-
-				//current frame is set, not reseting the time
-			}
-			*/
 		}
 
-		if (m_pSprite && m_texture && m_animation)
+		if (m_pSprite && m_animation)
 		{
-			m_pSprite->setTexture(m_texture);
+			m_pSprite->setTexture(m_animation->getSpriteSheet());
 
 			IntRect rect = m_animation->getFrame(m_currentFrame);
 			float fFlipH = (rect.getWidth() < 0) ? -1.0f : 1.0f;// width < 0 means flipH
@@ -168,8 +128,7 @@ namespace crea
 
 			m_pSprite->setOrigin(rect.getWidth()*0.5f*fFlipH, rect.getHeight()*0.5f*fFlipV);
 
-			Vector2f _v;
-			EntityManager::getSingleton()->getCurrentEntity()->getPosition(_v);
+			Vector2f _v = m_pEntity->getPosition();
 			m_pSprite->setPosition(_v.getX(), _v.getY());
 		}
 		return true;

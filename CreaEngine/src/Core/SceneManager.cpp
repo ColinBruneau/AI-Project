@@ -28,6 +28,7 @@ namespace crea
 	
 	bool SceneManager::update()
 	{
+		EntityManager::getSingleton()->update();
 		if (m_pCurrentState)
 			return m_pCurrentState->onUpdate();
 		return false;
@@ -35,6 +36,7 @@ namespace crea
 
 	bool SceneManager::draw()
 	{
+		EntityManager::getSingleton()->draw();
 		if (m_pCurrentState)
 			return m_pCurrentState->onDraw();
 		return false;
@@ -45,10 +47,12 @@ namespace crea
 		if (m_pCurrentState)
 		{
 			m_pCurrentState->onQuit();
+			EntityManager::getSingleton()->clear();
 			delete m_pCurrentState;
 		}
 		m_pCurrentState = _s;
 		m_pCurrentState->onInit();
+		EntityManager::getSingleton()->init();
 	}
 
 

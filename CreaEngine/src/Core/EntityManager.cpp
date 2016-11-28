@@ -6,6 +6,9 @@
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\MapRenderer.h"
 #include "Graphics\Animator.h"
+#include "Physics\CharacterController.h"
+#include "Input\UserController.h"
+#include "Physics\Collider.h"
 
 namespace crea
 {
@@ -13,7 +16,6 @@ namespace crea
 	{
 		m_pRoot = new Entity();
 		m_pRoot->setName(string("root"));
-		m_pCurrent = m_pRoot;
 	}
 
 	EntityManager::~EntityManager()
@@ -51,18 +53,6 @@ namespace crea
 			pEntity->setName(_szName);
 		}
 		return pEntity;
-	}
-
-	// get the current entity (set by the Entity update and draw functions)
-	Entity* EntityManager::getCurrentEntity()
-	{		
-		return m_pCurrent;
-	}
-
-	// set the current entity (set by the Entity update and draw functions)
-	void EntityManager::setCurrentEntity(Entity* _pEntity)
-	{
-		m_pCurrent = _pEntity;
 	}
 
 	TextRenderer* EntityManager::getTextRenderer(string _szName, bool _bCloned)
@@ -157,6 +147,80 @@ namespace crea
 		return nullptr;
 	}
 
+	CharacterController* EntityManager::getCharacterController(string _szName, bool _bCloned)
+	{
+		MapStringCharacterController::iterator it = m_pCharacterControllers.find(_szName);
+		if (it == m_pCharacterControllers.end())
+		{
+			CharacterController* pCharacterController = new CharacterController(); // Create a default CharacterController if none exist
+			m_pCharacterControllers[_szName] = pCharacterController;
+			return pCharacterController;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new CharacterController(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	UserController* EntityManager::getUserController(string _szName, bool _bCloned)
+	{
+		MapStringUserController::iterator it = m_pUserControllers.find(_szName);
+		if (it == m_pUserControllers.end())
+		{
+			UserController* pUserController = new UserController(); // Create a default UserController if none exist
+			m_pUserControllers[_szName] = pUserController;
+			return pUserController;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new UserController(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	Collider* EntityManager::getCollider(string _szName, bool _bCloned)
+	{
+		MapStringCollider::iterator it = m_pColliders.find(_szName);
+		if (it == m_pColliders.end())
+		{
+			Collider* pCollider = new Collider(); // Create a default Collider if none exist
+			m_pColliders[_szName] = pCollider;
+			return pCollider;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new Collider(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	bool EntityManager::init()
+	{
+		return m_pRoot->init();
+	}
+
 	bool EntityManager::update()
 	{
 		return m_pRoot->update();
@@ -191,6 +255,24 @@ namespace crea
 		while (itAnimator != m_pAnimators.end()) {
 			delete (*itAnimator).second;
 			itAnimator = m_pAnimators.erase(itAnimator);
+		}
+
+		MapStringCharacterController::iterator itCharacterController = m_pCharacterControllers.begin();
+		while (itCharacterController != m_pCharacterControllers.end()) {
+			delete (*itCharacterController).second;
+			itCharacterController = m_pCharacterControllers.erase(itCharacterController);
+		}
+
+		MapStringUserController::iterator itUserController = m_pUserControllers.begin();
+		while (itUserController != m_pUserControllers.end()) {
+			delete (*itUserController).second;
+			itUserController = m_pUserControllers.erase(itUserController);
+		}
+
+		MapStringCollider::iterator itCollider = m_pColliders.begin();
+		while (itCollider != m_pColliders.end()) {
+			delete (*itCollider).second;
+			itCollider = m_pColliders.erase(itCollider);
 		}
 
 		if (m_pRoot)

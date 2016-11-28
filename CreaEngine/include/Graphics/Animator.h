@@ -24,7 +24,6 @@ namespace crea
 		Time m_currentTime;
 		int m_currentFrame;
 		bool m_isPaused;
-		bool m_isLooped;
 		ITexture* m_texture;
 
 	public:
@@ -34,14 +33,12 @@ namespace crea
 		void setSprite(ISprite* _pSprite);
 		void setAnimation(Animation& animation);
 		void setFrameTime(Time& time);
-		void setLooped(bool looped);
 
 		Animation* getAnimation();
 		Time getFrameTime();
 		IntRect getFrame();
 		ITexture* getTexture() { return m_texture; }
 		
-		bool isLooped();
 		bool isPlaying();
 
 		void play();

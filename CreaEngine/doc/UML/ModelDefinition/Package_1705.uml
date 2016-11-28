@@ -7,7 +7,7 @@
     <packageHasNamedElement>
       <class
         Id="3f146c28-ecb0-4cb5-81da-c20c68c6a724"
-        name="Map"
+        name="Animation"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -15,19 +15,19 @@
           <association
             Id="f4ef49b7-0b1d-40b2-a50e-2d180d633d96"
             isDerived="false"
-            sourceEndRoleName="Map"
-            targetEndRoleName="Node"
+            sourceEndRoleName="Animation"
+            targetEndRoleName="IntRect"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
               Id="aa50fce4-fc48-4b88-a584-dcdfc15ab0b2"
-              LastKnownName="Node"
+              LastKnownName="IntRect"
               LastKnownLocation="Package_1705.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="91a25a42-d923-4e44-b9f6-0499ac39a73a"
-                  name="Map"
+                  name="Animation"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -40,7 +40,7 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="b6fc119a-c657-41c0-a296-b4be808985b0"
-                  name="Node"
+                  name="IntRect"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -117,89 +117,21 @@
             </relationshipOwnedElementsInternal>
           </association>
           <association
-            Id="5e711284-705d-4f55-9fb8-cfd74d724fd7"
+            Id="fa944101-c417-4df0-bca2-aed8016c1dec"
             isDerived="false"
-            sourceEndRoleName="Map"
-            targetEndRoleName="Entity"
+            sourceEndRoleName="Animation"
+            targetEndRoleName="ITexture"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
-              Id="ed3ca5d4-dff2-418f-9a0a-38a149cec672"
-              LastKnownName="Entity"
+              Id="a3914387-e1e8-497e-a9eb-da5ea89232f3"
+              LastKnownName="ITexture"
               LastKnownLocation="Package_1705.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="65a4f6eb-8ae0-4ade-9449-dbaa98f2a013"
-                  name="Map"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="29a67b87-7fdd-49df-93fe-efcc357a6329"
-                  name="Entity"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-        <ownedOperationsInternal>
-          <operation
-            Id="a87d0a31-5d18-4dfe-a4a3-a2b1231626da"
-            name="loadFromFileJSON"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="f173513a-c2d8-4dbf-b740-f5d2f998210b"
-            name="draw"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <class
-        Id="aa50fce4-fc48-4b88-a584-dcdfc15ab0b2"
-        name="Node"
-        isAbstract="false"
-        isLeaf="false"
-        isActiveClass="false">
-        <targetEnds>
-          <association
-            Id="8c52d2b6-3c9e-4dd0-bc72-301264001bb3"
-            isDerived="false"
-            sourceEndRoleName="Node"
-            targetEndRoleName="Node"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="aa50fce4-fc48-4b88-a584-dcdfc15ab0b2"
-              LastKnownName="Node"
-              LastKnownLocation="Package_1705.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="ce8eb913-cb9c-4eef-ba88-e99737750c17"
-                  name="Node"
+                  Id="fa902f4f-ab81-40cd-b58c-7f1ef83d3213"
+                  name="Animation"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -211,36 +143,23 @@
               </associationHasOwnedEnds>
               <associationHasOwnedEnds>
                 <memberEnd
-                  Id="4d793138-54ce-42cd-b1a7-828e5fb648e3"
-                  name="Node"
+                  Id="00c4c8f5-c92e-463c-9e84-210fc4c3cf8c"
+                  name="ITexture"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
                   isDerived="false"
                   isDerivedUnion="false"
                   aggregation="None"
-                  isComposite="false">
-                  <lowerValueInternal>
-                    <literalString
-                      Id="6f94304e-bf56-41dd-a2c1-8f0059da78a8"
-                      name="Lower"
-                      value="*" />
-                  </lowerValueInternal>
-                  <upperValueInternal>
-                    <literalString
-                      Id="d733940b-d0a4-498a-9368-28633a5f52f1"
-                      name="Upper"
-                      value="*" />
-                  </upperValueInternal>
-                </memberEnd>
+                  isComposite="false" />
               </associationHasOwnedEnds>
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
         <ownedAttributesInternal>
           <property
-            Id="cb6279db-d900-4c21-a9be-f049206b8c78"
-            name="position"
+            Id="245c80d6-1d13-42ef-a5a7-79dc33a66985"
+            name="duration"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -250,8 +169,8 @@
             aggregation="None"
             isComposite="false" />
           <property
-            Id="b4b8de93-bdbf-4379-803c-269efd591829"
-            name="terrainId"
+            Id="5cb3c12c-05bf-4c9e-a19f-e648f7b03bc7"
+            name="looping"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -261,8 +180,8 @@
             aggregation="None"
             isComposite="false" />
           <property
-            Id="4b0532fa-1090-4abd-b38b-1d7a8d56b0e3"
-            name="collisionId"
+            Id="e65c4937-98cf-4cad-a583-8037a3058a5d"
+            name="name"
             isLeaf="false"
             isStatic="false"
             isReadOnly="false"
@@ -272,7 +191,25 @@
             aggregation="None"
             isComposite="false" />
         </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="a87d0a31-5d18-4dfe-a4a3-a2b1231626da"
+            name="loadFromFileJSON"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="aa50fce4-fc48-4b88-a584-dcdfc15ab0b2"
+        name="IntRect"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -327,7 +264,7 @@
     <packageHasNamedElement>
       <class
         Id="e1595b82-5dfa-443d-991b-56a7d466bbb6"
-        name="MapRenderer"
+        name="Animator"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -345,19 +282,19 @@
           <association
             Id="3a4fc4cb-714b-4490-a81f-450fd4d1872b"
             isDerived="false"
-            sourceEndRoleName="MapRenderer"
-            targetEndRoleName="Map"
+            sourceEndRoleName="Animator"
+            targetEndRoleName="Animation"
             isLeaf="false"
             isAbstract="false">
             <classMoniker
               Id="3f146c28-ecb0-4cb5-81da-c20c68c6a724"
-              LastKnownName="Map"
+              LastKnownName="Animation"
               LastKnownLocation="Package_1705.uml" />
             <relationshipOwnedElementsInternal>
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="535726fb-7f31-4733-9bb2-a07b3793beef"
-                  name="MapRenderer"
+                  name="Animator"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -370,7 +307,46 @@
               <associationHasOwnedEnds>
                 <memberEnd
                   Id="369b7f17-57b9-4890-ba25-58d6a64fdfc1"
-                  name="Map"
+                  name="Animation"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="ae321c3c-9829-46d6-bcbe-6b3afa55c686"
+            isDerived="false"
+            sourceEndRoleName="Animator"
+            targetEndRoleName="Sprite"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="7b06fda1-9fb5-4574-a0fb-04da1b4cc3c2"
+              LastKnownName="Sprite"
+              LastKnownLocation="Package_1705.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c48ca70d-f35f-4324-ad2f-224378d54167"
+                  name="Animator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="42bac687-4b4e-4614-a586-fcc72d2a56ed"
+                  name="Sprite"
                   isLeaf="false"
                   isStatic="false"
                   isReadOnly="false"
@@ -382,10 +358,34 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="936f8d2e-cb32-4867-b738-41a7fc08dd71"
+            name="frameTime"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="3dfa60fb-e85e-4b6d-be48-b660d4de87ef"
+            name="currentTime"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
         <ownedOperationsInternal>
           <operation
             Id="2ffebee3-4dfc-440b-9bca-4134110e4211"
-            name="draw"
+            name="Play"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -576,6 +576,14 @@
           </association>
         </targetEnds>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="a3914387-e1e8-497e-a9eb-da5ea89232f3"
+        name="ITexture"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
     </packageHasNamedElement>
   </packagedElements>
 </package>

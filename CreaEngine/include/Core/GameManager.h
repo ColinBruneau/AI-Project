@@ -11,6 +11,7 @@
 #include "Core\DataManager.h"
 #include "Input\InputManager.h"
 #include "Graphics\IFacade.h"
+#include "Physics\CharacterController.h"
 
 namespace crea
 {
@@ -59,6 +60,12 @@ namespace crea
 		inline MapRenderer* getMapRenderer(string _szName) { return EntityManager::getSingleton()->getMapRenderer(_szName); }
 		
 		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
+
+		inline CharacterController* getCharacterController(string _szName) { return EntityManager::getSingleton()->getCharacterController(_szName); }
+
+		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
+
+		inline Collider* getCollider(string _szName) { return EntityManager::getSingleton()->getCollider(_szName); }
 
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }
 

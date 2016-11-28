@@ -50,13 +50,11 @@ namespace crea
 
 			// Update
 			SceneManager::getSingleton()->update();
-			EntityManager::getSingleton()->update();
 
 			// Draw
 			m_pRenderer->beginScene();
 
 			SceneManager::getSingleton()->draw();
-			EntityManager::getSingleton()->draw();
 
 			m_pRenderer->endScene();
 		}

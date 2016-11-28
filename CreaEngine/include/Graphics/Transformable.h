@@ -29,7 +29,7 @@ namespace crea
 
 		void move(Vector2f& _v) { m_vPosition += _v; }
 		void setPosition(Vector2f& _v) { m_vPosition = _v; }
-		void getPosition(Vector2f& _v) { _v = m_vPosition; }
+		Vector2f& getPosition() { return m_vPosition; }
 		virtual FloatRect transformRect(const FloatRect&) { return FloatRect(); };
 	};
 
@@ -49,7 +49,7 @@ namespace crea
 		Transform& getTransform() { return m_Transform; }
 		void move(Vector2f& _v) { m_Transform.move(_v); }
 		void setPosition(Vector2f& _v) { m_Transform.setPosition(_v); }
-		void getPosition(Vector2f& _v) { m_Transform.getPosition(_v); }
+		Vector2f& getPosition() { return m_Transform.getPosition(); }
 	};
 
 } // namespace crea

@@ -8,63 +8,35 @@
 
 #include "Core\State.h"
 #include "AI\ActionTable.h"
+#include "Physics\CharacterController.h"
+#include "Input\UserController.h"
+#include "Physics\Collider.h"
 
-enum EnumAnimDirection
-{
-	kADir_Invalid = -1,
-	kADir_Up,
-	kADir_UpRight,
-	kADir_Right,
-	kADir_DownRight,
-	kADir_Down,
-	kADir_DownLeft,
-	kADir_Left,
-	kADir_UpLeft,
-};
+using namespace crea;
 
-enum EnumAnimCondition
-{
-	kACond_Invalid = -1,
-	kACond_Default = 0,
-	kACond_Lumber,
-	kACond_Gold,
-};
 
-enum EnumAction
-{
-	kAct_Invalid = -1,
-	kAct_Default = 0,
-	kAct_Idle,
-	kAct_Walk,
-	kAct_Die,
-	kAct_Chop,
-};
 
 class StateGame : public crea::State
 {
-	crea::GameManager*	m_pGM;
+	GameManager*	m_pGM;
 
-	crea::IText* m_pTextFPS;
+	IText* m_pTextFPS;
 
-	crea::Entity* m_pEntity1;
-	crea::ISprite* m_pSprite1;
-	crea::SpriteRenderer* m_pSpriteRenderer;
+	Entity* m_pEntity1;
+	ISprite* m_pSprite1;
+	SpriteRenderer* m_pSpriteRenderer;
 
-	crea::Entity* m_pEntity2;
-	crea::ISprite* m_pSprite2;
-	crea::SpriteRenderer* m_pSpriteRenderer2;
-	crea::Animator* m_pAnimator;
-	crea::Animation* currentAnimation;
+	Entity* m_pEntity2;
+	ISprite* m_pSprite2;
+	SpriteRenderer* m_pSpriteRenderer2;
 
-	crea::Clock frameClock;
-	float speed;
-	bool noKeyWasPressed;
-
-	crea::ActionTable* m_pActionTable;
-	EnumAnimDirection m_CurrentDirection;
-	EnumAnimCondition m_CurrentCondition;
-	bool m_bAlive;
-	bool m_bMoving;
+	Clock frameClock;
+	
+	CharacterController* m_pCharacterController;
+	ActionTable* m_pActionTable;
+	Animator* m_pAnimator;
+	UserController* m_pUserController;
+	Collider* m_pCollider;
 
 public:
 	StateGame();

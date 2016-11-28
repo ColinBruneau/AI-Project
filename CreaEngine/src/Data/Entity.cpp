@@ -24,13 +24,31 @@ namespace crea
 
 	void Entity::addComponent(Component* _pComponent)
 	{
+		_pComponent->setEntity(this);
 		m_pComponents.push_back(_pComponent);
+	}
+
+	bool Entity::init()
+	{
+		// Components
+		unsigned int uiSize = m_pComponents.size();
+		for (unsigned int i = 0; i < uiSize; i++)
+		{
+			m_pComponents[i]->init();
+		}
+
+		// Children
+		uiSize = m_pChildren.size();
+		for (unsigned int i = 0; i < uiSize; i++)
+		{
+			m_pChildren[i]->init();
+		}
+
+		return true;
 	}
 
 	bool Entity::update()
 	{
-		EntityManager::getSingleton()->setCurrentEntity(this);
-
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
@@ -50,8 +68,6 @@ namespace crea
 
 	bool Entity::draw()
 	{
-		EntityManager::getSingleton()->setCurrentEntity(this);
-
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
@@ -71,8 +87,6 @@ namespace crea
 
 	void Entity::clear()
 	{
-		EntityManager::getSingleton()->setCurrentEntity(nullptr);
-
 		// Components
 		unsigned int uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
