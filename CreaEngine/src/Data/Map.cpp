@@ -20,6 +20,7 @@ namespace crea
 		m_nTileHeight = 0;
 		m_bIsGrid8 = false;
 		m_bDisplayCollision = false;
+		m_pTerrainTileSet = nullptr;
 	}
 
 	Map::~Map()
@@ -78,10 +79,26 @@ namespace crea
 			pTileSet->m_nMargin = tileset["margin"].asInt();
 			string name = tileset["name"].asString();
 			pTileSet->m_nSpacing = tileset["spacing"].asInt();
-			// terrain not useful?
 			pTileSet->m_nTilecount = tileset["tilecount"].asInt();
 			pTileSet->m_nTileheight = tileset["tileheight"].asInt();
 			pTileSet->m_nTilewidth = tileset["tilewidth"].asInt();
+
+			// terrain 
+			Json::Value terrains = tileset["terrains"];
+			if (terrains.size() != 0)
+			{
+				m_pTerrainTileSet = pTileSet;
+				PhysicsManager::getSingleton()->setCurrentMap(this); // Physics props are given by terrains 
+			}
+			for (unsigned int iTerrain = 0; iTerrain < terrains.size(); ++iTerrain)
+			{
+				Json::Value terrain = terrains[iTerrain];
+				Terrain* pTerrain = new Terrain(); // CB: Vérify tileset and terrain deleted?
+				pTerrain->m_szName = terrain["name"].asString();
+				pTerrain->m_nTile = terrain["tile"].asInt();
+				pTerrain->m_fFriction = terrain["properties"]["Friction"].asFloat();
+				pTileSet->m_Terrains.push_back(pTerrain);
+			}
 
 			// Load Image and create sprite
 			pTileSet->m_pSprite = pGM->getSprite(name);
@@ -120,7 +137,7 @@ namespace crea
 			if (type == "tilelayer")
 			{
 				bool bIsTerrain = (layer["name"].asString() == "Terrain");
-				bool bIsCollision = (layer["name"].asString() == "Collision");
+				bool bIsCollision = (layer["name"].asString() == "Collisions");
 				Json::Value data = layer["data"];
 				for (short i = 0; i < iWidth; i++)
 				{
@@ -262,6 +279,19 @@ namespace crea
 		return pTileSet;
 	}
 
+	Node* Map::getNodeAtPosition(Vector2f _v) 
+	{ 
+		return m_Grid[(int)_v.getX() / m_nTileWidth][(int)_v.getY() / m_nTileHeight]; 
+	}
+
+	float Map::getFrictionAtPosition(Vector2f _v)
+	{
+		Node* pNode = getNodeAtPosition(_v);
+		short nTerrain = pNode->getTileTerrainId()-1;
+		return m_pTerrainTileSet->getFriction(nTerrain);
+	}
+
+
 	bool Map::update()
 	{
 		for (short i = 0; i < m_nWidth; i++)
@@ -277,7 +307,7 @@ namespace crea
 	bool Map::draw()
 	{
 		int tileid = 0, w = 0, h = 0, x = 0, y = 0;
-		TileSet* pTileSet = m_TileSet[0]; // CB: how to specify this tileset?
+		TileSet* pTileSet = m_pTerrainTileSet;
 		for (short i = 0; i < m_nWidth; i++)
 		{
 			for (short j = 0; j < m_nHeight; j++)
@@ -303,15 +333,12 @@ namespace crea
 			}
 		}
 
-		// CB: add a flag to draw or not
-		// Display map colliders
-		PhysicsManager::getSingleton()->draw();
-
 		return true;
 	}
 
 	void Map::clear()
 	{
+		// Grid
 		for (short i = 0; i < m_nWidth; i++)
 		{
 			for (short j = 0; j < m_nHeight; j++)
@@ -319,5 +346,15 @@ namespace crea
 				delete m_Grid[i][j];
 			}
 		}
+
+		// Tilesets
+		TileSet* pTileSet = nullptr;
+		for (short i = 0; i < (short)m_TileSet.size(); i++)
+		{
+			pTileSet = m_TileSet[i];
+			delete pTileSet;
+		}
+		m_TileSet.clear();
+		m_pTerrainTileSet = nullptr;
 	}
 } // namespace crea

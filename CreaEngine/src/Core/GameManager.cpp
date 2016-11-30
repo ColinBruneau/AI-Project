@@ -50,7 +50,7 @@ namespace crea
 
 			// Update
 			SceneManager::getSingleton()->update();
-
+			
 			// Draw
 			m_pRenderer->beginScene();
 

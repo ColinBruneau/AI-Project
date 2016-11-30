@@ -10,6 +10,16 @@
 
 namespace crea
 {
+	class CREAENGINE_API Terrain
+	{
+	public:
+		string m_szName;
+		short m_nTile;
+		float m_fFriction;
+	};
+	
+	class CREAENGINE_API VectorTerrain : public vector<Terrain*> {};
+
 	class CREAENGINE_API TileSet
 	{
 
@@ -27,10 +37,13 @@ namespace crea
 		string m_szTransparentcolor;
 		ISprite* m_pSprite;
 
-		TileSet() {}
+		VectorTerrain m_Terrains;
 
-		~TileSet() {}
+		TileSet();
+
+		~TileSet();
 		
+		float getFriction(short nTerrain);
 	};
 
 } // namespace crea

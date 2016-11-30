@@ -65,6 +65,7 @@
     <ClCompile Include="Data\Entity.cpp" />
     <ClCompile Include="Data\Map.cpp" />
     <ClCompile Include="Data\Node.cpp" />
+    <ClCompile Include="Data\TileSet.cpp" />
     <ClCompile Include="Graphics\Animator.cpp" />
     <ClCompile Include="Graphics\IFacade.cpp" />
     <ClCompile Include="Graphics\MapRenderer.cpp" />

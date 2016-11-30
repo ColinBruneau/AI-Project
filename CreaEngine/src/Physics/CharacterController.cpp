@@ -73,7 +73,7 @@ namespace crea
 
 	bool CharacterController::init()
 	{
-		m_fSpeed = 80.f;
+		m_fSpeed = 200.f; // CB: should be given by .cc file
 		m_bAlive = true;
 		m_bMoving = false;
 		m_eDirection = kADir_Down;
@@ -98,6 +98,11 @@ namespace crea
 		{
 			m_vVelocity.normalize();
 			m_vVelocity *= m_fSpeed * (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
+
+			// Friction
+			Map* pMap = PhysicsManager::getSingleton()->getCurrentMap();
+			float fFriction = pMap->getFrictionAtPosition(this->getEntity()->getPosition());
+			m_vVelocity *= (1 - fFriction);
 
 			// Move
 			m_pEntity->move(m_vVelocity);

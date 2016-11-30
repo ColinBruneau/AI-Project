@@ -16,6 +16,8 @@ namespace crea
 	{
 		VectorCollider m_Colliders;
 
+		Map* m_pCurrentMap; // Physics materials
+
 		PhysicsManager();
 
 	public:
@@ -27,6 +29,12 @@ namespace crea
 
 		bool isColliding(Collider* _pCollider);
 
+		void setCurrentMap(Map* _pMap);
+
+		Map* getCurrentMap();
+
+		bool init();
+			
 		bool draw();
 
 		void clear();

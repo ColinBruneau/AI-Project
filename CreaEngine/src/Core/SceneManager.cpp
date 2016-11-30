@@ -2,6 +2,7 @@
 
 #include "Core\SceneManager.h"
 #include "Core\State.h"
+#include "Core\PhysicsManager.h"
 
 namespace crea
 {
@@ -37,6 +38,10 @@ namespace crea
 	bool SceneManager::draw()
 	{
 		EntityManager::getSingleton()->draw();
+
+		// CB: add a flag to draw or not
+		PhysicsManager::getSingleton()->draw();
+
 		if (m_pCurrentState)
 			return m_pCurrentState->onDraw();
 		return false;
@@ -48,11 +53,13 @@ namespace crea
 		{
 			m_pCurrentState->onQuit();
 			EntityManager::getSingleton()->clear();
+			PhysicsManager::getSingleton()->clear();
 			delete m_pCurrentState;
 		}
 		m_pCurrentState = _s;
 		m_pCurrentState->onInit();
 		EntityManager::getSingleton()->init();
+		PhysicsManager::getSingleton()->init();
 	}
 
 

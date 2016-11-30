@@ -7,7 +7,7 @@ namespace crea
 {
 	PhysicsManager::PhysicsManager()
 	{
-
+		m_pCurrentMap = nullptr;
 	}
 
 	PhysicsManager::~PhysicsManager()
@@ -42,6 +42,21 @@ namespace crea
 		return false;
 	}
 
+	void PhysicsManager::setCurrentMap(Map* _pMap)
+	{
+		m_pCurrentMap = _pMap;
+	}
+
+	Map* PhysicsManager::getCurrentMap()
+	{
+		return m_pCurrentMap;
+	}
+
+	bool PhysicsManager::init()
+	{
+		return true;
+	}
+
 	bool PhysicsManager::draw()
 	{
 		VectorCollider::iterator it = m_Colliders.begin();
@@ -61,6 +76,7 @@ namespace crea
 			delete (*it);
 			it = m_Colliders.erase(it);
 		}
+		m_pCurrentMap = nullptr;
 	}
 
 } // namespace crea

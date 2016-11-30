@@ -26,6 +26,7 @@ namespace crea
 
 		// Tilesets
 		vector<TileSet*> m_TileSet;
+		TileSet* m_pTerrainTileSet;
 
 		// Nodes
 		vector<vector<Node*>> m_Grid;
@@ -52,11 +53,14 @@ namespace crea
 
 		TileSet* getTileSet(short _gid);
 
+		Node* getNodeAtPosition(Vector2f _v);
+
+		float getFrictionAtPosition(Vector2f _v);
+
 		void setDisplayCollision(bool _b)	{ m_bDisplayCollision = _b;  }
 
 		bool getDisplayCollision()			{ return m_bDisplayCollision; }
-
-
+		
 		bool update();
 
 		bool draw();
