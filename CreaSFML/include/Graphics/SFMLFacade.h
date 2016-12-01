@@ -55,6 +55,10 @@ namespace crea
 
 		virtual bool isKeyPressed(Key _key);
 
+		virtual bool isMouseButtonPressed(Button _button);
+
+		virtual Vector2f getMousePosition();
+
 		sf::RenderWindow* m_pWindow;
 
 	};

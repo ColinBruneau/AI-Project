@@ -117,6 +117,36 @@ namespace crea
 			m_pCharacterController->setAction(kAct_Walk);
 		}
 
+		// Mouse control
+		if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
+		{
+			Vector2f vMousePosition = m_pGM->getMousePosition();
+			Vector2f vEntityPosition = getEntity()->getPosition();
+			m_vVelocity = vMousePosition - vEntityPosition;
+			if (m_vVelocity.length() > 10)
+			{
+				int iDirection = 0;
+				Vector2f vRight(0.0f, -1.f);
+				float fAngle = vRight.angle(m_vVelocity);
+				if (m_vVelocity.getX() > 0)
+				{
+					iDirection = (int)(0.5f + fAngle * 4 / 3.14f);
+					m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
+				}
+				else
+				{
+					iDirection = 8 - (int)(0.5f + fAngle * 4 / 3.14f);
+					iDirection = (iDirection == 8) ? 0 : iDirection;
+					m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
+				}
+				m_pCharacterController->setAction(kAct_Walk);
+			}
+			else
+			{
+				m_vVelocity = Vector2f(0.f, 0.0f);
+			}
+		}
+
 		m_vVelocity.normalize();
 		m_pCharacterController->move(m_vVelocity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
 
@@ -129,35 +159,6 @@ namespace crea
 	}
 
 	bool UserController::quit()
-	{
-		return true;
-	}
-
-	// KeyboardUserController
-	KeyboardUserController::KeyboardUserController()
-	{
-	}
-
-	KeyboardUserController::~KeyboardUserController()
-	{
-	}
-
-	bool KeyboardUserController::init()
-	{
-		return true;
-	}
-
-	bool KeyboardUserController::update()
-	{
-		return true;
-	}
-
-	bool KeyboardUserController::draw()
-	{
-		return true;
-	}
-
-	bool KeyboardUserController::quit()
 	{
 		return true;
 	}

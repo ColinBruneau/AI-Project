@@ -33,6 +33,10 @@ namespace crea
 
 		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
 
+		inline bool isMouseButtonPressed(Button _button) { return InputManager::getSingleton()->isMouseButtonPressed(_button); }
+
+		inline Vector2f getMousePosition() { return InputManager::getSingleton()->getMousePosition(); }
+
 		inline IFont* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
 
 		inline ITexture* getTexture(string _szName) { return DataManager::getSingleton()->getTexture(_szName); }

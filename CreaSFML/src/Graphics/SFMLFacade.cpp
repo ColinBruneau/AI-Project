@@ -100,6 +100,21 @@ namespace crea
 		return false;
 	}
 
+	bool SFMLFacade::isMouseButtonPressed(Button _button)
+	{
+		if (sf::Mouse::isButtonPressed((sf::Mouse::Button)_button)) // Mouse mapping is the same as SFML
+		{
+			return true;
+		}
+		return false;
+	}
+
+	Vector2f SFMLFacade::getMousePosition()
+	{
+		sf::Vector2i vMousePosition = sf::Mouse::getPosition(*m_pWindow); // Get position relative to window
+		return Vector2f((float) vMousePosition.x, (float)vMousePosition.y);
+	}
+
 	extern "C" __declspec(dllexport) SFMLFacade* StartPlugin()
 	{
 		return &SFMLFacade::Instance();

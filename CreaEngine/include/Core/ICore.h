@@ -39,10 +39,13 @@ namespace crea
 		inline void addY(float _fY) { m_fY += _fY; }
 		inline float dist(Vector2f& _v) { return sqrt((_v.m_fX - m_fX) * (_v.m_fX - m_fX) + (_v.m_fY - m_fY) * (_v.m_fY - m_fY)); }
 		inline float distSq(Vector2f& _v) { return ((_v.m_fX - m_fX) * (_v.m_fX - m_fX) + (_v.m_fY - m_fY) * (_v.m_fY - m_fY)); }
-		inline float length() { return sqrt((m_fX * m_fX) + (m_fY * m_fY)); }
+		inline float length() const { return sqrt((m_fX * m_fX) + (m_fY * m_fY)); }
 		inline bool normalize() { float l = length();  if (!l) return false; m_fX /= l; m_fY /= l; return true; }
+		inline float dot(const Vector2f& _v) const {	return m_fX * _v.m_fX + m_fY * _v.m_fY;	}
+		inline float angle(const Vector2f& _v) const { float fLength = length() * _v.length(); return acosf(dot(_v) / fLength);	} // radians
 		inline Vector2f operator-() { return Vector2f(-m_fX, -m_fY); }
 		inline Vector2f operator+(Vector2f& _v) { return Vector2f(m_fX + _v.m_fX, m_fY + _v.m_fY); }
+		inline Vector2f operator-(Vector2f& _v) { return Vector2f(m_fX - _v.m_fX, m_fY - _v.m_fY); }
 		inline Vector2f& operator+=(Vector2f& _v) { m_fX += _v.m_fX; m_fY += _v.m_fY; return *this; }
 		inline Vector2f& operator*(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
 		inline Vector2f& operator*=(float _f) { m_fX *= _f; m_fY *= _f; return *this; }

@@ -116,6 +116,18 @@ namespace crea
 		KeyCount      ///< Keep last -- the total number of keyboard keys
 	};
 
+	enum Button {
+		MouseLeft,
+		MouseRight,
+		MouseMiddle,
+		MouseXButton1,
+		MouseXButton2,
+
+		MouseButtonCount
+	};
+
+	class Vector2f;
+
 	class CREAENGINE_API InputManager
 	{
 		InputManager();
@@ -128,6 +140,10 @@ namespace crea
 		bool update();
 
 		bool isKeyPressed(Key _key);
+
+		bool isMouseButtonPressed(Button _button);
+
+		Vector2f getMousePosition();
 	};
 
 } // namespace crea

@@ -74,6 +74,10 @@ namespace crea
 
 		virtual bool isKeyPressed(Key _key) = 0;
 
+		virtual bool isMouseButtonPressed(Button _button) = 0;
+
+		virtual Vector2f getMousePosition() = 0;
+
 	protected:
 		IFacade()
 		{

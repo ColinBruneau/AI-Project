@@ -30,4 +30,14 @@ namespace crea
 	{
 		return IFacade::get().isKeyPressed(_key);
 	}
+
+	bool InputManager::isMouseButtonPressed(Button _button)
+	{
+		return IFacade::get().isMouseButtonPressed(_button);
+	}
+
+	Vector2f InputManager::getMousePosition()
+	{
+		return IFacade::get().getMousePosition();
+	}
 } // namespace crea

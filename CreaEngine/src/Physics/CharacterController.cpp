@@ -95,7 +95,7 @@ namespace crea
 		m_pCurrentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_eDirection, m_eCondition, m_eAction));
 		m_pAnimator->play(*m_pCurrentAnimation);
 		m_pCurrentAnimation->setSpeed(1.0f); // Play full speed by default
-
+		
 		if (m_bMoving)
 		{
 			m_vVelocity.normalize();

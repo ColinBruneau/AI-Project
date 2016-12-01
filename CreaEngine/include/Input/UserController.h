@@ -32,19 +32,6 @@ namespace crea
 		virtual bool quit();
 	};
 
-	class CREAENGINE_API KeyboardUserController : public UserController
-	{
-
-	public:
-		KeyboardUserController();
-		virtual ~KeyboardUserController();
-
-		virtual bool init();
-		virtual bool update();
-		virtual bool draw();
-		virtual bool quit();
-	};
-
 } // namespace crea
 
 #endif

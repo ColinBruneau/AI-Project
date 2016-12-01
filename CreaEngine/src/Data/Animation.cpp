@@ -36,6 +36,8 @@ namespace crea
 
 	bool Animation::loadFromFileJSON(string _filename)
 	{
+		m_szName = _filename;
+
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);
 		config_doc >> root;
