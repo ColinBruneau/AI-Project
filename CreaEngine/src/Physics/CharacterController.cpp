@@ -94,6 +94,8 @@ namespace crea
 
 		m_pCurrentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_eDirection, m_eCondition, m_eAction));
 		m_pAnimator->play(*m_pCurrentAnimation);
+		m_pCurrentAnimation->setSpeed(1.0f); // Play full speed by default
+
 		if (m_bMoving)
 		{
 			m_vVelocity.normalize();
@@ -101,8 +103,8 @@ namespace crea
 
 			// Friction
 			Map* pMap = PhysicsManager::getSingleton()->getCurrentMap();
-			float fFriction = pMap->getFrictionAtPosition(this->getEntity()->getPosition());
-			m_vVelocity *= (1 - fFriction);
+			float fSpeedFactor = 1 - pMap->getFrictionAtPosition(this->getEntity()->getPosition());
+			m_vVelocity *= fSpeedFactor;
 
 			// Move
 			m_pEntity->move(m_vVelocity);
@@ -111,9 +113,12 @@ namespace crea
 			{
 				// Revert move
 				m_pEntity->move(-m_vVelocity);
-
-				return true;
+				m_vVelocity = Vector2f(0.f, 0.f);
+				fSpeedFactor = 0;
 			}
+
+			// Adjust anim speed to velocity
+			m_pCurrentAnimation->adjustToTranslationSpeed(m_fSpeed*fSpeedFactor);
 		}
 
 		// update AnimatedSprite

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="d910b893-81f0-415f-b780-3228b9db337a"
+  name="Cells" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="9b483bed-260b-44a4-805c-1df2f2e293a5">
+      <body>	// Load ActionTable
+	m_pActionTable = m_pGM-&gt;getActionTable("Peon/Peon.act");
+
+	// Collider
+	m_pCollider = m_pGM-&gt;getCollider("Peon/Peon.col");
+	CircleCollider* pCircleCollider = (CircleCollider*) m_pCollider-&gt;getCollider();
+	pCircleCollider-&gt;getCenter() = Vector2f(0.f, 0.f);
+	pCircleCollider-&gt;getRadius() = 16.f;
+	m_pEntity2-&gt;addComponent(m_pCollider);
+
+	// Character Controller
+	m_pCharacterController = m_pGM-&gt;getCharacterController("Peon/Peon.cc");
+	m_pCharacterController-&gt;setAnimator(m_pAnimator);
+	m_pCharacterController-&gt;setActionTable(m_pActionTable);
+	m_pCharacterController-&gt;setCollider(m_pCollider);
+	m_pEntity2-&gt;addComponent(m_pCharacterController);
+
+	// User controller
+	m_pUserController = m_pGM-&gt;getUserController("Peon/Peon.uc");
+	m_pUserController-&gt;setCharacterController(m_pCharacterController);
+	m_pEntity2-&gt;addComponent(m_pUserController);</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="204ff713-e726-4fb3-a45d-5d682aed03fd"
+        name="StateGame"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="1e29e963-f81c-4a2d-8fd4-1fb86f8c976c"
+            isDerived="false"
+            sourceEndRoleName="StateGame"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="413c54e6-4b70-4eb3-adb3-8c5653628a1e"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_1829.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0b636904-df86-470d-8d24-19862eb131a3"
+                  name="StateGame"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="abe36d93-4cf7-4d85-9ffa-177658a84d7f"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

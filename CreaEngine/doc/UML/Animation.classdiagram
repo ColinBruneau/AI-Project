@@ -239,16 +239,20 @@
     <logicalClassDesignerModelHasPackages>
       <package Id="2fe3b928-790c-40b0-9304-068ed7e3d904" name="Cells">
         <ownedCommentsInternal>
-          <comment Id="94542fe9-044d-43a9-9b2e-56fcc1de4553">
-            <elementDefinition Id="5c51ee66-4958-4404-b39a-759bec250c69" />
-            <body>	
-	// Load Map
-	m_pEntity3 = m_pGM-&gt;getEntity(string("map1"));
-	m_pGM-&gt;addEntity(m_pEntity3);
-	m_pMap = m_pGM-&gt;getMap("map1.json"); 
-	m_pMapRenderer = new crea::MapRenderer();
-	m_pMapRenderer-&gt;setMap(m_pMap);
-	m_pEntity3-&gt;addComponent(m_pMapRenderer);</body>
+          <comment Id="c29ed27d-b928-4e9e-9b98-c0ebda47b22e">
+            <elementDefinition Id="37718578-f929-410f-b9e7-2fe34d13660b" />
+            <body>	// Animated Sprite
+	m_pSprite2 = m_pGM-&gt;getSprite("Sprite2");	
+	m_pSpriteRenderer2 = m_pGM-&gt;getSpriteRenderer("SpriteRenderer2");
+	m_pSpriteRenderer2-&gt;setSprite(m_pSprite2);
+	m_pEntity2-&gt;addComponent(m_pSpriteRenderer2);
+	
+	// Load Animator
+	m_pAnimator = m_pGM-&gt;getAnimator("Animator1");
+	m_pAnimator-&gt;setSprite(m_pSprite2);
+	m_pEntity2-&gt;addComponent(m_pAnimator);
+
+</body>
           </comment>
         </ownedCommentsInternal>
         <elementDefinition Id="34e65a27-0b11-4436-8d5f-7eca82758e7c" />

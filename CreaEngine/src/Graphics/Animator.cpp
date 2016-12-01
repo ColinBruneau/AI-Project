@@ -92,7 +92,7 @@ namespace crea
 		if (!m_isPaused && m_animation)
 		{
 			// add delta time
-			m_currentTime += TimeManager::getSingleton()->getFrameTime();
+			m_currentTime += (TimeManager::getSingleton()->getFrameTime()*m_animation->getSpeed());
 
 			// Get the current animation frame
 			float fScaledTime = (float) (m_currentTime.asSeconds() / m_animation->getDuration().asSeconds());

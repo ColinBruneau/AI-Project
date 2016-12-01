@@ -10,7 +10,7 @@
 
 namespace crea
 {
-	Animation::Animation() : m_texture(NULL), m_duration(1.0), m_bLooping(true)
+	Animation::Animation() : m_texture(NULL), m_duration(1.0), m_bLooping(true), m_fSpeed(1.0f)
 	{
 
 	}
@@ -25,6 +25,15 @@ namespace crea
 		m_texture = &texture;
 	}
 	
+	void Animation::adjustToTranslationSpeed(float _fTranslationSpeed)
+	{
+		if (m_iTranslationSpeed)
+		{
+
+			m_fSpeed = _fTranslationSpeed / m_iTranslationSpeed;
+		}
+	}
+
 	bool Animation::loadFromFileJSON(string _filename)
 	{
 		Json::Value root;
@@ -59,6 +68,13 @@ namespace crea
 									multiframe["h"].asInt()));
 			}
 		}
+
+		Json::Value translationspeed = root["translationspeed"];
+		if (translationspeed.isInt())
+		{
+			m_iTranslationSpeed = translationspeed.asInt();
+		}
+
 		return true;
 	}
 } // namespace crea

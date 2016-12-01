@@ -16,6 +16,8 @@
 		Module Animation
 		Chargement map (JSON)
 11/2017 Chargement des animations (Action Table)
+		Physics module (collision, friction)
+		Movement module (CharacterControl et User Control)
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?

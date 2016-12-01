@@ -25,6 +25,7 @@ namespace crea
 		Time& operator=(double _dTime);
 		Time& operator+=(Time& _Time);
 		bool operator>=(Time& _Time);
+		Time operator*(float _fTime);
 
 		int asMicroseconds();
 		int asMilliseconds();

@@ -21,6 +21,7 @@ namespace crea
 	Time& Time::operator=(double _dTime) { m_dTime = _dTime; return *this; }
 	Time& Time::operator+=(Time& _Time) { m_dTime += _Time.m_dTime; return *this; }
 	bool Time::operator>=(Time& _Time) { return m_dTime >= _Time.m_dTime; }
+	Time Time::operator*(float _f) { return Time(m_dTime*_f); }
 
 	int Time::asMicroseconds() { return (int)(m_dTime * 1E6); }
 

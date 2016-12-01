@@ -37,6 +37,7 @@ namespace crea
 
 		void addFrame(IntRect rect);
 		void setSpriteSheet(ITexture& texture);
+		inline void setSpeed(float _fSpeed)		{ m_fSpeed = _fSpeed; }
 
 		inline ITexture* getSpriteSheet()		{ return m_texture; }
 		inline size_t getSize()					{ return m_frames.size(); }
@@ -44,7 +45,10 @@ namespace crea
 		inline string getName()					{ return m_szName; }
 		inline Time& getDuration()				{ return m_duration; }
 		inline bool getLooping()				{ return m_bLooping; }
-		 
+		inline float getSpeed()					{ return m_fSpeed; }
+
+		void adjustToTranslationSpeed(float _fTranslationSpeed);
+
 		bool loadFromFileJSON(string _filename);
 
 	private:
@@ -53,6 +57,8 @@ namespace crea
 		ITexture* m_texture;
 		Time m_duration;
 		bool m_bLooping;
+		float m_fSpeed;
+		int m_iTranslationSpeed;
 	};
 
 } // namespace crea
