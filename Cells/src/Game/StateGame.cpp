@@ -56,19 +56,19 @@ bool StateGame::onInit()
 	// Sprite
 	m_pSprite1 = m_pGM->getSprite("image");
 	m_pSprite1->setTexture(m_pGM->getTexture("image.png"));
-	m_pSprite1->setPosition(300, 150);
 
 	m_pSpriteRenderer = m_pGM->getSpriteRenderer("SpriteRenderer1");
 	m_pSpriteRenderer->setSprite(m_pSprite1);
 
 	m_pEntity1 = m_pGM->getEntity("sprite 1"); 
+	m_pEntity1->setPosition(Vector2f(600, 150));
 	m_pEntity1->addComponent(m_pSpriteRenderer);
 
 	m_pGM->addEntity(m_pEntity1);
 
 	// Entity 2
 	m_pEntity2 = m_pGM->getEntity(string("animated sprite 1"));
-	m_pEntity2->setPosition(Vector2f(300.f, 150.f));
+	m_pEntity2->setPosition(Vector2f(300.f, 50.f));
 	m_pGM->addEntity(m_pEntity2);
 
 	// Animated Sprite

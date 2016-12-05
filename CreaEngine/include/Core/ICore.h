@@ -80,10 +80,10 @@ namespace crea
 		{
 		}
 
-		int getLeft() { return m_iX; }
-		int getTop() { return m_iY; }
-		int getWidth() { return m_iW; }
-		int getHeight() { return m_iH; }
+		inline int getLeft() const { return m_iX; }
+		inline int getTop() const { return m_iY; }
+		inline int getWidth() const { return m_iW; }
+		inline int getHeight() const { return m_iH; }
 
 	};
 

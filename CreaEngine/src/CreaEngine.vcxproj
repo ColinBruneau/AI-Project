@@ -80,6 +80,10 @@
   <ItemGroup>
     <Text Include="..\doc\readme.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\doc\Peon.odg" />
+    <None Include="..\doc\Scenario.odg" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{11B9D570-67E3-438B-9A3C-98A7CA4B2CCC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

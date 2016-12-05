@@ -15,12 +15,14 @@ namespace crea
 	class CREAENGINE_API SpriteRenderer : public Component
 	{
 		ISprite* m_pSprite;
+		IntRect* m_pTextureRect;
 
 	public:
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
 
 		inline void setSprite(ISprite* _pSprite) { m_pSprite = _pSprite; }
+		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
 		virtual bool init();
 		virtual bool update();
