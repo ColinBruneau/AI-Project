@@ -77,7 +77,7 @@ namespace crea
 			pTileSet->m_nImageheight = tileset["imageheight"].asInt();
 			pTileSet->m_nImagewidth = tileset["imagewidth"].asInt();
 			pTileSet->m_nMargin = tileset["margin"].asInt();
-			string name = tileset["name"].asString();
+			pTileSet->m_szName = tileset["name"].asString();
 			pTileSet->m_nSpacing = tileset["spacing"].asInt();
 			pTileSet->m_nTilecount = tileset["tilecount"].asInt();
 			pTileSet->m_nTileheight = tileset["tileheight"].asInt();
@@ -101,7 +101,7 @@ namespace crea
 			}
 
 			// Load Image and create sprite
-			pTileSet->m_pSprite = pGM->getSprite(name);
+			pTileSet->m_pSprite = pGM->getSprite(pTileSet->m_szName);
 			pTileSet->m_pSprite->setTexture(pGM->getTexture(image));
 
 			//  Tiles
@@ -187,16 +187,18 @@ namespace crea
 						// Create entity
 						// A sprite is a gid linked to a tileset that is loaded before in function
 						TileSet* pTileSet = getTileSet(iGId);
-						pTileSet->m_pSprite->setPosition((float)iPersoX, (float)(iPersoY - iPersoHeight));
-						
+
 						SpriteRenderer* pSpriteRenderer = nullptr;
 						if (bVisible)
 						{
 							pSpriteRenderer = new crea::SpriteRenderer();
 							pSpriteRenderer->setSprite(pTileSet->m_pSprite);
+							IntRect iRect = pTileSet->getTextureRect(iGId);
+							pSpriteRenderer->setTextureRect(&iRect);
 						}
 						
 						Entity* pEntity = pGM->getEntity(szName);
+						pEntity->setPosition(Vector2f((float)iPersoX, (float)(iPersoY - iPersoHeight)));
 						pEntity->addComponent(pSpriteRenderer);
 
 						pGM->addEntity(pEntity);
@@ -312,7 +314,7 @@ namespace crea
 		{
 			for (short j = 0; j < m_nHeight; j++)
 			{
-				tileid = m_Grid[i][j]->getTileTerrainId() - 1; // 30 -> 29
+				tileid = m_Grid[i][j]->getTileTerrainId(); // -1; // 30 -> 29
 				
 				if (m_bDisplayCollision)
 				{
@@ -322,13 +324,10 @@ namespace crea
 						tileid = tileCollisionId; // Display collision only if valid
 					}
 				}
-				
-				w = pTileSet->m_nTilewidth;
-				h = pTileSet->m_nTileheight;
-				x = (tileid % pTileSet->m_nColumns) * (w + pTileSet->m_nMargin) + pTileSet->m_nMargin; // 1st margin
-				y = (tileid / pTileSet->m_nColumns) * (h + pTileSet->m_nSpacing) + pTileSet->m_nSpacing; // 1st spacing 
-				pTileSet->m_pSprite->setTextureRect(x, y, w, h);
-				pTileSet->m_pSprite->setPosition((float)i*w, (float)j*h);
+
+				IntRect iRect = pTileSet->getTextureRect(tileid);
+				pTileSet->m_pSprite->setTextureRect(iRect.getLeft(), iRect.getTop(), iRect.getWidth(), iRect.getHeight());
+				pTileSet->m_pSprite->setPosition((float)i*pTileSet->m_nTilewidth, (float)j*pTileSet->m_nTileheight);
 				pTileSet->m_pSprite->draw();
 			}
 		}
