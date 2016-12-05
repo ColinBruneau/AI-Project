@@ -12,6 +12,7 @@
 #include "Input\InputManager.h"
 #include "Graphics\IFacade.h"
 #include "Physics\CharacterController.h"
+#include "AI\Agent.h"
 
 namespace crea
 {
@@ -52,6 +53,8 @@ namespace crea
 		inline Animation* getAnimation(string _szName) { return DataManager::getSingleton()->getAnimation(_szName); }
 
 		inline ActionTable* getActionTable(string _szName) { return DataManager::getSingleton()->getActionTable(_szName); }
+
+		inline Agent* getAgent(string _szName) { return DataManager::getSingleton()->getAgent(_szName); }
 
 		inline Entity* getEntity(string _szName) { return EntityManager::getSingleton()->getEntity(_szName); }
 

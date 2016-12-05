@@ -12,6 +12,7 @@ using namespace std;
 #define DATATEXTUREPATH		"data/Image/"
 #define DATAANIMATIONPATH	"data/Animation/"
 #define DATAMAPPATH			"data/Map/"
+#define DATAAGENTPATH		"data/Agent/"
 
 // Prédéfinitions
 namespace crea
@@ -25,6 +26,7 @@ namespace crea
 	class ActionTable;
 	class AnimatedSprite;
 	class Map;
+	class Agent;
 }
 
 namespace crea
@@ -38,6 +40,7 @@ namespace crea
 	class CREAENGINE_API MapStringActionTable : public map<string, ActionTable*> {};
 	class CREAENGINE_API MapStringMap : public map<string, Map*> {};
 	class CREAENGINE_API MapStringAnimatedSprite : public map<string, AnimatedSprite*> {};
+	class CREAENGINE_API MapStringAgent : public map<string, Agent*> {};
 
 	class CREAENGINE_API DataManager
 	{
@@ -54,6 +57,8 @@ namespace crea
 		MapStringAnimation m_pAnimations;
 
 		MapStringActionTable m_pActionTables;
+
+		MapStringAgent m_pAgents;
 
 		MapStringMap m_pMaps;
 
@@ -79,6 +84,8 @@ namespace crea
 		Animation* getAnimation(string _szName, bool _bCloned = false);
 		
 		ActionTable* getActionTable(string _szName, bool _bCloned = false);
+
+		Agent* getAgent(string _szName, bool _bCloned = false);
 
 		Map* getMap(string _szName, bool _bCloned = false);
 		

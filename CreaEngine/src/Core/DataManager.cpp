@@ -2,6 +2,7 @@
 
 #include "Core\DataManager.h"
 #include "AI\ActionTable.h"
+#include "AI\Agent.h"
 #include "Graphics\IFont.h"
 #include "Graphics\ITexture.h"
 #include "Graphics\IGraphics.h"
@@ -213,6 +214,35 @@ namespace crea
 		}
 	}
 
+	crea::Agent* DataManager::getAgent(string _szName, bool _bCloned)
+	{
+		MapStringAgent::iterator it = m_pAgents.find(_szName);
+		if (it == m_pAgents.end())
+		{
+			crea::Agent* pAgent = new crea::Agent();
+
+			if (!pAgent->loadFromFileJSON(DATAAGENTPATH + _szName))
+			{
+				delete pAgent;
+				cerr << "Unable to open Agent file" << endl;
+				return nullptr;
+			}
+			m_pAgents[_szName] = pAgent;
+			return pAgent;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				return new crea::Agent(*it->second);
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+	}
+
 	crea::Map* DataManager::getMap(string _szName, bool _bCloned)
 	{
 		MapStringMap::iterator it = m_pMaps.find(_szName);
@@ -284,6 +314,12 @@ namespace crea
 		while (itActionTable != m_pActionTables.end()) {
 			delete (*itActionTable).second;
 			itActionTable = m_pActionTables.erase(itActionTable);
+		}
+
+		MapStringAgent::iterator itAgent = m_pAgents.begin();
+		while (itAgent != m_pAgents.end()) {
+			delete (*itAgent).second;
+			itAgent = m_pAgents.erase(itAgent);
 		}
 
 		MapStringMap::iterator itMap = m_pMaps.begin();

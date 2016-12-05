@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\AI\ActionTable.h" />
+    <ClInclude Include="..\include\AI\Agent.h" />
     <ClInclude Include="..\include\Core\Component.h" />
     <ClInclude Include="..\include\Core\DataManager.h" />
     <ClInclude Include="..\include\Core\EntityManager.h" />
@@ -47,6 +48,7 @@
     <ClInclude Include="..\include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\include\AI\Agent.cpp" />
     <ClCompile Include="AI\ActionTable.cpp" />
     <ClCompile Include="Core\Component.cpp" />
     <ClCompile Include="Core\DataManager.cpp" />

@@ -203,6 +203,14 @@ namespace crea
 
 						pGM->addEntity(pEntity);
 
+						// Agent
+						Json::Value agentName = object["properties"]["Agent"];
+						if (agentName.isString())
+						{
+							Agent* pAgent = pGM->getAgent(agentName.asString());
+							pEntity->addComponent(pAgent);
+						}
+
 					}
 				}
 			}
@@ -283,14 +291,26 @@ namespace crea
 
 	Node* Map::getNodeAtPosition(Vector2f _v) 
 	{ 
-		return m_Grid[(int)_v.getX() / m_nTileWidth][(int)_v.getY() / m_nTileHeight]; 
+		int i = (int)_v.getX() / m_nTileWidth;
+		int j = (int)_v.getY() / m_nTileHeight;
+		if (i >= 0 && i < m_nWidth && j >= 0 && j < m_nHeight)
+			return m_Grid[i][j];
+		else
+			return nullptr;
 	}
 
 	float Map::getFrictionAtPosition(Vector2f _v)
 	{
 		Node* pNode = getNodeAtPosition(_v);
-		short nTerrain = pNode->getTileTerrainId()-1;
-		return m_pTerrainTileSet->getFriction(nTerrain);
+		if (pNode)
+		{
+			short nTerrain = pNode->getTileTerrainId() - 1;
+			return m_pTerrainTileSet->getFriction(nTerrain);
+		}
+		else
+		{
+			return 0.0f; // No friction outside map...
+		}
 	}
 
 
