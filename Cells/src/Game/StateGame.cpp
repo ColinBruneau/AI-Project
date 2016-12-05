@@ -87,9 +87,6 @@ bool StateGame::onInit()
 
 	// Collider
 	m_pCollider = m_pGM->getCollider("Peon/Peon.col");
-	CircleCollider* pCircleCollider = (CircleCollider*) m_pCollider->getCollider();
-	pCircleCollider->getCenter() = Vector2f(0.f, 0.f);
-	pCircleCollider->getRadius() = 16.f;
 	m_pEntity2->addComponent(m_pCollider);
 
 	// Character Controller

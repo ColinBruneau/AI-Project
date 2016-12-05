@@ -2,6 +2,10 @@
 
 #include "Physics\Collider.h"
 #include "Graphics\ISprite.h"
+#include "json\json.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 namespace crea
 {
@@ -9,6 +13,21 @@ namespace crea
 	{
 		m_pSprite = nullptr;
 		m_bIsColliding = false;
+		setType(_eColliderType);
+	}
+
+	Collider::~Collider()
+	{
+		delete m_pCollider;
+	}
+
+	void Collider::setType(EnumColliderType _eColliderType)
+	{
+		if (m_pCollider)
+		{
+			delete m_pCollider;
+		}
+
 		m_eColliderType = _eColliderType;
 
 		if (m_eColliderType == Collider_Box)
@@ -23,11 +42,6 @@ namespace crea
 			m_pSprite = crea::GameManager::getSingleton()->getSprite("debug/circlecollider");
 			m_pSprite->setTexture(crea::GameManager::getSingleton()->getTexture("debug/circlecollider.png"));
 		}
-	}
-
-	Collider::~Collider()
-	{
-		delete m_pCollider;
 	}
 
 	void* Collider::getCollider()
@@ -66,6 +80,31 @@ namespace crea
 		return m_bIsColliding;
 	}
 
+	bool Collider::loadFromFileJSON(string _filename)
+	{
+		Json::Value root;
+		std::ifstream config_doc(_filename, std::ifstream::binary);
+		config_doc >> root;
+
+		string szType = root["type"].asString();
+		if (szType == "Circle")
+		{
+			setType(Collider_Circle);
+			CircleCollider* pCircleCollider = (CircleCollider*) m_pCollider;
+			pCircleCollider->getCenter() = Vector2f(root["x"].asFloat(), root["y"].asFloat());
+			pCircleCollider->getRadius() = root["radius"].asFloat();
+		}
+		else if (szType == "Box")
+		{
+			setType(Collider_Box);
+			BoxCollider* pBoxCollider = (BoxCollider*)m_pCollider;
+			pBoxCollider->getOrigin() = Vector2f(root["x"].asFloat(), root["y"].asFloat());
+			pBoxCollider->getSize() = Vector2f(root["w"].asFloat(), root["h"].asFloat());
+		}
+		
+		return true;
+	}
+
 	bool Collider::init()
 	{
 		return true;
@@ -83,9 +122,9 @@ namespace crea
 			if (m_eColliderType == Collider_Box)
 			{
 				BoxCollider* pCollider = (BoxCollider*)m_pCollider;
-				Vector2f vCenter = pCollider->getCenter();
+				Vector2f vOrigin = pCollider->getOrigin();
 				Vector2f vSize = pCollider->getSize();
-				m_pSprite->setPosition(vCenter.getX(), vCenter.getY());
+				m_pSprite->setPosition(vOrigin.getX(), vOrigin.getY());
 				m_pSprite->setScale(0.01f*vSize.getX(), 0.01f*vSize.getY());
 				m_pSprite->draw();
 			}

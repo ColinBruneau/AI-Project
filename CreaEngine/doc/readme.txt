@@ -18,10 +18,13 @@
 11/2017 Chargement des animations (Action Table)
 		Physics module (collision, friction)
 		Movement module (CharacterControl et User Control)
+		Agent module (Attributes)
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
 - EntityManager: comme pour DataManager...
 - lien tiled - animation
+- Collider géré dans DataManager? (.col)
+- loadFromFileJSON pour Peon.cc, Peon.uc
 

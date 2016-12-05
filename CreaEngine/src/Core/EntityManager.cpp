@@ -199,6 +199,14 @@ namespace crea
 		if (it == m_pColliders.end())
 		{
 			Collider* pCollider = new Collider(); // Create a default Collider if none exist
+
+			if (!pCollider->loadFromFileJSON(DATAAGENTPATH + _szName))
+			{
+				delete pCollider;
+				cerr << "Unable to open Collider file" << endl;
+				return nullptr;
+			}
+
 			m_pColliders[_szName] = pCollider;
 			return pCollider;
 		}

@@ -22,12 +22,22 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
   <ItemGroup>
+    <Content Include="Agent.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Agent.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Agent.classdiagram</DependentUpon>
+    </Content>
     <Content Include="Animation.classdiagram">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Animation.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>Animation.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\Package1_2027.uml">
+      <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_1458.uml">
       <SubType>Content</SubType>
@@ -60,6 +70,9 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_1830.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_2027.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="Physics.classdiagram">

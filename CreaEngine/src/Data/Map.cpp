@@ -156,7 +156,7 @@ namespace crea
 							{
 								Collider* pCollider = new Collider(Collider_Box);
 								BoxCollider* pBoxCollider = (BoxCollider*)pCollider->getCollider();
-								pBoxCollider->getCenter() = Vector2f((float)i*m_nTileWidth, (float)j*m_nTileHeight);
+								pBoxCollider->getOrigin() = Vector2f((float)i*m_nTileWidth, (float)j*m_nTileHeight);
 								pBoxCollider->getSize() = Vector2f(m_nTileWidth, m_nTileHeight);
 								PhysicsManager::getSingleton()->addCollider(pCollider);
 							}

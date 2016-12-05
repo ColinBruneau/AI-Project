@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="4e6f07e4-1311-42ac-b2c2-c77646b65808"
+  name="Cells1" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="9757fbaa-0c24-4392-bb79-d61dcdb3f3a4">
+      <body>
+							Agent* pAgent = pGM-&gt;getAgent("Peon1.chr");
+							pEntity-&gt;addComponent(pAgent);</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="40f43ab3-b1ad-4856-8ee5-d131ed78a86b"
+        name="StateGame"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="1574f7c4-cb75-4b29-9d6e-83c8341ef280"
+            isDerived="false"
+            sourceEndRoleName="StateGame"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="979ac859-ecf9-4107-881c-008576eeb928"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_2027.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8364f06c-a83e-493c-bcf0-ce8c8903a00d"
+                  name="StateGame"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b54a4543-dbf7-41b8-9810-44b04d5b006e"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

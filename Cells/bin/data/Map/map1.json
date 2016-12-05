@@ -34,7 +34,7 @@
                  "name":"Peon1",
                  "properties":
                     {
-                     "Agent":"Peon1.chr"
+                     "Agent":"Peon\/Peon1.chr"
                     },
                  "propertytypes":
                     {
@@ -54,7 +54,7 @@
                  "name":"Peon2",
                  "properties":
                     {
-                     "Agent":"Peon2.chr"
+                     "Agent":"Peon\/Peon2.chr"
                     },
                  "propertytypes":
                     {
