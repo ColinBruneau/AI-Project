@@ -54,8 +54,11 @@ namespace crea
 	{
 		TimeManager();
 
-		Clock m_Clock;
+		Clock m_FrameClock;
 		Time m_FrameTime;
+
+		Clock m_GameClock;
+		Time m_GameTime;
 
 	public:
 		~TimeManager();
@@ -63,6 +66,8 @@ namespace crea
 		static TimeManager* getSingleton();
 
 		Time getFrameTime();
+
+		Time getGameTime();
 
 		void init();
 

@@ -340,14 +340,14 @@
         <elementDefinition Id="d910b893-81f0-415f-b780-3228b9db337a" />
         <packagedElements>
           <packageHasNamedElement>
-            <class Id="634ccb8a-b228-42c0-9e74-947fe9f9483e" name="StateGame" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="634ccb8a-b228-42c0-9e74-947fe9f9483e" name="Game" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="204ff713-e726-4fb3-a45d-5d682aed03fd" />
               <targetEnds>
-                <association Id="659b6bec-a4a2-4440-85af-d36ee4a6c2ec" isDerived="false" sourceEndRoleName="StateGame" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                <association Id="659b6bec-a4a2-4440-85af-d36ee4a6c2ec" isDerived="false" sourceEndRoleName="Game" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
                   <classMoniker Id="d7e77611-4f04-462f-93ff-8a3756587b8b" LastKnownName="Entity" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="afb22bb6-6f1f-48a9-86ee-169ad7a41dab" name="StateGame" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                      <memberEnd Id="afb22bb6-6f1f-48a9-86ee-169ad7a41dab" name="Game" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
                         <elementDefinition Id="0b636904-df86-470d-8d24-19862eb131a3" />
                       </memberEnd>
                     </associationHasOwnedEnds>

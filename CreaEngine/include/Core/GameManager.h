@@ -30,7 +30,7 @@ namespace crea
 
 		inline IFacade* getRenderer() { return m_pRenderer; }
 
-		inline void setState(State* s) { SceneManager::getSingleton()->setState(s); }
+		inline void setGameState(GameState* s) { SceneManager::getSingleton()->setGameState(s); }
 
 		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
 

@@ -98,14 +98,14 @@
         <elementDefinition Id="4e6f07e4-1311-42ac-b2c2-c77646b65808" />
         <packagedElements>
           <packageHasNamedElement>
-            <class Id="2c6efcd3-f24f-485d-83c2-59221465683e" name="StateGame" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="2c6efcd3-f24f-485d-83c2-59221465683e" name="Game" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="40f43ab3-b1ad-4856-8ee5-d131ed78a86b" />
               <targetEnds>
-                <association Id="99558b9c-77f4-4d32-85aa-be596a86c049" isDerived="false" sourceEndRoleName="StateGame" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                <association Id="99558b9c-77f4-4d32-85aa-be596a86c049" isDerived="false" sourceEndRoleName="Game" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
                   <classMoniker Id="6d7a14c1-a7f7-439c-a9b5-b2f6888cbba0" LastKnownName="Entity" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="c20b1e49-b9a2-4ce0-a4f5-c6c791bbf9f5" name="StateGame" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                      <memberEnd Id="c20b1e49-b9a2-4ce0-a4f5-c6c791bbf9f5" name="Game" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
                         <elementDefinition Id="8364f06c-a83e-493c-bcf0-ce8c8903a00d" />
                       </memberEnd>
                     </associationHasOwnedEnds>

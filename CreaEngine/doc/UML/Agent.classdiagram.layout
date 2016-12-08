@@ -48,7 +48,7 @@
       <packageMoniker Id="97bfefa4-f13e-4553-81d5-cefb6d69ea10" LastKnownName="Cells1" />
       <nestedChildShapes>
         <classShape Id="50768c80-16b4-4a55-ab5d-ce4699217cad" absoluteBounds="1.25, 8.375, 1.5, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-          <classMoniker Id="2c6efcd3-f24f-485d-83c2-59221465683e" LastKnownName="StateGame" />
+          <classMoniker Id="2c6efcd3-f24f-485d-83c2-59221465683e" LastKnownName="Game" />
           <nestedChildShapes>
             <AttributeElementListCompartment Id="d8304391-c2c7-4d7e-b4c7-1d414404c664" absoluteBounds="1.265, 8.765, 1.4700000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
             <OperationElementListCompartment Id="7793d860-48c3-4a7f-9589-27048f2aa2d8" absoluteBounds="1.265, 8.97617186754942, 1.4700000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />

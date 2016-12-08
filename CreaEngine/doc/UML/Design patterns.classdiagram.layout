@@ -48,7 +48,7 @@
           </nestedChildShapes>
         </classShape>
         <classShape Id="0ab88ec7-e9ab-4cec-a564-337c6bbe5124" absoluteBounds="5.25, 3.125, 1.5, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-          <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="State" />
+          <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="GameState" />
           <nestedChildShapes>
             <AttributeElementListCompartment Id="dd0f753f-6ff4-41c6-aaba-8adfcf13186e" absoluteBounds="5.2650000000000006, 3.5150000000000006, 1.4700000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
             <OperationElementListCompartment Id="67d63fd7-ab11-4c34-8dfb-6425e2b27799" absoluteBounds="5.2650000000000006, 3.7261718675494198, 1.4700000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
@@ -211,14 +211,14 @@
       <packageMoniker Id="cb6cdb85-daa2-4916-9664-886bdc197fd3" LastKnownName="Cells" />
       <nestedChildShapes>
         <classShape Id="91af6285-c42d-4cbe-a44c-0fcacc2800c9" absoluteBounds="6.125, 6.25, 1.5, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-          <classMoniker Id="26dad25e-a935-4cbd-a1ea-7ede6b5a3643" LastKnownName="StateGame" />
+          <classMoniker Id="26dad25e-a935-4cbd-a1ea-7ede6b5a3643" LastKnownName="Game" />
           <nestedChildShapes>
             <AttributeElementListCompartment Id="ec4663f5-8aaf-49e8-9897-4f81e8257aee" absoluteBounds="6.1400000000000006, 6.64, 1.4700000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
             <OperationElementListCompartment Id="37021a9c-1e2c-4d5e-a69d-6e276589d14a" absoluteBounds="6.1400000000000006, 6.85117186754942, 1.4700000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />
           </nestedChildShapes>
         </classShape>
         <classShape Id="0c8f8ab7-02ed-4f76-8c10-6f0ba110f7f8" absoluteBounds="4.375, 6.25, 1.5, 0.90234373509883881" hideQualifiedName="false" increaseHeight="0" customColor="181, 193, 223">
-          <classMoniker Id="e3b021d7-c110-49d3-a392-1ecc8670b4af" LastKnownName="StateMenu" />
+          <classMoniker Id="e3b021d7-c110-49d3-a392-1ecc8670b4af" LastKnownName="Menu" />
           <nestedChildShapes>
             <AttributeElementListCompartment Id="84f17506-f17f-4e0c-b3f7-6b5968a5c88f" absoluteBounds="4.3900000000000006, 6.64, 1.4700000000000002, 0.2011718675494194" name="AttributesCompartment" titleTextColor="Black" itemTextColor="Black" />
             <OperationElementListCompartment Id="d7862606-08a1-4662-a2a0-179a5c3e8d06" absoluteBounds="4.3900000000000006, 6.85117186754942, 1.4700000000000002, 0.2011718675494194" name="OperationsCompartment" titleTextColor="Black" itemTextColor="Black" />

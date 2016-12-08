@@ -13,16 +13,23 @@
   <ItemGroup>
     <ClInclude Include="..\include\AI\ActionTable.h" />
     <ClInclude Include="..\include\AI\Agent.h" />
+    <ClInclude Include="..\include\AI\AI.h" />
+    <ClInclude Include="..\include\AI\AgentManager.h" />
+    <ClInclude Include="..\include\AI\Msg.h" />
+    <ClInclude Include="..\include\AI\MsgManager.h" />
+    <ClInclude Include="..\include\AI\StateMachine.h" />
     <ClInclude Include="..\include\Core\Component.h" />
     <ClInclude Include="..\include\Core\DataManager.h" />
+    <ClInclude Include="..\include\Core\DebugLog.h" />
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
     <ClInclude Include="..\include\Core\ICore.h" />
     <ClInclude Include="..\include\Core\PhysicsManager.h" />
+    <ClInclude Include="..\include\Core\Singleton.h" />
     <ClInclude Include="..\include\Core\TimeManager.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
     <ClInclude Include="..\include\Core\SceneManager.h" />
-    <ClInclude Include="..\include\Core\State.h" />
+    <ClInclude Include="..\include\Core\GameState.h" />
     <ClInclude Include="..\include\CreaImport.h" />
     <ClInclude Include="..\include\Data\Animation.h" />
     <ClInclude Include="..\include\Data\Entity.h" />
@@ -48,16 +55,21 @@
     <ClInclude Include="..\include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\include\AI\Agent.cpp" />
     <ClCompile Include="AI\ActionTable.cpp" />
+    <ClCompile Include="AI\Agent.cpp" />
+    <ClCompile Include="AI\AgentManager.cpp" />
+    <ClCompile Include="AI\Msg.cpp" />
+    <ClCompile Include="AI\MsgManager.cpp" />
+    <ClCompile Include="AI\StateMachine.cpp" />
     <ClCompile Include="Core\Component.cpp" />
     <ClCompile Include="Core\DataManager.cpp" />
+    <ClCompile Include="Core\DebugLog.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\GameManager.cpp" />
     <ClCompile Include="Core\PhysicsManager.cpp" />
     <ClCompile Include="Core\Plugin.cpp" />
     <ClCompile Include="Core\SceneManager.cpp" />
-    <ClCompile Include="Core\State.cpp" />
+    <ClCompile Include="Core\GameState.cpp" />
     <ClCompile Include="Core\TimeManager.cpp" />
     <ClCompile Include="CreaEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

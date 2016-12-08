@@ -9,9 +9,8 @@
 #include "stdafx.h"
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
-#include "Game\StateGame.h"
+#include "Game\GSGame.h"
 
-using namespace crea;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -19,7 +18,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setState(new StateGame());
+	pGM->setGameState(new GSGame());
 
 	pGM->update();
 

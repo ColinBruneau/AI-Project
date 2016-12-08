@@ -77,14 +77,20 @@ namespace crea
 		return m_FrameTime;
 	}
 
+	Time TimeManager::getGameTime()
+	{
+		return m_GameTime;
+	}
+
 	void TimeManager::init() 
 	{ 
-		m_Clock.restart();
+		m_FrameClock.restart();
+		m_GameClock.restart();
 	}
 
 	void TimeManager::update()
 	{
-		m_FrameTime = m_Clock.restart();
+		m_FrameTime = m_FrameClock.restart();
 	}
 
 } // namespace crea

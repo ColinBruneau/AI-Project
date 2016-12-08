@@ -26,5 +26,5 @@ To do:
 - EntityManager: comme pour DataManager...
 - lien tiled - animation
 - Collider géré dans DataManager? (.col)
-- loadFromFileJSON pour Peon.cc, Peon.uc
+- loadFromFileJSON pour Peon.cc, Peon.uc, Peon1.ent
 

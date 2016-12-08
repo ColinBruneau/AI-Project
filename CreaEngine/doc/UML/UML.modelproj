@@ -29,14 +29,20 @@
       <SubType>Content</SubType>
       <DependentUpon>Agent.classdiagram</DependentUpon>
     </Content>
-    <Content Include="Animation.classdiagram">
+    <Content Include="Map.classdiagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Animation.classdiagram.layout">
+    <Content Include="Map.classdiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>Animation.classdiagram</DependentUpon>
+      <DependentUpon>Map.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="ModelDefinition\Package1_1408.uml">
+      <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package1_2027.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_1408.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_1458.uml">
@@ -59,12 +65,12 @@
       <SubType>Content</SubType>
       <DependentUpon>Composants.componentdiagram</DependentUpon>
     </Content>
-    <Content Include="Map.classdiagram">
+    <Content Include="Animation.classdiagram">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Map.classdiagram.layout">
+    <Content Include="Animation.classdiagram.layout">
       <SubType>Content</SubType>
-      <DependentUpon>Map.classdiagram</DependentUpon>
+      <DependentUpon>Animation.classdiagram</DependentUpon>
     </Content>
     <Content Include="ModelDefinition\Package_1829.uml">
       <SubType>Content</SubType>

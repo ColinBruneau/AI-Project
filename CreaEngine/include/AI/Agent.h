@@ -7,10 +7,12 @@
 #define __Agent_H_
 
 #include "Core\Component.h"
+#include "AI.h"
 
 namespace crea
 {
 	class ISprite;
+	class StateMachine;
 
 	class CREAENGINE_API Agent : public Component
 	{
@@ -19,7 +21,11 @@ namespace crea
 		int m_iIntelligence;
 		int m_iHealth;
 
+		objectID m_ID;	
+		StateMachine* m_pStateMachine;
+
 	public:
+
 		Agent();
 		virtual ~Agent();
 
@@ -35,10 +41,18 @@ namespace crea
 
 		bool loadFromFileJSON(string _filename);
 
+		void SetID(objectID _id) { m_ID = _id; }
+		objectID GetID() { return(m_ID); }
+		StateMachine* GetStateMachine() { return(m_pStateMachine); }
+		void SetStateMachine(StateMachine * _p) { m_pStateMachine = _p; }
+
+
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+	private:
 
 	};
 

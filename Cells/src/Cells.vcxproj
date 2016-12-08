@@ -112,17 +112,19 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Game\StateGame.h" />
-    <ClInclude Include="..\include\Game\StateMap.h" />
-    <ClInclude Include="..\include\Game\StateMenu.h" />
+    <ClInclude Include="..\include\Game\GSGame.h" />
+    <ClInclude Include="..\include\Game\GSMap.h" />
+    <ClInclude Include="..\include\Game\GSMenu.h" />
+    <ClInclude Include="..\include\Game\FSMPeon.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cells.cpp" />
-    <ClCompile Include="Game\StateGame.cpp" />
-    <ClCompile Include="Game\StateMap.cpp" />
-    <ClCompile Include="Game\StateMenu.cpp" />
+    <ClCompile Include="Game\GSGame.cpp" />
+    <ClCompile Include="Game\GSMap.cpp" />
+    <ClCompile Include="Game\GSMenu.cpp" />
+    <ClCompile Include="Game\FSMPeon.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

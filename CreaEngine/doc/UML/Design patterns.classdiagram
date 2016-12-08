@@ -21,7 +21,7 @@
           </comment>
           <comment Id="0b5b4c80-9aff-42dd-95a8-cea2cf78b90d">
             <elementDefinition Id="69b069b4-6d0d-4e4f-a6c9-dd701f384002" />
-            <body>Singleton, State</body>
+            <body>Singleton, GameState</body>
             <annotatedElements>
               <classMoniker Id="d4b280f2-ba73-4e64-9fc0-932d10cfa1de" LastKnownName="SceneManager" />
             </annotatedElements>
@@ -72,8 +72,8 @@
             <class Id="d4b280f2-ba73-4e64-9fc0-932d10cfa1de" name="SceneManager" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="e436b5b9-d6cd-4021-a8fa-e964ffd832a6" />
               <targetEnds>
-                <association Id="b8d32fe2-c0a9-4cd0-bb76-a21450894b89" isDerived="false" sourceEndRoleName="SceneManager" targetEndRoleName="State" isLeaf="false" isAbstract="false">
-                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="State" />
+                <association Id="b8d32fe2-c0a9-4cd0-bb76-a21450894b89" isDerived="false" sourceEndRoleName="SceneManager" targetEndRoleName="GameState" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="GameState" />
                   <relationshipOwnedElementsInternal>
                     <associationHasOwnedEnds>
                       <memberEnd Id="04874649-4c1a-42a3-951a-7669819858d6" name="SceneManager" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
@@ -81,7 +81,7 @@
                       </memberEnd>
                     </associationHasOwnedEnds>
                     <associationHasOwnedEnds>
-                      <memberEnd Id="beabb3bf-bba6-4072-b7c3-e09924a614fd" name="State" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                      <memberEnd Id="beabb3bf-bba6-4072-b7c3-e09924a614fd" name="GameState" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
                         <lowerValueInternal>
                           <literalString Id="c24f0dbb-4bfd-45f9-8bfd-c7ef4a8772b1" name="Lower" value="*">
                             <elementDefinition Id="8dfa8eaa-b13d-4fbb-b683-53a6983a2033" />
@@ -199,7 +199,7 @@
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" name="State" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" name="GameState" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="b01503ee-b34d-452e-b8fe-2a82f29bf718" />
             </class>
           </packageHasNamedElement>
@@ -238,22 +238,22 @@
         <elementDefinition Id="de3831ec-97e4-42d1-910c-d1b28211692a" />
         <packagedElements>
           <packageHasNamedElement>
-            <class Id="26dad25e-a935-4cbd-a1ea-7ede6b5a3643" name="StateGame" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="26dad25e-a935-4cbd-a1ea-7ede6b5a3643" name="Game" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="43aa89e4-09d2-4fca-965e-85cdba017450" />
               <generalsInternal>
                 <generalization Id="aa7bdb82-958b-47eb-a6e0-d63fc8c71e6f" isSubstitutable="false">
-                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="State" />
+                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="GameState" />
                   <elementDefinition Id="4090383e-5eca-4643-8f29-a7f14af883b0" />
                 </generalization>
               </generalsInternal>
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>
-            <class Id="e3b021d7-c110-49d3-a392-1ecc8670b4af" name="StateMenu" isAbstract="false" isLeaf="false" isActiveClass="false">
+            <class Id="e3b021d7-c110-49d3-a392-1ecc8670b4af" name="Menu" isAbstract="false" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="5f169b95-7281-4c8c-b1e4-f9278ca1280b" />
               <generalsInternal>
                 <generalization Id="7c5d963f-41fe-4673-8e99-f7023a8542c5" isSubstitutable="false">
-                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="State" />
+                  <classMoniker Id="db74a06d-8e48-4b6b-bf1b-640f87bb999b" LastKnownName="GameState" />
                   <elementDefinition Id="54ffb72c-5bee-4cd6-b09a-aaa643993d84" />
                 </generalization>
               </generalsInternal>
