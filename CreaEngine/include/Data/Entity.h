@@ -41,6 +41,8 @@ namespace crea
 
 		void addComponent(Component* _pComponent);
 
+		Component* getComponent(string& _szName);
+
 		bool init();
 
 		bool update();

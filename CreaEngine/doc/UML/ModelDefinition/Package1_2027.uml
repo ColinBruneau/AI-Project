@@ -7,8 +7,14 @@
     <comment
       Id="9757fbaa-0c24-4392-bb79-d61dcdb3f3a4">
       <body>
-							Agent* pAgent = pGM-&gt;getAgent("Peon1.chr");
-							pEntity-&gt;addComponent(pAgent);</body>
+Agent* pAgent = pGM-&gt;getAgent("Peon1.chr");
+
+pEntity-&gt;addComponent(pAgent);
+
+m_pFSMPeon = new FSMPeon(m_pAgent);
+m_pFSMPeon-&gt;setEntity(pEntity);
+m_pFSMPeon-&gt;setCharacterController(m_pCharacterController);
+m_pAgent-&gt;SetStateMachine(m_pFSMPeon);		</body>
     </comment>
   </ownedCommentsInternal>
   <packagedElements>
@@ -60,6 +66,25 @@
             </relationshipOwnedElementsInternal>
           </association>
         </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f3d1d539-7d7b-4927-9f17-a9e69c406bae"
+        name="FSMPeon"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="d2f10d79-6e51-47c4-bf11-31a9d23763ff"
+            isSubstitutable="false">
+            <classMoniker
+              Id="24b5ca1f-d9ca-4b63-a969-692a22e42fc9"
+              LastKnownName="StateMachine"
+              LastKnownLocation="Package_2027.uml" />
+          </generalization>
+        </generalsInternal>
       </class>
     </packageHasNamedElement>
   </packagedElements>

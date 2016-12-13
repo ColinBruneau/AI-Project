@@ -87,16 +87,16 @@ namespace crea
 
 	void Entity::clear()
 	{
-		// Components
-		unsigned int uiSize = m_pComponents.size();
+		// Children
+		unsigned int uiSize = m_pChildren.size();
 		for (unsigned int i = 0; i < uiSize; i++)
 		{
 			delete m_pChildren[i];
 		}
 		m_pChildren.clear();
 
-		// Children
-		uiSize = m_pChildren.size();
+		// Components
+		uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
 		{
 			delete m_pComponents[i];
@@ -116,9 +116,36 @@ namespace crea
 			unsigned int uiSize = m_pChildren.size();
 			for (unsigned int i = 0; i < uiSize; i++)
 			{
-				m_pChildren[i]->getEntity(_szName);
+				Entity* pEntity = m_pChildren[i]->getEntity(_szName);
+				if (pEntity)
+				{
+					return pEntity;
+				}
 			}
 		}
+		return nullptr;
+	}
+
+	Component* Entity::getComponent(string& _szName)
+	{
+		unsigned int uiSize = m_pComponents.size();
+		for (unsigned int i = 0; i < uiSize; i++)
+		{
+			Component* pComponent = m_pComponents[i];
+			if (pComponent->hasName(_szName))
+			{
+				return pComponent;
+			}
+			else
+			{
+				// Children
+				unsigned int uiSize = m_pChildren.size();
+				for (unsigned int i = 0; i < uiSize; i++)
+				{
+					m_pChildren[i]->getComponent(_szName);
+				}
+			}
+		}		
 		return nullptr;
 	}
 } // namespace crea

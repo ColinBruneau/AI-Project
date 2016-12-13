@@ -37,6 +37,7 @@ class GSGame : public crea::GameState
 	UserController* m_pUserController;
 	Collider* m_pCollider;
 
+	Entity* m_pEntity3;
 	Agent* m_pAgent;
 	FSMPeon* m_pFSMPeon;
 

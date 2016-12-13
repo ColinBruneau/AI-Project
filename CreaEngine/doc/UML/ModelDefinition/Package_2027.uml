@@ -500,6 +500,47 @@
               LastKnownLocation="Package_2027.uml" />
           </generalization>
         </generalsInternal>
+        <targetEnds>
+          <association
+            Id="31f42cda-aa82-4c4f-b1bd-61a975b9ff79"
+            isDerived="false"
+            sourceEndRoleName="Agent"
+            targetEndRoleName="FSM"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="24b5ca1f-d9ca-4b63-a969-692a22e42fc9"
+              LastKnownName="StateMachine"
+              LastKnownLocation="Package_2027.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="24e4dd19-037c-4845-acaf-210e5e55bdf7"
+                  name="Agent"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="0ab64b40-67ef-464b-82ee-b6c2319ccf5e"
+                  name="FSM"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
         <ownedAttributesInternal>
           <property
             Id="4a37c90c-d8e7-4ccb-8b3c-579801f1a09f"
@@ -546,6 +587,159 @@
             aggregation="None"
             isComposite="false" />
         </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="24b5ca1f-d9ca-4b63-a969-692a22e42fc9"
+        name="StateMachine"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="732a6550-195d-4b74-ac0a-65165fd26d00"
+            name="States"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8d11d593-341f-447e-a013-f82e9faed694"
+        name="Msg"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="ff4f1b6e-37e5-4746-a554-e732c91569be"
+        name="MsgManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="5acde311-2fc9-45ca-96da-e23e2bce4f3a"
+            isDerived="false"
+            sourceEndRoleName="MsgManager"
+            targetEndRoleName="Msg"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="8d11d593-341f-447e-a013-f82e9faed694"
+              LastKnownName="Msg"
+              LastKnownLocation="Package_2027.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="69dbd9a3-4c2a-4b3d-b509-c60a14361216"
+                  name="MsgManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f39f556f-8c16-4b7f-b67b-42d6fc2968a2"
+                  name="Msg"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="453a34ab-eb9f-4fbb-a4e2-2ad9ed099c39"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="bdf2bd16-0a3b-458f-8b92-b6ec2a0d7851"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8e7f73f5-4b93-4c64-924a-7109fd9e3753"
+        name="AgentManager"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="16d1878a-4af0-4fc9-9039-dd484810f388"
+            isDerived="false"
+            sourceEndRoleName="AgentManager"
+            targetEndRoleName="Agent"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="a6a5b5d3-b701-4cfb-a475-8d1ebf22388e"
+              LastKnownName="Agent"
+              LastKnownLocation="Package_2027.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="04f9aef2-c32e-4a50-9ec1-e054ad9e37c5"
+                  name="AgentManager"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e71dfd9e-a8f1-4e7a-b0f4-8daaf99f72dc"
+                  name="Agent"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="cc6dd965-1181-489f-9171-0f7453c5a6af"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="dff2aa43-6e47-44f7-93f2-96f0356aea20"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
       </class>
     </packageHasNamedElement>
   </packagedElements>

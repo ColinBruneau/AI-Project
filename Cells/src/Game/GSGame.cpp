@@ -107,7 +107,11 @@ bool GSGame::onInit()
 
 	// FSM
 	m_pFSMPeon = new FSMPeon(m_pAgent);
+	m_pFSMPeon->setEntity(m_pEntity2);
+	m_pFSMPeon->setCharacterController(m_pCharacterController);
 	m_pAgent->SetStateMachine(m_pFSMPeon);
+	m_pEntity2->addComponent(m_pAgent);
+
 
 	return true;
 }
