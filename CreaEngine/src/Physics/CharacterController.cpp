@@ -73,7 +73,6 @@ namespace crea
 
 	bool CharacterController::init()
 	{
-		m_fSpeed = 200.f; // CB: should be given by .cc file
 		m_bAlive = true;
 		m_bMoving = false;
 		m_eDirection = kADir_Down;
@@ -98,9 +97,6 @@ namespace crea
 		
 		if (m_bMoving)
 		{
-			m_vVelocity.normalize();
-			m_vVelocity *= m_fSpeed * (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
-
 			// Friction
 			Map* pMap = PhysicsManager::getSingleton()->getCurrentMap();
 			float fSpeedFactor = 1 - pMap->getFrictionAtPosition(this->getEntity()->getPosition());
@@ -118,7 +114,7 @@ namespace crea
 			}
 
 			// Adjust anim speed to velocity
-			m_pCurrentAnimation->adjustToTranslationSpeed(m_fSpeed*fSpeedFactor);
+			m_pCurrentAnimation->adjustToTranslationSpeed(m_vVelocity.length());
 		}
 
 		// update AnimatedSprite

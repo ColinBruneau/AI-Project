@@ -52,7 +52,6 @@ namespace crea
 		GameManager* m_pGM;
 
 		// Velocity
-		float m_fSpeed;
 		Vector2f m_vVelocity;
 
 		// Collider

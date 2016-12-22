@@ -34,11 +34,11 @@
                  "name":"Peon1",
                  "properties":
                     {
-                     "Agent":"Peon\/Peon1.chr"
+                     "Entity":"Peon\/Peon1.ent"
                     },
                  "propertytypes":
                     {
-                     "Agent":"string"
+                     "Entity":"string"
                     },
                  "rotation":0,
                  "type":"",
@@ -54,11 +54,11 @@
                  "name":"Peon2",
                  "properties":
                     {
-                     "Agent":"Peon\/Peon2.chr"
+                     "Entity":"Peon\/Peon2.ent"
                     },
                  "propertytypes":
                     {
-                     "Agent":"string"
+                     "Entity":"string"
                     },
                  "rotation":0,
                  "type":"",

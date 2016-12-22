@@ -36,7 +36,7 @@ namespace crea
 		std::ifstream mapStream(_filename, std::ifstream::binary);
 		if (mapStream.fail())
 		{
-			cerr << "Can't open map file!" << endl;
+			cerr << "Can't open map file: " << _filename << endl;
 			return false;
 		}
 
@@ -187,28 +187,26 @@ namespace crea
 						// Create entity
 						// A sprite is a gid linked to a tileset that is loaded before in function
 						TileSet* pTileSet = getTileSet(iGId);
+									
+						Entity* pEntity = pGM->getEntity(szName);
+						pEntity->setPosition(Vector2f((float)iPersoX, (float)(iPersoY - iPersoHeight)));
 
-						SpriteRenderer* pSpriteRenderer = nullptr;
-						if (bVisible)
+						pGM->addEntity(pEntity);
+
+						// Properties
+						Json::Value entityName = object["properties"]["Entity"];
+						if (entityName.isString())
 						{
+							pEntity->loadFromFileJSON(string(DATAAGENTPATH + entityName.asString()));
+						}
+						else if (bVisible)// CB: add a SpriteRenderer component only if no .ent set and visible
+						{
+							SpriteRenderer* pSpriteRenderer = nullptr;
 							pSpriteRenderer = new crea::SpriteRenderer();
 							pSpriteRenderer->setSprite(pTileSet->m_pSprite);
 							IntRect iRect = pTileSet->getTextureRect(iGId);
 							pSpriteRenderer->setTextureRect(&iRect);
-						}
-						
-						Entity* pEntity = pGM->getEntity(szName);
-						pEntity->setPosition(Vector2f((float)iPersoX, (float)(iPersoY - iPersoHeight)));
-						pEntity->addComponent(pSpriteRenderer);
-
-						pGM->addEntity(pEntity);
-
-						// Agent
-						Json::Value agentName = object["properties"]["Agent"];
-						if (agentName.isString())
-						{
-							Agent* pAgent = pGM->getAgent(agentName.asString());
-							pEntity->addComponent(pAgent);
+							pEntity->addComponent(pSpriteRenderer);
 						}
 
 					}

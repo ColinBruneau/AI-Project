@@ -143,8 +143,11 @@ bool FSMPeonLive::GoTo(Vector2f& _vTargetPosition)
 		vVelocity = Vector2f(0.f, 0.0f);
 	}
 
+	// CB: adjust velocity with dexterity
+	int iDexterity = m_Owner->getDexterity() * 20; // cb: 200 pixels/second when dexterity at 10 
+
 	vVelocity.normalize();
-	m_pCharacterController->move(vVelocity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
+	m_pCharacterController->move(vVelocity * (float)iDexterity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
 
 	return bArrived;
 }

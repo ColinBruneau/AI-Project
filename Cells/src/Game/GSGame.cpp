@@ -53,65 +53,16 @@ bool GSGame::onInit()
 	pEntityFPS->addComponent(pTextRenderer);
 
 	m_pGM->addEntity(pEntityFPS);
-
-	// Sprite
-	m_pSprite1 = m_pGM->getSprite("image");
-	m_pSprite1->setTexture(m_pGM->getTexture("image.png"));
-
-	m_pSpriteRenderer = m_pGM->getSpriteRenderer("SpriteRenderer1");
-	m_pSpriteRenderer->setSprite(m_pSprite1);
-
-	m_pEntity1 = m_pGM->getEntity("sprite 1"); 
-	m_pEntity1->setPosition(Vector2f(600, 150));
-	m_pEntity1->addComponent(m_pSpriteRenderer);
-
-	m_pGM->addEntity(m_pEntity1);
+	
+	// Entity 1
+	m_pAgent1 = m_pGM->getAgent("Peon/Peon1.chr");
+	m_pFSMPeon1 = new FSMPeon(m_pAgent1);
+	m_pAgent1->SetStateMachine(m_pFSMPeon1); // CB: can't we just call SetStateMachine in FSMPeon?
 
 	// Entity 2
-	m_pEntity2 = m_pGM->getEntity(string("animated sprite 1"));
-	m_pEntity2->setPosition(Vector2f(300.f, 50.f));
-	m_pGM->addEntity(m_pEntity2);
-
-	// Animated Sprite
-	m_pSprite2 = m_pGM->getSprite("Sprite2");	
-	m_pSpriteRenderer2 = m_pGM->getSpriteRenderer("SpriteRenderer2");
-	m_pSpriteRenderer2->setSprite(m_pSprite2);
-	m_pEntity2->addComponent(m_pSpriteRenderer2);
-	
-	// Load Animator
-	m_pAnimator = m_pGM->getAnimator("Animator1");
-	m_pAnimator->setSprite(m_pSprite2);
-	m_pEntity2->addComponent(m_pAnimator);
-
-	// Load ActionTable
-	m_pActionTable = m_pGM->getActionTable("Peon/Peon.act");
-
-	// Collider
-	m_pCollider = m_pGM->getCollider("Peon/Peon.col");
-	m_pEntity2->addComponent(m_pCollider);
-
-	// Character Controller
-	m_pCharacterController = m_pGM->getCharacterController("Peon/Peon.cc");
-	m_pCharacterController->setAnimator(m_pAnimator);
-	m_pCharacterController->setActionTable(m_pActionTable);
-	m_pCharacterController->setCollider(m_pCollider);
-	m_pEntity2->addComponent(m_pCharacterController);
-
-	// User controller
-	m_pUserController = m_pGM->getUserController("Peon/Peon.uc");
-	m_pUserController->setCharacterController(m_pCharacterController);
-	m_pEntity2->addComponent(m_pUserController);
-
-	// Agent
-	m_pAgent = m_pGM->getAgent("Peon/Peon1.chr");
-	m_pEntity2->addComponent(m_pAgent);
-
-	// FSM
-	m_pFSMPeon = new FSMPeon(m_pAgent);
-	//m_pFSMPeon->setEntity(m_pEntity2);
-	//m_pFSMPeon->setCharacterController(m_pCharacterController);
-	m_pAgent->SetStateMachine(m_pFSMPeon); // CB: can't we just call SetStateMachine in FSMPeon?
-
+	//m_pAgent2 = m_pGM->getAgent("Peon/Peon2.chr");
+	//m_pFSMPeon2 = new FSMPeon(m_pAgent2);
+	//m_pAgent2->SetStateMachine(m_pFSMPeon2); // CB: can't we just call SetStateMachine in FSMPeon?
 
 	return true;
 }

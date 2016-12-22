@@ -37,9 +37,13 @@ namespace crea
 
 		Entity* getEntity(string& _szName);
 
+		bool loadFromFileJSON(string& _filename);
+
 		void addChild(Entity* _pEntity);
 
 		void addComponent(Component* _pComponent);
+
+		void removeComponent(Component* _pComponent);
 
 		template<class T> T* getComponent();
 

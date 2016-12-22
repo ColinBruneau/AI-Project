@@ -1,18 +1,13 @@
-{ 	"name":"Peon1",
-	"components":[
+{ 	"components":[
 		{
 			"type":"SpriteRenderer",
-			"name":"Peon/Peon.sr"
-			"sprite":"Sprite2"
+			"name":"Peon/Peon1.sr",
+			"sprite":"Sprite1"
 		},
 		{
 			"type":"Animator",
-			"name":"Peon/Peon.animator"
-			"sprite":"Sprite2"
-		},
-		{
-			"type":"ActionTable",
-			"name":"Peon/Peon.act"
+			"name":"Peon/Peon1.animator",
+			"sprite":"Sprite1"
 		},
 		{
 			"type":"Collider",
@@ -20,15 +15,19 @@
 		},
 		{
 			"type":"CharacterController",
-			"name":"Peon/Peon.cc",
-			"animator":"Peon/Peon.animator",
-			"actiontable":"Peon/Peon.actiontable",
+			"name":"Peon/Peon1.cc",
+			"animator":"Peon/Peon1.animator",
+			"actiontable":"Peon/Peon.act",
 			"collider":"Peon/Peon.col"
 		},
 		{
 			"type":"UserController",
-			"name":"Peon/Peon.uc",
-			"charactercontroller":"Peon/Peon.cc"			
+			"name":"Peon/Peon1.uc",
+			"charactercontroller":"Peon/Peon1.cc"			
+		},
+		{
+			"type":"Agent",
+			"name":"Peon/Peon1.chr"
 		}		
 	]
 } 
