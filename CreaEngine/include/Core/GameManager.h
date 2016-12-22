@@ -56,6 +56,8 @@ namespace crea
 
 		inline Agent* getAgent(string _szName) { return DataManager::getSingleton()->getAgent(_szName); }
 
+		inline Collider* getCollider(string _szName) { return DataManager::getSingleton()->getCollider(_szName); }
+
 		inline Entity* getEntity(string _szName) { return EntityManager::getSingleton()->getEntity(_szName); }
 
 		inline void addEntity(Entity* _pEntity, Entity* _pParent = nullptr)  { EntityManager::getSingleton()->addEntity(_pEntity, _pParent); }
@@ -71,8 +73,6 @@ namespace crea
 		inline CharacterController* getCharacterController(string _szName) { return EntityManager::getSingleton()->getCharacterController(_szName); }
 
 		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
-
-		inline Collider* getCollider(string _szName) { return EntityManager::getSingleton()->getCollider(_szName); }
 
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }
 

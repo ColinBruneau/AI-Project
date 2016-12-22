@@ -9,6 +9,7 @@
 #include "Graphics\IText.h"
 #include "Graphics\ISprite.h"
 #include "Data\Map.h"
+#include "Physics\Collider.h"
 
 namespace crea
 {
@@ -272,6 +273,37 @@ namespace crea
 		}
 	}
 
+	Collider* DataManager::getCollider(string _szName, bool _bCloned)
+	{
+		MapStringCollider::iterator it = m_pColliders.find(_szName);
+		if (it == m_pColliders.end())
+		{
+			Collider* pCollider = new Collider(); // Create a default Collider if none exist
+
+			if (!pCollider->loadFromFileJSON(DATAAGENTPATH + _szName))
+			{
+				delete pCollider;
+				cerr << "Unable to open Collider file" << endl;
+				return nullptr;
+			}
+
+			m_pColliders[_szName] = pCollider;
+			return pCollider;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new Collider(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
 	void DataManager::clear()
 	{
 		MapStringFont::iterator itFont = m_pFonts.begin();
@@ -326,6 +358,12 @@ namespace crea
 		while (itMap != m_pMaps.end()) {
 			delete (*itMap).second;
 			itMap = m_pMaps.erase(itMap);
+		}
+
+		MapStringCollider::iterator itCollider = m_pColliders.begin();
+		while (itCollider != m_pColliders.end()) {
+			delete (*itCollider).second;
+			itCollider = m_pColliders.erase(itCollider);
 		}
 
 	}

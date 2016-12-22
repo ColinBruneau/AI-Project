@@ -8,7 +8,6 @@
 #include "Graphics\Animator.h"
 #include "Physics\CharacterController.h"
 #include "Input\UserController.h"
-#include "Physics\Collider.h"
 
 namespace crea
 {
@@ -193,37 +192,6 @@ namespace crea
 		return nullptr;
 	}
 
-	Collider* EntityManager::getCollider(string _szName, bool _bCloned)
-	{
-		MapStringCollider::iterator it = m_pColliders.find(_szName);
-		if (it == m_pColliders.end())
-		{
-			Collider* pCollider = new Collider(); // Create a default Collider if none exist
-
-			if (!pCollider->loadFromFileJSON(DATAAGENTPATH + _szName))
-			{
-				delete pCollider;
-				cerr << "Unable to open Collider file" << endl;
-				return nullptr;
-			}
-
-			m_pColliders[_szName] = pCollider;
-			return pCollider;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				//return new Collider(it->second); // CB is it useful to clone?
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
-	}
-
 	bool EntityManager::init()
 	{
 		return m_pRoot->init();
@@ -275,12 +243,6 @@ namespace crea
 		while (itUserController != m_pUserControllers.end()) {
 			delete (*itUserController).second;
 			itUserController = m_pUserControllers.erase(itUserController);
-		}
-
-		MapStringCollider::iterator itCollider = m_pColliders.begin();
-		while (itCollider != m_pColliders.end()) {
-			delete (*itCollider).second;
-			itCollider = m_pColliders.erase(itCollider);
 		}
 
 		if (m_pRoot)

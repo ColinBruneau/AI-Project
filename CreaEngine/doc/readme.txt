@@ -27,7 +27,6 @@ To do:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
 - EntityManager: comme pour DataManager...
 - lien tiled - animation
-- Collider géré dans DataManager? (.col)
 - loadFromFileJSON pour Peon.cc, Peon.uc, Peon1.ent (système de prefab)
 - ajouter offset (ou hotspot) sur un objet
 - déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)
