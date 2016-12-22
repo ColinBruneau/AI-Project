@@ -104,13 +104,13 @@ bool GSGame::onInit()
 
 	// Agent
 	m_pAgent = m_pGM->getAgent("Peon/Peon1.chr");
+	m_pEntity2->addComponent(m_pAgent);
 
 	// FSM
 	m_pFSMPeon = new FSMPeon(m_pAgent);
-	m_pFSMPeon->setEntity(m_pEntity2);
-	m_pFSMPeon->setCharacterController(m_pCharacterController);
-	m_pAgent->SetStateMachine(m_pFSMPeon);
-	m_pEntity2->addComponent(m_pAgent);
+	//m_pFSMPeon->setEntity(m_pEntity2);
+	//m_pFSMPeon->setCharacterController(m_pCharacterController);
+	m_pAgent->SetStateMachine(m_pFSMPeon); // CB: can't we just call SetStateMachine in FSMPeon?
 
 
 	return true;

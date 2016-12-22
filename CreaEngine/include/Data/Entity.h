@@ -41,7 +41,7 @@ namespace crea
 
 		void addComponent(Component* _pComponent);
 
-		Component* getComponent(string& _szName);
+		template<class T> T* getComponent();
 
 		bool init();
 
@@ -51,6 +51,30 @@ namespace crea
 
 		void clear();
 	};
+
+	template<class T> T* Entity::getComponent()
+	{
+		unsigned int uiSize = m_pComponents.size();
+		for (unsigned int i = 0; i < uiSize; i++)
+		{
+			Component* pComponent = m_pComponents[i];
+			T* ptr = dynamic_cast<T*>(pComponent);
+			if (ptr != nullptr)
+			{
+				return ptr;
+			}
+			else
+			{
+				// Children
+				unsigned int uiSize = m_pChildren.size();
+				for (unsigned int i = 0; i < uiSize; i++)
+				{
+					m_pChildren[i]->getComponent<T>();
+				}
+			}
+		}
+		return nullptr;
+	}
 
 } // namespace crea
 

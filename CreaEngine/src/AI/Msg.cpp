@@ -9,7 +9,7 @@ namespace crea
 
 	Msg::Msg()
 	{
-		m_Name = MSG_NULL;
+		m_Name = -1;
 		m_Sender = INVALID_OBJECT_ID;
 		m_Receiver = INVALID_OBJECT_ID;
 		m_State = -1;
@@ -17,7 +17,7 @@ namespace crea
 	}
 
 
-	Msg::Msg(float deliveryTime, MSG_Name name, objectID sender, objectID receiver, int state)
+	Msg::Msg(float deliveryTime, int name, objectID sender, objectID receiver, int state)
 	{
 		SetDeliveryTime(deliveryTime);
 		SetMsgName(name);

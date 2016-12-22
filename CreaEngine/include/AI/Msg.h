@@ -12,25 +12,16 @@
 namespace crea
 {
 
-	//Add new messages here
-	typedef enum {
-		MSG_NULL,
-		MSG_Randomize,
-		MSG_Timeout,
-		MSG_ChangeState
-	} MSG_Name;
-
-
 	class Msg
 	{
 	public:
 
 		Msg(void);
-		Msg(float deliveryTime, MSG_Name name, objectID sender, objectID receiver, int state = -1);
+		Msg(float deliveryTime, int name, objectID sender, objectID receiver, int state = -1);
 		~Msg(void) {}
 
-		MSG_Name GetMsgName(void) { return(m_Name); }
-		void SetMsgName(MSG_Name name) { m_Name = name; }
+		int GetMsgName(void) { return(m_Name); }
+		void SetMsgName(int name) { m_Name = name; }
 
 		objectID GetSender(void) { return(m_Sender); }
 		void SetSender(objectID sender) { m_Sender = sender; }
@@ -52,7 +43,7 @@ namespace crea
 
 	private:
 
-		MSG_Name m_Name;		//Message name
+		int m_Name;				//Message name
 		objectID m_Sender;		//Object that sent the message
 		objectID m_Receiver;	//Object that will get the message
 		int m_State;			//GameState in which the receiver is allowed get the message (-1 means any state)

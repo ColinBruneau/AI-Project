@@ -1,20 +1,23 @@
 #include "stdafx.h"
 
 #include "Game\FSMPeon.h"
+#include "Game\Messages.h"
 #include <string.h>
 
 
 //Add new states here
 enum States {
-	STATE_Idle,
-	STATE_GoTo,
-	STATE_GetResource,
-	STATE_DropResource
+	STATE_Spawn,
+	STATE_Live,
+	STATE_Die
 };
 
 FSMPeon::FSMPeon(Agent* _pAgent) : StateMachine(_pAgent)
 {
-
+	// Get Entity
+	m_pEntity = _pAgent->getEntity();
+	// Get CharacterController
+	m_pCharacterController = m_pEntity->getComponent<CharacterController>();
 }
 
 FSMPeon::~FSMPeon()
@@ -26,106 +29,48 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 {
 	BeginStateMachine
 
- 	    ///////////////////////////////////////////////////////////////
-		State(STATE_Idle)
+		OnMsg(MSG_Die)
+			SetState(STATE_Die);
+
+		OnOtherMsg()
+			m_pFSMPeonLive->States(_event, _msg, _state); // CB: propagate msg
+
+		///////////////////////////////////////////////////////////////
+		State(STATE_Spawn)
 		OnEnter
-			cout << "Peon Idle " << this->m_Owner->GetID() << endl;
-			m_pMine = nullptr;
- 
+			m_iLife = 100;
+
 		OnUpdate
-			// Get mine
-			m_pMine = m_pGM->getEntity("Mine");
-			if (m_pMine)
+			SetState(STATE_Live);
+
+		OnExit
+
+		///////////////////////////////////////////////////////////////
+		State(STATE_Live)
+		OnEnter
+			m_pFSMPeonLive = new FSMPeonLive(this->m_Owner);
+			m_pFSMPeonLive->Initialize();
+
+		OnUpdate
+			m_pFSMPeonLive->Update();
+			if (m_iLife <= 0)
 			{
-				m_pTarget = m_pMine;
-				m_vTarget = m_pTarget->getPosition() + Vector2f(20.f, 80.f);
-				m_pCharacterController->setCondition(kACond_Default);
-				SetState(STATE_GoTo);
+				SetState(STATE_Die);
 			}
 
 		OnExit
+			delete m_pFSMPeonLive;
 
 
 		///////////////////////////////////////////////////////////////
-		State(STATE_GoTo)
+		State(STATE_Die)
 		OnEnter
-			cout << "Peon GoTo " << this->m_Owner->GetID() << endl;
 
 		OnUpdate
+			m_pCharacterController->setCondition(kACond_Default);
+			m_pCharacterController->setAction(kAct_Die);
 
-			if (GoTo(m_vTarget))
-			{
-				if (m_pTarget == m_pMine)
-					SetState(STATE_GetResource);
-				else
-					SetState(STATE_DropResource);
-			}
-
-		OnExit
-
-			///////////////////////////////////////////////////////////////
-		State(STATE_GetResource)
-		OnEnter
-			cout << "Peon GetResource " << this->m_Owner->GetID() << endl;
-			// Get HQ
-			m_pHQ = m_pGM->getEntity("QG");
-			m_pTarget = m_pHQ;
-			m_vTarget = m_pTarget->getPosition() + Vector2f(80.f, 100.f);
-			m_pCharacterController->setCondition(kACond_Gold);
-
-		OnUpdate
-			if (GoTo(m_vTarget))
-			{
-				SetState(STATE_GoTo);
-			}
-
-		OnExit
-			
-			///////////////////////////////////////////////////////////////
-			State(STATE_DropResource)
-			OnEnter
-			cout << "Peon DropResource " << this->m_Owner->GetID() << endl;
-
-
-		OnUpdate
-			SetState(STATE_Idle);
-
-		OnExit
+			OnExit
 
 	EndStateMachine
-}
-
-bool FSMPeon::GoTo(Vector2f& _vTargetPosition)
-{
-	bool bArrived = false;
-	Vector2f vEntityPosition = m_pEntity->getPosition();
-	Vector2f vVelocity = _vTargetPosition - vEntityPosition;
-	if (vVelocity.length() > 10)
-	{
-		int iDirection = 0;
-		Vector2f vRight(0.0f, -1.f);
-		float fAngle = vRight.angle(vVelocity);
-		if (vVelocity.getX() > 0)
-		{
-			iDirection = (int)(0.5f + fAngle * 4 / 3.14f);
-			m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
-		}
-		else
-		{
-			iDirection = 8 - (int)(0.5f + fAngle * 4 / 3.14f);
-			iDirection = (iDirection == 8) ? 0 : iDirection;
-			m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
-		}
-		m_pCharacterController->setAction(kAct_Walk);
-	}
-	else
-	{
-		bArrived = true;
-		vVelocity = Vector2f(0.f, 0.0f);
-	}
-
-	vVelocity.normalize();
-	m_pCharacterController->move(vVelocity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
-
-	return bArrived;
 }

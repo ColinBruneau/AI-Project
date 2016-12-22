@@ -29,6 +29,7 @@ namespace crea
 	
 	bool SceneManager::update()
 	{
+		MsgManager::getSingleton()->update();
 		EntityManager::getSingleton()->update();
 		if (m_pCurrentGameState)
 			return m_pCurrentGameState->onUpdate();

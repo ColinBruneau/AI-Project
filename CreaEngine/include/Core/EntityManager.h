@@ -85,6 +85,7 @@ namespace crea
 		void clear();
 	};
 
+
 } // namespace crea
 
 #endif

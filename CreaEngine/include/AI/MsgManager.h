@@ -18,7 +18,7 @@ namespace crea
 		~MsgManager(void);
 
 		void update();
-		void sendMsg(float delay, MSG_Name name, objectID sender, objectID receiver, int state, void* data = NULL);
+		void sendMsg(float delay, int name, objectID sender, objectID receiver, int state, void* data = NULL);
 
 	private:
 

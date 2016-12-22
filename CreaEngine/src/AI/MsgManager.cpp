@@ -23,7 +23,7 @@ namespace crea
 		deliverDelayedMessages();
 	}
 
-	void MsgManager::sendMsg(float delay, MSG_Name name, objectID sender, objectID receiver, int state, void* data)
+	void MsgManager::sendMsg(float delay, int name, objectID sender, objectID receiver, int state, void* data)
 	{
 
 		if (delay <= 0.0f)

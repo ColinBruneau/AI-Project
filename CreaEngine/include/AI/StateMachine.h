@@ -8,11 +8,14 @@
 #define __STATEMCH_H__
 
 #include <assert.h>
+#include <deque>
 #include "AI.h"
 #include "Msg.h"
 #include "Core\EntityManager.h"
 #include "Core\DebugLog.h"
 #include "Core\TimeManager.h"
+
+#define MAX_STATES_IN_STACK 20
 
 namespace crea
 {
@@ -22,6 +25,7 @@ namespace crea
 #define EndStateMachine			return( true ); } } else { assert( 0 && "Invalid GameState" ); return( false ); } return( false );
 #define State(a)				return( true ); } } else if( a == _state ) { char statename[64] = #a; if(0) { 
 #define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
+#define OnOtherMsg()			return( true ); } else {
 #define OnEvent(a)				return( true ); } else if( a == _event ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
 #define OnUpdate				OnEvent( EVENT_Update )
 #define OnEnter					OnEvent( EVENT_Enter )
@@ -53,10 +57,11 @@ namespace crea
 		void Initialize(void);
 		void Update(void);
 		void SetState(unsigned int newGameState);
+		int SetStateInHistory();
 
-		void SendMsg(MSG_Name name, objectID receiver, void* data = NULL);
-		void SendDelayedMsg(float delay, MSG_Name name, objectID receiver, void* data = NULL);
-		void SendDelayedMsgToMe(float delay, MSG_Name name, MSG_Scope scope);
+		void SendMsg(int name, objectID receiver, void* data = NULL);
+		void SendDelayedMsg(float delay, int name, objectID receiver, void* data = NULL);
+		void SendDelayedMsgToMe(float delay, int name, MSG_Scope scope = NO_MSG_SCOPING);
 
 		int GetState(void) { return(m_currentState); }
 		double GetTimeInState(void) { return(g_time->getGameTime().asSeconds() - m_timeOnEnter); }
@@ -80,6 +85,7 @@ namespace crea
 		bool m_stateChange;
 		double m_timeOnEnter;
 		objectID m_ccMessagesToAgent;
+		std::deque<unsigned int> m_stack;
 
 		virtual bool States(StateMachineEvent _event, Msg* _msg, int _state) = 0;
 

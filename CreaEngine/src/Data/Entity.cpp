@@ -99,7 +99,7 @@ namespace crea
 		uiSize = m_pComponents.size();
 		for (unsigned int i = 0; i < uiSize; i++)
 		{
-			delete m_pComponents[i];
+			//delete m_pComponents[i]; // CB: the components are destroyed by managers...
 		}
 		m_pComponents.clear();
 	}
@@ -126,26 +126,4 @@ namespace crea
 		return nullptr;
 	}
 
-	Component* Entity::getComponent(string& _szName)
-	{
-		unsigned int uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
-		{
-			Component* pComponent = m_pComponents[i];
-			if (pComponent->hasName(_szName))
-			{
-				return pComponent;
-			}
-			else
-			{
-				// Children
-				unsigned int uiSize = m_pChildren.size();
-				for (unsigned int i = 0; i < uiSize; i++)
-				{
-					m_pChildren[i]->getComponent(_szName);
-				}
-			}
-		}		
-		return nullptr;
-	}
 } // namespace crea

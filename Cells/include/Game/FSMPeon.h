@@ -1,34 +1,27 @@
 /***************************************************/
-/* Nom:	Peon.h
-/* Description: Peon
+/* Nom:	FSMPeon.h
+/* Description: FSMPeon
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef __Peon_H_
-#define __Peon_H_
+#ifndef __FSMPeon_H_
+#define __FSMPeon_H_
 
 #include "AI\StateMachine.h"
+#include "FSMPeonLive.h"
 
 using namespace crea;
 
 class FSMPeon : public StateMachine
 {
-	GameManager*	m_pGM;
 	Entity*			m_pEntity;
 	CharacterController* m_pCharacterController;
-	
-	Entity*			m_pMine;
-	Entity*			m_pHQ;
-	Entity*			m_pTarget;
-	Vector2f		m_vTarget;
 
-	bool GoTo(Vector2f& _vTargetPosition);
+	int				m_iLife;
+	FSMPeonLive*	m_pFSMPeonLive;
 
 public:
 	FSMPeon(Agent* _pAgent);
 	virtual ~FSMPeon();
-
-	void setEntity(Entity* _p) { m_pEntity = _p; }
-	void setCharacterController(CharacterController* _p) { m_pCharacterController = _p; }
 
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 

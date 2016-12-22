@@ -56,6 +56,13 @@ namespace crea
 			// Set the new state
 			m_currentState = m_nextState;
 
+			// Add the state to the stack
+			m_stack.push_back(m_currentState);
+			if (m_stack.size() > MAX_STATES_IN_STACK)
+			{
+				m_stack.pop_front();
+			}
+
 			// Remember the time we entered this state
 			m_timeOnEnter = g_time->getGameTime().asSeconds();
 
@@ -74,21 +81,29 @@ namespace crea
 	}
 
 
-	void StateMachine::SendMsg(MSG_Name name, objectID receiver, void* data)
+	int StateMachine::SetStateInHistory()
+	{
+		m_stateChange = true;
+		m_stack.pop_back();
+		m_nextState = m_stack.back();
+		return m_nextState;
+	}
+
+	void StateMachine::SendMsg(int name, objectID receiver, void* data)
 	{
 		g_msgmanager->sendMsg(0, name, m_Owner->GetID(), receiver, -1, data);
 
 	}
 
 
-	void StateMachine::SendDelayedMsg(float delay, MSG_Name name, objectID receiver, void* data)
+	void StateMachine::SendDelayedMsg(float delay, int name, objectID receiver, void* data)
 	{
 		g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), receiver, -1, data);
 
 	}
 
 
-	void StateMachine::SendDelayedMsgToMe(float delay, MSG_Name name, MSG_Scope scope)
+	void StateMachine::SendDelayedMsgToMe(float delay, int name, MSG_Scope scope)
 	{
 		if (scope == SCOPE_TO_THIS_STATE) {
 			g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), m_Owner->GetID(), m_currentState);

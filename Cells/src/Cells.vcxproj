@@ -112,10 +112,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Game\FSMPeon.h" />
     <ClInclude Include="..\include\Game\GSGame.h" />
     <ClInclude Include="..\include\Game\GSMap.h" />
     <ClInclude Include="..\include\Game\GSMenu.h" />
-    <ClInclude Include="..\include\Game\FSMPeon.h" />
+    <ClInclude Include="..\include\Game\FSMPeonLive.h" />
+    <ClInclude Include="..\include\Game\Messages.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
   </ItemGroup>
@@ -124,6 +126,7 @@
     <ClCompile Include="Game\GSGame.cpp" />
     <ClCompile Include="Game\GSMap.cpp" />
     <ClCompile Include="Game\GSMenu.cpp" />
+    <ClCompile Include="Game\FSMPeonLive.cpp" />
     <ClCompile Include="Game\FSMPeon.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

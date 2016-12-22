@@ -79,7 +79,7 @@ namespace crea
 
 	Time TimeManager::getGameTime()
 	{
-		return m_GameTime;
+		return m_GameClock.getElapsedTime();
 	}
 
 	void TimeManager::init() 

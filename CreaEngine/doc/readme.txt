@@ -19,6 +19,8 @@
 		Physics module (collision, friction)
 		Movement module (CharacterControl et User Control)
 		Agent module (Attributes)
+12/2017 FSM
+		Msg
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?
@@ -26,5 +28,6 @@ To do:
 - EntityManager: comme pour DataManager...
 - lien tiled - animation
 - Collider géré dans DataManager? (.col)
-- loadFromFileJSON pour Peon.cc, Peon.uc, Peon1.ent
-
+- loadFromFileJSON pour Peon.cc, Peon.uc, Peon1.ent (système de prefab)
+- ajouter offset (ou hotspot) sur un objet
+- déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)
