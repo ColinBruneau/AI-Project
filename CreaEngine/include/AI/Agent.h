@@ -21,6 +21,7 @@ namespace crea
 		int m_iIntelligence;
 		int m_iHealth;
 
+		// FSM
 		objectID m_ID;	
 		StateMachine* m_pStateMachine;
 
@@ -42,11 +43,10 @@ namespace crea
 		bool loadFromFileJSON(string _filename);
 
 		void SetID(objectID _id) { m_ID = _id; }
-		objectID GetID() { return(m_ID); }
-		StateMachine* GetStateMachine() { return(m_pStateMachine); }
+		objectID GetID() { return m_ID; }
+		StateMachine* GetStateMachine() { return m_pStateMachine; }
 		void SetStateMachine(StateMachine * _p) { m_pStateMachine = _p; }
-
-
+		
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();

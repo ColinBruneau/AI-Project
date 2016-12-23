@@ -7,6 +7,7 @@
 #define __FSMPeonLive_H_
 
 #include "AI\StateMachine.h"
+#include "FSMPeonGoTo.h"
 
 using namespace crea;
 
@@ -15,13 +16,13 @@ class FSMPeonLive : public StateMachine
 	GameManager*	m_pGM;
 	Entity*			m_pEntity;
 	CharacterController* m_pCharacterController;
+
+	FSMPeonGoTo*	m_pFSMPeonGoTo;
 	
 	Entity*			m_pMine;
 	Entity*			m_pHQ;
 	Entity*			m_pTarget;
 	Vector2f		m_vTarget;
-
-	bool GoTo(Vector2f& _vTargetPosition);
 
 public:
 	FSMPeonLive(Agent* _pAgent);

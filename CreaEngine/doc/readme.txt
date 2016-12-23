@@ -24,9 +24,13 @@
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?
-- DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
-- EntityManager: comme pour DataManager...
-- lien tiled - animation
-- loadFromFileJSON pour Peon.cc, Peon.uc, Peon1.ent (système de prefab)
+- système de prefab
 - ajouter offset (ou hotspot) sur un objet
 - déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)
+- void setActionTable(ActionTable* _pActionTable); // CB: check if possible to get as getComponent<ActionTable>()
+- dans le CharacterController, ajouter une réponse aux collisions autre que bloquer le perso
+
+Removed:
+- DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
+- EntityManager: comme pour DataManager...
+Implique que tous les assets dérivent d'un même type (Asset?) or ce n'est pas le cas.

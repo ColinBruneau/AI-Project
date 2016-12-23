@@ -4,7 +4,6 @@
 
 #include "AI.h"
 
-#include <vector>
 namespace crea
 {
 

@@ -13,6 +13,7 @@
 #include "Graphics\IFacade.h"
 #include "Physics\CharacterController.h"
 #include "AI\Agent.h"
+#include "AI\Pathfinding\MapSearchManager.h"
 
 namespace crea
 {
@@ -73,6 +74,8 @@ namespace crea
 		inline CharacterController* getCharacterController(string _szName) { return EntityManager::getSingleton()->getCharacterController(_szName); }
 
 		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
+
+		inline MapSearch* getMapSearch(string _szName) { return MapSearchManager::getSingleton()->getMapSearch(_szName); }
 
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }
 

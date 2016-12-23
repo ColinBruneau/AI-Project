@@ -297,6 +297,21 @@ namespace crea
 			return nullptr;
 	}
 
+	Vector2f Map::getNodePositionFromPixels(Vector2f _v)
+	{
+		int i = (int)_v.getX() / m_nTileWidth;
+		int j = (int)_v.getY() / m_nTileHeight;
+		return Vector2f((float)i, (float)j);
+	}
+
+	Vector2f Map::getPixelsFromNodePosition(Vector2f _v)
+	{
+		int i = (int)_v.getX() * m_nTileWidth;
+		int j = (int)_v.getY() * m_nTileHeight;
+		return Vector2f((float)i, (float)j);
+	}
+
+
 	float Map::getFrictionAtPosition(Vector2f _v)
 	{
 		Node* pNode = getNodeAtPosition(_v);

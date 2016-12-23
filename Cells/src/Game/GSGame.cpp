@@ -9,6 +9,7 @@
 #include "Graphics\ISprite.h"
 #include "Core\TimeManager.h"
 #include "AI\StateMachine.h"
+#include "AI\Pathfinding\MapSearchManager.h"
 
 
 GSGame::GSGame()
@@ -35,6 +36,9 @@ bool GSGame::onInit()
 	m_pMapRenderer = m_pGM->getMapRenderer("MapRenderer1");
 	m_pMapRenderer->setMap(m_pMap);
 	m_pEntity3->addComponent(m_pMapRenderer);
+
+	// Set Map as pathfinding space
+	MapSearchManager::getSingleton()->setMap(m_pMap);
 
 	// Text
 	IColor* pRed = m_pGM->getColor("Red");

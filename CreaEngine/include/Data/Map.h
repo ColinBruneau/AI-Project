@@ -55,6 +55,10 @@ namespace crea
 
 		Node* getNodeAtPosition(Vector2f _v);
 
+		Vector2f getNodePositionFromPixels(Vector2f _v);
+
+		Vector2f getPixelsFromNodePosition(Vector2f _v);
+
 		float getFrictionAtPosition(Vector2f _v);
 
 		void setDisplayCollision(bool _b)	{ m_bDisplayCollision = _b;  }

@@ -61,9 +61,12 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 		///////////////////////////////////////////////////////////////
 		State(STATE_GoTo)
 		OnEnter
+			m_pFSMPeonGoTo = new FSMPeonGoTo(this->m_Owner, m_vTarget);
+			m_pFSMPeonGoTo->Initialize();
 
 		OnUpdate
-			if (GoTo(m_vTarget))
+			m_pFSMPeonGoTo->Update();
+			if (m_pFSMPeonGoTo->GetState() == FSMPeonGoTo::STATE_CompletedPath)
 			{
 				if (m_pTarget == m_pMine)
 					SetState(STATE_GetResource);
@@ -72,6 +75,7 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 			}
 
 		OnExit
+			delete m_pFSMPeonGoTo;
 
 			///////////////////////////////////////////////////////////////
 		State(STATE_GetResource)
@@ -81,10 +85,7 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Gold);
 
 		OnUpdate
-			if (GoTo(m_vTarget))
-			{
-				SetState(STATE_GoTo);
-			}
+			SetState(STATE_GoTo);
 
 		OnExit
 			
@@ -112,42 +113,4 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setAction(kAct_Default);
 
 	EndStateMachine
-}
-
-bool FSMPeonLive::GoTo(Vector2f& _vTargetPosition)
-{
-	bool bArrived = false;
-	Vector2f vEntityPosition = m_pEntity->getPosition();
-	Vector2f vVelocity = _vTargetPosition - vEntityPosition;
-	if (vVelocity.length() > 10)
-	{
-		int iDirection = 0;
-		Vector2f vRight(0.0f, -1.f);
-		float fAngle = vRight.angle(vVelocity);
-		if (vVelocity.getX() > 0)
-		{
-			iDirection = (int)(0.5f + fAngle * 4 / 3.14f);
-			m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
-		}
-		else
-		{
-			iDirection = 8 - (int)(0.5f + fAngle * 4 / 3.14f);
-			iDirection = (iDirection == 8) ? 0 : iDirection;
-			m_pCharacterController->setDirection((EnumCharacterDirection)iDirection);
-		}
-		m_pCharacterController->setAction(kAct_Walk);
-	}
-	else
-	{
-		bArrived = true;
-		vVelocity = Vector2f(0.f, 0.0f);
-	}
-
-	// CB: adjust velocity with dexterity
-	int iDexterity = m_Owner->getDexterity() * 20; // cb: 200 pixels/second when dexterity at 10 
-
-	vVelocity.normalize();
-	m_pCharacterController->move(vVelocity * (float)iDexterity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
-
-	return bArrived;
 }

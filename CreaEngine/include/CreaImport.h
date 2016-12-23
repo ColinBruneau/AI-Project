@@ -26,5 +26,6 @@ namespace crea
 #include "Data\Animation.h"
 #include "Data\Map.h"
 #include "AI\ActionTable.h"
+#include "AI\Pathfinding\MapSearchManager.h"
 
 #   endif // _CREAIMPORT_H
