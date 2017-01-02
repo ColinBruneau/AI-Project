@@ -13,6 +13,7 @@ namespace crea
 {
 	class IFont;
 	class ITexture;
+	class IntRect;
 
 	class CREAENGINE_API IFacade
 	{
@@ -77,6 +78,8 @@ namespace crea
 		virtual bool isMouseButtonPressed(Button _button) = 0;
 
 		virtual Vector2f getMousePosition() = 0;
+
+		virtual IntRect& getWindowRect() = 0;
 
 	protected:
 		IFacade()

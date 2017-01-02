@@ -21,6 +21,7 @@ namespace crea
 		m_bIsGrid8 = false;
 		m_bDisplayCollision = false;
 		m_pTerrainTileSet = nullptr;
+		m_pGM = crea::GameManager::getSingleton();
 	}
 
 	Map::~Map()
@@ -39,8 +40,6 @@ namespace crea
 			cerr << "Can't open map file: " << _filename << endl;
 			return false;
 		}
-
-		crea::GameManager*	pGM = crea::GameManager::getSingleton();
 
 		setName(_filename);
 
@@ -101,8 +100,8 @@ namespace crea
 			}
 
 			// Load Image and create sprite
-			pTileSet->m_pSprite = pGM->getSprite(pTileSet->m_szName);
-			pTileSet->m_pSprite->setTexture(pGM->getTexture(image));
+			pTileSet->m_pSprite = m_pGM->getSprite(pTileSet->m_szName);
+			pTileSet->m_pSprite->setTexture(m_pGM->getTexture(image));
 
 			//  Tiles
 			if (pTileSet->m_nTilecount > 1)
@@ -188,10 +187,10 @@ namespace crea
 						// A sprite is a gid linked to a tileset that is loaded before in function
 						TileSet* pTileSet = getTileSet(iGId);
 									
-						Entity* pEntity = pGM->getEntity(szName);
+						Entity* pEntity = m_pGM->getEntity(szName);
 						pEntity->setPosition(Vector2f((float)iPersoX, (float)(iPersoY - iPersoHeight)));
 
-						pGM->addEntity(pEntity);
+						m_pGM->addEntity(pEntity);
 
 						// Properties
 						Json::Value entityName = object["properties"]["Entity"];
@@ -222,8 +221,6 @@ namespace crea
 		clear();
 		m_nWidth = _nWidth;
 		m_nHeight = _nHeight;
-		//m_Grid.assign(m_nWidth, vector<Node*>(m_nHeight, new Node()));
-
 		m_Grid = new Node**[m_nWidth];
 		for (short i = 0; i < m_nWidth; i++)
 		{
@@ -345,14 +342,20 @@ namespace crea
 	bool Map::draw()
 	{
 		int tileid = 0, w = 0, h = 0, x = 0, y = 0;
+
+		// Camera/Window restriction
+		IntRect r = m_pGM->getWindowRect();
+		int iMin = (int)r.getLeft() / m_nTileWidth;
+		int iMax = (int)(r.getLeft() + r.getWidth()) / m_nTileWidth;
+		int jMin = (int)r.getTop() / m_nTileHeight;
+		int jMax = (int)(r.getTop()+r.getHeight()) / m_nTileHeight;
+
 		TileSet* pTileSet = m_pTerrainTileSet;
-		for (short i = 0; i < m_nWidth; i++)
+		for (short i = iMin; i < iMax; i++)
 		{
-			//vector<Node*>* line = &m_Grid[i];
 			Node** line = m_Grid[i];
-			for (short j = 0; j < m_nHeight; j++)
+			for (short j = jMin; j < jMax; j++)
 			{
-				//Node* pNode = (*line)[j];
 				Node* pNode = line[j];
 				tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
 				
@@ -368,7 +371,7 @@ namespace crea
 				IntRect iRect = pTileSet->getTextureRect(tileid);
 				pTileSet->m_pSprite->setTextureRect(iRect.getLeft(), iRect.getTop(), iRect.getWidth(), iRect.getHeight());
 				pTileSet->m_pSprite->setPosition((float)i*pTileSet->m_nTilewidth, (float)j*pTileSet->m_nTileheight);
-				//pTileSet->m_pSprite->draw();
+				pTileSet->m_pSprite->draw();
 			}
 		}
 

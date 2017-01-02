@@ -14,9 +14,11 @@ namespace crea
 	class DX9Facade
 	{
 		D3DPRESENT_PARAMETERS	   m_d3dpp;
-		int m_iX, m_iY, m_iL, m_iH;
 		int m_iR, m_iG, m_iB;
 		LPCTSTR m_szWindowName;
+
+		// window
+		IntRect m_rWindowRect;
 
 		// Keyboard
 		bool m_abKeys[101];
@@ -76,6 +78,8 @@ namespace crea
 		virtual bool isMouseButtonPressed(Button _button);
 
 		virtual Vector2f getMousePosition();
+
+		virtual IntRect& getWindowRect() { return m_rWindowRect; }
 
 		LPDIRECT3DDEVICE9 m_pDevice;
 		LPDIRECT3D9 m_pD3D;

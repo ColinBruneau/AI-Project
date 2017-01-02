@@ -3,11 +3,8 @@
 namespace crea
 {
 	DX9Facade::DX9Facade()
+		: m_rWindowRect(0, 0, 800, 600)
 	{
-		m_iX = 0;
-		m_iY = 0;
-		m_iL = 800;
-		m_iH = 600;
 		m_iR = 0;
 		m_iG = 0;
 		m_iB = 255;
@@ -93,7 +90,9 @@ namespace crea
 
 		// Create the application's window
 		HWND hWnd = CreateWindow("DX9Facade", m_szWindowName,
-			WS_OVERLAPPEDWINDOW, m_iX, m_iY, m_iL, m_iH,
+			WS_OVERLAPPEDWINDOW, 
+			m_rWindowRect.getLeft(), m_rWindowRect.getTop(), 
+			m_rWindowRect.getWidth(), m_rWindowRect.getHeight(),
 			NULL, NULL, wc.hInstance, NULL);
 
 		// Initialize Direct3D

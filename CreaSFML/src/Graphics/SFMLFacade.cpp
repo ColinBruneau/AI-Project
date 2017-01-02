@@ -10,7 +10,8 @@
 
 namespace crea
 {
-	SFMLFacade::SFMLFacade()
+	SFMLFacade::SFMLFacade() 
+		: m_rWindowRect(0, 0, 800, 600)
 	{
 	}
 
@@ -28,7 +29,7 @@ namespace crea
 
 	void SFMLFacade::initialize()
 	{
-		m_pWindow = new sf::RenderWindow(sf::VideoMode((unsigned int)(1280), (unsigned int)(640)), "SFML RENDERER");
+		m_pWindow = new sf::RenderWindow(sf::VideoMode((unsigned int)m_rWindowRect.getWidth(), (unsigned int)m_rWindowRect.getHeight()), "SFML RENDERER");
 	}
 	
 	bool SFMLFacade::update()

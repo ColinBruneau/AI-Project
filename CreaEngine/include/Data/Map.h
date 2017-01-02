@@ -15,6 +15,8 @@ namespace crea
 
 	class CREAENGINE_API Map
 	{
+		crea::GameManager*	m_pGM;
+
 		// Name
 		string m_szName;
 
@@ -29,7 +31,6 @@ namespace crea
 		TileSet* m_pTerrainTileSet;
 
 		// Nodes
-		//vector<vector<Node*>> m_Grid;
 		Node* **m_Grid;	// Allocation dynamique
 		bool m_bIsGrid8;
 

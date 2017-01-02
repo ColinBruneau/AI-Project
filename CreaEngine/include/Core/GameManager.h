@@ -29,6 +29,8 @@ namespace crea
 
 		static GameManager* getSingleton();
 
+		IntRect getWindowRect() { return m_pRenderer->getWindowRect(); }
+
 		inline IFacade* getRenderer() { return m_pRenderer; }
 
 		inline void setGameState(GameState* s) { SceneManager::getSingleton()->setGameState(s); }

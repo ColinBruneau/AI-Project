@@ -14,6 +14,8 @@ namespace crea
 {
 	class SFMLFacade
 	{
+		// window
+		IntRect m_rWindowRect;
 
 	private:
 		// Données membres
@@ -58,6 +60,8 @@ namespace crea
 		virtual bool isMouseButtonPressed(Button _button);
 
 		virtual Vector2f getMousePosition();
+
+		virtual IntRect& getWindowRect() { return m_rWindowRect; }
 
 		sf::RenderWindow* m_pWindow;
 
