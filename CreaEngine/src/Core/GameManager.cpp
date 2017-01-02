@@ -24,12 +24,18 @@ namespace crea
 
 	void GameManager::init()
 	{
-		// Chargement du renderer DirectX9
-		//IFacade::Load(""CreaDirectX9.dll");
+#ifdef _DIRECTX
+#ifdef _DEBUG
+		IFacade::load("CreaDirectX9-d.dll");
+#else
+		IFacade::load("CreaDirectX9.dll");
+#endif
+#else
 #ifdef _DEBUG
 		IFacade::load("CreaSFML-d.dll");
 #else
 		IFacade::load("CreaSFML.dll");
+#endif
 #endif
 		m_pRenderer = &IFacade::get();
 

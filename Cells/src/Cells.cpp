@@ -9,6 +9,7 @@
 #include "stdafx.h"
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
+#include "Game\GSMenu.h"
 #include "Game\GSGame.h"
 
 

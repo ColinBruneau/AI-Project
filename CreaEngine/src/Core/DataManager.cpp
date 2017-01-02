@@ -69,7 +69,7 @@ namespace crea
 			if (!pTexture->loadFromFile(DATATEXTUREPATH + _szName))
 			{
 				delete pTexture;
-				cerr << "Unable to open Texture" << endl;
+				cerr << "Unable to open Texture " << _szName << endl;
 				return nullptr;
 			}
 			m_pTextures[_szName] = pTexture;

@@ -32,7 +32,7 @@ bool GSMenu::onInit()
 	pText->setFont(m_pGM->getFont("arial.ttf"));
 	pText->setColor(pRed);
 	pText->setCharacterSize(20);
-	pText->setString("fps");
+	pText->setString("1) Menu 2) Game 3) Map");
 
 	crea::TextRenderer* pTextRenderer = m_pGM->getTextRenderer("TextRenderer1");
 	pTextRenderer->setText(pText);

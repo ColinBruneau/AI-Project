@@ -29,7 +29,8 @@ namespace crea
 		TileSet* m_pTerrainTileSet;
 
 		// Nodes
-		vector<vector<Node*>> m_Grid;
+		//vector<vector<Node*>> m_Grid;
+		Node* **m_Grid;	// Allocation dynamique
 		bool m_bIsGrid8;
 
 		// Draw modes

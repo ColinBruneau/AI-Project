@@ -125,7 +125,7 @@ namespace crea
 				Vector2f vOrigin = pCollider->getOrigin();
 				Vector2f vSize = pCollider->getSize();
 				m_pSprite->setPosition(vOrigin.getX(), vOrigin.getY());
-				m_pSprite->setScale(0.01f*vSize.getX(), 0.01f*vSize.getY());
+				m_pSprite->setScale(ONEOVER128*vSize.getX(), ONEOVER128*vSize.getY());
 				m_pSprite->draw();
 			}
 			else
@@ -137,7 +137,7 @@ namespace crea
 				float fRadius = pCollider->getRadius();
 
 				m_pSprite->setPosition(vCenter.getX() - fRadius + 1.f, vCenter.getY() - fRadius + 1.f);
-				m_pSprite->setScale(0.02f*fRadius - 0.01f, 0.02f*fRadius - 0.01f);
+				m_pSprite->setScale(ONEOVER128*(2*fRadius-1), ONEOVER128*(2*fRadius-1));
 				m_pSprite->draw();
 			}
 

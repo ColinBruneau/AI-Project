@@ -222,9 +222,12 @@ namespace crea
 		clear();
 		m_nWidth = _nWidth;
 		m_nHeight = _nHeight;
-		m_Grid.assign(m_nWidth, vector<Node*>(m_nHeight, new Node()));
+		//m_Grid.assign(m_nWidth, vector<Node*>(m_nHeight, new Node()));
+
+		m_Grid = new Node**[m_nWidth];
 		for (short i = 0; i < m_nWidth; i++)
 		{
+			m_Grid[i] = new Node*[m_nHeight];
 			for (short j = 0; j < m_nHeight; j++)
 			{
 				m_Grid[i][j] = new Node(i, j);
@@ -345,13 +348,17 @@ namespace crea
 		TileSet* pTileSet = m_pTerrainTileSet;
 		for (short i = 0; i < m_nWidth; i++)
 		{
+			//vector<Node*>* line = &m_Grid[i];
+			Node** line = m_Grid[i];
 			for (short j = 0; j < m_nHeight; j++)
 			{
-				tileid = m_Grid[i][j]->getTileTerrainId(); // -1; // 30 -> 29
+				//Node* pNode = (*line)[j];
+				Node* pNode = line[j];
+				tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
 				
 				if (m_bDisplayCollision)
 				{
-					short tileCollisionId = m_Grid[i][j]->getTileCollisionId() - 1; 
+					short tileCollisionId = pNode->getTileCollisionId() - 1;
 					if (tileCollisionId != -1)
 					{
 						tileid = tileCollisionId; // Display collision only if valid
@@ -361,7 +368,7 @@ namespace crea
 				IntRect iRect = pTileSet->getTextureRect(tileid);
 				pTileSet->m_pSprite->setTextureRect(iRect.getLeft(), iRect.getTop(), iRect.getWidth(), iRect.getHeight());
 				pTileSet->m_pSprite->setPosition((float)i*pTileSet->m_nTilewidth, (float)j*pTileSet->m_nTileheight);
-				pTileSet->m_pSprite->draw();
+				//pTileSet->m_pSprite->draw();
 			}
 		}
 
@@ -377,7 +384,9 @@ namespace crea
 			{
 				delete m_Grid[i][j];
 			}
+			delete[] m_Grid[i];
 		}
+		delete[] m_Grid;
 
 		// Tilesets
 		TileSet* pTileSet = nullptr;

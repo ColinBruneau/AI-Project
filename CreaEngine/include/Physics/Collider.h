@@ -11,6 +11,8 @@
 
 namespace crea
 {
+#define ONEOVER128 0.0078125f
+
 	enum EnumColliderType
 	{
 		Collider_Invalid = -1,
