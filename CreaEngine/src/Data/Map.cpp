@@ -301,7 +301,10 @@ namespace crea
 	{
 		int i = (int)_v.getX() / m_nTileWidth;
 		int j = (int)_v.getY() / m_nTileHeight;
-		return Vector2f((float)i, (float)j);
+		if (i >= 0 && i < m_nWidth && j >= 0 && j < m_nHeight)
+			return Vector2f((float)i, (float)j);
+		else
+			return Vector2f(0.f, 0.f);
 	}
 
 	Vector2f Map::getPixelsFromNodePosition(Vector2f _v)
@@ -351,10 +354,10 @@ namespace crea
 		int jMax = (int)(r.getTop()+r.getHeight()) / m_nTileHeight;
 
 		TileSet* pTileSet = m_pTerrainTileSet;
-		for (short i = iMin; i < iMax; i++)
+		for (short i = iMin; i <= iMax; i++)
 		{
 			Node** line = m_Grid[i];
-			for (short j = jMin; j < jMax; j++)
+			for (short j = jMin; j <= jMax; j++)
 			{
 				Node* pNode = line[j];
 				tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
