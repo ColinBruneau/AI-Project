@@ -11,7 +11,7 @@
 namespace crea
 {
 	SFMLFacade::SFMLFacade() 
-		: m_rWindowRect(0, 0, 800, 600)
+		: m_rWindowRect(0, 0, 1280, 800)
 	{
 	}
 

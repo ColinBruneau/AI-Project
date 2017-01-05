@@ -62,7 +62,7 @@ bool GSGame::onInit()
 	m_pAgent1 = m_pGM->getAgent("Peon/Peon1.chr");
 	m_pFSMPeon1 = new FSMPeon(m_pAgent1);
 	m_pAgent1->SetStateMachine(m_pFSMPeon1); // CB: can't we just call SetStateMachine in FSMPeon?
-
+	
 	// Entity 2
 	//m_pAgent2 = m_pGM->getAgent("Peon/Peon2.chr");
 	//m_pFSMPeon2 = new FSMPeon(m_pAgent2);

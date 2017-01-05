@@ -29,7 +29,6 @@ namespace crea
 	{
 		if (m_iTranslationSpeed)
 		{
-
 			m_fSpeed = _fTranslationSpeed / m_iTranslationSpeed;
 		}
 	}

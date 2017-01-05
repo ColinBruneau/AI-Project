@@ -47,7 +47,7 @@ namespace crea
 		inline Vector2f operator+(Vector2f& _v) { return Vector2f(m_fX + _v.m_fX, m_fY + _v.m_fY); }
 		inline Vector2f operator-(Vector2f& _v) { return Vector2f(m_fX - _v.m_fX, m_fY - _v.m_fY); }
 		inline Vector2f& operator+=(Vector2f& _v) { m_fX += _v.m_fX; m_fY += _v.m_fY; return *this; }
-		inline Vector2f& operator*(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
+		inline Vector2f operator*(float _f) { return Vector2f(m_fX * _f, m_fY * _f); }
 		inline Vector2f& operator*=(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
 	};
 

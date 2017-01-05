@@ -100,21 +100,23 @@ namespace crea
 			// Friction
 			Map* pMap = PhysicsManager::getSingleton()->getCurrentMap();
 			float fSpeedFactor = 1 - pMap->getFrictionAtPosition(this->getEntity()->getPosition());
-			m_vVelocity *= fSpeedFactor;
+			//m_vVelocity *= fSpeedFactor;
+			Vector2f vAdjustedVelocity = m_vVelocity * fSpeedFactor;
+			Vector2f vAdjustedMotion = vAdjustedVelocity * (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
 
 			// Move
-			m_pEntity->move(m_vVelocity);
+			m_pEntity->move(vAdjustedMotion);
 			
 			if (PhysicsManager::getSingleton()->isColliding(m_pCollider))
 			{
 				// Revert move
-				m_pEntity->move(-m_vVelocity);
+				m_pEntity->move(-vAdjustedMotion);
 				m_vVelocity = Vector2f(0.f, 0.f);
 				fSpeedFactor = 0;
 			}
 
 			// Adjust anim speed to velocity
-			m_pCurrentAnimation->adjustToTranslationSpeed(m_vVelocity.length());
+			m_pCurrentAnimation->adjustToTranslationSpeed(vAdjustedVelocity.length());
 		}
 
 		// update AnimatedSprite

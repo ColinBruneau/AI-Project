@@ -3,7 +3,7 @@
 namespace crea
 {
 	DX9Facade::DX9Facade()
-		: m_rWindowRect(0, 0, 800, 600)
+		: m_rWindowRect(0, 0, 1280, 800)
 	{
 		m_iR = 0;
 		m_iG = 0;

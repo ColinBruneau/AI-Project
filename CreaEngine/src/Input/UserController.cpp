@@ -148,7 +148,7 @@ namespace crea
 		}
 
 		m_vVelocity.normalize();
-		m_pCharacterController->move(m_vVelocity * 200.f * (float)TimeManager::getSingleton()->getFrameTime().asSeconds());
+		m_pCharacterController->move(m_vVelocity * 200.f);
 
 		return true;
 	}
