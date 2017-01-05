@@ -37,31 +37,23 @@ namespace crea
 	//-----------------------------------------------------------------------------
 	HRESULT DX9Facade::initD3D(HWND hWnd)
 	{
-		// Create the D3D object, which is needed to create the D3DDevice.
+		// Create the D3D object, which is needed to create the D3DDevice
 		if (NULL == (m_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 			return E_FAIL;
 
-		// Set up the structure used to create the D3DDevice. Most parameters are
-		// zeroed out. We set Windowed to TRUE, since we want to do D3D in a
-		// window, and then set the SwapEffect to "discard", which is the most
-		// efficient method of presenting the back buffer to the display.  And 
-		// we request a back buffer format that matches the current desktop display 
-		// format.
+		// Set up the structure used to create the D3DDevice
 		ZeroMemory(&m_d3dpp, sizeof(m_d3dpp));
 		m_d3dpp.Windowed = TRUE;
+		m_d3dpp.BackBufferHeight = m_rWindowRect.getHeight();
+		m_d3dpp.BackBufferWidth = m_rWindowRect.getWidth();
+		m_d3dpp.hDeviceWindow = hWnd;
 		m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		m_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
-		// Create the Direct3D device. Here we are using the default adapter (most
-		// systems only have one, unless they have multiple graphics hardware cards
-		// installed) and requesting the HAL (which is saying we want the hardware
-		// device rather than a software one). Software vertex processing is 
-		// specified since we know it will work on all cards. On cards that support 
-		// hardware vertex processing, though, we would see a big performance gain 
-		// by specifying hardware vertex processing.
+		// Create the Direct3D device
 		if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-			D3DCREATE_SOFTWARE_VERTEXPROCESSING,
+			D3DCREATE_HARDWARE_VERTEXPROCESSING,
 			&m_d3dpp, &m_pDevice)))
 		{
 			return E_FAIL;
@@ -147,7 +139,7 @@ namespace crea
 
 	void DX9Facade::quit()
 	{
-		//UnregisterClass("DX9Facade", wc.hInstance); // CB: to do, keep the instance to unregister it
+		UnregisterClass("DX9Facade", GetModuleHandle(NULL)); // CB: to do, keep the instance to unregister it
 
 		//release le device
 		SafeRelease(m_pDevice);
@@ -289,16 +281,8 @@ namespace crea
 			PostQuitMessage(0);
 			return 0;
 
-
 		case WM_KEYDOWN:
 			DX9Facade::Instance().keyDown(wParam, true);
-			/*
-			InvalidateRect(hWnd, NULL, TRUE);
-			if (wParam == VK_ESCAPE)
-			{
-				::DestroyWindow(hWnd);
-			}
-			*/
 			return 0;
 
 		case WM_KEYUP:
@@ -324,7 +308,6 @@ namespace crea
 		case WM_PAINT:
 			ValidateRect(hWnd, NULL);
 			return 0;
-
 		}
 
 		return DefWindowProc(hWnd, msg, wParam, lParam);
