@@ -51,6 +51,7 @@ namespace crea
 		m_d3dpp.Windowed = TRUE;
 		m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		m_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 
 		// Create the Direct3D device. Here we are using the default adapter (most
 		// systems only have one, unless they have multiple graphics hardware cards

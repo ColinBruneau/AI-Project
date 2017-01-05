@@ -44,7 +44,7 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
  	    ///////////////////////////////////////////////////////////////
 		State(STATE_Idle)
 		OnEnter
-			//SendDelayedMsgToMe(0.5f, MSG_Hit); // CB: uncomment to test Hit...
+			SendDelayedMsgToMe(8.5f, MSG_Hit); // CB: uncomment to test Hit...
  
 		OnUpdate
 			if (m_pMine)
