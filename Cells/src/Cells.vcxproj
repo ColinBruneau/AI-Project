@@ -118,6 +118,7 @@
     <ClInclude Include="..\include\Game\GSMap.h" />
     <ClInclude Include="..\include\Game\GSMenu.h" />
     <ClInclude Include="..\include\Game\FSMPeonLive.h" />
+    <ClInclude Include="..\include\Game\GSSteering.h" />
     <ClInclude Include="..\include\Game\Messages.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Game\GSMenu.cpp" />
     <ClCompile Include="Game\FSMPeonLive.cpp" />
     <ClCompile Include="Game\FSMPeon.cpp" />
+    <ClCompile Include="Game\GSSteering.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

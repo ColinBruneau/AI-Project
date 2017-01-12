@@ -11,6 +11,7 @@
 #include "Core\SceneManager.h"
 #include "Game\GSMenu.h"
 #include "Game\GSGame.h"
+#include "Game\GSSteering.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -19,7 +20,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setGameState(new GSGame());
+	pGM->setGameState(new GSSteering());
 
 	pGM->update();
 

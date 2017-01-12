@@ -22,6 +22,8 @@
     <ClInclude Include="..\include\AI\PathFinding\MapSearchManager.h" />
     <ClInclude Include="..\include\AI\PathFinding\MapSearchNode.h" />
     <ClInclude Include="..\include\AI\StateMachine.h" />
+    <ClInclude Include="..\include\AI\Steering\Behavior.h" />
+    <ClInclude Include="..\include\AI\Steering\Steering.h" />
     <ClInclude Include="..\include\Core\Component.h" />
     <ClInclude Include="..\include\Core\DataManager.h" />
     <ClInclude Include="..\include\Core\DebugLog.h" />
@@ -67,6 +69,8 @@
     <ClCompile Include="AI\PathFinding\MapSearchManager.cpp" />
     <ClCompile Include="AI\PathFinding\MapSearchNode.cpp" />
     <ClCompile Include="AI\StateMachine.cpp" />
+    <ClCompile Include="AI\Steering\Behavior.cpp" />
+    <ClCompile Include="AI\Steering\Steering.cpp" />
     <ClCompile Include="Core\Component.cpp" />
     <ClCompile Include="Core\DataManager.cpp" />
     <ClCompile Include="Core\DebugLog.cpp" />

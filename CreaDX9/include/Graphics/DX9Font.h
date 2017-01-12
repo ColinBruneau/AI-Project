@@ -15,13 +15,14 @@ namespace crea
 	{
 		LPD3DXFONT m_pFont;
 	public:
+		DX9Font() { m_pFont = nullptr; }
+		~DX9Font() { SafeRelease(m_pFont); }
+
 		LPD3DXFONT getFont() { return m_pFont; }
 
 		// Initialise le Font
 		virtual bool loadFromFile(string _file)
 		{
-			//return m_font.loadFromFile(_file); // CB: load font instead of creating a new one...
-
 			HRESULT hr = D3DXCreateFont(DX9Facade::Instance().m_pDevice,     //D3D Device
 				0,               //Font height
 				0,                //Font width

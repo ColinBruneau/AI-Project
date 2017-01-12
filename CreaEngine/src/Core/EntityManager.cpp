@@ -8,6 +8,7 @@
 #include "Graphics\Animator.h"
 #include "Physics\CharacterController.h"
 #include "Input\UserController.h"
+#include "AI\Steering\Steering.h"
 
 namespace crea
 {
@@ -183,6 +184,29 @@ namespace crea
 			if (_bCloned)
 			{
 				//return new UserController(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	Steering* EntityManager::getSteering(string _szName, bool _bCloned)
+	{
+		MapStringSteering::iterator it = m_pSteerings.find(_szName);
+		if (it == m_pSteerings.end())
+		{
+			Steering* pSteering = new Steering(); // Create a default Steering if none exist
+			m_pSteerings[_szName] = pSteering;
+			return pSteering;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new Steering(it->second); // CB is it useful to clone?
 			}
 			else
 			{

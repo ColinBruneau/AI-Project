@@ -1825,7 +1825,7 @@ bool OurReader::decodeDouble(Token& token, Value& decoded) {
   // sscanf, as this can cause hard to debug crashes on OS X. See here for more
   // info:
   //
-  //     http://developer.apple.com/library/mac/#DOCUMENTATION/DeveloperTools/gcc-4.0.1/gcc/Incompatibilities.html
+  //     http://developer.apple.com/library/mac/#DOCUMENTATION/DeveloperMathTools/gcc-4.0.1/gcc/Incompatibilities.html
   char format[] = "%lf";
 
   if (length <= bufferSize) {

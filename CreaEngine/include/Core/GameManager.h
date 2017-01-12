@@ -77,6 +77,8 @@ namespace crea
 
 		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
 
+		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
+
 		inline MapSearch* getMapSearch(string _szName) { return MapSearchManager::getSingleton()->getMapSearch(_szName); }
 
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }

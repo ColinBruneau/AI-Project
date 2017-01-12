@@ -20,6 +20,7 @@ namespace crea
 	class Entity;
 	class CharacterController;
 	class UserController;
+	class Steering;
 }
 
 namespace crea
@@ -30,6 +31,7 @@ namespace crea
 	class CREAENGINE_API MapStringAnimator : public map<string, Animator*> {};
 	class CREAENGINE_API MapStringCharacterController : public map<string, CharacterController*> {};
 	class CREAENGINE_API MapStringUserController : public map<string, UserController*> {};
+	class CREAENGINE_API MapStringSteering : public map<string, Steering*> {};
 
 	class CREAENGINE_API EntityManager
 	{
@@ -44,6 +46,8 @@ namespace crea
 		MapStringCharacterController m_pCharacterControllers;
 
 		MapStringUserController m_pUserControllers;
+
+		MapStringSteering m_pSteerings;
 
 		Entity* m_pRoot;
 
@@ -69,6 +73,8 @@ namespace crea
 		CharacterController* getCharacterController(string _szName, bool _bCloned = false);
 
 		UserController* getUserController(string _szName, bool _bCloned = false);
+
+		Steering* getSteering(string _szName, bool _bCloned = false);
 
 		bool init();
 

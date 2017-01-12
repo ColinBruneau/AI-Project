@@ -206,6 +206,18 @@
         LastKnownName="Cells2"
         LastKnownLocation="Package_1408.uml" />
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="6fb66dbf-fc8c-483a-bf29-fc481d7f8937"
+        LastKnownName="CreaEngine3"
+        LastKnownLocation="Package_1956.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="15e97c79-ea10-49d1-bb89-e44cc69f7ec2"
+        LastKnownName="Cells3"
+        LastKnownLocation="Package1_1956.uml" />
+    </packageHasNamedElement>
   </packagedElements>
   <primitiveType
     Id="220a3521-e091-4221-bae9-3ef9018e845c"

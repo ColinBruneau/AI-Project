@@ -17,17 +17,11 @@ namespace crea
 	public:
 		LPDIRECT3DTEXTURE9 getTexture() { return m_pTexture; }
 
-		DX9Texture()
-		{
-		}
-
-		~DX9Texture()
-		{
-		}
+		DX9Texture() { m_pTexture = nullptr; }
+		~DX9Texture() { SafeRelease(m_pTexture); }
 
 		virtual bool loadFromFile(string _file)
 		{
-			//return m_texture.loadFromFile(_file);
 			if (FAILED(D3DXCreateTextureFromFile(DX9Facade::Instance().m_pDevice, _file.c_str(), &m_pTexture)))
 			{
 				cerr << "Failed to load texture Sprite." << endl;

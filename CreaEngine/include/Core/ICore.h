@@ -8,6 +8,9 @@
 
 namespace crea
 {
+#define PI 3.14159265f
+#define EPSILON 0.00001f
+
 	class CREAENGINE_API Vector2f
 	{
 		float m_fX;
@@ -40,6 +43,7 @@ namespace crea
 		inline float dist(Vector2f& _v) { return sqrt((_v.m_fX - m_fX) * (_v.m_fX - m_fX) + (_v.m_fY - m_fY) * (_v.m_fY - m_fY)); }
 		inline float distSq(Vector2f& _v) { return ((_v.m_fX - m_fX) * (_v.m_fX - m_fX) + (_v.m_fY - m_fY) * (_v.m_fY - m_fY)); }
 		inline float length() const { return sqrt((m_fX * m_fX) + (m_fY * m_fY)); }
+		inline float lengthSq() const { return (m_fX * m_fX) + (m_fY * m_fY); }
 		inline bool normalize() { float l = length();  if (!l) return false; m_fX /= l; m_fY /= l; return true; }
 		inline float dot(const Vector2f& _v) const {	return m_fX * _v.m_fX + m_fY * _v.m_fY;	}
 		inline float angle(const Vector2f& _v) const { float fLength = length() * _v.length(); return acosf(dot(_v) / fLength);	} // radians
@@ -47,8 +51,11 @@ namespace crea
 		inline Vector2f operator+(Vector2f& _v) { return Vector2f(m_fX + _v.m_fX, m_fY + _v.m_fY); }
 		inline Vector2f operator-(Vector2f& _v) { return Vector2f(m_fX - _v.m_fX, m_fY - _v.m_fY); }
 		inline Vector2f& operator+=(Vector2f& _v) { m_fX += _v.m_fX; m_fY += _v.m_fY; return *this; }
+		inline Vector2f& operator-=(Vector2f& _v) { m_fX -= _v.m_fX; m_fY -= _v.m_fY; return *this; }
 		inline Vector2f operator*(float _f) { return Vector2f(m_fX * _f, m_fY * _f); }
 		inline Vector2f& operator*=(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
+		inline Vector2f operator/(float _f) { assert(_f); return Vector2f(m_fX / _f, m_fY / _f); }
+		inline Vector2f& operator/=(float _f) { assert(_f); m_fX /= _f; m_fY /= _f; return *this; }
 	};
 
 	class CREAENGINE_API IntRect
@@ -112,6 +119,23 @@ namespace crea
 		}
 
 	};
+
+	class CREAENGINE_API MathTools
+	{
+	public:
+
+		static Vector2f truncate(Vector2f _vector, float lengthLimit) {
+			double length = _vector.length();
+			if (length > lengthLimit) {
+				_vector.normalize();
+				return _vector * lengthLimit;
+			}
+			else return _vector;
+		}
+
+		static bool zeroByEpsilon(double _value) { return _value > -EPSILON && _value < EPSILON; }
+	}; 
+
 } // namespace crea
 
 #endif // _ICore_H

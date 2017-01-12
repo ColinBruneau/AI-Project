@@ -57,6 +57,7 @@ namespace crea
 			{
 				OutputDebugString("Failed to create Sprite.\n");
 			}
+
 		}
 
 		DX9Sprite::~DX9Sprite()
@@ -106,7 +107,7 @@ namespace crea
 			D3DXMATRIX mat;
 
 			// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-			//D3DXMatrixTransformation2D(&mat, m_pScaleCenter, 1.0, m_pScale, m_pCenter, m_fRotation, &m_Position);
+			//D3DXMatrixTransformation2D(&mat, m_pScaleCenter, 0.f, m_pScale, m_pCenter, m_fRotation, &m_Position);
 			myMatrixTransformation2D(&mat, m_pScaleCenter, m_pScale, &m_Position);
 
 			// Tell the sprite about the matrix
