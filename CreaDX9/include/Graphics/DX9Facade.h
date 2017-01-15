@@ -38,6 +38,7 @@ namespace crea
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		void setMousePosition(int _iX, int _iY) { m_iMousePosX = _iX; m_iMousePosY = _iY; }
 		void setMouseButtonsDown(bool _bLeftButtonDown, bool _bRightButtonDown) { m_bMouseLeftButtonDown = _bLeftButtonDown; m_bMouseRightButtonDown = _bRightButtonDown; }
+		bool setCursor(bool _bVisible);
 
 	public:
 		~DX9Facade();

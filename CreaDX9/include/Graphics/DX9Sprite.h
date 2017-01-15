@@ -93,6 +93,7 @@ namespace crea
 			}
 			if (pTranslation)
 			{
+				//cout << pTranslation->x << " " << pTranslation->y << endl;
 				D3DXMatrixTranslation(&Mt, pTranslation->x, pTranslation->y, 0.0f);
 				D3DXMatrixMultiply(pOut, pOut, &Mt);
 			}
@@ -107,7 +108,6 @@ namespace crea
 			D3DXMATRIX mat;
 
 			// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-			//D3DXMatrixTransformation2D(&mat, m_pScaleCenter, 0.f, m_pScale, m_pCenter, m_fRotation, &m_Position);
 			myMatrixTransformation2D(&mat, m_pScaleCenter, m_pScale, &m_Position);
 
 			// Tell the sprite about the matrix
@@ -128,14 +128,12 @@ namespace crea
 
 		virtual void setPosition(float _x, float _y)
 		{
-			//m_sprite.setPosition(_x, _y);
 			m_Position.x = _x;
 			m_Position.y = _y;
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h)
 		{
-			//m_sprite.setTextureRect(sf::IntRect(_x, _y, _w, _h));
 			if (!m_pRect)
 				m_pRect = new RECT();
 			
@@ -147,7 +145,6 @@ namespace crea
 
 		virtual void setScale(float _x, float _y)
 		{
-			//m_sprite.setScale(_x, _y);
 			if (!m_pScale)
 				m_pScale = new D3DXVECTOR2();
 
@@ -157,7 +154,6 @@ namespace crea
 
 		virtual void setOrigin(float _x, float _y)
 		{
-			//m_sprite.setOrigin(_x, _y);
 			if (!m_pScaleCenter)
 				m_pScaleCenter = new D3DXVECTOR2(); // CB: why do we need (0,0), not nothing, nor (36, 36) in DirectX? 
 			

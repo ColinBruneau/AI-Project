@@ -15,12 +15,14 @@ namespace crea
 	class CREAENGINE_API TextRenderer : public Component
 	{
 		IText* m_pText;
+		IntRect* m_pTextureRect;
 
 	public:
 		TextRenderer();
 		virtual ~TextRenderer();
 
 		inline void setText(IText* _pText) { m_pText = _pText; }
+		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
 		virtual bool init();
 		virtual bool update();

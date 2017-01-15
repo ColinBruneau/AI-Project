@@ -40,42 +40,57 @@ namespace crea
 
 		virtual void draw()
 		{
-			//sf::RenderWindow* pWin = DX9Facade::Instance().m_pWindow;
-			//pWin->draw(this->m_text);
-
-			assert(m_pFont); // A font must be set							  
+			assert(m_pFont); // A font must be set	
 			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, 0, m_color); // CB: pass a sprite as 1st param to improve speed x4
 		}
 
 		virtual void setFont(IFont* _pFont)
 		{
-			//DX9Font* pFont = (DX9Font*)_pFont;
-			//m_text.setFont(pFont->m_font);
 			DX9Font* pFont = (DX9Font*)_pFont;
 			m_pFont = pFont->getFont();
 		}
 
 		virtual void setColor(IColor* _pColor)
 		{
-			//DX9Color* pColor = (DX9Color*)_pColor;
-			//m_text.setFillColor(pColor->m_color);
 			DX9Color* pColor = (DX9Color*)_pColor;
 			m_color = pColor->getColor();
 		}
 
 		virtual void setCharacterSize(int _iSize)
 		{
-			//m_text.setCharacterSize(_iSize);
-
 			// CB: not handled as it requires to recreate a font...
 			cerr << "Text resizing not possible for now..." << endl;
 		}
 
 		virtual void setString(string _szString)
 		{
-			//m_text.setString(_szString);
 			m_szText = _szString;
 		}
+
+		virtual void setPosition(float _x, float _y) 
+		{
+			if (!m_pRect)
+				m_pRect = new RECT();
+
+			m_pRect->left = (LONG)_x;
+			m_pRect->top = (LONG)_y;
+			m_pRect->bottom = (LONG)_y+100; 
+			m_pRect->right = (LONG)_x+300;
+			// CB: get size when only position is given (DrawText with CALCRECT)
+			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, DT_CALCRECT, m_color);
+		}
+
+		virtual void setTextureRect(int _x, int _y, int _w, int _h) 
+		{
+			if (!m_pRect)
+				m_pRect = new RECT();
+
+			m_pRect->left = _x;
+			m_pRect->top = _y;
+			m_pRect->bottom = _y + _h;
+			m_pRect->right = _x + _w;
+		}
+
 	};
 
 } // namespace crea

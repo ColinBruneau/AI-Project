@@ -61,6 +61,10 @@ namespace crea
 		virtual void setCharacterSize(int _iSize) {}
 
 		virtual void setString(string _szString) {}
+
+		virtual void setPosition(float _x, float _y) {}
+
+		virtual void setTextureRect(int _x, int _y, int _w, int _h) {}
 	};
 
 	class CREAENGINE_API IColor

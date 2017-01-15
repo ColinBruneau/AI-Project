@@ -64,6 +64,22 @@ namespace crea
 		return S_OK;
 	}
 
+	bool DX9Facade::setCursor(bool _bVisible)
+	{
+		if (_bVisible)
+		{
+			// Turn off window cursor 
+			SetCursor(NULL);
+			m_pDevice->ShowCursor(TRUE);
+			return true; // prevent Windows from setting cursor to window class cursor
+		}
+		else
+		{
+			//SetCursor(LoadCursor(NULL, IDC_ARROW));
+		}
+		return false;
+	}
+
 	void DX9Facade::initialize()
 	{
 		// Register the window class
@@ -75,8 +91,12 @@ namespace crea
 			0L,
 			0L,
 			GetModuleHandle(NULL),
-			NULL, NULL, NULL, NULL,
-			"DX9Facade", NULL
+			LoadIcon(NULL, IDI_INFORMATION), 
+			LoadCursor(NULL, IDC_ARROW),
+			(HBRUSH) GetStockObject(WHITE_BRUSH), 
+			NULL,
+			"DX9Facade", 
+			LoadIcon(NULL, IDI_INFORMATION)
 		};
 
 		RegisterClassEx(&wc);
@@ -94,6 +114,9 @@ namespace crea
 			// Show the window
 			ShowWindow(hWnd, SW_SHOWDEFAULT);
 			UpdateWindow(hWnd);
+
+			// Cursor
+			SetCursor(LoadCursor(NULL, IDC_ARROW)); // CB: Have to force it...
 		}
 		else
 		{
@@ -121,7 +144,7 @@ namespace crea
 
 	void DX9Facade::beginScene() const
 	{
-		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
+		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET/*| D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
 		m_pDevice->BeginScene();
 	}
 	
@@ -294,7 +317,8 @@ namespace crea
 			// Retrieve mouse screen position
 			int x = (short)LOWORD(lParam);
 			int y = (short)HIWORD(lParam);
-			DX9Facade::Instance().setMousePosition(x, y);
+			DX9Facade::Instance().setMousePosition(x, y);  //CB: Bug: returns 1263*760 on a 1280*800 window
+			cout << x << " " << y << endl;
 
 			// Check to see if the left button is held down:
 			bool bLeftButtonDown = (wParam & MK_LBUTTON) ? true : false;
@@ -303,11 +327,15 @@ namespace crea
 			bool bRightButtonDown = (wParam & MK_RBUTTON) ? true : false;
 			
 			DX9Facade::Instance().setMouseButtonsDown(bLeftButtonDown, bRightButtonDown);
+			return 0;
 		}
 
 		case WM_PAINT:
 			ValidateRect(hWnd, NULL);
 			return 0;
+
+		case WM_SETCURSOR:
+			return DX9Facade::Instance().setCursor(false);
 		}
 
 		return DefWindowProc(hWnd, msg, wParam, lParam);

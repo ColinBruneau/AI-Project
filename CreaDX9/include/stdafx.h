@@ -16,6 +16,7 @@ using namespace std;
 
 // Windows
 #include <Windows.h>
+#include <Windowsx.h>
 
 #include "CreaImport.h"
 

@@ -55,6 +55,7 @@ bool GSGame::onInit()
 
 	Entity* pEntityFPS = m_pGM->getEntity("text 1");
 	pEntityFPS->addComponent(pTextRenderer);
+	pEntityFPS->setPosition(Vector2f(1100, 0));
 
 	m_pGM->addEntity(pEntityFPS);
 	
@@ -88,7 +89,7 @@ bool GSGame::onUpdate()
 
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
-	m_pTextFPS->setString("                              " + to_string((int)(1/frameTime.asSeconds())) + " fps");
+	m_pTextFPS->setString(to_string((int)(1/frameTime.asSeconds())) + " fps");
 
 	return true;
 }
