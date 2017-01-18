@@ -12,7 +12,6 @@ namespace crea
 
 	Steering::Steering() :
 		m_mass(1.0f),
-		m_position(Vector2f(0.0f, 0.0f)),
 		m_vVelocity(Vector2f(0.0f, 0.0f)),
 		m_maxForce(100.0f),
 		m_maxSpeed(100.0f),
@@ -22,11 +21,17 @@ namespace crea
 	{
 		m_pGM = GameManager::getSingleton();
 		m_pCollider = nullptr;
+
+		m_pVelocityLine = IFacade::get().createILine();
+		m_pForceLine = IFacade::get().createILine();
+		m_pForceLine->setColor(255, 0, 0, 255);
 	}
 
 	Steering::~Steering()
 	{
 		clearBehaviors();
+
+		delete m_pVelocityLine;
 	}
 
 	void Steering::setCollider(Collider* _pCollider)
@@ -85,14 +90,31 @@ namespace crea
 		{
 			m_lastForce = Vector2f(0.0f, 0.0f);
 		}
-		m_position += m_vVelocity * frameTime;
-		m_pEntity->setPosition(m_position);
+		Vector2f position = m_pEntity->getPosition();
+		position += m_vVelocity * frameTime;
+		m_pEntity->setPosition(position);
 
 		return true;
 	}
 
 	bool Steering::draw()
 	{
+		// draw velocity (debug)
+		if (m_pVelocityLine)
+		{
+			Vector2f position = m_pEntity->getPosition();
+			m_pVelocityLine->setLine(position.getX(), position.getY(),
+				position.getX() + m_vVelocity.getX(), position.getY() + m_vVelocity.getY());
+			m_pVelocityLine->draw();
+		}
+		// draw force (debug)
+		if (m_pForceLine)
+		{
+			Vector2f position = m_pEntity->getPosition();
+			m_pForceLine->setLine(position.getX(), position.getY(),
+				position.getX() + m_lastForce.getX(), position.getY() + m_lastForce.getY());
+			m_pForceLine->draw();
+		}
 		return true;
 	}
 

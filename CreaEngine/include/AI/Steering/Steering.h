@@ -9,6 +9,7 @@
 #include "Core\Component.h"
 #include "Core\ICore.h"
 #include "Core\GameManager.h"
+#include "Graphics\IGraphics.h"
 
 namespace crea
 {
@@ -37,7 +38,6 @@ namespace crea
 
 		// Locomotion
 		float m_mass;
-		Vector2f m_position;
 		Vector2f m_vVelocity;
 		float m_maxForce;
 		float m_maxSpeed;
@@ -47,6 +47,10 @@ namespace crea
 		Vector2f m_lastR;
 
 		std::vector<PairFloatBehavior*> m_behaviors; // All the behaviors and their weight associated
+
+		// debug lines
+		ILine* m_pVelocityLine;
+		ILine* m_pForceLine;
 
 	public:
 		Steering();
@@ -58,7 +62,6 @@ namespace crea
 		Entity* getTarget() { return m_pTarget; }
 
 		float getMass() { return m_mass; }
-		Vector2f getPosition() { return m_position; }
 		Vector2f getVelocity() { return m_vVelocity; }
 		float getMaxForce() { return m_maxForce; }
 		float getMaxSpeed() { return m_maxSpeed; }
@@ -66,7 +69,6 @@ namespace crea
 		Vector2f getLastR() { return m_lastR; }
 
 		void setMass(float _mass) { m_mass = _mass; }
-		void setPosition(Vector2f _position) { m_position = _position; }
 		void setVelocity(Vector2f _velocity) { m_vVelocity = _velocity; }
 		void setMaxForce(float _maxForce) { m_maxForce = _maxForce; }
 		void setMaxSpeed(float _maxSpeed) { m_maxSpeed = _maxSpeed; }

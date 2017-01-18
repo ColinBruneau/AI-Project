@@ -6,6 +6,7 @@
 #include "Graphics\SFMLColor.h"
 #include "Graphics\SFMLText.h"
 #include "Graphics\SFMLSprite.h"
+#include "Graphics\SFMLLine.h"
 
 
 namespace crea
@@ -29,7 +30,7 @@ namespace crea
 
 	void SFMLFacade::initialize()
 	{
-		m_pWindow = new sf::RenderWindow(sf::VideoMode((unsigned int)m_rWindowRect.getWidth(), (unsigned int)m_rWindowRect.getHeight()), "SFML RENDERER");
+		m_pWindow = new sf::RenderWindow(sf::VideoMode((unsigned int)m_rWindowRect.getWidth(), (unsigned int)m_rWindowRect.getHeight()), "Application SFML");
 	}
 	
 	bool SFMLFacade::update()
@@ -90,6 +91,11 @@ namespace crea
 	ISprite* SFMLFacade::createISprite(ISprite* _pFrom)
 	{
 		return (_pFrom ? new SFMLSprite(*(SFMLSprite*)_pFrom) : new SFMLSprite);
+	}
+
+	ILine* SFMLFacade::createILine(ILine* _pFrom)
+	{
+		return (_pFrom ? new SFMLLine(*(SFMLLine*)_pFrom) : new SFMLLine);
 	}
 
 	bool SFMLFacade::isKeyPressed(Key _key)

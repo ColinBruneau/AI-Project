@@ -15,6 +15,7 @@
     <ClInclude Include="..\include\Graphics\DX9Facade.h" />
     <ClInclude Include="..\include\Graphics\DX9Font.h" />
     <ClInclude Include="..\include\Graphics\DX9Graphics.h" />
+    <ClInclude Include="..\include\Graphics\DX9Line.h" />
     <ClInclude Include="..\include\Graphics\DX9Sprite.h" />
     <ClInclude Include="..\include\Graphics\DX9Text.h" />
     <ClInclude Include="..\include\Graphics\DX9Texture.h" />

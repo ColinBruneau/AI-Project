@@ -17,7 +17,16 @@ class GSSteering : public crea::GameState
 	IText* m_pTextFPS;
 	Clock frameClock;
 
+	IText* m_pTextSteeringMode;
+	int m_iSteeringMode;
+
+	// Entitites
+	int m_iNbEntities;
+	vector<Entity*> m_vEntities;
+
 	Entity* m_pMouse;
+
+	IntRect m_rWindowRect;
 
 public:
 	GSSteering();

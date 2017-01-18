@@ -33,8 +33,8 @@ namespace crea
 		{
 		}
 
-		inline void setX(float _fX) { m_fX += _fX; }
-		inline void setY(float _fY) { m_fY += _fY; }
+		inline void setX(float _fX) { m_fX = _fX; }
+		inline void setY(float _fY) { m_fY = _fY; }
 		inline float getX() { return m_fX; }
 		inline float getY() { return m_fY; }
 		inline float get(char _index) { return (_index==0? m_fX : m_fY); }

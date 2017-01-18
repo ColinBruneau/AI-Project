@@ -9,7 +9,7 @@ namespace crea
 		m_iG = 0;
 		m_iB = 255;
 
-		m_szWindowName = "Application";
+		m_szWindowName = "Application DirectX9";
 
 		ZeroMemory(&m_abKeys, sizeof(m_abKeys));
 

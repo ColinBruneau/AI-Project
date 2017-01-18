@@ -55,6 +55,8 @@ namespace crea
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
 
+		virtual ILine* createILine(ILine* _pFrom = nullptr);
+
 		virtual bool isKeyPressed(Key _key);
 
 		virtual bool isMouseButtonPressed(Button _button);

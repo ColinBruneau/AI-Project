@@ -83,6 +83,25 @@ namespace crea
 
 	};
 
+	class CREAENGINE_API ILine : public IDrawable
+	{
+	public:
+
+		ILine()
+		{
+		}
+
+		~ILine()
+		{
+		}
+
+		virtual void draw() {};
+
+		virtual void setLine(float _x1, float _y1, float _x2, float _y2) {}
+
+		virtual void setColor(int _r, int _g, int _b, int _a) {}
+
+	};
 } // namespace crea
 
 #endif // _IGraphics_H

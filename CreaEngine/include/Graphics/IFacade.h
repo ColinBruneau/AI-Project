@@ -14,6 +14,7 @@ namespace crea
 	class IFont;
 	class ITexture;
 	class IntRect;
+	class ILine;
 
 	class CREAENGINE_API IFacade
 	{
@@ -72,6 +73,8 @@ namespace crea
 		virtual IText* createIText(IText* _pFrom = nullptr) = 0;
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr) = 0;
+
+		virtual ILine* createILine(ILine* _pFrom = nullptr) = 0;
 
 		virtual bool isKeyPressed(Key _key) = 0;
 

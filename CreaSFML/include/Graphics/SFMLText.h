@@ -61,7 +61,7 @@ namespace crea
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h)
 		{
-			m_text.setPosition(_x, _y);
+			m_text.setPosition((float)_x, (float)_y);
 			// CB: not handled with sfml...
 			cerr << "Text rect not possible for now..." << endl;
 		}
