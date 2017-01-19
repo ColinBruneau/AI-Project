@@ -231,6 +231,12 @@ namespace crea
 		return m_pRoot->draw();
 	}
 
+	void EntityManager::clearEntity(Entity* _pEntity)
+	{
+		m_pRoot->removeEntity(_pEntity);
+		delete _pEntity;
+	}
+
 	void EntityManager::clear()
 	{
 		MapStringTextRenderer::iterator itTextRenderer = m_pTextRenderers.begin();
@@ -269,6 +275,12 @@ namespace crea
 			itUserController = m_pUserControllers.erase(itUserController);
 		}
 
+		MapStringSteering::iterator itSteering = m_pSteerings.begin();
+		while (itSteering != m_pSteerings.end()) {
+			delete (*itSteering).second;
+			itSteering = m_pSteerings.erase(itSteering);
+		}
+		
 		if (m_pRoot)
 		{
 			m_pRoot->clear();

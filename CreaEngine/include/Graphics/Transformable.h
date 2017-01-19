@@ -36,6 +36,8 @@ namespace crea
 	class CREAENGINE_API Transformable
 	{
 		Transform m_Transform;
+		Vector2f m_vVelocity;
+
 	public:
 
 		Transformable()
@@ -48,8 +50,18 @@ namespace crea
 
 		Transform& getTransform() { return m_Transform; }
 		void move(Vector2f& _v) { m_Transform.move(_v); }
-		void setPosition(Vector2f& _v) { m_Transform.setPosition(_v); }
+		void setPosition(Vector2f& _v) 
+		{
+			float frameTime = (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
+			if (frameTime)
+			{
+				m_vVelocity = Vector2f(_v - getPosition());
+				m_vVelocity /= frameTime;
+			}
+			m_Transform.setPosition(_v); 
+		}
 		Vector2f& getPosition() { return m_Transform.getPosition(); }
+		Vector2f& getVelocity() { return m_vVelocity; }
 	};
 
 } // namespace crea

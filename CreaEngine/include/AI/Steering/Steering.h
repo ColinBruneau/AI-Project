@@ -35,6 +35,7 @@ namespace crea
 
 		// Target
 		Entity* m_pTarget;
+		Vector2f m_vTargetOffset;
 
 		// Locomotion
 		float m_mass;
@@ -51,6 +52,7 @@ namespace crea
 		// debug lines
 		ILine* m_pVelocityLine;
 		ILine* m_pForceLine;
+		ILine* m_pTargetLine;
 
 	public:
 		Steering();
@@ -60,6 +62,7 @@ namespace crea
 
 		void setTarget(Entity* _pEntity) { m_pTarget = _pEntity; }
 		Entity* getTarget() { return m_pTarget; }
+		void setTargetOffset(Vector2f _vOffset) { m_vTargetOffset = _vOffset; }
 
 		float getMass() { return m_mass; }
 		Vector2f getVelocity() { return m_vVelocity; }

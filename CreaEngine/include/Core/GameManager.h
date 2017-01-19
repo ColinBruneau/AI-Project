@@ -85,6 +85,8 @@ namespace crea
 
 		inline void clearAllEntities() { EntityManager::getSingleton()->clear(); }
 
+		inline void clearEntity(Entity* _pEntity) { EntityManager::getSingleton()->clearEntity(_pEntity); }
+			
 		void init();
 
 		void update();

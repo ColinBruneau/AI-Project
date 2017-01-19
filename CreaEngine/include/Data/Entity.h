@@ -7,7 +7,7 @@
 #define __Entity_H_
 
 #include "Graphics\Transformable.h"
-#include <vector>
+#include <list>
 
 namespace crea
 {
@@ -20,10 +20,10 @@ namespace crea
 
 		// Composite
 		Entity* m_pParent;
-		vector<Entity*> m_pChildren;
+		list<Entity*> m_pChildren;
 
 		// Composition
-		vector<Component*> m_pComponents;
+		list<Component*> m_pComponents;
 
 	public:
 		Entity();
@@ -33,14 +33,22 @@ namespace crea
 
 		inline void setName(string& _szName) { m_szName = _szName; }
 
+		inline string& getName() { return m_szName; }
+
 		inline void setParent(Entity* _pEntity) { m_pParent = _pEntity; }
 
 		Entity* getEntity(string& _szName);
+
+		Entity* getEntity(Entity* _pEntity);
+
+		bool removeEntity(Entity* _pEntity);
 
 		bool loadFromFileJSON(string& _filename);
 
 		void addChild(Entity* _pEntity);
 
+		void removeChild(Entity* _pEntity);
+			
 		void addComponent(Component* _pComponent);
 
 		void removeComponent(Component* _pComponent);
@@ -54,14 +62,14 @@ namespace crea
 		bool draw();
 
 		void clear();
+
 	};
 
 	template<class T> T* Entity::getComponent()
 	{
-		unsigned int uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Component*>::iterator it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 		{
-			Component* pComponent = m_pComponents[i];
+			Component* pComponent = *it;
 			T* ptr = dynamic_cast<T*>(pComponent);
 			if (ptr != nullptr)
 			{
@@ -70,10 +78,9 @@ namespace crea
 			else
 			{
 				// Children
-				unsigned int uiSize = m_pChildren.size();
-				for (unsigned int i = 0; i < uiSize; i++)
+				for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 				{
-					m_pChildren[i]->getComponent<T>();
+					(*it)->getComponent<T>();
 				}
 			}
 		}

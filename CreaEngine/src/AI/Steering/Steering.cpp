@@ -25,6 +25,8 @@ namespace crea
 		m_pVelocityLine = IFacade::get().createILine();
 		m_pForceLine = IFacade::get().createILine();
 		m_pForceLine->setColor(255, 0, 0, 255);
+		m_pTargetLine = IFacade::get().createILine();
+		m_pTargetLine->setColor(0, 255, 0, 255);
 	}
 
 	Steering::~Steering()
@@ -62,13 +64,20 @@ namespace crea
 		{
 			PairFloatBehavior* t = m_behaviors[i];
 			Behavior* b = (Behavior*)t->second;
-			steeringDirection += (t->second->Update() * t->first);
+ 			steeringDirection += (t->second->Update() * t->first);
 		}
 		return steeringDirection;
 	}
 	
 	bool Steering::init()
 	{
+		m_mass = 1.0f;
+		m_vVelocity = Vector2f(0.0f, 0.0f);
+		m_maxForce = 100.0f;
+		m_maxSpeed = 100.0f;
+		m_lastForce = Vector2f(0.0f, 0.0f);
+		m_lastR = Vector2f(1.0f, 0.0f);
+		m_pTarget = nullptr;
 
 		return true;
 	}
@@ -114,6 +123,16 @@ namespace crea
 			m_pForceLine->setLine(position.getX(), position.getY(),
 				position.getX() + m_lastForce.getX(), position.getY() + m_lastForce.getY());
 			m_pForceLine->draw();
+		}
+		// draw target (debug)
+		if (m_pTargetLine && m_pTarget)
+		{
+			Vector2f position = m_pEntity->getPosition();
+			Vector2f targetposition = m_pTarget->getPosition() + m_vTargetOffset;
+
+			m_pTargetLine->setLine(position.getX(), position.getY(),
+				targetposition.getX(), targetposition.getY());
+			m_pTargetLine->draw();
 		}
 		return true;
 	}

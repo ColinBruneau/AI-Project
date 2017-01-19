@@ -15,6 +15,9 @@ namespace crea
 
 	Vector2f& Seek::Update()
 	{
+		m_pSteering->setTarget(m_target);
+		m_pSteering->setTargetOffset(Vector2f(0.f, 0.f));
+
 		m_vDesiredVelocity = m_target->getPosition() - m_pEntity->getPosition();
 		m_vDesiredVelocity.normalize();
 		m_vDesiredVelocity *= m_pSteering->getMaxSpeed();
@@ -24,6 +27,9 @@ namespace crea
 
 	Vector2f& Flee::Update()
 	{
+		m_pSteering->setTarget(m_target);
+		m_pSteering->setTargetOffset(Vector2f(0.f, 0.f));
+
 		m_vDesiredVelocity = m_pEntity->getPosition() - m_target->getPosition();
 		m_vDesiredVelocity.normalize();
 		m_vDesiredVelocity *= m_pSteering->getMaxSpeed();
@@ -33,7 +39,10 @@ namespace crea
 
 	Vector2f& Pursuit::Update()
 	{
-		m_vDesiredVelocity = (m_target->getPosition() + m_target->getComponent<Steering>()->getVelocity() * m_fC) - m_pEntity->getPosition();
+		m_pSteering->setTarget(m_target);
+		m_pSteering->setTargetOffset(m_target->getVelocity() * m_fC);
+
+		m_vDesiredVelocity = (m_target->getPosition() + m_target->getVelocity() * m_fC) - m_pEntity->getPosition();
 		m_vDesiredVelocity.normalize();
 		m_vDesiredVelocity *= m_pSteering->getMaxSpeed();
 		m_vSteering = m_vDesiredVelocity - m_pSteering->getVelocity();
@@ -42,7 +51,10 @@ namespace crea
 
 	Vector2f& Evasion::Update()
 	{
-		m_vDesiredVelocity = m_pEntity->getPosition() - (m_target->getPosition() + m_target->getComponent<Steering>()->getVelocity() * m_fC);
+		m_pSteering->setTarget(m_target);
+		m_pSteering->setTargetOffset(m_target->getVelocity() * m_fC);
+
+		m_vDesiredVelocity = m_pEntity->getPosition() - (m_target->getPosition() + m_target->getVelocity() * m_fC);
 		m_vDesiredVelocity.normalize();
 		m_vDesiredVelocity *= m_pSteering->getMaxSpeed();
 		m_vSteering = m_vDesiredVelocity - m_pSteering->getVelocity();
@@ -51,12 +63,12 @@ namespace crea
 
 	Vector2f& Arrival::Update()
 	{
-		float velocitylength = m_pSteering->getVelocity().length();
-		float slowingDistance = velocitylength * velocitylength / (m_pSteering->getMaxForce() / m_pSteering->getMass());
+		m_pSteering->setTarget(m_target);
+		m_pSteering->setTargetOffset(Vector2f(0.f, 0.f));
 
 		Vector2f targetOffset = m_target->getPosition() - m_pEntity->getPosition();
 		float distance = targetOffset.length();
-		float rampedSpeed = m_pSteering->getMaxSpeed() * (distance / slowingDistance);
+		float rampedSpeed = m_pSteering->getMaxSpeed() * (distance / m_fSlowingDistance);
 		float clippedSpeed = min(rampedSpeed, m_pSteering->getMaxSpeed());
 		m_vDesiredVelocity = targetOffset * (clippedSpeed / distance);
 		m_vSteering = m_vDesiredVelocity - m_pSteering->getVelocity();

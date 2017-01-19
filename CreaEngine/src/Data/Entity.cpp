@@ -29,6 +29,12 @@ namespace crea
 		_pEntity->setParent(this);
 	}
 
+	void Entity::removeChild(Entity* _pEntity)
+	{
+		_pEntity->setParent(nullptr);
+		m_pChildren.remove(_pEntity);
+	}
+
 	void Entity::addComponent(Component* _pComponent)
 	{
 		_pComponent->setEntity(this);
@@ -38,23 +44,21 @@ namespace crea
 	void Entity::removeComponent(Component* _pComponent)
 	{
 		_pComponent->setEntity(nullptr);
-		std::remove(m_pComponents.begin(), m_pComponents.end(), _pComponent), m_pComponents.end();
+		std::remove(m_pComponents.begin(), m_pComponents.end(), _pComponent);
 	}
 
 	bool Entity::init()
 	{
 		// Components
-		unsigned int uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Component*>::iterator it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 		{
-			m_pComponents[i]->init();
+			(*it)->init();
 		}
 
 		// Children
-		uiSize = m_pChildren.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 		{
-			m_pChildren[i]->init();
+			(*it)->init();
 		}
 
 		return true;
@@ -63,17 +67,15 @@ namespace crea
 	bool Entity::update()
 	{
 		// Components
-		unsigned int uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Component*>::iterator it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 		{
-			m_pComponents[i]->update();
+			(*it)->update();
 		}
 
 		// Children
-		uiSize = m_pChildren.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 		{
-			m_pChildren[i]->update();
+			(*it)->update();
 		}
 
 		return true;
@@ -82,18 +84,17 @@ namespace crea
 	bool Entity::draw()
 	{
 		// Components
-		unsigned int uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Component*>::iterator it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 		{
-			m_pComponents[i]->draw();
+			(*it)->draw();
 		}
 
 		// Children
-		uiSize = m_pChildren.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 		{
-			m_pChildren[i]->draw();
+			(*it)->draw();
 		}
+
 
 		return true;
 	}
@@ -101,18 +102,16 @@ namespace crea
 	void Entity::clear()
 	{
 		// Children
-		unsigned int uiSize = m_pChildren.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 		{
-			delete m_pChildren[i];
+			delete (*it);
 		}
 		m_pChildren.clear();
 
 		// Components
-		uiSize = m_pComponents.size();
-		for (unsigned int i = 0; i < uiSize; i++)
+		for (list<Component*>::iterator it = m_pComponents.begin(); it != m_pComponents.end(); ++it)
 		{
-			//delete m_pComponents[i]; // CB: the components are destroyed by managers...
+			//delete (*it);// CB: the components are destroyed by managers...
 		}
 		m_pComponents.clear();
 	}
@@ -126,10 +125,9 @@ namespace crea
 		else
 		{
 			// Children
-			unsigned int uiSize = m_pChildren.size();
-			for (unsigned int i = 0; i < uiSize; i++)
+			for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 			{
-				Entity* pEntity = m_pChildren[i]->getEntity(_szName);
+				Entity* pEntity = (*it)->getEntity(_szName);
 				if (pEntity)
 				{
 					return pEntity;
@@ -137,7 +135,37 @@ namespace crea
 			}
 		}
 		return nullptr;
+	}
 
+	Entity* Entity::getEntity(Entity* _pEntity)
+	{
+		if (_pEntity == this)
+		{
+			return this;
+		}
+		else
+		{
+			// Children
+			for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
+			{
+				Entity* pEntity = (*it)->getEntity(_pEntity);
+				if (pEntity)
+				{
+					return pEntity;
+				}
+			}
+		}
+		return nullptr;
+	}
+
+	bool Entity::removeEntity(Entity* _pEntity)
+	{
+		if (_pEntity->m_pParent != nullptr)
+		{
+			_pEntity->m_pParent->removeChild(_pEntity);
+			return true;
+		}
+		return false;
 	}
 
 	bool Entity::loadFromFileJSON(string& _filename)

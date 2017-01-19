@@ -23,6 +23,8 @@ class GSSteering : public crea::GameState
 	// Entitites
 	int m_iNbEntities;
 	vector<Entity*> m_vEntities;
+	bool m_bKeyPressedAdd;
+	bool m_bKeyPressedSub;
 
 	Entity* m_pMouse;
 
@@ -31,6 +33,10 @@ class GSSteering : public crea::GameState
 public:
 	GSSteering();
 	virtual ~GSSteering();
+
+	void deleteEntities();
+	void createEntities(); 
+	void setBehavior();
 
 	virtual bool onInit();
 	virtual bool onUpdate();

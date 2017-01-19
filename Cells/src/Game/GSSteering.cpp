@@ -21,7 +21,89 @@ GSSteering::~GSSteering()
 {
 
 }
-	
+
+void GSSteering::deleteEntities()
+{
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		m_pGM->clearEntity(m_vEntities[i]);
+	}
+	m_vEntities.clear();
+}
+
+void GSSteering::createEntities()
+{
+	ITexture* pTexture1 = m_pGM->getTexture("image.png");
+	ITexture* pTexture2 = m_pGM->getTexture("image2.png");
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		std::string s = std::to_string(i);
+		Entity* pEntityCell1 = m_pGM->getEntity(s);
+		ISprite* pSprite1 = m_pGM->getSprite(s);
+		pSprite1->setOrigin(32, 32);
+		SpriteRenderer* pSP = m_pGM->getSpriteRenderer(s);
+		pSP->setSprite(pSprite1);
+		pEntityCell1->addComponent(pSP);
+		Steering* pSteering = m_pGM->getSteering(s);
+		pEntityCell1->addComponent(pSteering);
+		m_pGM->addEntity(pEntityCell1);
+
+		m_vEntities.push_back(pEntityCell1); // Keep pointers on entities
+
+		// Position random
+		int x = rand() % m_rWindowRect.getWidth();
+		int y = rand() % m_rWindowRect.getHeight();
+		pEntityCell1->setPosition(Vector2f((float)x, (float)y));
+
+		// Behavior
+		if (i % 2 == 0)
+		{
+			pSprite1->setTexture(pTexture1);
+		}
+		else
+		{
+			pSprite1->setTexture(pTexture2);
+		}
+	}
+}
+
+void GSSteering::setBehavior()
+{
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		std::string s = std::to_string(i);
+		Steering* pSteering = m_pGM->getSteering(s);
+		pSteering->init();
+		pSteering->clearBehaviors();
+		// Behavior
+		if (i % 2 == 0)
+		{
+			switch (m_iSteeringMode)
+			{
+			case 0: pSteering->addBehavior(new Seek(m_vEntities[i], m_pMouse), 1.0f);
+				break;
+			case 1: pSteering->addBehavior(new Pursuit(m_vEntities[i], m_vEntities[i + 1], 1.0f), 1.0f);
+				break;
+			case 2: pSteering->addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				break;
+			}
+
+		}
+		else
+		{
+			switch (m_iSteeringMode)
+			{
+			case 0: pSteering->addBehavior(new Flee(m_vEntities[i], m_pMouse), 1.0f);
+				break;
+			case 1: pSteering->addBehavior(new Evasion(m_vEntities[i], m_vEntities[i-1], 1.f), 1.0f);
+				break;
+			case 2: pSteering->addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				break;
+			}
+		}
+	}
+}
+
 bool GSSteering::onInit()
 {
 	m_pGM = GameManager::getSingleton();
@@ -62,43 +144,13 @@ bool GSSteering::onInit()
 	m_pMouse = m_pGM->getEntity("mouse");
 	m_pMouse->setPosition(InputManager::getSingleton()->getMousePosition());
 
-
 	// n entity
 	m_iNbEntities = 2;
-	ITexture* pTexture1 = m_pGM->getTexture("image.png");
-	ITexture* pTexture2 = m_pGM->getTexture("image2.png");
-	for (int i = 0; i < m_iNbEntities; i++)
-	{
-		std::string s = std::to_string(i);
-		Entity* pEntityCell1 = m_pGM->getEntity(s);
-		ISprite* pSprite1 = m_pGM->getSprite(s);
-		pSprite1->setOrigin(32, 32);
-		SpriteRenderer* pSP = m_pGM->getSpriteRenderer(s);
-		pSP->setSprite(pSprite1);
-		pEntityCell1->addComponent(pSP);
-		Steering* pSteering = m_pGM->getSteering(s);
-		pEntityCell1->addComponent(pSteering);
-		m_pGM->addEntity(pEntityCell1);
+	m_bKeyPressedAdd = false;
+	m_bKeyPressedSub = false;
 
-		m_vEntities.push_back(pEntityCell1); // Keep pointers on entities
-
-		// Position random
-		int x = rand() % m_rWindowRect.getWidth();
-		int y = rand() % m_rWindowRect.getHeight();
-		pEntityCell1->setPosition(Vector2f((float)x, (float)y));
-
-		// Behavior
-		if (i % 2 == 0)
-		{
-			pSprite1->setTexture(pTexture1);
-			pSteering->addBehavior(new Seek(pEntityCell1, m_pMouse), 1.0f);
-		}
-		else
-		{
-			pSprite1->setTexture(pTexture2);
-			pSteering->addBehavior(new Flee(pEntityCell1, m_pMouse), 1.0f);
-		}
-	}
+	createEntities();
+	setBehavior();
 		
 	return true;
 }
@@ -153,13 +205,52 @@ bool GSSteering::onUpdate()
 	{
 		m_iSteeringMode = 0;
 		m_pTextSteeringMode->setString("Seek/Flee");
-		return true;
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad1))
 	{
 		m_iSteeringMode = 1;
 		m_pTextSteeringMode->setString("Pursuit/Evasion");
-		return true;
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad2))
+	{
+		m_iSteeringMode = 2;
+		m_pTextSteeringMode->setString("Arrival");
+		setBehavior();
+	}
+
+	// Entities
+	if (m_pGM->isKeyPressed(Key::Add))
+	{
+		if (!m_bKeyPressedAdd && m_iNbEntities < 100)
+		{
+			deleteEntities();
+			m_iNbEntities += 10;
+			createEntities();
+			setBehavior();
+		}
+		m_bKeyPressedAdd = true;
+	}
+	else
+	{
+		m_bKeyPressedAdd = false;
+	}
+
+	if (m_pGM->isKeyPressed(Key::Subtract))
+	{
+		if (!m_bKeyPressedSub && m_iNbEntities > 10)
+		{
+			deleteEntities();
+			m_iNbEntities -= 10;
+			createEntities();
+			setBehavior();
+		}
+		m_bKeyPressedSub = true;
+	}
+	else
+	{
+		m_bKeyPressedSub = false;
 	}
 
 	// FPS

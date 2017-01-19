@@ -83,6 +83,9 @@ namespace crea
 		bool draw();
 
 		void clear();
+
+		void clearEntity(Entity* _pEntity);
+
 	};
 
 
