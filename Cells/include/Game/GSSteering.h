@@ -26,6 +26,9 @@ class GSSteering : public crea::GameState
 	bool m_bKeyPressedAdd;
 	bool m_bKeyPressedSub;
 
+	// Obstacles
+	vector<Entity*> m_vObstacles;
+
 	Entity* m_pMouse;
 
 	IntRect m_rWindowRect;

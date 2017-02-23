@@ -3,6 +3,8 @@
 #include "Game\GSMap.h"
 #include "Game\GSMenu.h"
 #include "Game\GSGame.h"
+#include "Game\GSFormation.h"
+#include "Game\GSSteering.h"
 
 
 GSMap::GSMap()
@@ -37,10 +39,19 @@ bool GSMap::onUpdate()
 		m_pGM->setGameState(new GSMenu());
 		return true;
 	}
-
 	if (m_pGM->isKeyPressed(Key::Num2))
 	{
 		m_pGM->setGameState(new GSGame());
+		return true;
+	}
+	if (m_pGM->isKeyPressed(Key::Num3))
+	{
+		m_pGM->setGameState(new GSSteering());
+		return true;
+	}
+	if (m_pGM->isKeyPressed(Key::Num4))
+	{
+		m_pGM->setGameState(new GSFormation());
 		return true;
 	}
 

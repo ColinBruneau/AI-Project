@@ -4,6 +4,7 @@
 #include "Game\GSMenu.h"
 #include "Game\GSGame.h"
 #include "Game\GSMap.h"
+#include "Game\GSFormation.h"
 #include "Core\SceneManager.h"
 #include "Core\ICore.h"
 #include "Graphics\SpriteRenderer.h"
@@ -85,9 +86,34 @@ void GSSteering::setBehavior()
 			case 1: pSteering->addBehavior(new Pursuit(m_vEntities[i], m_vEntities[i + 1], 1.0f), 1.0f);
 				break;
 			case 2: pSteering->addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 1.0f);
+				break;
+			case 3: pSteering->addBehavior(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
+				break;
+			case 4 : pSteering->addBehavior(new PathFollowing(m_vEntities[i], 2.0f, 12, 100.f, &m_vObstacles), 1.0f);
+				break;
+			case 5: pSteering->addBehavior(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				break;
+			case 6:
+				pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				pSteering->addBehavior(new Cohesion(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				pSteering->addBehavior(new Alignment(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				break;
+			case 7:
+				if (i == 0)
+				{
+					pSteering->addBehavior(new Arrival(m_vEntities[0], m_pMouse, 200.f), 1.0f);
+				}
+				else
+				{
+					pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
+					pSteering->addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+				}
+				break;
+			case 8:
+				pSteering->addBehavior(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
 				break;
 			}
-
 		}
 		else
 		{
@@ -98,6 +124,25 @@ void GSSteering::setBehavior()
 			case 1: pSteering->addBehavior(new Evasion(m_vEntities[i], m_vEntities[i-1], 1.f), 1.0f);
 				break;
 			case 2: pSteering->addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 1.0f);
+				break;
+			case 3: pSteering->addBehavior(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
+				break;
+			case 4: pSteering->addBehavior(new PathFollowing(m_vEntities[i], 2.0f, 12, 100.f, &m_vObstacles), 1.0f);
+				break;
+			case 5: pSteering->addBehavior(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				break;
+			case 6: 
+				pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				pSteering->addBehavior(new Cohesion(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				pSteering->addBehavior(new Alignment(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+				break;
+			case 7:
+				pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
+				pSteering->addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+				break;
+			case 8:
+				pSteering->addBehavior(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
 				break;
 			}
 		}
@@ -123,6 +168,28 @@ bool GSSteering::onInit()
 	pEntityFPS->addComponent(pTextRenderer);
 	pEntityFPS->setPosition(Vector2f(1100, 0));
 	m_pGM->addEntity(pEntityFPS);
+
+	// Obstacles
+	Entity* pEntityObstacle = m_pGM->getEntity("o1");
+	pEntityObstacle->setPosition(Vector2f(100, 600));
+	Collider* pCollider = m_pGM->getCollider("Obstacle/Obstacle1.col");
+	pEntityObstacle->addComponent(pCollider);
+	m_pGM->addEntity(pEntityObstacle);
+	m_vObstacles.push_back(pEntityObstacle);
+
+	pEntityObstacle = m_pGM->getEntity("o2");
+	pEntityObstacle->setPosition(Vector2f(600, 600));
+	pCollider = m_pGM->getCollider("Obstacle/Obstacle2.col");
+	pEntityObstacle->addComponent(pCollider);
+	m_pGM->addEntity(pEntityObstacle);
+	m_vObstacles.push_back(pEntityObstacle);
+
+	pEntityObstacle = m_pGM->getEntity("o3");
+	pEntityObstacle->setPosition(Vector2f(600, 100));
+	pCollider = m_pGM->getCollider("Obstacle/Obstacle3.col");
+	pEntityObstacle->addComponent(pCollider);
+	m_pGM->addEntity(pEntityObstacle);
+	m_vObstacles.push_back(pEntityObstacle);
 
 	// Steering mode
 	m_pTextSteeringMode = m_pGM->getText("steering");
@@ -193,10 +260,19 @@ bool GSSteering::onUpdate()
 		m_pGM->setGameState(new GSMenu());
 		return true;
 	}
-
+	if (m_pGM->isKeyPressed(Key::Num2))
+	{
+		m_pGM->setGameState(new GSGame());
+		return true;
+	}
 	if (m_pGM->isKeyPressed(Key::Num3))
 	{
-		m_pGM->setGameState(new GSMap());
+		m_pGM->setGameState(new GSSteering());
+		return true;
+	}
+	if (m_pGM->isKeyPressed(Key::Num4))
+	{
+		m_pGM->setGameState(new GSFormation());
 		return true;
 	}
 
@@ -216,7 +292,43 @@ bool GSSteering::onUpdate()
 	if (m_pGM->isKeyPressed(Key::Numpad2))
 	{
 		m_iSteeringMode = 2;
-		m_pTextSteeringMode->setString("Arrival");
+		m_pTextSteeringMode->setString("Arrival/Obstacle Avoidance");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad3))
+	{
+		m_iSteeringMode = 3;
+		m_pTextSteeringMode->setString("Wander");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad4))
+	{
+		m_iSteeringMode = 4;
+		m_pTextSteeringMode->setString("Path following");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad5))
+	{
+		m_iSteeringMode = 5;
+		m_pTextSteeringMode->setString("Unaligned Collision Avoidance");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad6))
+	{
+		m_iSteeringMode = 6;
+		m_pTextSteeringMode->setString("Flocking");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad7))
+	{
+		m_iSteeringMode = 7;
+		m_pTextSteeringMode->setString("Lead Following");
+		setBehavior();
+	}
+	if (m_pGM->isKeyPressed(Key::Numpad8))
+	{
+		m_iSteeringMode = 8;
+		m_pTextSteeringMode->setString("Swarming");
 		setBehavior();
 	}
 

@@ -6,6 +6,7 @@
 
 namespace crea
 {
+	int Swarming::global_counter = 0;
 
 	Behavior::Behavior(Entity* _pEntity)
 		: m_pEntity(_pEntity), m_vDesiredVelocity(), m_vSteering(), m_vOffset()
@@ -97,13 +98,16 @@ namespace crea
 	Vector2f& PathFollowing::Update()
 	{
 		Vector2f position = m_pEntity->getPosition() + m_pSteering->getVelocity() * m_fC;
-		float distMin = INFINITY;
 		std::vector<Entity*>::iterator j;
 
 		// if no target yet
 		if (m_pSteering->getTarget() == NULL)
 		{
-			// Compute closest waypoints
+			// Take first... (option 1)
+			//m_pSteering->setTarget(*m_obstacles->begin());
+
+			// Compute closest waypoints (option 2)
+			float distMin = INFINITY;
 			for (std::vector<Entity*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
 			{
 				Vector2f obstaclePosition = (*i)->getPosition();
@@ -111,18 +115,15 @@ namespace crea
 
 				if (dist < distMin) {
 					distMin = dist;
-					// take next as target (if one exist)
-					j = i;
-					j++;
-					if (j != m_obstacles->end())
-						m_pSteering->setTarget(*j);
-					else
-						m_pSteering->setTarget(*i);
+					m_pSteering->setTarget(*i);
 				}
 			}
+			
 		}
 
-		float fTargetRadius = m_pSteering->getTarget()->getComponent<CircleCollider>()->getRadius();
+		Collider* pCollider = m_pSteering->getTarget()->getComponent<Collider>();
+		CircleCollider* pCircleCollider = (CircleCollider*)pCollider->getCollider();
+		float fTargetRadius = pCircleCollider->getRadius();
 		
 		if ((m_pSteering->getTarget()->getPosition() - m_pEntity->getPosition()).length() < fTargetRadius)
 		{
@@ -185,7 +186,9 @@ namespace crea
 		for (std::vector<Entity*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
 		{
 			Vector2f obstaclePosition = (*i)->getPosition();
-			float fRadius = (*i)->getComponent<CircleCollider>()->getRadius();
+			Collider* pCollider = (*i)->getComponent<Collider>();
+			CircleCollider* pCircleCollider = (CircleCollider*)pCollider->getCollider();
+			float fRadius = pCircleCollider->getRadius();
 
 			float r = (position.getY() - obstaclePosition.getY()) * (position.getY() - direction.getY()) - (position.getX() - obstaclePosition.getX()) * (direction.getX() - position.getX());
 			float s = (position.getY() - obstaclePosition.getY()) * (direction.getX() - position.getX()) - (position.getX() - obstaclePosition.getX()) * (direction.getY() - position.getY());
@@ -332,6 +335,171 @@ namespace crea
 			m_vSteering.normalize();
 			m_vSteering *= m_pSteering->getMaxForce();
 		}
+
+		return m_vSteering;
+	}
+
+	Vector2f& Swarming::Update()
+	{
+		Vector2f velocity = m_pEntity->getVelocity();
+		velocity.normalize();
+		Vector2f velocityTangent(-velocity.getY(), velocity.getX());
+		Vector2f vEntityToTarget = m_target->getPosition() - m_pEntity->getPosition();
+		if (vEntityToTarget.lengthSq() > m_fSwarmDistanceSquare)
+		{
+			// Outer zone
+
+			// Increase speed to maximum
+			m_vSteering = velocity * m_pSteering->getMaxForce();
+
+			float fAngle = vEntityToTarget.angle(velocity);
+			if (fAngle < 0.1f)
+			{
+				// Vary the steering as a function of the index of the entity
+				float fRandTurn = (global_counter - m_iIndex) * 0.01f;
+				m_vSteering += velocityTangent * fRandTurn;
+			}
+			else
+			{
+				if (vEntityToTarget.isLeft(velocity))
+				{
+					m_vSteering = velocityTangent * -100.f;
+				}
+				else
+				{
+					m_vSteering = velocityTangent * 100.f;
+				}
+			}
+		}
+		else
+		{
+			// Inner zone
+
+			if (vEntityToTarget.isLeft(velocity))
+			{
+				m_vSteering = velocityTangent * -100.f;
+			}
+			else
+			{
+				m_vSteering = velocityTangent * 100.f;
+			}
+		}
+		return m_vSteering;
+	}
+
+	Vector2f& FormationV::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			bool bCanNormalize = forward.normalize();
+			if (!bCanNormalize)
+			{
+				forward = m_vOldForward;
+			}
+			right = Vector2f(forward.getY(), -forward.getX());
+			m_vOldForward = forward;
+		}
+		
+		// For V shapes, add 1 unit per line to have an odd number 
+		if (m_angle != 0.f && m_nbInLine % 2 == 0)
+		{
+			m_nbInLine++;
+		}
+		
+		// Use minimum between nbInLine and max units
+		if (m_nbInLine > m_maxId)
+		{
+			m_nbInLine = m_maxId;
+		}
+
+		int idRight = (m_id%m_nbInLine) - m_nbInLine / 2;
+		int idBack = m_id / m_nbInLine;
+		float fX = idRight * m_distanceMax;
+		float fY = abs(fX) * (float)tan(m_angle) + idBack * m_distanceMax; // Fleche + recul
+		Vector2f arrivalOffset = right * fX - forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_pEntity->getPosition();
+		float distance = target_offset.length();
+		float max_speed = m_pSteering->getMaxSpeed();
+		float ramped_speed = max_speed * (distance / m_slowingDistance);
+		float clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_vSteering = desired_velocity - m_pEntity->getVelocity();
+
+		return m_vSteering;
+	}
+
+	Vector2f& FormationCircle::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			forward.normalize();
+			right = Vector2f(forward.getY(), -forward.getX());
+		}
+
+		int idInCircle = m_id%m_nbInCircle;
+		int iCircle = m_id / m_nbInCircle;
+		int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
+		float angle = MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((float)(idInCircle) / (float)(idMax)));
+		float distanceToLeader = m_minRadius + iCircle * m_distanceMax;
+		float fX = sin(angle) * distanceToLeader;
+		float fY = cos(angle) * distanceToLeader;
+		Vector2f arrivalOffset = right * fX + forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_pEntity->getPosition();
+		float distance = target_offset.length();
+		float max_speed = m_pSteering->getMaxSpeed();
+		float ramped_speed = max_speed * (distance / m_slowingDistance);
+		float clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_vSteering = desired_velocity - m_pEntity->getVelocity();
+
+		return m_vSteering;
+	}
+
+	Vector2f& FormationDynamic::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			forward.normalize();
+			right = Vector2f(forward.getY(), -forward.getX());
+		}
+
+		//Move slots
+		m_angleStart += (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
+
+		//Circle
+		int idInCircle = m_id%m_nbInCircle;
+		int iCircle = m_id / m_nbInCircle;
+		int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
+		float angle = m_angleStart + MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((float)(idInCircle) / (float)(idMax)));
+		float distanceToLeader = m_minRadius + iCircle * m_distanceMax;
+		float fX = sin(angle) * distanceToLeader;
+		float fY = cos(angle) * distanceToLeader;
+		Vector2f arrivalOffset = right * fX + forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_pEntity->getPosition();
+		float distance = target_offset.length();
+		float max_speed = m_pSteering->getMaxSpeed();
+		float ramped_speed = max_speed * (distance / m_slowingDistance);
+		float clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_vSteering = desired_velocity - m_pEntity->getVelocity();
 
 		return m_vSteering;
 	}

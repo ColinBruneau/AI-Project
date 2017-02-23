@@ -12,6 +12,7 @@
 #include "Game\GSMenu.h"
 #include "Game\GSGame.h"
 #include "Game\GSSteering.h"
+#include "Game\GSFormation.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -20,7 +21,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setGameState(new GSSteering());
+	pGM->setGameState(new GSFormation());
 
 	pGM->update();
 
