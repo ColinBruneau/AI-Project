@@ -158,6 +158,32 @@ namespace crea
 		return nullptr;
 	}
 
+	void Entity::selectEntities(FloatRect& _rect)
+	{
+		if (_rect.contains(getPosition()))
+		{
+			m_bSelected = true;
+		}
+		else
+		{
+			// Children
+			for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
+			{
+				(*it)->selectEntities(_rect);
+			}
+		}
+	}
+
+	void Entity::unselectEntities()
+	{
+		m_bSelected = false;
+		// Children
+		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
+		{
+			(*it)->unselectEntities();
+		}
+	}
+
 	bool Entity::removeEntity(Entity* _pEntity)
 	{
 		if (_pEntity->m_pParent != nullptr)

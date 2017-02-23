@@ -237,6 +237,17 @@ namespace crea
 		delete _pEntity;
 	}
 
+	void EntityManager::selectEntities(Vector2f _vStart, Vector2f _vEnd) 
+	{ 
+		FloatRect rect(_vStart, _vEnd);
+		m_pRoot->selectEntities(rect);
+	}
+
+	void EntityManager::unselectEntities()
+	{
+		m_pRoot->unselectEntities();
+	}
+
 	void EntityManager::clear()
 	{
 		MapStringTextRenderer::iterator itTextRenderer = m_pTextRenderers.begin();

@@ -21,6 +21,7 @@ namespace crea
 	class CharacterController;
 	class UserController;
 	class Steering;
+	class Vector2f;
 }
 
 namespace crea
@@ -85,6 +86,10 @@ namespace crea
 		void clear();
 
 		void clearEntity(Entity* _pEntity);
+
+		void selectEntities(Vector2f _vStart, Vector2f _vEnd);
+		
+		void unselectEntities();
 
 	};
 

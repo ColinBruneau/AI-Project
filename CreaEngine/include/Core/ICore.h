@@ -10,6 +10,7 @@ namespace crea
 {
 #define PI 3.14159265f
 #define EPSILON 0.00001f
+#define ONEOVER128 0.0078125
 
 	class CREAENGINE_API Vector2f
 	{
@@ -117,6 +118,38 @@ namespace crea
 
 		~FloatRect()
 		{
+		}
+
+		FloatRect(Vector2f _vStart, Vector2f _vEnd)
+		{
+			float x1 = _vStart.getX();
+			float y1 = _vStart.getY();
+			float x2 = _vEnd.getX();
+			float y2 = _vEnd.getY();
+			m_fX = x1;
+			m_fY = y1;
+			m_fW = x2 - x1;
+			m_fH = y2 - y1;
+			if (m_fW < 0.f)
+			{
+				m_fX = x2;
+				m_fW = -m_fW;
+			}
+			if (m_fH < 0.f)
+			{
+				m_fY = y2;
+				m_fH = -m_fH;
+			}
+
+		}
+
+		bool contains(Vector2f& _v)
+		{
+			if (_v.getX() > m_fX && _v.getX() < m_fX + m_fW && _v.getY() > m_fY && _v.getY() < m_fY + m_fH)
+			{
+				return true;
+			}
+			return false;
 		}
 
 	};

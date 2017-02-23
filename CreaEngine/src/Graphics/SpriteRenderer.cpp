@@ -9,6 +9,7 @@ namespace crea
 	SpriteRenderer::SpriteRenderer()
 	{
 		m_pSprite = nullptr;
+		m_pSelectionSprite = nullptr;
 		m_pTextureRect = nullptr;
 	}
 
@@ -22,6 +23,10 @@ namespace crea
 
 	bool SpriteRenderer::init()
 	{
+		// Selection
+		m_pSelectionSprite = crea::GameManager::getSingleton()->getSprite("debug/selection");
+		m_pSelectionSprite->setTexture(crea::GameManager::getSingleton()->getTexture("debug/selection.png"));
+
 		return true;
 	}
 	
@@ -32,6 +37,18 @@ namespace crea
 	
 	bool SpriteRenderer::draw()
 	{
+		// Selection
+		if (m_pSelectionSprite && getEntity()->getSelected())
+		{
+			Vector2f vPos = getEntity()->getPosition();
+			m_pSelectionSprite->setPosition(vPos.getX(), vPos.getY());
+			m_pSelectionSprite->setOrigin(64, 64);
+			//Vector2f vSize = m_pSprite->getSize();
+			//m_pSelectionSprite->setScale(ONEOVER128*vSize.getX(), ONEOVER128*vSize.getY());
+			m_pSelectionSprite->setScale(ONEOVER128*36, ONEOVER128*36);
+			m_pSelectionSprite->draw();
+		}
+
 		if (m_pSprite)
 		{
 			Vector2f vPos = getEntity()->getPosition();

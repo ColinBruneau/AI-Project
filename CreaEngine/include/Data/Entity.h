@@ -25,6 +25,9 @@ namespace crea
 		// Composition
 		list<Component*> m_pComponents;
 
+		// Selection
+		bool m_bSelected;
+
 	public:
 		Entity();
 		virtual ~Entity();
@@ -40,6 +43,12 @@ namespace crea
 		Entity* getEntity(string& _szName);
 
 		Entity* getEntity(Entity* _pEntity);
+
+		void selectEntities(FloatRect& _rect);
+
+		void unselectEntities();
+
+		bool getSelected() { return m_bSelected; }
 
 		bool removeEntity(Entity* _pEntity);
 

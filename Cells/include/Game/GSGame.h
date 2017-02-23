@@ -32,6 +32,11 @@ class GSGame : public crea::GameState
 
 	Entity* m_pEntity3;
 
+	// Selection
+	bool m_bSelection;
+	Vector2f m_vStartSelection;
+	Vector2f m_vEndSelection;
+
 public:
 	GSGame();
 	virtual ~GSGame();

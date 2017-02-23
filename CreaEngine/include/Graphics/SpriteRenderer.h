@@ -15,6 +15,7 @@ namespace crea
 	class CREAENGINE_API SpriteRenderer : public Component
 	{
 		ISprite* m_pSprite;
+		ISprite* m_pSelectionSprite;
 		IntRect* m_pTextureRect;
 
 	public:
@@ -22,6 +23,7 @@ namespace crea
 		virtual ~SpriteRenderer();
 
 		inline void setSprite(ISprite* _pSprite) { m_pSprite = _pSprite; }
+		inline void setSelectionSprite(ISprite* _pSprite) { m_pSelectionSprite = _pSprite; }
 		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
 		virtual bool init();

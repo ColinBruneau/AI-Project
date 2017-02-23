@@ -21,6 +21,9 @@
 		Agent module (Attributes)
 12/2017 FSM
 		Msg
+01/2017 Steering and swarming
+02/2017 Formation
+		AI Tools
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?
@@ -30,6 +33,8 @@ To do:
 - void setActionTable(ActionTable* _pActionTable); // CB: check if possible to get as getComponent<ActionTable>()
 - dans le CharacterController, ajouter une réponse aux collisions autre que bloquer le perso
 - bug: la souris ne retourne pas 1280*800 au coin en bas à droite 
+- Selection: pour le moment la sélection se fait sur tous les sprites dans GSGame. Il faudrait faire un système générique de sélection (component?)
+  qui pourrait être configuré dans le Gamecode (ex: texture, entité sélectionnable).
 
 Removed:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)

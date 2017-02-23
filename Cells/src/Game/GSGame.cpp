@@ -65,6 +65,7 @@ bool GSGame::onInit()
 	m_pAgent1 = m_pGM->getAgent("Peon/Peon1.chr");
 	m_pFSMPeon1 = new FSMPeon(m_pAgent1);
 	m_pAgent1->SetStateMachine(m_pFSMPeon1); // CB: can't we just call SetStateMachine in FSMPeon?
+
 	
 	// Entity 2
 	//m_pAgent2 = m_pGM->getAgent("Peon/Peon2.chr");
@@ -100,6 +101,26 @@ bool GSGame::onUpdate()
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
 	m_pTextFPS->setString(to_string((int)(1/frameTime.asSeconds())) + " fps");
+
+	// Selection
+	if (m_pGM->isMouseButtonPressed(Button::MouseRight))
+	{
+		if (!m_bSelection) // just pressed
+		{
+			m_vStartSelection = m_pGM->getMousePosition();
+		}
+		m_bSelection = true;
+	}
+	else
+	{
+		if (m_bSelection) // just released
+		{
+			m_vEndSelection = m_pGM->getMousePosition();
+			m_pGM->unselectEntities();
+			m_pGM->selectEntities(m_vStartSelection, m_vEndSelection);
+		}
+		m_bSelection = false;
+	}
 
 	return true;
 }
