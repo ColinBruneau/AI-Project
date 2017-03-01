@@ -14,7 +14,11 @@ typedef enum {
 	MSG_ChangeState,
 	MSG_Die,
 	MSG_Hit,
-	MSG_HitStop
+	MSG_HitStop,
+	MSG_Reset,
+	MSG_Stop,
+	MSG_Start,
+	MSG_Teleport
 } MSG_Name;
 
 #endif

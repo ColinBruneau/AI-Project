@@ -27,6 +27,8 @@ FSMPeonGoTo::~FSMPeonGoTo()
 bool FSMPeonGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
 {
 	BeginStateMachine
+		OnMsg(MSG_Teleport)
+		SetState(STATE_CompletedPath);
 
 		/////////////////////////////////////////////////////////////////
 		State(STATE_SearchPath)

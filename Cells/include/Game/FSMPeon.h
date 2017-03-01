@@ -23,6 +23,8 @@ public:
 	FSMPeon(Agent* _pAgent);
 	virtual ~FSMPeon();
 
+	inline FSMPeonLive* getFSMPeonLive() { return m_pFSMPeonLive; }
+
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 
 };

@@ -12,6 +12,7 @@
 #include "Core\TimeManager.h"
 #include "AI\StateMachine.h"
 #include "AI\Pathfinding\MapSearchManager.h"
+#include "Game\Messages.h"
 
 
 GSGame::GSGame()
@@ -72,7 +73,49 @@ bool GSGame::onInit()
 	//m_pFSMPeon2 = new FSMPeon(m_pAgent2);
 	//m_pAgent2->SetStateMachine(m_pFSMPeon2); // CB: can't we just call SetStateMachine in FSMPeon?
 
+
+	// Commands
+	ITexture* pCommandsTexture = m_pGM->getTexture("debug/Commands.png");
+	ISprite* pCommandsSprite = m_pGM->getSprite("Commands");
+	pCommandsSprite->setTexture(pCommandsTexture);
+
+	SpriteRenderer* pSpriteRenderer = m_pGM->getSpriteRenderer("ResetRenderer");
+	pSpriteRenderer->setSprite(pCommandsSprite);
+
+	Entity* pEntityReset = m_pGM->getEntity("Sprite reset");
+	pEntityReset->addComponent(pSpriteRenderer);
+	pEntityReset->setPosition(Vector2f(1000, 500));
+
+	m_pGM->addEntity(pEntityReset);
+
+	// Diagnostics
+	IColor* pBlue = m_pGM->getColor("Blue");
+	pBlue->setValues(0, 0, 255, 255);
+
+	m_pTextDiagnostics = m_pGM->getText("Diagnostics");
+	m_pTextDiagnostics->setFont(m_pGM->getFont("arial.ttf"));
+	m_pTextDiagnostics->setColor(pBlue);
+	m_pTextDiagnostics->setCharacterSize(14);
+	m_pTextDiagnostics->setPosition(-100.f, -100.f);
+
+	m_pPathSprite = crea::GameManager::getSingleton()->getSprite("debug/path");
+	m_pPathSprite->setTexture(crea::GameManager::getSingleton()->getTexture("debug/path.png"));
+	m_pPathSprite->setOrigin(64, 64);
+	m_pPathSprite->setScale(ONEOVER128 * 32, ONEOVER128 * 32);
+
 	return true;
+}
+
+bool isButton(int _i, Vector2f& _vMousePosition)
+{
+	int i = _i % 5;
+	int j = _i / 5;
+	FloatRect r(1000 + i * 46, 500 + j * 38, 46, 38);
+	if (r.contains(_vMousePosition))
+	{
+		return true;
+	}
+	return false;
 }
 
 bool GSGame::onUpdate()
@@ -122,11 +165,185 @@ bool GSGame::onUpdate()
 		m_bSelection = false;
 	}
 
+	// Command
+	if (m_pGM->isMouseButtonPressed(Button::MouseMiddle))
+	{
+		if (!m_bCommand) // just pressed
+		{
+			m_eCommandType = Command_Invalid;
+			Vector2f vMousePosition = m_pGM->getMousePosition();
+			FloatRect rect(1000, 500, 256, 256);
+			if (rect.contains(vMousePosition))
+			{
+				if (isButton(0, vMousePosition))
+				{
+					m_eCommandType = Command_Reset;
+				}
+				else if (isButton(1, vMousePosition))
+				{
+					m_eCommandType = Command_Kill;
+				}
+				else if (isButton(2, vMousePosition))
+				{
+					m_eCommandType = Command_Stop;
+				}
+				else if (isButton(3, vMousePosition))
+				{
+					m_eCommandType = Command_Start;
+				}
+				else if (isButton(4, vMousePosition))
+				{
+					m_eCommandType = Command_Teleport;
+				}
+			}
+		}
+		m_bCommand = true;
+	}
+	else
+	{
+		if (m_bCommand) // just released
+		{
+			// Do the command
+			ListEntity* pSelectedEntities = m_pGM->getSelectedEntities();
+			for (ListEntity::iterator i = pSelectedEntities->begin(); i != pSelectedEntities->end(); ++i)
+			{
+				Entity* pEntity = (Entity*)*i;
+				if (m_eCommandType == Command_Reset)
+				{
+					Agent* pAgent = pEntity->getComponent<Agent>();
+					if (pAgent)
+					{
+						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Reset);
+					}
+				}
+				else if (m_eCommandType == Command_Kill)
+				{
+					Agent* pAgent = pEntity->getComponent<Agent>();
+					if (pAgent)
+					{
+						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Die);
+					}
+				}
+				else if (m_eCommandType == Command_Stop)
+				{
+					Agent* pAgent = pEntity->getComponent<Agent>();
+					if (pAgent)
+					{
+						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Stop);
+					}
+				}
+				else if (m_eCommandType == Command_Start)
+				{
+					Agent* pAgent = pEntity->getComponent<Agent>();
+					if (pAgent)
+					{
+						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Start);
+					}
+				}
+				else if (m_eCommandType == Command_Teleport)
+				{
+					Agent* pAgent = pEntity->getComponent<Agent>();
+					if (pAgent)
+					{
+						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Teleport);
+					}
+				}
+			}
+
+			m_eCommandType = Command_Invalid;
+		}
+		m_bCommand = false;
+	}
+
 	return true;
 }
 
 bool GSGame::onDraw()
 {
+	// Diagnostics
+	ListEntity* pSelectedEntities = m_pGM->getSelectedEntities();
+	for (ListEntity::iterator i = pSelectedEntities->begin(); i != pSelectedEntities->end(); ++i)
+	{
+		Entity* pEntity = (Entity*)*i;
+		Vector2f position = pEntity->getPosition();
+		m_pTextDiagnostics->setPosition(position.getX(), position.getY()+10);
+		string szDiagnostics; 
+		szDiagnostics += pEntity->getName();
+		Agent* pAgent = pEntity->getComponent<Agent>();
+		if (pAgent)
+		{
+			// Stats
+			szDiagnostics += "\nHea: ";
+			szDiagnostics += to_string(pAgent->getHealth());
+			szDiagnostics += " Str: ";
+			szDiagnostics += to_string(pAgent->getStrength());
+			szDiagnostics += " Int: ";
+			szDiagnostics += to_string(pAgent->getIntelligence());
+			szDiagnostics += " Dex: ";
+			szDiagnostics += to_string(pAgent->getDexterity());
+
+			// State
+			StateMachine* pFSM = pAgent->GetStateMachine();
+			if (pFSM)
+			{
+				FSMPeon* pFSMPeon = (FSMPeon*)pFSM;
+				szDiagnostics += "\nFSM Peon: ";
+				switch (pFSM->GetState())
+				{
+				case 0:szDiagnostics += "STATE_Spawn"; break;
+				case 1:szDiagnostics += "STATE_Live"; break;
+				case 2:szDiagnostics += "STATE_Die"; break;
+				}
+				FSMPeonLive* pFSMLive = pFSMPeon->getFSMPeonLive();
+				if (pFSMLive)
+				{
+					szDiagnostics += "\nFSM Live: ";
+					switch (pFSMLive->GetState())
+					{
+					case 0:szDiagnostics += "STATE_Idle"; break;
+					case 1:szDiagnostics += "STATE_GoTo"; break;
+					case 2:szDiagnostics += "STATE_GetResource"; break;
+					case 3:szDiagnostics += "STATE_DropResource"; break;
+					case 4:szDiagnostics += "STATE_Hit"; break;
+					}
+					FSMPeonGoTo* pFSMGoTo = pFSMLive->getFSMPeonGoTo();
+					if (pFSMGoTo)
+					{
+						szDiagnostics += "\nFSM GoTo: ";
+						switch (pFSMGoTo->GetState())
+						{
+						case 0:szDiagnostics += "STATE_SearchPath"; break;
+						case 1:szDiagnostics += "STATE_FollowPath"; break;
+						case 2:szDiagnostics += "STATE_SearchFailed"; break;
+						case 3:szDiagnostics += "STATE_CompletedPath"; break;
+						}
+
+						// Draw path
+						VectorVector2f* path = pFSMGoTo->getPath();
+						for (short i = 0; i < (short)path->size(); i++)
+						{
+							Vector2f* v = path->operator[](i);
+							m_pPathSprite->setPosition(v->getX(), v->getY());
+							m_pPathSprite->draw();
+						}
+					}
+				}
+			}
+
+			// Animation
+			Animator* pAnimator = pEntity->getComponent<Animator>();
+			if (pAnimator)
+			{
+				szDiagnostics += "\nAnim: ";
+				szDiagnostics += pAnimator->getAnimation()->getName();
+			}
+
+			
+		}
+		m_pTextDiagnostics->setString(szDiagnostics);
+		m_pTextDiagnostics->draw();
+	}
+
 	return true;
 }
 

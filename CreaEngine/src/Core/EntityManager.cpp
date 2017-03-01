@@ -246,6 +246,12 @@ namespace crea
 	void EntityManager::unselectEntities()
 	{
 		m_pRoot->unselectEntities();
+		m_pSelectedEntities.clear();
+	}
+
+	void EntityManager::addSelectedEntity(Entity* _pEntity)
+	{
+		m_pSelectedEntities.push_back(_pEntity);
 	}
 
 	void EntityManager::clear()

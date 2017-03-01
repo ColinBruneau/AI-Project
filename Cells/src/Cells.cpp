@@ -21,7 +21,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setGameState(new GSFormation());
+	pGM->setGameState(new GSGame());
 
 	pGM->update();
 

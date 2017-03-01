@@ -32,6 +32,8 @@ public:
 	void setEntity(Entity* _p) { m_pEntity = _p; }
 	void setCharacterController(CharacterController* _p) { m_pCharacterController = _p; }
 
+	inline VectorVector2f* getPath() { return &m_vPath; }
+
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 
 	enum States {

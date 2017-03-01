@@ -91,6 +91,8 @@ namespace crea
 		
 		inline void unselectEntities() { EntityManager::getSingleton()->unselectEntities(); }
 
+		inline ListEntity* getSelectedEntities() { return EntityManager::getSingleton()->getSelectedEntities(); }
+
 		void init();
 
 		void update();

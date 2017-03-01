@@ -163,6 +163,7 @@ namespace crea
 		if (_rect.contains(getPosition()))
 		{
 			m_bSelected = true;
+			EntityManager::getSingleton()->addSelectedEntity(this);
 		}
 		else
 		{
@@ -177,6 +178,7 @@ namespace crea
 	void Entity::unselectEntities()
 	{
 		m_bSelected = false;
+
 		// Children
 		for (list<Entity*>::iterator it = m_pChildren.begin(); it != m_pChildren.end(); ++it)
 		{

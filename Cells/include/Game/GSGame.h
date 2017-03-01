@@ -6,6 +6,7 @@
 #ifndef __GSGame_H_
 #define __GSGame_H_
 
+#include <list>
 #include "Core\GameState.h"
 #include "AI\ActionTable.h"
 #include "Physics\CharacterController.h"
@@ -15,6 +16,16 @@
 #include "FSMPeon.h"
 
 using namespace crea;
+
+enum EnumCommandType
+{
+	Command_Invalid = -1,
+	Command_Reset = 0,
+	Command_Kill,
+	Command_Stop,
+	Command_Start,
+	Command_Teleport
+};
 
 class GSGame : public crea::GameState
 {
@@ -36,6 +47,14 @@ class GSGame : public crea::GameState
 	bool m_bSelection;
 	Vector2f m_vStartSelection;
 	Vector2f m_vEndSelection;
+
+	// Command
+	bool m_bCommand;
+	EnumCommandType m_eCommandType;
+
+	// Diagnostic
+	IText* m_pTextDiagnostics;
+	ISprite* m_pPathSprite;
 
 public:
 	GSGame();

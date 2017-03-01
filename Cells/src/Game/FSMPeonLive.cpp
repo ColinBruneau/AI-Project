@@ -25,6 +25,7 @@ FSMPeonLive::FSMPeonLive(Agent* _pAgent) : StateMachine(_pAgent)
 	// Get mine
 	m_pMine = m_pGM->getEntity("Mine");
 
+	m_bPaused = false;
 }
 
 FSMPeonLive::~FSMPeonLive()
@@ -36,15 +37,24 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 {
 	BeginStateMachine
 
+		OnMsg(MSG_Reset)
+			SetState(STATE_Idle);
 		OnMsg(MSG_Hit)
 			SetState(STATE_Hit);
 		OnMsg(MSG_HitStop)
 			SetStateInHistory();
+		OnMsg(MSG_Start)
+			m_bPaused = false;
+		OnMsg(MSG_Stop)
+			m_bPaused = true;
+		OnMsg(MSG_Teleport)
+			this->m_pEntity->setPosition(m_pTarget->getPosition()); // teleport
+			m_pFSMPeonGoTo->States(_event, _msg, _state);	// and complete goto fsm
 
  	    ///////////////////////////////////////////////////////////////
 		State(STATE_Idle)
 		OnEnter
-			SendDelayedMsgToMe(0.5f, MSG_Hit); // CB: uncomment to test Hit...
+			//SendDelayedMsgToMe(0.5f, MSG_Hit); // CB: uncomment to test Hit...
  
 		OnUpdate
 			if (m_pMine)
@@ -65,17 +75,21 @@ bool FSMPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pFSMPeonGoTo->Initialize();
 
 		OnUpdate
-			m_pFSMPeonGoTo->Update();
-			if (m_pFSMPeonGoTo->GetState() == FSMPeonGoTo::STATE_CompletedPath)
+			if (!m_bPaused)
 			{
-				if (m_pTarget == m_pMine)
-					SetState(STATE_GetResource);
-				else
-					SetState(STATE_DropResource);
+				m_pFSMPeonGoTo->Update();
+				if (m_pFSMPeonGoTo->GetState() == FSMPeonGoTo::STATE_CompletedPath)
+				{
+					if (m_pTarget == m_pMine)
+						SetState(STATE_GetResource);
+					else
+						SetState(STATE_DropResource);
+				}
 			}
 
 		OnExit
 			delete m_pFSMPeonGoTo;
+			m_pFSMPeonGoTo = nullptr;
 
 			///////////////////////////////////////////////////////////////
 		State(STATE_GetResource)

@@ -7,6 +7,7 @@
 #define __EntityManager_H_
 
 #include <string>
+#include <list>
 #include <map>
 using namespace std;
 
@@ -33,6 +34,7 @@ namespace crea
 	class CREAENGINE_API MapStringCharacterController : public map<string, CharacterController*> {};
 	class CREAENGINE_API MapStringUserController : public map<string, UserController*> {};
 	class CREAENGINE_API MapStringSteering : public map<string, Steering*> {};
+	class CREAENGINE_API ListEntity : public list<Entity*> {};
 
 	class CREAENGINE_API EntityManager
 	{
@@ -49,6 +51,8 @@ namespace crea
 		MapStringUserController m_pUserControllers;
 
 		MapStringSteering m_pSteerings;
+
+		ListEntity m_pSelectedEntities;
 
 		Entity* m_pRoot;
 
@@ -89,8 +93,11 @@ namespace crea
 
 		void selectEntities(Vector2f _vStart, Vector2f _vEnd);
 		
+		void addSelectedEntity(Entity* _pEntity);
+
 		void unselectEntities();
 
+		inline ListEntity* getSelectedEntities() { return &m_pSelectedEntities; }
 	};
 
 

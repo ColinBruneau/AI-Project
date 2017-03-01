@@ -23,7 +23,7 @@
 		Msg
 01/2017 Steering and swarming
 02/2017 Formation
-		AI Tools
+		Sélection
 
 To do: 
 - regrouper les interfaces dans IGraphics.h et ICore.h?

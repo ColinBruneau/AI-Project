@@ -24,12 +24,16 @@ class FSMPeonLive : public StateMachine
 	Entity*			m_pTarget;
 	Vector2f		m_vTarget;
 
+	bool			m_bPaused;
+
 public:
 	FSMPeonLive(Agent* _pAgent);
 	virtual ~FSMPeonLive();
 
 	void setEntity(Entity* _p) { m_pEntity = _p; }
 	void setCharacterController(CharacterController* _p) { m_pCharacterController = _p; }
+
+	inline FSMPeonGoTo* getFSMPeonGoTo() { return m_pFSMPeonGoTo; }
 
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 

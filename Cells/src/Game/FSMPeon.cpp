@@ -29,6 +29,9 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 {
 	BeginStateMachine
 
+		OnMsg(MSG_Reset)
+			SetState(STATE_Spawn);
+
 		OnMsg(MSG_Die)
 			SetState(STATE_Die);
 
@@ -60,6 +63,7 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 
 		OnExit
 			delete m_pFSMPeonLive;
+			m_pFSMPeonLive = nullptr;
 
 
 		///////////////////////////////////////////////////////////////
