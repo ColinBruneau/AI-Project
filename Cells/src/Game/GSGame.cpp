@@ -5,6 +5,7 @@
 #include "Game\GSMap.h"
 #include "Game\GSFormation.h"
 #include "Game\GSSteering.h"
+#include "Game\GSBehaviorTree.h"
 #include "Core\SceneManager.h"
 #include "Core\ICore.h"
 #include "Graphics\SpriteRenderer.h"
@@ -138,6 +139,11 @@ bool GSGame::onUpdate()
 	if (m_pGM->isKeyPressed(Key::Num4))
 	{
 		m_pGM->setGameState(new GSFormation());
+		return true;
+	}
+	if (m_pGM->isKeyPressed(Key::Num5))
+	{
+		m_pGM->setGameState(new GSBehaviorTree());
 		return true;
 	}
 

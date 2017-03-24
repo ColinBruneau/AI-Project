@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" dslVersion="1.0.0.0" Id="34fa700c-18a2-40ed-9202-63b384590f20" name="BehaviorTree" linkedPackageId="7d83185d-668f-4c32-997c-f1cea3fa1efa" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="9b3534de-506e-465f-907c-ceb37e8ef409">
+      <profileInstance Id="162ffccf-966d-49aa-bdf7-afcf322e6003" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="3a45d148-91e0-4b8a-ab29-03aa618d1a6d">
+      <profileInstance Id="b83220d1-81e9-4662-8503-73997a8a8096" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="393876cc-c6c3-4aed-b0eb-8ad3e13d4cb8" name="CreaEngine">
+        <elementDefinition Id="aaba0794-7e60-42dc-b653-89850e0c9254" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="803c5366-f778-45be-a4f6-c317713a1c5c" name="Entity" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="047316f5-f389-4359-9036-c18b85b35934" />
+              <targetEnds>
+                <association Id="1dd05724-1451-4dde-9cb1-0d32d038688f" isDerived="false" sourceEndRoleName="Entity" targetEndRoleName="Component" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="d2091604-d4f9-4bb7-8bac-f16f7a858112" LastKnownName="Component" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="e1198341-328b-4b78-a020-ea6a6000808c" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="ed962ff8-32cd-42bd-a6e1-7b7bb00ea83b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="fb560b7d-5f88-4bbe-8da5-8f71456b9bd0" name="Component" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="c3eeed80-61af-4578-91f0-fa06305a0602" name="Lower" value="*">
+                            <elementDefinition Id="e911834b-245a-4a6c-9d2f-6e2f5efcbfa5" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="7c867f14-00c5-4111-8aff-295409922e27" name="Upper" value="*">
+                            <elementDefinition Id="b35d4d68-67fa-4e99-9e40-1333b03d5d0a" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="4553b721-a45d-4d82-bd58-8c50d91be6c2" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="75d25f01-1a5c-4bb3-87d7-b305e29484df" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d2091604-d4f9-4bb7-8bac-f16f7a858112" name="Component" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b80c65b2-7b4f-4237-9118-4a478e9d73de" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="7f798c08-7fa8-4c8a-a14f-cfd8377c30c4" name="BehaviorTree" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="dc5828ed-2972-4a68-870b-7d1ff437010e" />
+              <generalsInternal>
+                <generalization Id="deed342a-eed8-4de7-bc66-6319971f5988" isSubstitutable="false">
+                  <classMoniker Id="d2091604-d4f9-4bb7-8bac-f16f7a858112" LastKnownName="Component" />
+                  <elementDefinition Id="b3a0932a-8dbb-492e-be6f-934c859af120" />
+                </generalization>
+              </generalsInternal>
+              <targetEnds>
+                <association Id="9b27a904-fd2e-42f5-9bf5-19fdf1134e17" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="566d40f4-8ffe-482c-9cbe-01d3eabb4d11" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="ef5eaa40-d7d3-4864-a027-e9a947af9732" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b19e07ed-ffd0-412c-8f8c-24caf7a93079" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="a626ed7f-aeff-414e-a3e5-3eeae2d608cf" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="27c28349-2b1c-458c-9e2f-7947ece91484" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ec6c4af6-5be5-4faf-8079-f154744414ec" name="BTBehavior" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="30f178ed-5e46-4c3c-b51e-a186acb19601" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c7a4823d-89f1-4cf8-a9ea-e08ba25a1854" name="Decorator" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b8ed965c-77c1-44c8-8d18-4b55d2a18d34" />
+              <generalsInternal>
+                <generalization Id="32e4dc41-28ac-44a3-b7b8-bcd9061442be" isSubstitutable="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <elementDefinition Id="95ebef80-f8d0-44a1-a75b-18881bcb5edf" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="993dfde3-a964-487b-8586-171a9fd2717f" name="Repeat" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="c4284928-cad7-4146-afb1-466103688355" />
+              <generalsInternal>
+                <generalization Id="3c21fa2e-7290-43e7-866d-8e20718700c1" isSubstitutable="false">
+                  <classMoniker Id="c7a4823d-89f1-4cf8-a9ea-e08ba25a1854" LastKnownName="Decorator" />
+                  <elementDefinition Id="61d785b2-9695-4895-b245-66233ef24973" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="cb42e487-5a2e-4382-bbb6-02f082842de1" name="Composite" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a7acbb4c-398a-431e-9220-0122fbe72232" />
+              <generalsInternal>
+                <generalization Id="80154bbc-081b-444f-a254-8df1ff95a687" isSubstitutable="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <elementDefinition Id="a497114d-9dff-41a8-aad8-64ffd4d1b39d" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5747c03b-39e4-443d-8c56-0938fe5db9b6" name="Sequence" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="bb6a2308-38aa-48cc-bdb6-314bf6a72094" />
+              <generalsInternal>
+                <generalization Id="fec320e4-1bbc-454d-b28a-e1ad81db6fe5" isSubstitutable="false">
+                  <classMoniker Id="cb42e487-5a2e-4382-bbb6-02f082842de1" LastKnownName="Composite" />
+                  <elementDefinition Id="aeddd00e-1c69-4f8f-9a22-f3191c6a651c" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d52f33a0-4dcf-4ade-a6d7-9e7e81447509" name="Selector" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="64bd8b16-1233-4dbf-9852-6ae03c35509d" />
+              <generalsInternal>
+                <generalization Id="e9455490-946a-46fa-adfa-13f4d20055ba" isSubstitutable="false">
+                  <classMoniker Id="cb42e487-5a2e-4382-bbb6-02f082842de1" LastKnownName="Composite" />
+                  <elementDefinition Id="6dce5e1a-5abb-43a2-b9db-c01600eee085" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="3ab19473-1c5e-4de2-acac-a66025013c93" name="SeekTo" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8fb88b61-37da-44fa-b157-17c00f626c4a" />
+              <generalsInternal>
+                <generalization Id="28457d91-c5e4-428b-b945-7771d51afaf1" isSubstitutable="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <elementDefinition Id="900e6933-deec-448e-ac5f-202fdea139cb" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e0c8e4a2-e294-4237-ab2d-5290185215a9" name="Fleeuntil" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3c346fdf-cef0-4c86-a0e8-64cf4b7c559c" />
+              <generalsInternal>
+                <generalization Id="e54fe210-02a9-414c-aed8-790335d51d4c" isSubstitutable="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <elementDefinition Id="5cf608ab-62b5-42bb-987d-8d0dab5957cf" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="3cb9f803-d477-4ffe-b977-6d98fe4f900c" name="BTWander" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b22a7fa5-c456-432a-9ce2-d77aef98c8e7" />
+              <generalsInternal>
+                <generalization Id="97ec0926-5a2a-4fa2-8854-757b06598b89" isSubstitutable="false">
+                  <classMoniker Id="ec6c4af6-5be5-4faf-8079-f154744414ec" LastKnownName="BTBehavior" />
+                  <elementDefinition Id="baac7cc1-49a0-4312-a9d1-0d91e4e5e4bb" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="a28de7aa-fe0c-4a15-96a7-0a8ae509631e" name="IsAwayFromTarget" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="04253c05-0765-43a7-b479-1a332288c80e" />
+              <generalsInternal>
+                <generalization Id="6555227f-621f-4f45-9fde-5bf790d15a45" isSubstitutable="false">
+                  <classMoniker Id="c7a4823d-89f1-4cf8-a9ea-e08ba25a1854" LastKnownName="Decorator" />
+                  <elementDefinition Id="0bfaa8b3-f5de-4805-805f-fed195115fbe" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="65c340ff-3d83-431b-8ebd-02a23ef1f11a" name="Timer" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2fa9f7ae-9c4d-4e97-9fc6-bd24fe3efb6a" />
+              <generalsInternal>
+                <generalization Id="e242a385-6954-48df-a344-154c5132764c" isSubstitutable="false">
+                  <classMoniker Id="c7a4823d-89f1-4cf8-a9ea-e08ba25a1854" LastKnownName="Decorator" />
+                  <elementDefinition Id="f6147cc9-923b-44c2-8f2c-6291df4503a1" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="bad2cad4-d097-40c4-aa90-d272303c9aaf" name="EntityNameIs" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a8691ae0-b6ba-4cc6-a41b-85d16f8ef55f" />
+              <generalsInternal>
+                <generalization Id="ae34276d-b6d5-436a-b9d4-2c7e7f7e34ff" isSubstitutable="false">
+                  <classMoniker Id="c7a4823d-89f1-4cf8-a9ea-e08ba25a1854" LastKnownName="Decorator" />
+                  <elementDefinition Id="e06fb0aa-a21e-44e7-a0a0-263038b4d318" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="eef19bfe-9920-48ab-97bb-ce651d24484d" name="Cells">
+        <ownedCommentsInternal>
+          <comment Id="451df401-c965-407b-a130-bc495b9315f4">
+            <elementDefinition Id="3662e5b3-a492-47d4-819b-c1fa56695a45" />
+            <body>			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			BTWander* pBTWander = new BTWander(pWander);
+			Timer* pTimer = new Timer(pBTWander);
+			pTimer-&gt;setTimeLimit(3.f);
+			Sequence* pSeq = new Sequence;
+			pSeq-&gt;addChild(pTimer);
+			pSeq-&gt;addChild(pSeekTo);
+			BehaviorTree* pBT = new BehaviorTree();
+			pBT-&gt;setRootBehavior(pSeq);
+			m_vEntities[i]-&gt;addComponent(pBT);</body>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="13900738-a266-4e75-a76e-94142e808f72" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="2b9ab582-5707-4e78-9fad-8e75a7930207" name="GSBehaviorTree" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8e0bb836-c30b-4920-98e9-a8dd5333ec1b" />
+              <targetEnds>
+                <association Id="43bbc333-01f4-4378-ac2e-dfa875c91124" isDerived="false" sourceEndRoleName="StateGame" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="803c5366-f778-45be-a4f6-c317713a1c5c" LastKnownName="Entity" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="e46fd5ff-a639-4521-9f14-14f31e1ecf63" name="StateGame" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="9c5a7230-f629-48aa-b234-535ce8a89dec" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="9a9b3166-fed2-4aff-b0df-3bc7e0553aa6" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="4f35eeaa-df38-465e-afe4-1ba4b7e5c7f9" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="3ac29003-0543-426a-a789-297cc680a4f4" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="7d83185d-668f-4c32-997c-f1cea3fa1efa" name="UML">
+    <elementDefinition Id="522d6b0a-0e8d-4919-8957-00509f0d10dd" />
+  </package>
+</logicalClassDesignerModel>

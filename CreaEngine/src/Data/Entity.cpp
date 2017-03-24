@@ -44,7 +44,10 @@ namespace crea
 	void Entity::removeComponent(Component* _pComponent)
 	{
 		_pComponent->setEntity(nullptr);
-		std::remove(m_pComponents.begin(), m_pComponents.end(), _pComponent);
+		auto a = std::remove_if(m_pComponents.begin(), m_pComponents.end(),
+			[=](Component* p) { return p == _pComponent; });
+
+		m_pComponents.erase(a);
 	}
 
 	bool Entity::init()

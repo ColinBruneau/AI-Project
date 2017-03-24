@@ -79,6 +79,7 @@ namespace crea
 
 		Vector2f steer();
 		void addBehavior(Behavior* _behavior, float _weight);
+		void removeBehavior(Behavior* _behavior);
 		void clearBehaviors();
 						
 		virtual bool init();

@@ -46,6 +46,17 @@ namespace crea
 		m_behaviors.push_back(new PairFloatBehavior(_weight, _behavior));
 	};
 
+	void Steering::removeBehavior(Behavior* _behavior)
+	{
+		if (m_behaviors.empty())
+			return;
+
+		auto a = std::remove_if(m_behaviors.begin(), m_behaviors.end(),
+			[=](PairFloatBehavior* p) { return p->second == _behavior; });
+
+		m_behaviors.erase(a);
+	};
+
 	void Steering::clearBehaviors()
 	{
 		for (int i = 0; i < (int)m_behaviors.size(); i++)

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="13900738-a266-4e75-a76e-94142e808f72"
+  name="Cells" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="3662e5b3-a492-47d4-819b-c1fa56695a45">
+      <body>			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			BTWander* pBTWander = new BTWander(pWander);
+			Timer* pTimer = new Timer(pBTWander);
+			pTimer-&gt;setTimeLimit(3.f);
+			Sequence* pSeq = new Sequence;
+			pSeq-&gt;addChild(pTimer);
+			pSeq-&gt;addChild(pSeekTo);
+			BehaviorTree* pBT = new BehaviorTree();
+			pBT-&gt;setRootBehavior(pSeq);
+			m_vEntities[i]-&gt;addComponent(pBT);</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="8e0bb836-c30b-4920-98e9-a8dd5333ec1b"
+        name="GSBehaviorTree"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="3ac29003-0543-426a-a789-297cc680a4f4"
+            isDerived="false"
+            sourceEndRoleName="StateGame"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="047316f5-f389-4359-9036-c18b85b35934"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_1510.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9c5a7230-f629-48aa-b234-535ce8a89dec"
+                  name="StateGame"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4f35eeaa-df38-465e-afe4-1ba4b7e5c7f9"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="63438f26-a98f-4d47-8e61-35c6d4ba836b"
+        name="FSMPeon"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="ebbfad37-2457-4f22-979f-a45b4abc43fb"
+            isSubstitutable="false">
+            <classMoniker
+              Id="35959542-2700-47d5-bf5e-0783b982a8a7"
+              LastKnownName="StateMachine"
+              LastKnownLocation="Package_1510.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

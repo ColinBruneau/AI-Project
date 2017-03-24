@@ -5,6 +5,7 @@
 #include "Game\GSGame.h"
 #include "Game\GSFormation.h"
 #include "Game\GSSteering.h"
+#include "Game\GSBehaviorTree.h"
 
 
 GSMap::GSMap()
@@ -52,6 +53,11 @@ bool GSMap::onUpdate()
 	if (m_pGM->isKeyPressed(Key::Num4))
 	{
 		m_pGM->setGameState(new GSFormation());
+		return true;
+	}
+	if (m_pGM->isKeyPressed(Key::Num5))
+	{
+		m_pGM->setGameState(new GSBehaviorTree());
 		return true;
 	}
 

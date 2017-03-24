@@ -10,7 +10,7 @@ namespace crea
 {
 #define PI 3.14159265f
 #define EPSILON 0.00001f
-#define ONEOVER128 0.0078125
+#define ONEOVER128 0.0078125f
 
 	class CREAENGINE_API Vector2f
 	{

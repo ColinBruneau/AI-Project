@@ -26,6 +26,7 @@ namespace crea
 		Behavior(Entity* _Entity);
 		virtual ~Behavior() {}
 		void setOffset(Vector2f& _offset) { m_vOffset = _offset; };
+		Entity* getEntity() { return m_pEntity; }
 		virtual Vector2f& Update() = 0;
 	};
 
@@ -34,6 +35,7 @@ namespace crea
 		Entity* m_target;
 	public:
 		Seek(Entity* _Entity, Entity* _target) : Behavior(_Entity), m_target(_target) { };
+		Entity* getTarget() { return m_target; }
 		Vector2f& Update();
 	};
 
@@ -42,6 +44,7 @@ namespace crea
 		Entity* m_target;
 	public:
 		Flee(Entity* _Entity, Entity* _target) : Behavior(_Entity), m_target(_target) { };
+		Entity* getTarget() { return m_target; }
 		Vector2f& Update();
 	};
 

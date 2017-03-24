@@ -15,6 +15,8 @@
     <ClInclude Include="..\include\AI\Agent.h" />
     <ClInclude Include="..\include\AI\AI.h" />
     <ClInclude Include="..\include\AI\AgentManager.h" />
+    <ClInclude Include="..\include\AI\BehaviorTree\BehaviorTree.h" />
+    <ClInclude Include="..\include\AI\BehaviorTree\BTBehavior.h" />
     <ClInclude Include="..\include\AI\Msg.h" />
     <ClInclude Include="..\include\AI\MsgManager.h" />
     <ClInclude Include="..\include\AI\PathFinding\AStarSearch.h" />
@@ -64,6 +66,7 @@
     <ClCompile Include="AI\ActionTable.cpp" />
     <ClCompile Include="AI\Agent.cpp" />
     <ClCompile Include="AI\AgentManager.cpp" />
+    <ClCompile Include="AI\BehaviorTree\BehaviorTree.cpp" />
     <ClCompile Include="AI\Msg.cpp" />
     <ClCompile Include="AI\MsgManager.cpp" />
     <ClCompile Include="AI\PathFinding\MapSearchManager.cpp" />

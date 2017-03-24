@@ -13,6 +13,7 @@
 #include "Game\GSGame.h"
 #include "Game\GSSteering.h"
 #include "Game\GSFormation.h"
+#include "Game\GSBehaviorTree.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -21,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setGameState(new GSGame());
+	pGM->setGameState(new GSBehaviorTree());
 
 	pGM->update();
 

@@ -114,6 +114,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\Game\FSMPeon.h" />
     <ClInclude Include="..\include\Game\FSMPeonGoTo.h" />
+    <ClInclude Include="..\include\Game\GSBehaviorTree.h" />
     <ClInclude Include="..\include\Game\GSFormation.h" />
     <ClInclude Include="..\include\Game\GSGame.h" />
     <ClInclude Include="..\include\Game\GSMap.h" />
@@ -127,6 +128,7 @@
   <ItemGroup>
     <ClCompile Include="Cells.cpp" />
     <ClCompile Include="Game\FSMPeonGoTo.cpp" />
+    <ClCompile Include="Game\GSBehaviorTree.cpp" />
     <ClCompile Include="Game\GSFormation.cpp" />
     <ClCompile Include="Game\GSGame.cpp" />
     <ClCompile Include="Game\GSMap.cpp" />
