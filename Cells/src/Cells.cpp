@@ -9,11 +9,11 @@
 #include "stdafx.h"
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
-#include "Game\GSMenu.h"
-#include "Game\GSGame.h"
-#include "Game\GSSteering.h"
-#include "Game\GSFormation.h"
-#include "Game\GSBehaviorTree.h"
+#include "Scene\SceneMenu.h"
+#include "Scene\SceneGame.h"
+#include "Scene\SceneSteering.h"
+#include "Scene\SceneFormation.h"
+#include "Scene\SceneBehaviorTree.h"
 
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -22,7 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setGameState(new GSBehaviorTree());
+	pGM->setScene(new SceneBehaviorTree());
 
 	pGM->update();
 

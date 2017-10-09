@@ -52,7 +52,7 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
 BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINScene IN THE
 SOFTWARE.
 ========================================================================
 (END LICENSE TEXT)
@@ -831,7 +831,7 @@ bool Reader::decodeDouble(Token& token) {
 bool Reader::decodeDouble(Token& token, Value& decoded) {
   double value = 0;
   JSONCPP_STRING buffer(token.start_, token.end_);
-  JSONCPP_ISTRINGSTREAM is(buffer);
+  JSONCPP_ISTRINSceneTREAM is(buffer);
   if (!(is >> value))
     return addError("'" + JSONCPP_STRING(token.start_, token.end_) +
                         "' is not a number.",
@@ -2225,7 +2225,7 @@ bool parseFromStream(
     CharReader::Factory const& fact, JSONCPP_ISTREAM& sin,
     Value* root, JSONCPP_STRING* errs)
 {
-  JSONCPP_OSTRINGSTREAM ssin;
+  JSONCPP_OSTRINSceneTREAM ssin;
   ssin << sin.rdbuf();
   JSONCPP_STRING doc = ssin.str();
   char const* begin = doc.data();
@@ -4284,7 +4284,7 @@ JSONCPP_STRING valueToQuotedString(const char* value) {
     // sequence from occurring.
     default:
       if (isControlCharacter(*c)) {
-        JSONCPP_OSTRINGSTREAM oss;
+        JSONCPP_OSTRINSceneTREAM oss;
         oss << "\\u" << std::hex << std::uppercase << std::setfill('0')
             << std::setw(4) << static_cast<int>(*c);
         result += oss.str();
@@ -4362,7 +4362,7 @@ static JSONCPP_STRING valueToQuotedStringN(const char* value, unsigned length) {
     // sequence from occurring.
     default:
       if ((isControlCharacter(*c)) || (*c == 0)) {
-        JSONCPP_OSTRINGSTREAM oss;
+        JSONCPP_OSTRINSceneTREAM oss;
         oss << "\\u" << std::hex << std::uppercase << std::setfill('0')
             << std::setw(4) << static_cast<int>(*c);
         result += oss.str();
@@ -5267,7 +5267,7 @@ void StreamWriterBuilder::setDefaults(Json::Value* settings)
 }
 
 JSONCPP_STRING writeString(StreamWriter::Factory const& builder, Value const& root) {
-  JSONCPP_OSTRINGSTREAM sout;
+  JSONCPP_OSTRINSceneTREAM sout;
   StreamWriterPtr const writer(builder.newStreamWriter());
   writer->write(root, &sout);
   return sout.str();

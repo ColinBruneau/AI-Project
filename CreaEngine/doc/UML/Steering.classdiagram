@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner" dslVersion="1.0.0.0" Id="583b87f7-90c6-47ba-ab73-46c608ecf7b2" name="Steering" linkedPackageId="18f66fa1-ddc7-4cb3-9487-a8e6ba43426c" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="5f9a5e1d-26c1-4d43-b4ae-a05ac75b4015">
+      <profileInstance Id="53a8620b-8195-4102-8e4b-e84e21e79f1a" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="6cc14a80-ad09-47fc-94f3-36bed28d3261">
+      <profileInstance Id="ff34b7e5-1232-4a8c-b1c5-cec46c797cdb" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="67c50887-7f3e-4c3d-b975-5d5175245c57" name="CreaEngine">
+        <ownedCommentsInternal>
+          <comment Id="99d24236-d76e-4b65-b8b2-337261e3ffbe">
+            <elementDefinition Id="d010b4ff-68d8-414b-9c0a-01d678600102" />
+            <body>Target</body>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="52e1f3de-2938-43e6-bde9-1c675de3a700" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="5303d23b-0bc4-494a-a608-08ba24ae5068" name="Entity" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fbd0e59e-ce79-41c2-82e1-b8d5b0b18673" />
+              <targetEnds>
+                <association Id="9ba8eec6-9755-4bc0-a74a-6f6f8e132770" isDerived="false" sourceEndRoleName="Entity" targetEndRoleName="Component" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="46265cc7-de1c-48b4-a371-7590235493b7" LastKnownName="Component" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="25c76d33-ea16-455d-9220-25f1f4c4dabe" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="737a90f5-1d83-48a7-a1bd-c2e2196cea25" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="47d3b362-167b-4cc1-abf7-2935d9ec3ead" name="Component" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="d62be5ff-8040-434d-b1eb-33f702795455" name="Lower" value="*">
+                            <elementDefinition Id="4d56f1bc-4c97-4931-b376-f32e43e18ddc" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="7f65b3d2-61fd-466f-9286-95dc1f24b33e" name="Upper" value="*">
+                            <elementDefinition Id="1206b4a5-2ae1-4d7a-90f8-77baf1364a91" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="6ba8883b-f5ce-4643-a863-ac88ca3be509" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="a369d29b-9315-43bd-b0ee-904cd80d7e7b" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="46265cc7-de1c-48b4-a371-7590235493b7" name="Component" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fec69fa9-25c0-4cf2-90b2-2e38a8e7ec4c" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="0a14f418-d9ea-4e7c-b89f-d334c2d8273d" name="Steering" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="9e3fb60e-549b-42c9-a5b7-a5cdae40c4af" />
+              <generalsInternal>
+                <generalization Id="e36273a9-6915-4ad6-ac08-0ea0e4e8ba29" isSubstitutable="false">
+                  <classMoniker Id="46265cc7-de1c-48b4-a371-7590235493b7" LastKnownName="Component" />
+                  <elementDefinition Id="c775abce-feaf-467e-b0be-299fb62ae82a" />
+                </generalization>
+              </generalsInternal>
+              <targetEnds>
+                <association Id="ff2b3828-ed8a-41ca-a307-f2385c56cd32" isDerived="false" sourceEndRoleName="Steering" targetEndRoleName="Collider" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="13bfa244-6900-4095-8bc2-279cba4b2e3f" LastKnownName="Collider" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="3fee2b6b-292b-4f2c-b785-63492fc38d2a" name="Steering" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="5daa5073-8cb2-4c1c-a21b-24fde16d951a" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="1c1dd696-e80d-4f77-b3db-c4a94106a220" name="Collider" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="b605e5e0-1b57-411f-ba29-65ee04596476" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="5975671a-58cb-44e1-b83a-b457b35dccfe" />
+                </association>
+                <association Id="a0e2476a-2eff-46d2-a5d8-b38753e65e5e" isDerived="false" sourceEndRoleName="Steering" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5303d23b-0bc4-494a-a608-08ba24ae5068" LastKnownName="Entity" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="978e1a79-967b-438f-b295-e664ab44a78e" name="Steering" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="d01db55c-6126-4cc9-a995-d26170195bd8" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="0f9a4474-5fd9-4ceb-a424-35c39bdca1e3" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="e7862c6c-c9f9-40f6-9943-79af6a483bff" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="0fe31a41-3569-43bb-a14c-ed88c87e04ff" />
+                </association>
+                <association Id="06052845-879d-454b-abee-ad4f7fea038b" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="46366885-666d-4d33-af9a-f57f4377b171" LastKnownName="PairFloatBehavior" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="754f60cc-5663-440a-8733-fcd370836c25" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="3a47d229-0cee-4296-8a09-139dae266970" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="fe81002b-35d5-4a33-a580-9b0e92ba096a" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <lowerValueInternal>
+                          <literalString Id="bd567842-7cee-466e-ac8d-7ab202e0b574" name="Lower" value="*">
+                            <elementDefinition Id="6ac693b8-bcf8-4e61-993a-24c4029a52a0" />
+                          </literalString>
+                        </lowerValueInternal>
+                        <upperValueInternal>
+                          <literalString Id="92afb11b-8abb-426f-9a22-8141b7122853" name="Upper" value="*">
+                            <elementDefinition Id="58faab4e-c905-434e-be92-b81fb47db41e" />
+                          </literalString>
+                        </upperValueInternal>
+                        <elementDefinition Id="09884f23-80d3-4eb5-9902-ffc64c63031b" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="f0b7977a-93f1-4a6c-91da-2f0661e84975" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="13bfa244-6900-4095-8bc2-279cba4b2e3f" name="Collider" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="6c012c08-f253-4112-85cb-44b55b33a974" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="5d88f625-ede5-44d3-ac1a-58c42eb2d395" name="Behavior" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fcbf620a-8657-4f17-9bd8-4c592236c8d3" />
+              <targetEnds>
+                <association Id="24b79666-a303-4d2e-9169-5d37f8874452" isDerived="false" sourceEndRoleName="Behavior" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5303d23b-0bc4-494a-a608-08ba24ae5068" LastKnownName="Entity" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="b292d46a-ce59-4c9d-bd02-9bcbe097cf82" name="Behavior" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="14612001-6711-4896-abc5-99717c747d82" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="f7236351-3c1a-4d72-b4e2-012fa18b9399" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="78759233-98c8-4f84-ac0e-8f4527128e72" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="8a44b97c-aec5-4c6b-b434-57079bb0db45" />
+                </association>
+                <association Id="0a2c8d5a-f4b7-42b8-8f9a-c50e08b62fb8" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="0a14f418-d9ea-4e7c-b89f-d334c2d8273d" LastKnownName="Steering" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="fc9e4998-0fea-4bd8-b200-f750bd036c46" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="7d7fd6e7-68a5-41e1-b7c1-92fbe0fcda6f" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="77ed2857-dd0b-45f2-8ec4-f9853e798c72" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="9c267245-6703-4d93-9332-a3c46f234638" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="dd056c72-1c84-4ced-9cd7-a04d23f14fd1" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="46366885-666d-4d33-af9a-f57f4377b171" name="PairFloatBehavior" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8b468a22-50b2-446e-b181-bcf7f45c6874" />
+              <targetEnds>
+                <association Id="b4c0e3ca-aacd-499e-8a6f-dfc8f17144eb" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5d88f625-ede5-44d3-ac1a-58c42eb2d395" LastKnownName="Behavior" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="fb0c4f82-bffc-4618-ad8e-6a6d81e3478b" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="8040ee87-4527-465d-90af-384a9026361e" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="56f2566b-d792-4305-a7c6-f4d827f32def" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="59d30cfa-85a1-4dad-beb7-5fbbd922dc64" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="806db5e8-f30b-44fb-8c0b-21dea09b19c6" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="ad8238ba-31f3-46f4-b3a0-70f15938967f" name="Seek" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3c8f3eb4-4c2f-4888-907c-89039c1a2c43" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="1e78c2a4-9c54-4334-9782-461706a1c42e" name="Flee" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7c618edd-7bcc-4f74-a294-a142d1fd6ada" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="2e573bc5-7d04-4e0f-9b15-dac505a88d55" name="Pursuit" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3fe44e98-36e7-44f5-8c0e-ce3cb3954324" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="002746fc-c525-4aef-b79e-2f585f5f1aee" name="Evasion" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fc0ca527-926f-49b6-b238-11df3aa94792" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="31976539-a941-481a-8902-18f9ce7e336e" name="Arrival" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="d5248d36-d515-405b-aaf3-394e44cfb1ff" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b8cae2d9-eed9-4083-a4b9-6eaae120f6fb" name="Wander" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="8efc4ae1-b8af-4988-9187-0fac7e932345" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="efd5163c-cc5e-48e5-9bd1-3bd3b2ed9341" name="PathFollowing" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3d2cb769-4b9f-466a-97c7-63ecc0165f2e" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="c947a16c-a17f-4e00-a9dd-1ce03f6be4f5" name="UnalignedCollisionAvoidance" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e27fb28c-bdcf-422f-ae13-8c05f983e536" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="af23c520-0859-4665-966a-7702e30dbcad" name="ObstacleAvoidance" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="324d531b-41be-460d-a75f-e05db01cc5f9" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="6aec311e-3bfd-44d3-b35c-835fd83b0aec" name="Separation" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="a14c2bea-db0f-4fa9-b1e9-16cbe49c3b03" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="783d7f05-993a-46f4-9911-65e6360a0fbc" name="Cohesion" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="3e2bc97e-b916-45e2-a3ed-cdd674b95613" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="851ce51b-c874-473b-b622-fd488fcc3737" name="Alignment" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="64fc8d68-bd0c-4cdf-865c-50e99aacfed9" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="04645c95-deb0-4e73-a754-8a61d5178a02" name="LeadFollowing" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="af5a9989-3341-41af-a1d2-899e078b6168" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="83bc815c-ab42-41f1-9526-64120210a66c" name="Swarming" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="282b40e1-aefb-4432-a0ad-04cef4ea5b69" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="0c2e764c-bfd5-40f0-88ff-a1217e4f7af8" name="FormationV" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="dd4a19e4-06d8-4d6e-ae22-e7c3e6c347e8" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="63a7f21d-8479-4bed-927a-82ea44041ff7" name="FormationCircle" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="b4f483c4-d844-4ede-ac58-b5ebbc1d6e2f" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="8cb58aba-9208-4ccd-886b-2ec24bb9e44b" name="FormationDynamic" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="1143fa6e-8d83-48f3-99a3-1bd3233d1b8b" />
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="5fa8f552-f31f-4c34-a3c6-fb8114318886" name="Cells">
+        <ownedCommentsInternal>
+          <comment Id="b5a5b30c-baa2-4211-b98d-f463928b62b2">
+            <elementDefinition Id="d5ae4a0f-4743-4e5e-af19-6e8bc02aea4d" />
+            <body>			switch (m_iSteeringMode)
+			{
+			case 0: pSteering-&gt;addBehavior(new Seek(m_vEntities[i], m_pMouse), 1.0f);
+				break;
+			case 1: pSteering-&gt;addBehavior(new Pursuit(m_vEntities[i], m_vEntities[i + 1], 1.0f), 1.0f);
+				break;
+			case 2: pSteering-&gt;addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				pSteering-&gt;addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &amp;m_vObstacles), 1.0f);
+				break;
+			case 3: pSteering-&gt;addBehavior(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
+				break;
+			case 4 : pSteering-&gt;addBehavior(new PathFollowing(m_vEntities[i], 2.0f, 12, 100.f, &amp;m_vObstacles), 1.0f);
+				break;
+			case 5: pSteering-&gt;addBehavior(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				break;
+			case 6:
+				pSteering-&gt;addBehavior(new Separation(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				pSteering-&gt;addBehavior(new Cohesion(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				pSteering-&gt;addBehavior(new Alignment(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				break;
+			case 7:
+				if (i == 0)
+				{
+					pSteering-&gt;addBehavior(new Arrival(m_vEntities[0], m_pMouse, 200.f), 1.0f);
+				}
+				else
+				{
+					pSteering-&gt;addBehavior(new Separation(m_vEntities[i], 60.f, &amp;m_vEntities), 2.0f);
+					pSteering-&gt;addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+				}
+				break;
+			case 8:
+				pSteering-&gt;addBehavior(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
+				break;
+			}</body>
+          </comment>
+        </ownedCommentsInternal>
+        <elementDefinition Id="92c5a254-03e9-4c75-80f6-a63491c75391" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="cf0b2a3c-4c70-437b-ad82-564811276492" name="GSSteering" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5ca4514c-3b2a-47ca-bc19-d1f258c1a0f9" />
+              <targetEnds>
+                <association Id="2fd0ea0a-7318-4055-882b-e47c092f9d52" isDerived="false" sourceEndRoleName="GSSteering" targetEndRoleName="Entity" isLeaf="false" isAbstract="false">
+                  <classMoniker Id="5303d23b-0bc4-494a-a608-08ba24ae5068" LastKnownName="Entity" />
+                  <relationshipOwnedElementsInternal>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5b7da781-f976-49c6-80ed-97bedf5879f6" name="GSSteering" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                        <elementDefinition Id="ed02a21b-36d1-4c0f-97e1-1a855d098e8d" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                    <associationHasOwnedEnds>
+                      <memberEnd Id="5b593f76-5e37-4158-a894-1d65bca8daec" name="Entity" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                        <elementDefinition Id="8ff09df4-1af5-409e-bc0c-67779e23d086" />
+                      </memberEnd>
+                    </associationHasOwnedEnds>
+                  </relationshipOwnedElementsInternal>
+                  <elementDefinition Id="88ed87ea-537a-4cc9-92b3-fa770bff5179" />
+                </association>
+              </targetEnds>
+            </class>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+  </packagedElements>
+  <package Id="18f66fa1-ddc7-4cb3-9487-a8e6ba43426c" name="UML">
+    <elementDefinition Id="522d6b0a-0e8d-4919-8957-00509f0d10dd" />
+  </package>
+</logicalClassDesignerModel>

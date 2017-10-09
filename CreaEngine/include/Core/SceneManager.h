@@ -8,14 +8,14 @@
 
 namespace crea
 {
-	class GameState;
+	class Scene;
 
 	class CREAENGINE_API SceneManager
 	{
 		SceneManager();
 
 	protected: 
-		GameState* m_pCurrentGameState;
+		Scene* m_pCurrentScene;
 
 	public:
 		virtual ~SceneManager();
@@ -26,7 +26,7 @@ namespace crea
 
 		bool draw();
 
-		void setGameState(GameState* s);
+		void setScene(Scene* s);
 	};
 
 } // namespace crea

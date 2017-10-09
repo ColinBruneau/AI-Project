@@ -85,7 +85,7 @@ namespace crea
 		{
 			if (msg.GetMsgState() < 0 ||
 				msg.GetMsgState() == object->GetStateMachine()->GetState())
-			{	//GameState was irrelevant or current state matches msg state (for msg scoping)
+			{	//Scene was irrelevant or current state matches msg state (for msg scoping)
 				msg.SetDelivered(true);
 				object->GetStateMachine()->Process(EVENT_Message, &msg);
 			}

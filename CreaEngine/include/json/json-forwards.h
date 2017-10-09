@@ -51,7 +51,7 @@ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
 NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
 BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINScene IN THE
 SOFTWARE.
 ========================================================================
 (END LICENSE TEXT)
@@ -246,15 +246,15 @@ typedef UInt64 LargestUInt;
 #endif // if defined(JSON_NO_INT64)
 #if JSONCPP_USING_SECURE_MEMORY
 #define JSONCPP_STRING        std::basic_string<char, std::char_traits<char>, Json::SecureAllocator<char> >
-#define JSONCPP_OSTRINGSTREAM std::basic_ostringstream<char, std::char_traits<char>, Json::SecureAllocator<char> >
+#define JSONCPP_OSTRINSceneTREAM std::basic_ostringstream<char, std::char_traits<char>, Json::SecureAllocator<char> >
 #define JSONCPP_OSTREAM       std::basic_ostream<char, std::char_traits<char>>
-#define JSONCPP_ISTRINGSTREAM std::basic_istringstream<char, std::char_traits<char>, Json::SecureAllocator<char> >
+#define JSONCPP_ISTRINSceneTREAM std::basic_istringstream<char, std::char_traits<char>, Json::SecureAllocator<char> >
 #define JSONCPP_ISTREAM       std::istream
 #else
 #define JSONCPP_STRING        std::string
-#define JSONCPP_OSTRINGSTREAM std::ostringstream
+#define JSONCPP_OSTRINSceneTREAM std::ostringstream
 #define JSONCPP_OSTREAM       std::ostream
-#define JSONCPP_ISTRINGSTREAM std::istringstream
+#define JSONCPP_ISTRINSceneTREAM std::istringstream
 #define JSONCPP_ISTREAM       std::istream
 #endif // if JSONCPP_USING_SECURE_MEMORY
 } // end namespace Json

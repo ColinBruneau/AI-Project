@@ -20,9 +20,9 @@
 namespace crea
 {
 
-//GameState Machine Language Macros (put these keywords in the file USERTYPE.DAT in the same directory as MSDEV.EXE)
+//Scene Machine Language Macros (put these keywords in the file USERTYPE.DAT in the same directory as MSDEV.EXE)
 #define BeginStateMachine		if( _state < 0 ) { char statename[64] = "STATE_Global"; if(0) {
-#define EndStateMachine			return( true ); } } else { assert( 0 && "Invalid GameState" ); return( false ); } return( false );
+#define EndStateMachine			return( true ); } } else { assert( 0 && "Invalid Scene" ); return( false ); } return( false );
 #define State(a)				return( true ); } } else if( a == _state ) { char statename[64] = #a; if(0) { 
 #define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
 #define OnOtherMsg()			return( true ); } else {
@@ -56,7 +56,7 @@ namespace crea
 
 		void Initialize(void);
 		void Update(void);
-		void SetState(unsigned int newGameState);
+		void SetState(unsigned int newScene);
 		int SetStateInHistory();
 
 		void SendMsg(int name, objectID receiver, void* data = NULL);

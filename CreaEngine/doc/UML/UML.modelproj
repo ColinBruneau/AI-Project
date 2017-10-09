@@ -43,6 +43,9 @@
       <SubType>Content</SubType>
       <DependentUpon>Map.classdiagram</DependentUpon>
     </Content>
+    <Content Include="ModelDefinition\Package1_0936.uml">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="ModelDefinition\Package1_1408.uml">
       <SubType>Content</SubType>
     </Content>
@@ -53,6 +56,9 @@
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package1_2027.uml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="ModelDefinition\Package_0936.uml">
       <SubType>Content</SubType>
     </Content>
     <Content Include="ModelDefinition\Package_1408.uml">
@@ -106,6 +112,13 @@
     <Content Include="Physics.classdiagram.layout">
       <SubType>Content</SubType>
       <DependentUpon>Physics.classdiagram</DependentUpon>
+    </Content>
+    <Content Include="Steering.classdiagram">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Steering.classdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>Steering.classdiagram</DependentUpon>
     </Content>
     <Folder Include="ModelDefinition\" />
     <Content Include="ModelDefinition\Package_1705.uml">

@@ -46,7 +46,7 @@ namespace crea
 		int safetyCount = 50;
 		while (m_stateChange && (--safetyCount >= 0))
 		{
-			assert(safetyCount > 0 && "StateMachine::Process - GameStates are flip-flopping in an infinite loop.");
+			assert(safetyCount > 0 && "StateMachine::Process - Scenes are flip-flopping in an infinite loop.");
 
 			m_stateChange = false;
 
