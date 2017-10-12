@@ -7,7 +7,7 @@
 #define __CharacterController_H_
 
 #include "Core\Component.h"
-#include "Core\ICore.h"
+#include "Core\Math.h"
 #include "Core\GameManager.h"
 
 namespace crea

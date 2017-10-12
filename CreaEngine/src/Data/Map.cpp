@@ -353,6 +353,10 @@ namespace crea
 		int jMin = (int)r.getTop() / m_nTileHeight;
 		int jMax = (int)(r.getTop()+r.getHeight()) / m_nTileHeight;
 
+		// Protection if map smaller than window
+		iMax = MIN(iMax, m_nWidth - 1);
+		jMax = MIN(jMax, m_nHeight - 1);
+
 		TileSet* pTileSet = m_pTerrainTileSet;
 		for (short i = iMin; i <= iMax; i++)
 		{

@@ -7,7 +7,7 @@
 #define _Transformable_H
 
 #include "Graphics\IGraphics.h"
-#include "Core\ICore.h"
+#include "Core\Math.h"
 
 namespace crea
 {

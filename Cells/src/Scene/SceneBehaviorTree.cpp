@@ -7,7 +7,7 @@
 #include "Scene\SceneSteering.h"
 #include "Scene\SceneFormation.h"
 #include "Core\SceneManager.h"
-#include "Core\ICore.h"
+#include "Core\Math.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\ISprite.h"
 #include "AI\Steering\Steering.h"

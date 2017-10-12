@@ -31,7 +31,7 @@
     <ClInclude Include="..\include\Core\DebugLog.h" />
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
-    <ClInclude Include="..\include\Core\ICore.h" />
+    <ClInclude Include="..\include\Core\Math.h" />
     <ClInclude Include="..\include\Core\PhysicsManager.h" />
     <ClInclude Include="..\include\Core\Singleton.h" />
     <ClInclude Include="..\include\Core\TimeManager.h" />

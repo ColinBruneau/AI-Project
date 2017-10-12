@@ -27,7 +27,7 @@
 03/2017 BehaviorTree
 
 To do: 
-- regrouper les interfaces dans IGraphics.h et ICore.h?
+- regrouper les interfaces dans IGraphics.h et Math.h?
 - système de prefab
 - ajouter offset (ou hotspot) sur un objet
 - déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)

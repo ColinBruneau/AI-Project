@@ -1,16 +1,21 @@
 /***************************************************/
-/* Nom:	ICore.h
-/* Description: ICore
+/* Nom:	Math.h
+/* Description: Math
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef _ICore_H
-#define _ICore_H
+#ifndef _Math_H
+#define _Math_H
 
 namespace crea
 {
+	// constants
 #define PI 3.14159265f
 #define EPSILON 0.00001f
 #define ONEOVER128 0.0078125f
+
+	// Macros
+#define MIN(a, b) (a<b ? a : b)
+#define MAX(a, b) (a>b ? a : b)
 
 	class CREAENGINE_API Vector2f
 	{
@@ -183,4 +188,4 @@ namespace crea
 
 } // namespace crea
 
-#endif // _ICore_H
+#endif // _Math_H
