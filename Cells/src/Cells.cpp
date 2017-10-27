@@ -11,6 +11,7 @@
 #include "Core\SceneManager.h"
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
+#include "Scene\SceneMap.h"
 #include "Scene\SceneSteering.h"
 #include "Scene\SceneFormation.h"
 #include "Scene\SceneBehaviorTree.h"
@@ -22,7 +23,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->init();
 
-	pGM->setScene(new SceneBehaviorTree());
+	pGM->setScene(new SceneMap());
 
 	pGM->update();
 

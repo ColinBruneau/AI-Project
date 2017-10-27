@@ -1,5 +1,10 @@
-#ifndef ANIMATION_INCLUDE
-#define ANIMATION_INCLUDE
+/***************************************************/
+/* Nom:	Animation.h
+/* Description: Animation
+/* Auteur: BRUNEAU Colin
+/***************************************************/
+#ifndef __Animation_H_
+#define __Animation_H_
 
 #include <vector>
 
@@ -40,4 +45,4 @@ namespace crea
 
 } // namespace crea
 
-#endif // ANIMATION_INCLUDE
+#endif // __Animation_H_

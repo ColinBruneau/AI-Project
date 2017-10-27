@@ -12,7 +12,9 @@ namespace crea
 
 	GameManager::~GameManager()
 	{
-		delete m_pRenderer;
+		// Do not delete renderer as it will be deleted on it's own (or before GameManager...)
+		//delete m_pRenderer;
+
 	}
 
 	GameManager* GameManager::getSingleton()

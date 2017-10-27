@@ -14,18 +14,9 @@
 #include "Physics\Collider.h"
 
 #include "FSMPeon.h"
+#include "Tools\AITools.h"
 
 using namespace crea;
-
-enum EnumCommandType
-{
-	Command_Invalid = -1,
-	Command_Reset = 0,
-	Command_Kill,
-	Command_Stop,
-	Command_Start,
-	Command_Teleport
-};
 
 class SceneGame : public crea::Scene
 {
@@ -43,18 +34,9 @@ class SceneGame : public crea::Scene
 
 	Entity* m_pEntity3;
 
-	// Selection
-	bool m_bSelection;
-	Vector2f m_vStartSelection;
-	Vector2f m_vEndSelection;
-
-	// Command
-	bool m_bCommand;
-	EnumCommandType m_eCommandType;
-
-	// Diagnostic
-	IText* m_pTextDiagnostics;
-	ISprite* m_pPathSprite;
+	// AI Tools
+	bool m_bUseAITools;
+	AITools* m_pAITools;
 
 public:
 	SceneGame();

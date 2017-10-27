@@ -25,8 +25,16 @@
 02/2017 Formation
 		Sélection
 03/2017 BehaviorTree
+09/2017 VS2017
+10/2017 OpenGL3
+
+Doing:
+- OpenGL3 integration (following http://www.opengl-tutorial.org)
+- Shape et RectangleShape dans SFML (à faire aussi dans DirectX)
+- Destructeurs des objets de SFML (à faire aussi dans DirectX)
 
 To do: 
+- MEMORY MANAGER!!!
 - regrouper les interfaces dans IGraphics.h et Math.h?
 - système de prefab
 - ajouter offset (ou hotspot) sur un objet

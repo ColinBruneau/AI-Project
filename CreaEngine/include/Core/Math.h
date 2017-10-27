@@ -103,11 +103,11 @@ namespace crea
 
 	class CREAENGINE_API FloatRect
 	{
+	public:
 		float m_fX;
 		float m_fY;
 		float m_fW;
 		float m_fH;
-	public:
 
 		FloatRect()
 		{

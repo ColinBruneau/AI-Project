@@ -60,7 +60,9 @@ namespace crea
 
 		m_nTileWidth = root.get("tilewidth", 10).asInt();
 		m_nTileHeight = root.get("tileheight", 10).asInt();
-		
+
+		updateTileIndexLimits();
+
 		//Tilesets (load tilesets first as layers will refer to them...)
 		Json::Value tilesets = root["tilesets"];
 		for (unsigned int iTileset = 0; iTileset < tilesets.size(); ++iTileset)
@@ -135,8 +137,13 @@ namespace crea
 			string type = layer["type"].asString();
 			if (type == "tilelayer")
 			{
-				bool bIsTerrain = (layer["name"].asString() == "Terrain");
-				bool bIsCollision = (layer["name"].asString() == "Collisions");
+				string szLayerName = layer["name"].asString();
+				bool bIsTerrain = (szLayerName == "Terrain");
+				bool bIsCollision = (szLayerName == "Collisions");
+				if (!bIsTerrain && !bIsCollision)
+				{
+					cerr << "Layer name not recognized (should be \"Terrain\" or \"Collisions\"): " << szLayerName << endl;
+				}
 				Json::Value data = layer["data"];
 				for (short i = 0; i < iWidth; i++)
 				{
@@ -273,6 +280,18 @@ namespace crea
 
 	}
 
+	void Map::getSize(short& _nWidth, short& _nHeight)
+	{
+		_nWidth = m_nWidth;
+		_nHeight = m_nHeight;
+	}
+
+	void Map::getTileSize(short& _nTileWidth, short& _nTileHeight)
+	{
+		_nTileWidth = m_nTileWidth;
+		_nTileHeight = m_nTileHeight;
+	}
+
 	TileSet* Map::getTileSet(short _gid)
 	{
 		TileSet* pTileSet = nullptr;
@@ -329,6 +348,20 @@ namespace crea
 		}
 	}
 
+	void Map::updateTileIndexLimits()
+	{
+		// Camera/Window restriction
+		IntRect r = m_pGM->getWindowRect();
+		m_iMin = (int)r.getLeft() / m_nTileWidth;
+		m_iMax = (int)(r.getLeft() + r.getWidth()) / m_nTileWidth;
+		m_jMin = (int)r.getTop() / m_nTileHeight;
+		m_jMax = (int)(r.getTop() + r.getHeight()) / m_nTileHeight;
+
+		// Protection if map smaller than window
+		m_iMax = MIN(m_iMax, m_nWidth - 1);
+		m_jMax = MIN(m_jMax, m_nHeight - 1);
+	}
+
 
 	bool Map::update()
 	{
@@ -344,27 +377,14 @@ namespace crea
 
 	bool Map::draw()
 	{
-		int tileid = 0, w = 0, h = 0, x = 0, y = 0;
-
-		// Camera/Window restriction
-		IntRect r = m_pGM->getWindowRect();
-		int iMin = (int)r.getLeft() / m_nTileWidth;
-		int iMax = (int)(r.getLeft() + r.getWidth()) / m_nTileWidth;
-		int jMin = (int)r.getTop() / m_nTileHeight;
-		int jMax = (int)(r.getTop()+r.getHeight()) / m_nTileHeight;
-
-		// Protection if map smaller than window
-		iMax = MIN(iMax, m_nWidth - 1);
-		jMax = MIN(jMax, m_nHeight - 1);
-
 		TileSet* pTileSet = m_pTerrainTileSet;
-		for (short i = iMin; i <= iMax; i++)
+		for (short i = m_iMin; i <= m_iMax; i++)
 		{
 			Node** line = m_Grid[i];
-			for (short j = jMin; j <= jMax; j++)
+			for (short j = m_jMin; j <= m_jMax; j++)
 			{
 				Node* pNode = line[j];
-				tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
+				short tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
 				
 				if (m_bDisplayCollision)
 				{

@@ -257,43 +257,43 @@ namespace crea
 	void EntityManager::clear()
 	{
 		MapStringTextRenderer::iterator itTextRenderer = m_pTextRenderers.begin();
-		while (itTextRenderer != m_pTextRenderers.end()) {
+		while (m_pTextRenderers.size()) {
 			delete (*itTextRenderer).second;
 			itTextRenderer = m_pTextRenderers.erase(itTextRenderer);
 		}
 
 		MapStringSpriteRenderer::iterator itSpriteRenderer = m_pSpriteRenderers.begin();
-		while (itSpriteRenderer != m_pSpriteRenderers.end()) {
+		while (m_pSpriteRenderers.size()) {
 			delete (*itSpriteRenderer).second;
 			itSpriteRenderer = m_pSpriteRenderers.erase(itSpriteRenderer);
 		}
 
 		MapStringMapRenderer::iterator itMapRenderer = m_pMapRenderers.begin();
-		while (itMapRenderer != m_pMapRenderers.end()) {
+		while (m_pMapRenderers.size()) {
 			delete (*itMapRenderer).second;
 			itMapRenderer = m_pMapRenderers.erase(itMapRenderer);
 		}
 
 		MapStringAnimator::iterator itAnimator = m_pAnimators.begin();
-		while (itAnimator != m_pAnimators.end()) {
+		while (m_pAnimators.size()) {
 			delete (*itAnimator).second;
 			itAnimator = m_pAnimators.erase(itAnimator);
 		}
 
 		MapStringCharacterController::iterator itCharacterController = m_pCharacterControllers.begin();
-		while (itCharacterController != m_pCharacterControllers.end()) {
+		while (m_pCharacterControllers.size()) {
 			delete (*itCharacterController).second;
 			itCharacterController = m_pCharacterControllers.erase(itCharacterController);
 		}
 
 		MapStringUserController::iterator itUserController = m_pUserControllers.begin();
-		while (itUserController != m_pUserControllers.end()) {
+		while (m_pUserControllers.size()) {
 			delete (*itUserController).second;
 			itUserController = m_pUserControllers.erase(itUserController);
 		}
 
 		MapStringSteering::iterator itSteering = m_pSteerings.begin();
-		while (itSteering != m_pSteerings.end()) {
+		while (m_pSteerings.size()) {
 			delete (*itSteering).second;
 			itSteering = m_pSteerings.erase(itSteering);
 		}

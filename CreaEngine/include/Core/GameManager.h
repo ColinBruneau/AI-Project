@@ -35,12 +35,14 @@ namespace crea
 
 		inline void setScene(Scene* s) { SceneManager::getSingleton()->setScene(s); }
 
+		// Input
 		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
 
 		inline bool isMouseButtonPressed(Button _button) { return InputManager::getSingleton()->isMouseButtonPressed(_button); }
 
 		inline Vector2f getMousePosition() { return InputManager::getSingleton()->getMousePosition(); }
 
+		// Data
 		inline IFont* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
 
 		inline ITexture* getTexture(string _szName) { return DataManager::getSingleton()->getTexture(_szName); }
@@ -87,11 +89,13 @@ namespace crea
 
 		inline void clearEntity(Entity* _pEntity) { EntityManager::getSingleton()->clearEntity(_pEntity); }
 
+		// Selection
 		inline void selectEntities(Vector2f _vStart, Vector2f _vEnd) { EntityManager::getSingleton()->selectEntities(_vStart, _vEnd); }
 		
 		inline void unselectEntities() { EntityManager::getSingleton()->unselectEntities(); }
 
 		inline ListEntity* getSelectedEntities() { return EntityManager::getSingleton()->getSelectedEntities(); }
+
 
 		void init();
 

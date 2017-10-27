@@ -7,6 +7,7 @@
 #define __SceneMap_H_
 
 #include "Core\Scene.h"
+#include "Tools\AITools.h"
 
 using namespace crea;
 
@@ -18,6 +19,10 @@ class SceneMap : public Scene
 	Entity* m_pEntity3;
 	Map* m_pMap;
 	MapRenderer* m_pMapRenderer;
+
+	// AI Tools
+	bool m_bUseAITools;
+	AITools* m_pAITools;
 
 public:
 	SceneMap();

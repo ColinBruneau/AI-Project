@@ -10,12 +10,15 @@
 
 SceneMap::SceneMap()
 {
-
+	// AI Tools
+	m_bUseAITools = true;
+	m_pAITools = new AITools;
 }
 
 SceneMap::~SceneMap()
 {
-
+	// AI Tools
+	delete m_pAITools;
 }
 	
 bool SceneMap::onInit()
@@ -30,6 +33,12 @@ bool SceneMap::onInit()
 	m_pMapRenderer->setMap(m_pMap);
 	m_pEntity3->addComponent(m_pMapRenderer);
 
+	// AI Tools
+	if (m_bUseAITools)
+	{
+		m_pAITools->setCurrentMap(m_pMap);
+		m_pAITools->onInit();
+	}
 	return true;
 }
 
@@ -71,16 +80,34 @@ bool SceneMap::onUpdate()
 		m_pMap->setDisplayCollision(false);
 	}
 
+	// AI Tools
+	if (m_pGM->isKeyPressed(Key::F12))
+	{
+		m_bUseAITools = !m_bUseAITools;
+	}
+	if (m_bUseAITools)
+	{
+		m_pAITools->onUpdate();
+	}
 	return true;
 }
 
 bool SceneMap::onDraw()
 {
+	if (m_bUseAITools)
+	{
+		m_pAITools->onDraw();
+	}
 	return true;
 }
 
 bool SceneMap::onQuit()
 {
+	if (m_bUseAITools)
+	{
+		m_pAITools->onQuit();
+	}
+
 	m_pGM->clearAllData();
 	m_pGM->clearAllEntities();
 

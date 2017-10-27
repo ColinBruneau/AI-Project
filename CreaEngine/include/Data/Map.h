@@ -37,6 +37,14 @@ namespace crea
 		// Draw modes
 		bool m_bDisplayCollision;
 
+		// Tile index Limits
+		int m_iMin;
+		int m_iMax;
+		int m_jMin;
+		int m_jMax;
+
+		void updateTileIndexLimits();
+
 	public:
 
 		Map();
@@ -48,6 +56,10 @@ namespace crea
 		inline void setName(string& _szName) { m_szName = _szName; }
 
 		void setSize(short _nWidth, short _nHeight);
+
+		void getSize(short& _nWidth, short& _nHeight);
+
+		void getTileSize(short& _nWidth, short& _nHeight);
 
 		void setNode(short _i, short _j, Node* _pNode) { m_Grid[_i][_j] = _pNode; }
 
@@ -67,6 +79,8 @@ namespace crea
 
 		bool getDisplayCollision()			{ return m_bDisplayCollision; }
 		
+		void getTileIndexLimits(int& _iMin, int& _iMax, int& _jMin, int& _jMax) { _iMin = m_iMin; _iMax = m_iMax; _jMin = m_jMin; _jMax = m_jMax; }
+
 		bool update();
 
 		bool draw();
