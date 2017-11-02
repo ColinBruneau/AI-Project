@@ -57,12 +57,13 @@
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
     <ClInclude Include="..\include\Input\InputManager.h" />
     <ClInclude Include="..\include\Input\UserController.h" />
-    <ClInclude Include="..\include\json\json-forwards.h" />
-    <ClInclude Include="..\include\json\json.h" />
     <ClInclude Include="..\include\Physics\CharacterController.h" />
     <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
+    <ClInclude Include="..\include\Tools\json\json-forwards.h" />
+    <ClInclude Include="..\include\Tools\json\json.h" />
+    <ClInclude Include="..\include\Tools\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI\ActionTable.cpp" />
@@ -103,9 +104,10 @@
     <ClCompile Include="Graphics\TextRenderer.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
     <ClCompile Include="Input\UserController.cpp" />
-    <ClCompile Include="json\jsoncpp.cpp" />
     <ClCompile Include="Physics\CharacterController.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
+    <ClCompile Include="Tools\json\jsoncpp.cpp" />
+    <ClCompile Include="Tools\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\doc\readme.txt" />

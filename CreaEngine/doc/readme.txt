@@ -45,6 +45,7 @@ To do:
   qui pourrait être configuré dans le Gamecode (ex: texture, entité sélectionnable).
 - Steering: faire la classe Vehicle
 - SelectEntities: should not be able to select root!
+- .anm: change -W to Flip parameter
 
 Removed:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)

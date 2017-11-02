@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "AI\ActionTable.h"
-#include "json\json.h"
+#include "Tools/json/json.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -136,18 +136,19 @@ namespace crea
 
 		for (unsigned int iCond = 0; iCond < conditions.size(); ++iCond)
 		{
-			Json::Value actions = conditions[iCond]["actions"];
+			Json::Value condition = conditions[iCond];
+			unsigned char ucCondition = condition["id"].asInt();
+			Json::Value actions = condition["actions"];
 			for (unsigned int iAct = 0; iAct < actions.size(); ++iAct)
 			{
 				Json::Value action = actions[iAct];
+				short unAction = action["id"].asInt();
 				Json::Value animations = action["animations"];
 				for (unsigned int iAnimation = 0; iAnimation < animations.size(); ++iAnimation)
 				{
 					Json::Value animation = animations[iAnimation];
 					unsigned char ucDir = iAnimation;
-					unsigned char ucCondition = conditions[iCond]["id"].asInt();
 					short unCondition = MERGE2CONDITIONS(ucDir, ucCondition);
-					short unAction = action["id"].asInt();
 					addAnimation(unCondition, unAction, &animation.asString());
 				}
 			}

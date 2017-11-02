@@ -17,12 +17,15 @@
 
 namespace crea
 {
+	class LoggerFile;
 
 	class CREAENGINE_API GameManager
 	{
 		GameManager();
 
 		IFacade* m_pRenderer;
+
+		LoggerFile* m_pLogger;
 
 	public:
 		~GameManager();
