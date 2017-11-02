@@ -6,9 +6,12 @@
 #ifndef __ActionTable_H_
 #define __ActionTable_H_
 
+#include "Core\Component.h"
+
 namespace crea
 {
-	#define CREATE_KEY(direction, action) (direction << 16) | action
+#define MERGE2CONDITIONS(condition1, condition2) (condition1 << 8) | condition2 // A condition is given as 8 bits (char)
+#define CREATE_KEY(condition, action) (condition << 16) | action	// Then the condition and action (short) are combined
 
 	class CREAENGINE_API ActionAnimInfo
 	{
@@ -17,10 +20,9 @@ namespace crea
 		string	szActionDesc;
 	};
 
-	class CREAENGINE_API MapActionAnimation : public std::map<char, ActionAnimInfo*> {};
-	class CREAENGINE_API MapConditionAction : public std::map<int, MapActionAnimation*> {};
+	class CREAENGINE_API MapConditionAction : public std::multimap<long, ActionAnimInfo*> {};
 
-	class CREAENGINE_API ActionTable
+	class CREAENGINE_API ActionTable : public Component
 	{
 		crea::GameManager*	m_pGM;
 
@@ -32,18 +34,24 @@ namespace crea
 		virtual ~ActionTable();
 
 		void		read();
-		string*		getAnimation(	char _cAnimDir,
-									char _cAnimCond,
-									char _cAction,
+		string*		getAnimation(	unsigned char _ucAnimCond1, 
+									unsigned char _ucAnimCond2,
+									unsigned short _unAction,
 									string* _pszActionDesc = nullptr);
-		bool		addAnimation(	char _cAnimDir, 
-									char _cAnimCond,
-									char _cAction,
+		string*		getAnimation(	unsigned short _unAnimCond,
+									unsigned short _unAction,
+									string* _pszActionDesc = nullptr);
+		bool		addAnimation(	unsigned short _unAnimCond,
+									unsigned short _unAction,
 									string* _pszAnimFileName,
 									string* _pszActionDesc = nullptr);
 
 		bool		loadFromFileJSON(string& _filename);
 
+		virtual bool init();
+		virtual bool update();
+		virtual bool draw();
+		virtual bool quit();
 	};
 
 } // namespace crea

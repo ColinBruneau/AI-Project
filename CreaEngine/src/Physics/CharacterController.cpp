@@ -48,7 +48,7 @@ namespace crea
 			m_bAlive = false;
 			m_bMoving = false;
 		}
-		else if (m_eAction == kAct_Chop)
+		else if (m_eAction == kAct_Chop) // CB: Not sure Chop should be in engine... Static instead?
 		{
 			m_bAlive = true;
 			m_bMoving = false;

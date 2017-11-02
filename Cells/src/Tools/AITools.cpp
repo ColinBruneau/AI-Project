@@ -68,6 +68,7 @@ bool AITools::onInit()
 	m_pTextDiagnostics->setCharacterSize(14);
 	m_pTextDiagnostics->setPosition(-100.f, -100.f);
 
+	m_fFPSDisplayTime = 0.1f;
 	m_fCommandDisplayTime = 1.0f;
 
 	// Grid
@@ -107,8 +108,12 @@ bool AITools::isButton(int _i, Vector2f& _vMousePosition)
 bool AITools::onUpdate()
 {
 	// FPS
-	Time frameTime = TimeManager::getSingleton()->getFrameTime();
-	m_pTextFPS->setString(to_string((int)(1 / frameTime.asSeconds())) + " fps");
+	if (m_FPSDisplayClock.getElapsedTime().asSeconds() > m_fFPSDisplayTime)
+	{
+		m_FPSDisplayClock.restart();
+		Time frameTime = TimeManager::getSingleton()->getFrameTime();
+		m_pTextFPS->setString(to_string((int)(1 / frameTime.asSeconds())) + " fps");
+	}
 
 	// Selection
 	if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
@@ -198,7 +203,7 @@ bool AITools::onUpdate()
 				if (m_eCommandType == Command_Reset)
 				{
 					Agent* pAgent = pEntity->getComponent<Agent>();
-					if (pAgent)
+					if (pAgent && pAgent->GetStateMachine())
 					{
 						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Reset);
 					}
@@ -206,7 +211,7 @@ bool AITools::onUpdate()
 				else if (m_eCommandType == Command_Kill)
 				{
 					Agent* pAgent = pEntity->getComponent<Agent>();
-					if (pAgent)
+					if (pAgent && pAgent->GetStateMachine())
 					{
 						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Die);
 					}
@@ -214,7 +219,7 @@ bool AITools::onUpdate()
 				else if (m_eCommandType == Command_Stop)
 				{
 					Agent* pAgent = pEntity->getComponent<Agent>();
-					if (pAgent)
+					if (pAgent && pAgent->GetStateMachine())
 					{
 						pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Stop);
 					}
@@ -222,7 +227,7 @@ bool AITools::onUpdate()
 				else if (m_eCommandType == Command_GoToHQ)
 				{
 					Agent* pAgent = pEntity->getComponent<Agent>();
-					if (pAgent)
+					if (pAgent && pAgent->GetStateMachine())
 					{
 						//pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Start);
 					}
@@ -230,7 +235,7 @@ bool AITools::onUpdate()
 				else if (m_eCommandType == Command_GoTo)
 				{
 					Agent* pAgent = pEntity->getComponent<Agent>();
-					if (pAgent)
+					if (pAgent && pAgent->GetStateMachine())
 					{
 						//pAgent->GetStateMachine()->SendDelayedMsgToMe(0.f, MSG_Teleport);
 					}

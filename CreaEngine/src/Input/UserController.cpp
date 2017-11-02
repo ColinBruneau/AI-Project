@@ -32,6 +32,10 @@ namespace crea
 		{
 			return false;
 		}
+		if (!m_pEntity->getSelected())
+		{
+			return false;
+		}
 
 		// Conditions
 		if (m_pGM->isKeyPressed(Key::D))
@@ -118,7 +122,7 @@ namespace crea
 		}
 
 		// Mouse control
-		if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
+		if (m_pGM->isMouseButtonPressed(Button::MouseRight))
 		{
 			Vector2f vMousePosition = m_pGM->getMousePosition();
 			Vector2f vEntityPosition = getEntity()->getPosition();

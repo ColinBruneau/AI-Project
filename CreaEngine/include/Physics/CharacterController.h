@@ -74,7 +74,7 @@ namespace crea
 		virtual ~CharacterController();
 
 		void setCollider(Collider* _pCollider);
-		void setActionTable(ActionTable* _pActionTable); // CB: check if possible to get as getComponent<ActionTable>()
+		void setActionTable(ActionTable* _pActionTable); 
 		void setAnimator(Animator* _pAnimator);
 		void setCondition(EnumAnimCondition _eCondition);	
 		void setAction(EnumAction _eAction);

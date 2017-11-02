@@ -46,6 +46,8 @@ class AITools
 	IText* m_pTextFPS;
 	IText* m_pTextCommand;
 	IText* m_pTextDiagnostics;
+	Clock m_FPSDisplayClock;
+	float m_fFPSDisplayTime;
 	Clock m_CommandDisplayClock;
 	float m_fCommandDisplayTime;
 

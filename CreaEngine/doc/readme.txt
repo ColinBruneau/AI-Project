@@ -39,12 +39,12 @@ To do:
 - système de prefab
 - ajouter offset (ou hotspot) sur un objet
 - déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)
-- void setActionTable(ActionTable* _pActionTable); // CB: check if possible to get as getComponent<ActionTable>()
 - dans le CharacterController, ajouter une réponse aux collisions autre que bloquer le perso
 - bug: la souris ne retourne pas 1280*800 au coin en bas à droite 
 - Selection: pour le moment la sélection se fait sur tous les sprites dans SceneGame. Il faudrait faire un système générique de sélection (component?)
   qui pourrait être configuré dans le Gamecode (ex: texture, entité sélectionnable).
 - Steering: faire la classe Vehicle
+- SelectEntities: should not be able to select root!
 
 Removed:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
