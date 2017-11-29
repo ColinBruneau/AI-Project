@@ -8,6 +8,7 @@
 
 #include "AI\StateMachine.h"
 #include "FSMPeonLive.h"
+#include "Scripts\CharacterController.h"
 
 using namespace crea;
 

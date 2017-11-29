@@ -10,20 +10,20 @@
 			"sprite":"Sprite2"
 		},
 		{
+			"type":"ActionTable",
+			"name":"Peon/Peon.act"
+		},
+		{
 			"type":"Collider",
 			"name":"Peon/Peon.col"
 		},
 		{
-			"type":"CharacterController",
-			"name":"Peon/Peon2.cc",
-			"animator":"Peon/Peon2.animator",
-			"actiontable":"Peon/Peon.act",
-			"collider":"Peon/Peon.col"
+			"type":"Script",
+			"name":"CharacterController"		
 		},
 		{
-			"type":"UserController",
-			"name":"Peon/Peon2.uc",
-			"charactercontroller":"Peon/Peon2.cc"			
+			"type":"Script",
+			"name":"UserController"		
 		},
 		{
 			"type":"Agent",

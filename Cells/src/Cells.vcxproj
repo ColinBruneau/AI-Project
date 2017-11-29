@@ -137,6 +137,8 @@
     <ClCompile Include="Scene\SceneMap.cpp" />
     <ClCompile Include="Scene\SceneMenu.cpp" />
     <ClCompile Include="Scene\SceneSteering.cpp" />
+    <ClCompile Include="Scripts\CharacterController.cpp" />
+    <ClCompile Include="Scripts\UserController.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

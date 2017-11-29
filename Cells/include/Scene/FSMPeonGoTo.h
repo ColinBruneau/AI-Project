@@ -8,6 +8,7 @@
 
 #include "AI\StateMachine.h"
 #include "AI\Pathfinding\MapSearchManager.h"
+#include "Scripts\CharacterController.h"
 
 using namespace crea;
 

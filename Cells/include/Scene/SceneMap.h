@@ -8,6 +8,7 @@
 
 #include "Core\Scene.h"
 #include "Tools\AITools.h"
+#include "Scripts\CellsScriptFactory.h"
 
 using namespace crea;
 
@@ -23,6 +24,9 @@ class SceneMap : public Scene
 	// AI Tools
 	bool m_bUseAITools;
 	AITools* m_pAITools;
+
+	// Scripts
+	CellsScriptFactory* m_pCellsScriptFactory;
 
 public:
 	SceneMap();

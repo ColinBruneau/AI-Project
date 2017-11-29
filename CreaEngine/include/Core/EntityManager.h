@@ -19,10 +19,10 @@ namespace crea
 	class MapRenderer;
 	class Animator;
 	class Entity;
-	class CharacterController;
-	class UserController;
 	class Steering;
 	class Vector2f;
+	class Script;
+	class ScriptFactory;
 }
 
 namespace crea
@@ -31,8 +31,7 @@ namespace crea
 	class CREAENGINE_API MapStringSpriteRenderer : public map<string, SpriteRenderer*> {};
 	class CREAENGINE_API MapStringMapRenderer : public map<string, MapRenderer*> {};
 	class CREAENGINE_API MapStringAnimator : public map<string, Animator*> {};
-	class CREAENGINE_API MapStringCharacterController : public map<string, CharacterController*> {};
-	class CREAENGINE_API MapStringUserController : public map<string, UserController*> {};
+	class CREAENGINE_API MapStringScript : public map<string, Script*> {};
 	class CREAENGINE_API MapStringSteering : public map<string, Steering*> {};
 	class CREAENGINE_API ListEntity : public list<Entity*> {};
 
@@ -46,9 +45,9 @@ namespace crea
 
 		MapStringAnimator m_pAnimators;
 
-		MapStringCharacterController m_pCharacterControllers;
+		MapStringScript m_pScripts;
 
-		MapStringUserController m_pUserControllers;
+		ScriptFactory* m_pScriptFactory;
 
 		MapStringSteering m_pSteerings;
 
@@ -75,11 +74,11 @@ namespace crea
 
 		Animator* getAnimator(string _szName, bool _bCloned = false);
 
-		CharacterController* getCharacterController(string _szName, bool _bCloned = false);
-
-		UserController* getUserController(string _szName, bool _bCloned = false);
+		Script* getScript(string _szName, bool _bCloned = false);
 
 		Steering* getSteering(string _szName, bool _bCloned = false);
+
+		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { m_pScriptFactory = _pScriptFactory; }
 
 		bool init();
 

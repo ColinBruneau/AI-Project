@@ -25,6 +25,10 @@ bool SceneMap::onInit()
 {
 	m_pGM = GameManager::getSingleton();
 
+	// Set Script factory
+	m_pCellsScriptFactory = new CellsScriptFactory;
+	m_pGM->setScriptFactory(m_pCellsScriptFactory);
+
 	// Load Map
 	m_pEntity3 = m_pGM->getEntity("map1");
 	m_pGM->addEntity(m_pEntity3);
@@ -110,6 +114,9 @@ bool SceneMap::onQuit()
 
 	m_pGM->clearAllData();
 	m_pGM->clearAllEntities();
+
+	delete m_pCellsScriptFactory;
+	m_pGM->setScriptFactory(nullptr);
 
 	return true;
 }

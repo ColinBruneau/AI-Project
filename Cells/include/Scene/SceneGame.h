@@ -9,9 +9,8 @@
 #include <list>
 #include "Core\Scene.h"
 #include "AI\ActionTable.h"
-#include "Physics\CharacterController.h"
-#include "Input\UserController.h"
 #include "Physics\Collider.h"
+#include "Scripts\CellsScriptFactory.h"
 
 #include "FSMPeon.h"
 #include "Tools\AITools.h"
@@ -37,6 +36,9 @@ class SceneGame : public crea::Scene
 	// AI Tools
 	bool m_bUseAITools;
 	AITools* m_pAITools;
+
+	// Scripts
+	CellsScriptFactory* m_pCellsScriptFactory;
 
 public:
 	SceneGame();

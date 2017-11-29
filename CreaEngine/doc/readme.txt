@@ -27,6 +27,7 @@
 03/2017 BehaviorTree
 09/2017 VS2017
 10/2017 OpenGL3
+11/2017 Script integration (UserControllerand CharacterController as scripts)
 
 Doing:
 - OpenGL3 integration (following http://www.opengl-tutorial.org)
@@ -38,7 +39,6 @@ To do:
 - regrouper les interfaces dans IGraphics.h et Math.h?
 - système de prefab
 - ajouter offset (ou hotspot) sur un objet
-- déplacer le characterController dans Cells? (les enum sont fortement liées au gamecode...)
 - dans le CharacterController, ajouter une réponse aux collisions autre que bloquer le perso
 - bug: la souris ne retourne pas 1280*800 au coin en bas à droite 
 - Selection: pour le moment la sélection se fait sur tous les sprites dans SceneGame. Il faudrait faire un système générique de sélection (component?)
@@ -46,6 +46,7 @@ To do:
 - Steering: faire la classe Vehicle
 - SelectEntities: should not be able to select root!
 - .anm: change -W to Flip parameter
+- table d'action: vérifier chargement de la table, bug si ordre des anims différent que ordre de l'EnumAction...
 
 Removed:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)

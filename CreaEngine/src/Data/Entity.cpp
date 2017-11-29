@@ -8,7 +8,7 @@
 #include "Data\Entity.h"
 #include "Core\Component.h"
 #include "Physics\Collider.h"
-#include "Input\UserController.h"
+#include "Core\Script.h"
 
 namespace crea
 {
@@ -37,8 +37,11 @@ namespace crea
 
 	void Entity::addComponent(Component* _pComponent)
 	{
-		_pComponent->setEntity(this);
-		m_pComponents.push_back(_pComponent);
+		if (_pComponent)
+		{
+			_pComponent->setEntity(this);
+			m_pComponents.push_back(_pComponent);
+		}
 	}
 
 	void Entity::removeComponent(Component* _pComponent)
@@ -243,41 +246,24 @@ namespace crea
 				pAnimator->setSprite(pSprite);
 				addComponent(pAnimator);
 			}
+			else if (szType == "ActionTable")
+			{
+				string szName = component["name"].asString();
+				ActionTable* pActionTable = pGM->getActionTable(szName);
+				addComponent(pActionTable);
+			}
 			else if (szType == "Collider")
 			{
 				string szName = component["name"].asString();
 				Collider* pCollider = pGM->getCollider(szName);
 				addComponent(pCollider);
 			}
-			else if (szType == "CharacterController")
+			else if (szType == "Script")
 			{
 				string szName = component["name"].asString();
-				CharacterController* pCharacterController = pGM->getCharacterController(szName);
+				Script* pScript = pGM->getScript(szName);
 
-				string szAnimator = component["animator"].asString();
-				Animator* pAnimator = pGM->getAnimator(szAnimator);
-				pCharacterController->setAnimator(pAnimator);
-
-				string szActionTable = component["actiontable"].asString();
-				ActionTable* pActionTable = pGM->getActionTable(szActionTable);
-				pCharacterController->setActionTable(pActionTable);
-
-				string szCollider = component["collider"].asString();
-				Collider* pCollider = pGM->getCollider(szCollider);
-				pCharacterController->setCollider(pCollider);
-
-				addComponent(pCharacterController);
-			}
-			else if (szType == "UserController")
-			{
-				string szName = component["name"].asString();
-				UserController* pUserController = pGM->getUserController(szName);
-
-				string szCharacterController = component["charactercontroller"].asString();
-				CharacterController* pCharacterController = pGM->getCharacterController(szCharacterController);
-				pUserController->setCharacterController(pCharacterController);
-
-				addComponent(pUserController);
+				addComponent(pScript);
 			}
 			else if (szType == "Agent")
 			{

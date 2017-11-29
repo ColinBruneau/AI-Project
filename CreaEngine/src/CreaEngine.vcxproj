@@ -33,6 +33,7 @@
     <ClInclude Include="..\include\Core\GameManager.h" />
     <ClInclude Include="..\include\Core\Math.h" />
     <ClInclude Include="..\include\Core\PhysicsManager.h" />
+    <ClInclude Include="..\include\Core\Script.h" />
     <ClInclude Include="..\include\Core\Singleton.h" />
     <ClInclude Include="..\include\Core\TimeManager.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
@@ -56,8 +57,6 @@
     <ClInclude Include="..\include\Graphics\SpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
     <ClInclude Include="..\include\Input\InputManager.h" />
-    <ClInclude Include="..\include\Input\UserController.h" />
-    <ClInclude Include="..\include\Physics\CharacterController.h" />
     <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
@@ -103,8 +102,6 @@
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\TextRenderer.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
-    <ClCompile Include="Input\UserController.cpp" />
-    <ClCompile Include="Physics\CharacterController.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
     <ClCompile Include="Tools\json\jsoncpp.cpp" />
     <ClCompile Include="Tools\Logger.cpp" />

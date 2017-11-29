@@ -9,9 +9,9 @@
 #include "SceneManager.h"
 #include "EntityManager.h"
 #include "Core\DataManager.h"
+#include "Core\Math.h"
 #include "Input\InputManager.h"
 #include "Graphics\IFacade.h"
-#include "Physics\CharacterController.h"
 #include "AI\Agent.h"
 #include "AI\Pathfinding\MapSearchManager.h"
 
@@ -78,9 +78,9 @@ namespace crea
 		
 		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
 
-		inline CharacterController* getCharacterController(string _szName) { return EntityManager::getSingleton()->getCharacterController(_szName); }
+		inline Script* getScript(string _szName) { return EntityManager::getSingleton()->getScript(_szName); }
 
-		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
+		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { return EntityManager::getSingleton()->setScriptFactory(_pScriptFactory); }
 
 		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
 

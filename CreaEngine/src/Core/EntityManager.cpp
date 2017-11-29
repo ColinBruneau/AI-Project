@@ -1,13 +1,12 @@
 #include "stdafx.h"
 
 #include "Core\EntityManager.h"
+#include "Core\Script.h"
 #include "Data\Entity.h"
 #include "Graphics\TextRenderer.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\MapRenderer.h"
 #include "Graphics\Animator.h"
-#include "Physics\CharacterController.h"
-#include "Input\UserController.h"
 #include "AI\Steering\Steering.h"
 
 namespace crea
@@ -16,6 +15,7 @@ namespace crea
 	{
 		m_pRoot = new Entity();
 		m_pRoot->setName(string("root"));
+		m_pScriptFactory = nullptr;
 	}
 
 	EntityManager::~EntityManager()
@@ -147,43 +147,23 @@ namespace crea
 		return nullptr;
 	}
 
-	CharacterController* EntityManager::getCharacterController(string _szName, bool _bCloned)
+	Script* EntityManager::getScript(string _szName, bool _bCloned)
 	{
-		MapStringCharacterController::iterator it = m_pCharacterControllers.find(_szName);
-		if (it == m_pCharacterControllers.end())
+		MapStringScript::iterator it = m_pScripts.find(_szName);
+		if (it == m_pScripts.end())
 		{
-			CharacterController* pCharacterController = new CharacterController(); // Create a default CharacterController if none exist
-			m_pCharacterControllers[_szName] = pCharacterController;
-			return pCharacterController;
+			if (m_pScriptFactory)
+			{
+				Script* pScript = m_pScriptFactory->create(_szName); // Create a Script using the factory (should be set first using setScriptFactory)
+				m_pScripts[_szName] = pScript;
+				return pScript;
+			}
 		}
 		else
 		{
 			if (_bCloned)
 			{
-				//return new CharacterController(it->second); // CB is it useful to clone?
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
-	}
-
-	UserController* EntityManager::getUserController(string _szName, bool _bCloned)
-	{
-		MapStringUserController::iterator it = m_pUserControllers.find(_szName);
-		if (it == m_pUserControllers.end())
-		{
-			UserController* pUserController = new UserController(); // Create a default UserController if none exist
-			m_pUserControllers[_szName] = pUserController;
-			return pUserController;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				//return new UserController(it->second); // CB is it useful to clone?
+				//return new Script(it->second); // CB is it useful to clone?
 			}
 			else
 			{
@@ -280,16 +260,10 @@ namespace crea
 			itAnimator = m_pAnimators.erase(itAnimator);
 		}
 
-		MapStringCharacterController::iterator itCharacterController = m_pCharacterControllers.begin();
-		while (m_pCharacterControllers.size()) {
-			delete (*itCharacterController).second;
-			itCharacterController = m_pCharacterControllers.erase(itCharacterController);
-		}
-
-		MapStringUserController::iterator itUserController = m_pUserControllers.begin();
-		while (m_pUserControllers.size()) {
-			delete (*itUserController).second;
-			itUserController = m_pUserControllers.erase(itUserController);
+		MapStringScript::iterator itScript = m_pScripts.begin();
+		while (m_pScripts.size()) {
+			delete (*itScript).second;
+			itScript = m_pScripts.erase(itScript);
 		}
 
 		MapStringSteering::iterator itSteering = m_pSteerings.begin();
