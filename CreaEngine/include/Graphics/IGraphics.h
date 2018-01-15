@@ -37,6 +37,8 @@ namespace crea
 		{
 		}
 
+		virtual void setFontSize(int _iSize) {}
+
 		// Initialise le Texture
 		virtual bool loadFromFile(string _file) { return false; }
 	};

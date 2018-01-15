@@ -13,6 +13,7 @@ namespace crea
 
 	class DX9Text : public IText
 	{
+		DX9Font* m_pDX9Font;
 		LPD3DXFONT m_pFont;
 		RECT *m_pRect;
 		D3DCOLOR m_color;
@@ -29,6 +30,7 @@ namespace crea
 			m_color = D3DCOLOR_XRGB(255, 255, 255);
 
 			//font
+			m_pDX9Font = nullptr;
 			m_pFont = nullptr;
 		}
 
@@ -46,8 +48,8 @@ namespace crea
 
 		virtual void setFont(IFont* _pFont)
 		{
-			DX9Font* pFont = (DX9Font*)_pFont;
-			m_pFont = pFont->getFont();
+			m_pDX9Font = (DX9Font*)_pFont;
+			m_pFont = m_pDX9Font->getFont();
 		}
 
 		virtual void setColor(IColor* _pColor)
@@ -58,8 +60,8 @@ namespace crea
 
 		virtual void setCharacterSize(int _iSize)
 		{
-			// CB: not handled as it requires to recreate a font...
-			cerr << "Text resizing not possible for now..." << endl;
+			assert(m_pDX9Font); // A font must be set as it requires reload of font...
+			m_pDX9Font->setFontSize(_iSize);
 		}
 
 		virtual void setString(string _szString)
