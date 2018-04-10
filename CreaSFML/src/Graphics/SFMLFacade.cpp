@@ -7,6 +7,7 @@
 #include "Graphics\SFMLText.h"
 #include "Graphics\SFMLSprite.h"
 #include "Graphics\SFMLLine.h"
+#include "Graphics\SFMLShape.h"
 
 
 namespace crea
@@ -14,11 +15,16 @@ namespace crea
 	SFMLFacade::SFMLFacade() 
 		: m_rWindowRect(0, 0, 1280, 800)
 	{
+		m_pWindow = nullptr;
 	}
 
 	SFMLFacade::~SFMLFacade()
 	{
-
+		if (m_pWindow)
+		{
+			delete m_pWindow;
+			m_pWindow = nullptr;
+		}
 	}
 
 	// Renvoie l'instance du renderer
@@ -73,9 +79,19 @@ namespace crea
 		return (_pFrom ? new SFMLFont(*(SFMLFont*)_pFrom) : new SFMLFont);
 	}
 
+	void SFMLFacade::destroyIFont(IFont* _pFont)
+	{
+		delete _pFont;
+	}
+
 	ITexture* SFMLFacade::createITexture(ITexture* _pFrom)
 	{
 		return (_pFrom ? new SFMLTexture(*(SFMLTexture*)_pFrom) : new SFMLTexture);
+	}
+
+	void SFMLFacade::destroyITexture(ITexture* _pTexture)
+	{
+		delete _pTexture;
 	}
 
 	IColor* SFMLFacade::createIColor(IColor* _pFrom)
@@ -83,9 +99,19 @@ namespace crea
 		return (_pFrom ? new SFMLColor(*(SFMLColor*)_pFrom) : new SFMLColor);
 	}
 
+	void SFMLFacade::destroyIColor(IColor* _pColor)
+	{
+		delete _pColor;
+	}
+
 	IText* SFMLFacade::createIText(IText* _pFrom)
 	{
 		return (_pFrom ? new SFMLText(*(SFMLText*)_pFrom) : new SFMLText);
+	}
+
+	void SFMLFacade::destroyIText(IText* _pText)
+	{
+		delete _pText;
 	}
 
 	ISprite* SFMLFacade::createISprite(ISprite* _pFrom)
@@ -93,10 +119,40 @@ namespace crea
 		return (_pFrom ? new SFMLSprite(*(SFMLSprite*)_pFrom) : new SFMLSprite);
 	}
 
+	void SFMLFacade::destroyISprite(ISprite* _pSprite)
+	{
+		delete _pSprite;
+	}
+
 	ILine* SFMLFacade::createILine(ILine* _pFrom)
 	{
 		return (_pFrom ? new SFMLLine(*(SFMLLine*)_pFrom) : new SFMLLine);
 	}
+
+	void SFMLFacade::destroyILine(ILine* _pLine)
+	{
+		delete _pLine;
+	}
+
+	IShape* SFMLFacade::createIShape(IShape* _pFrom)
+	{
+		return (_pFrom ? new SFMLShape(*(SFMLShape*)_pFrom) : new SFMLShape);
+	}
+
+	void SFMLFacade::destroyIShape(IShape* _pShape)
+	{
+		delete _pShape;
+	}
+
+	IRectangleShape* SFMLFacade::createIRectangleShape(IRectangleShape* _pFrom)
+	{
+		return (_pFrom ? new SFMLRectangleShape(*(SFMLRectangleShape*)_pFrom) : new SFMLRectangleShape);
+	}
+
+	void SFMLFacade::destroyIRectangleShape(IRectangleShape* _pShape)
+	{
+		delete _pShape;
+	}	
 
 	bool SFMLFacade::isKeyPressed(Key _key)
 	{

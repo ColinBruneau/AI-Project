@@ -31,13 +31,14 @@
     <ClInclude Include="..\include\Core\DebugLog.h" />
     <ClInclude Include="..\include\Core\EntityManager.h" />
     <ClInclude Include="..\include\Core\GameManager.h" />
-    <ClInclude Include="..\include\Core\ICore.h" />
+    <ClInclude Include="..\include\Core\Math.h" />
     <ClInclude Include="..\include\Core\PhysicsManager.h" />
+    <ClInclude Include="..\include\Core\Script.h" />
     <ClInclude Include="..\include\Core\Singleton.h" />
     <ClInclude Include="..\include\Core\TimeManager.h" />
     <ClInclude Include="..\include\Core\Plugin.h" />
     <ClInclude Include="..\include\Core\SceneManager.h" />
-    <ClInclude Include="..\include\Core\GameState.h" />
+    <ClInclude Include="..\include\Core\Scene.h" />
     <ClInclude Include="..\include\CreaImport.h" />
     <ClInclude Include="..\include\Data\Animation.h" />
     <ClInclude Include="..\include\Data\Entity.h" />
@@ -48,19 +49,20 @@
     <ClInclude Include="..\include\Graphics\IDrawable.h" />
     <ClInclude Include="..\include\Graphics\IGraphics.h" />
     <ClInclude Include="..\include\Graphics\IFacade.h" />
+    <ClInclude Include="..\include\Graphics\IShape.h" />
     <ClInclude Include="..\include\Graphics\ISprite.h" />
+    <ClInclude Include="..\include\Graphics\ShapeRenderer.h" />
     <ClInclude Include="..\include\Graphics\Transformable.h" />
     <ClInclude Include="..\include\Graphics\MapRenderer.h" />
     <ClInclude Include="..\include\Graphics\SpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
     <ClInclude Include="..\include\Input\InputManager.h" />
-    <ClInclude Include="..\include\Input\UserController.h" />
-    <ClInclude Include="..\include\json\json-forwards.h" />
-    <ClInclude Include="..\include\json\json.h" />
-    <ClInclude Include="..\include\Physics\CharacterController.h" />
     <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />
+    <ClInclude Include="..\include\Tools\json\json-forwards.h" />
+    <ClInclude Include="..\include\Tools\json\json.h" />
+    <ClInclude Include="..\include\Tools\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI\ActionTable.cpp" />
@@ -82,7 +84,7 @@
     <ClCompile Include="Core\PhysicsManager.cpp" />
     <ClCompile Include="Core\Plugin.cpp" />
     <ClCompile Include="Core\SceneManager.cpp" />
-    <ClCompile Include="Core\GameState.cpp" />
+    <ClCompile Include="Core\Scene.cpp" />
     <ClCompile Include="Core\TimeManager.cpp" />
     <ClCompile Include="CreaEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -96,13 +98,13 @@
     <ClCompile Include="Graphics\Animator.cpp" />
     <ClCompile Include="Graphics\IFacade.cpp" />
     <ClCompile Include="Graphics\MapRenderer.cpp" />
+    <ClCompile Include="Graphics\ShapeRenderer.cpp" />
     <ClCompile Include="Graphics\SpriteRenderer.cpp" />
     <ClCompile Include="Graphics\TextRenderer.cpp" />
     <ClCompile Include="Input\InputManager.cpp" />
-    <ClCompile Include="Input\UserController.cpp" />
-    <ClCompile Include="json\jsoncpp.cpp" />
-    <ClCompile Include="Physics\CharacterController.cpp" />
     <ClCompile Include="Physics\Collider.cpp" />
+    <ClCompile Include="Tools\json\jsoncpp.cpp" />
+    <ClCompile Include="Tools\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\doc\readme.txt" />
@@ -117,14 +119,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>

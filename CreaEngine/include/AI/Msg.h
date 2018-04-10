@@ -46,7 +46,7 @@ namespace crea
 		int m_Name;				//Message name
 		objectID m_Sender;		//Object that sent the message
 		objectID m_Receiver;	//Object that will get the message
-		int m_State;			//GameState in which the receiver is allowed get the message (-1 means any state)
+		int m_State;			//Scene in which the receiver is allowed get the message (-1 means any state)
 
 		float m_DeliveryTime;	//Time at which to send the message
 		bool m_Delivered;		//Whether the message has been delivered

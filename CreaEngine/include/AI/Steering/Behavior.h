@@ -6,7 +6,7 @@
 #ifndef __BEHAVIOR_H_
 #define __BEHAVIOR_H_
 
-#include "Core\ICore.h"
+#include "Core\Math.h"
 #include <vector>
 #include <random>
 

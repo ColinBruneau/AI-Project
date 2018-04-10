@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/ComponentDesigner"
+  dslVersion="1.0.0.0"
+  Id="92c5a254-03e9-4c75-80f6-a63491c75391"
+  name="Cells" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <ownedCommentsInternal>
+    <comment
+      Id="d5ae4a0f-4743-4e5e-af19-6e8bc02aea4d">
+      <body>			switch (m_iSteeringMode)
+			{
+			case 0: pSteering-&gt;addBehavior(new Seek(m_vEntities[i], m_pMouse), 1.0f);
+				break;
+			case 1: pSteering-&gt;addBehavior(new Pursuit(m_vEntities[i], m_vEntities[i + 1], 1.0f), 1.0f);
+				break;
+			case 2: pSteering-&gt;addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+				pSteering-&gt;addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &amp;m_vObstacles), 1.0f);
+				break;
+			case 3: pSteering-&gt;addBehavior(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
+				break;
+			case 4 : pSteering-&gt;addBehavior(new PathFollowing(m_vEntities[i], 2.0f, 12, 100.f, &amp;m_vObstacles), 1.0f);
+				break;
+			case 5: pSteering-&gt;addBehavior(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				break;
+			case 6:
+				pSteering-&gt;addBehavior(new Separation(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				pSteering-&gt;addBehavior(new Cohesion(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				pSteering-&gt;addBehavior(new Alignment(m_vEntities[i], 60.f, &amp;m_vEntities), 1.0f);
+				break;
+			case 7:
+				if (i == 0)
+				{
+					pSteering-&gt;addBehavior(new Arrival(m_vEntities[0], m_pMouse, 200.f), 1.0f);
+				}
+				else
+				{
+					pSteering-&gt;addBehavior(new Separation(m_vEntities[i], 60.f, &amp;m_vEntities), 2.0f);
+					pSteering-&gt;addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+				}
+				break;
+			case 8:
+				pSteering-&gt;addBehavior(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
+				break;
+			}</body>
+    </comment>
+  </ownedCommentsInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="0cc3e8cf-bb96-4479-acaf-5e3b31cabcd4"
+        name="GSBehaviorTree"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="f3384e2c-123c-47ed-9b71-79f7ff13960e"
+            isDerived="false"
+            sourceEndRoleName="StateGame"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="fbd0e59e-ce79-41c2-82e1-b8d5b0b18673"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_0936.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fd11ed1f-8b0c-4266-8f80-3f0c752e65f0"
+                  name="StateGame"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="da96c122-efaf-445a-9ff5-d08347e3fef0"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5ca4514c-3b2a-47ca-bc19-d1f258c1a0f9"
+        name="GSSteering"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="88ed87ea-537a-4cc9-92b3-fa770bff5179"
+            isDerived="false"
+            sourceEndRoleName="GSSteering"
+            targetEndRoleName="Entity"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="fbd0e59e-ce79-41c2-82e1-b8d5b0b18673"
+              LastKnownName="Entity"
+              LastKnownLocation="Package_0936.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ed02a21b-36d1-4c0f-97e1-1a855d098e8d"
+                  name="GSSteering"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8ff09df4-1af5-409e-bc0c-67779e23d086"
+                  name="Entity"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

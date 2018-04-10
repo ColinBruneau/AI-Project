@@ -307,61 +307,61 @@ namespace crea
 	void DataManager::clear()
 	{
 		MapStringFont::iterator itFont = m_pFonts.begin();
-		while (itFont != m_pFonts.end()) {
-			delete (*itFont).second;
+		while (m_pFonts.size()) {
+			IFacade::get().destroyIFont((*itFont).second);
 			itFont = m_pFonts.erase(itFont);
 		}
 
 		MapStringTexture::iterator itTexture = m_pTextures.begin();
-		while (itTexture != m_pTextures.end()) {
-			delete (*itTexture).second;
+		while (m_pTextures.size()) {
+			IFacade::get().destroyITexture((*itTexture).second);
 			itTexture = m_pTextures.erase(itTexture);
 		}
 
 		MapStringColor::iterator itColor = m_pColors.begin();
-		while (itColor != m_pColors.end()) {
-			delete (*itColor).second;
+		while (m_pColors.size()) {
+			IFacade::get().destroyIColor((*itColor).second);
 			itColor = m_pColors.erase(itColor);
 		}
 
 		MapStringText::iterator itText = m_pTexts.begin();
-		while (itText != m_pTexts.end()) {
-			delete (*itText).second;
+		while (m_pTexts.size()) {
+			IFacade::get().destroyIText((*itText).second);
 			itText = m_pTexts.erase(itText);
 		}
 
 		MapStringSprite::iterator itSprite = m_pSprites.begin();
-		while (itSprite != m_pSprites.end()) {
-			delete (*itSprite).second;
+		while (m_pSprites.size()) {
+			IFacade::get().destroyISprite((*itSprite).second);
 			itSprite = m_pSprites.erase(itSprite);
 		}
 
 		MapStringAnimation::iterator itAnimation = m_pAnimations.begin();
-		while (itAnimation != m_pAnimations.end()) {
+		while (m_pAnimations.size()) {
 			delete (*itAnimation).second;
 			itAnimation = m_pAnimations.erase(itAnimation);
 		}
 
 		MapStringActionTable::iterator itActionTable = m_pActionTables.begin();
-		while (itActionTable != m_pActionTables.end()) {
+		while (m_pActionTables.size()) {
 			delete (*itActionTable).second;
 			itActionTable = m_pActionTables.erase(itActionTable);
 		}
 
 		MapStringAgent::iterator itAgent = m_pAgents.begin();
-		while (itAgent != m_pAgents.end()) {
+		while (m_pAgents.size()) {
 			delete (*itAgent).second;
 			itAgent = m_pAgents.erase(itAgent);
 		}
 
 		MapStringMap::iterator itMap = m_pMaps.begin();
-		while (itMap != m_pMaps.end()) {
+		while (m_pMaps.size()) {
 			delete (*itMap).second;
 			itMap = m_pMaps.erase(itMap);
 		}
 
 		MapStringCollider::iterator itCollider = m_pColliders.begin();
-		while (itCollider != m_pColliders.end()) {
+		while (m_pColliders.size()) {
 			delete (*itCollider).second;
 			itCollider = m_pColliders.erase(itCollider);
 		}

@@ -1,22 +1,22 @@
 #include "stdafx.h"
 
 #include "Core\SceneManager.h"
-#include "Core\GameState.h"
+#include "Core\Scene.h"
 #include "Core\PhysicsManager.h"
 
 namespace crea
 {
 	SceneManager::SceneManager()
 	{
-		m_pCurrentGameState = nullptr;
+		m_pCurrentScene = nullptr;
 	}
 
 	SceneManager::~SceneManager()
 	{
-		if (m_pCurrentGameState)
+		if (m_pCurrentScene)
 		{
-			m_pCurrentGameState->onQuit();
-			delete m_pCurrentGameState;
+			m_pCurrentScene->onQuit();
+			delete m_pCurrentScene;
 		}
 	}
 
@@ -31,8 +31,8 @@ namespace crea
 	{
 		MsgManager::getSingleton()->update();
 		EntityManager::getSingleton()->update();
-		if (m_pCurrentGameState)
-			return m_pCurrentGameState->onUpdate();
+		if (m_pCurrentScene)
+			return m_pCurrentScene->onUpdate();
 		return false;
 	}
 
@@ -43,22 +43,22 @@ namespace crea
 		// CB: add a flag to draw or not
 		PhysicsManager::getSingleton()->draw();
 
-		if (m_pCurrentGameState)
-			return m_pCurrentGameState->onDraw();
+		if (m_pCurrentScene)
+			return m_pCurrentScene->onDraw();
 		return false;
 	}
 
-	void SceneManager::setGameState(GameState* _s)
+	void SceneManager::setScene(Scene* _s)
 	{
-		if (m_pCurrentGameState)
+		if (m_pCurrentScene)
 		{
-			m_pCurrentGameState->onQuit();
+			m_pCurrentScene->onQuit();
 			EntityManager::getSingleton()->clear();
 			PhysicsManager::getSingleton()->clear();
-			delete m_pCurrentGameState;
+			delete m_pCurrentScene;
 		}
-		m_pCurrentGameState = _s;
-		m_pCurrentGameState->onInit();
+		m_pCurrentScene = _s;
+		m_pCurrentScene->onInit();
 		EntityManager::getSingleton()->init();
 		PhysicsManager::getSingleton()->init();
 	}

@@ -7,7 +7,7 @@
 #define __Collider_H_
 
 #include "Core\Component.h"
-#include "Core\ICore.h"
+#include "Core\Math.h"
 
 namespace crea
 {

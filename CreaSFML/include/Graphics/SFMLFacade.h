@@ -47,15 +47,35 @@ namespace crea
 
 		virtual IFont* createIFont(IFont* _pFrom = nullptr);
 
+		virtual void destroyIFont(IFont* _pFont);
+
 		virtual ITexture* createITexture(ITexture* _pFrom = nullptr);
+
+		virtual void destroyITexture(ITexture* _pTexture);
 
 		virtual IColor* createIColor(IColor* _pFrom = nullptr);
 
+		virtual void destroyIColor(IColor* _pColor);
+
 		virtual IText* createIText(IText* _pFrom = nullptr);
+
+		virtual void destroyIText(IText* _pText);
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
 
+		virtual void destroyISprite(ISprite* _pSprite);
+
 		virtual ILine* createILine(ILine* _pFrom = nullptr);
+
+		virtual void destroyILine(ILine* _pLine);
+
+		virtual IShape* createIShape(IShape* _pFrom = nullptr);
+
+		virtual void destroyIShape(IShape* _pShape);
+
+		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr);
+
+		virtual void destroyIRectangleShape(IRectangleShape* _pShape);
 
 		virtual bool isKeyPressed(Key _key);
 

@@ -221,14 +221,26 @@
     <packageHasNamedElement>
       <packageMoniker
         Id="aaba0794-7e60-42dc-b653-89850e0c9254"
-        LastKnownName="CreaEngine11"
+        LastKnownName="CreaEngine"
         LastKnownLocation="Package_1510.uml" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <packageMoniker
         Id="13900738-a266-4e75-a76e-94142e808f72"
-        LastKnownName="Cells11"
+        LastKnownName="Cells"
         LastKnownLocation="Package1_1510.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="52e1f3de-2938-43e6-bde9-1c675de3a700"
+        LastKnownName="CreaEngine"
+        LastKnownLocation="Package_0936.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="92c5a254-03e9-4c75-80f6-a63491c75391"
+        LastKnownName="Cells"
+        LastKnownLocation="Package1_0936.uml" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

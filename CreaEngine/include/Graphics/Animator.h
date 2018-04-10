@@ -7,7 +7,7 @@
 #define __Animator_H_
 
 #include "Core\Component.h"
-#include "Core\ICore.h"
+#include "Core\Math.h"
 #include "Core\TimeManager.h"
 #include "Graphics\IGraphics.h"
 #include "Graphics\SpriteRenderer.h"

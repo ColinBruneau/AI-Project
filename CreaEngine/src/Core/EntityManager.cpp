@@ -1,13 +1,12 @@
 #include "stdafx.h"
 
 #include "Core\EntityManager.h"
+#include "Core\Script.h"
 #include "Data\Entity.h"
 #include "Graphics\TextRenderer.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\MapRenderer.h"
 #include "Graphics\Animator.h"
-#include "Physics\CharacterController.h"
-#include "Input\UserController.h"
 #include "AI\Steering\Steering.h"
 
 namespace crea
@@ -16,6 +15,7 @@ namespace crea
 	{
 		m_pRoot = new Entity();
 		m_pRoot->setName(string("root"));
+		m_pScriptFactory = nullptr;
 	}
 
 	EntityManager::~EntityManager()
@@ -147,43 +147,23 @@ namespace crea
 		return nullptr;
 	}
 
-	CharacterController* EntityManager::getCharacterController(string _szName, bool _bCloned)
+	Script* EntityManager::getScript(string _szName, bool _bCloned)
 	{
-		MapStringCharacterController::iterator it = m_pCharacterControllers.find(_szName);
-		if (it == m_pCharacterControllers.end())
+		MapStringScript::iterator it = m_pScripts.find(_szName);
+		if (it == m_pScripts.end())
 		{
-			CharacterController* pCharacterController = new CharacterController(); // Create a default CharacterController if none exist
-			m_pCharacterControllers[_szName] = pCharacterController;
-			return pCharacterController;
+			if (m_pScriptFactory)
+			{
+				Script* pScript = m_pScriptFactory->create(_szName); // Create a Script using the factory (should be set first using setScriptFactory)
+				m_pScripts[_szName] = pScript;
+				return pScript;
+			}
 		}
 		else
 		{
 			if (_bCloned)
 			{
-				//return new CharacterController(it->second); // CB is it useful to clone?
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-		return nullptr;
-	}
-
-	UserController* EntityManager::getUserController(string _szName, bool _bCloned)
-	{
-		MapStringUserController::iterator it = m_pUserControllers.find(_szName);
-		if (it == m_pUserControllers.end())
-		{
-			UserController* pUserController = new UserController(); // Create a default UserController if none exist
-			m_pUserControllers[_szName] = pUserController;
-			return pUserController;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				//return new UserController(it->second); // CB is it useful to clone?
+				//return new Script(it->second); // CB is it useful to clone?
 			}
 			else
 			{
@@ -257,43 +237,37 @@ namespace crea
 	void EntityManager::clear()
 	{
 		MapStringTextRenderer::iterator itTextRenderer = m_pTextRenderers.begin();
-		while (itTextRenderer != m_pTextRenderers.end()) {
+		while (m_pTextRenderers.size()) {
 			delete (*itTextRenderer).second;
 			itTextRenderer = m_pTextRenderers.erase(itTextRenderer);
 		}
 
 		MapStringSpriteRenderer::iterator itSpriteRenderer = m_pSpriteRenderers.begin();
-		while (itSpriteRenderer != m_pSpriteRenderers.end()) {
+		while (m_pSpriteRenderers.size()) {
 			delete (*itSpriteRenderer).second;
 			itSpriteRenderer = m_pSpriteRenderers.erase(itSpriteRenderer);
 		}
 
 		MapStringMapRenderer::iterator itMapRenderer = m_pMapRenderers.begin();
-		while (itMapRenderer != m_pMapRenderers.end()) {
+		while (m_pMapRenderers.size()) {
 			delete (*itMapRenderer).second;
 			itMapRenderer = m_pMapRenderers.erase(itMapRenderer);
 		}
 
 		MapStringAnimator::iterator itAnimator = m_pAnimators.begin();
-		while (itAnimator != m_pAnimators.end()) {
+		while (m_pAnimators.size()) {
 			delete (*itAnimator).second;
 			itAnimator = m_pAnimators.erase(itAnimator);
 		}
 
-		MapStringCharacterController::iterator itCharacterController = m_pCharacterControllers.begin();
-		while (itCharacterController != m_pCharacterControllers.end()) {
-			delete (*itCharacterController).second;
-			itCharacterController = m_pCharacterControllers.erase(itCharacterController);
-		}
-
-		MapStringUserController::iterator itUserController = m_pUserControllers.begin();
-		while (itUserController != m_pUserControllers.end()) {
-			delete (*itUserController).second;
-			itUserController = m_pUserControllers.erase(itUserController);
+		MapStringScript::iterator itScript = m_pScripts.begin();
+		while (m_pScripts.size()) {
+			delete (*itScript).second;
+			itScript = m_pScripts.erase(itScript);
 		}
 
 		MapStringSteering::iterator itSteering = m_pSteerings.begin();
-		while (itSteering != m_pSteerings.end()) {
+		while (m_pSteerings.size()) {
 			delete (*itSteering).second;
 			itSteering = m_pSteerings.erase(itSteering);
 		}

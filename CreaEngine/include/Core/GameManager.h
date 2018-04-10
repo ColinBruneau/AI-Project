@@ -9,20 +9,23 @@
 #include "SceneManager.h"
 #include "EntityManager.h"
 #include "Core\DataManager.h"
+#include "Core\Math.h"
 #include "Input\InputManager.h"
 #include "Graphics\IFacade.h"
-#include "Physics\CharacterController.h"
 #include "AI\Agent.h"
 #include "AI\Pathfinding\MapSearchManager.h"
 
 namespace crea
 {
+	class LoggerFile;
 
 	class CREAENGINE_API GameManager
 	{
 		GameManager();
 
 		IFacade* m_pRenderer;
+
+		LoggerFile* m_pLogger;
 
 	public:
 		~GameManager();
@@ -33,14 +36,16 @@ namespace crea
 
 		inline IFacade* getRenderer() { return m_pRenderer; }
 
-		inline void setGameState(GameState* s) { SceneManager::getSingleton()->setGameState(s); }
+		inline void setScene(Scene* s) { SceneManager::getSingleton()->setScene(s); }
 
+		// Input
 		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }
 
 		inline bool isMouseButtonPressed(Button _button) { return InputManager::getSingleton()->isMouseButtonPressed(_button); }
 
 		inline Vector2f getMousePosition() { return InputManager::getSingleton()->getMousePosition(); }
 
+		// Data
 		inline IFont* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
 
 		inline ITexture* getTexture(string _szName) { return DataManager::getSingleton()->getTexture(_szName); }
@@ -73,9 +78,9 @@ namespace crea
 		
 		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
 
-		inline CharacterController* getCharacterController(string _szName) { return EntityManager::getSingleton()->getCharacterController(_szName); }
+		inline Script* getScript(string _szName) { return EntityManager::getSingleton()->getScript(_szName); }
 
-		inline UserController* getUserController(string _szName) { return EntityManager::getSingleton()->getUserController(_szName); }
+		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { return EntityManager::getSingleton()->setScriptFactory(_pScriptFactory); }
 
 		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
 
@@ -87,11 +92,13 @@ namespace crea
 
 		inline void clearEntity(Entity* _pEntity) { EntityManager::getSingleton()->clearEntity(_pEntity); }
 
+		// Selection
 		inline void selectEntities(Vector2f _vStart, Vector2f _vEnd) { EntityManager::getSingleton()->selectEntities(_vStart, _vEnd); }
 		
 		inline void unselectEntities() { EntityManager::getSingleton()->unselectEntities(); }
 
 		inline ListEntity* getSelectedEntities() { return EntityManager::getSingleton()->getSelectedEntities(); }
+
 
 		void init();
 

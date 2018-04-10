@@ -7,7 +7,7 @@
 #define __TileSet_H_
 
 #include <vector>
-#include "Core\ICore.h"
+#include "Core\Math.h"
 
 namespace crea
 {

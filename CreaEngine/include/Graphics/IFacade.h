@@ -15,6 +15,8 @@ namespace crea
 	class ITexture;
 	class IntRect;
 	class ILine;
+	class IShape;
+	class IRectangleShape;
 
 	class CREAENGINE_API IFacade
 	{
@@ -66,15 +68,35 @@ namespace crea
 
 		virtual IFont* createIFont(IFont* _pFrom = nullptr) = 0;
 
+		virtual void destroyIFont(IFont* _pFont) = 0;
+
 		virtual ITexture* createITexture(ITexture* _pFrom = nullptr) = 0;
+
+		virtual void destroyITexture(ITexture* _pTexture) = 0;
 
 		virtual IColor* createIColor(IColor* _pFrom = nullptr) = 0;
 
+		virtual void destroyIColor(IColor* _pColor) = 0;
+
 		virtual IText* createIText(IText* _pFrom = nullptr) = 0;
+
+		virtual void destroyIText(IText* _pText) = 0;
 
 		virtual ISprite* createISprite(ISprite* _pFrom = nullptr) = 0;
 
+		virtual void destroyISprite(ISprite* _pSprite) = 0;
+
 		virtual ILine* createILine(ILine* _pFrom = nullptr) = 0;
+
+		virtual void destroyILine(ILine* _pLine) = 0;
+
+		virtual IShape* createIShape(IShape* _pFrom = nullptr) = 0;
+
+		virtual void destroyIShape(IShape* _pShape) = 0;
+
+		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr) = 0;
+
+		virtual void destroyIRectangleShape(IRectangleShape* _pShape) = 0;
 
 		virtual bool isKeyPressed(Key _key) = 0;
 

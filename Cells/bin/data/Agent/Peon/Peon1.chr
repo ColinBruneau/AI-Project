@@ -1,5 +1,6 @@
 { 	"Strength":10,
 	"Dexterity":10,
 	"Intelligence":10,
-	"Health":10
+	"Health":10,
+	"script":"FSMPeon"
 } 
