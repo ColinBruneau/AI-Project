@@ -107,7 +107,7 @@ namespace crea
 			if (pCurrentMap)
 			{
 				fSpeedFactor = 1 - pCurrentMap->getFrictionAtPosition(getEntity()->getPosition());
-				cout << fSpeedFactor << getEntity()->getPosition().getX() << " " << getEntity()->getPosition().getY() << endl;
+				//cout << fSpeedFactor << getEntity()->getPosition().getX() << " " << getEntity()->getPosition().getY() << endl;
 			}
 			//m_vVelocity *= fSpeedFactor;
 			Vector2f vAdjustedVelocity = m_vVelocity * fSpeedFactor;
