@@ -66,13 +66,13 @@ namespace crea
 
 		virtual IFont* createIFont(IFont* _pFrom = nullptr);
 
-		virtual ITexture* createITexture(ITexture* _pFrom = nullptr);
+		virtual Texture* createTexture(Texture* _pFrom = nullptr);
 
-		virtual IColor* createIColor(IColor* _pFrom = nullptr);
+		virtual Color* createColor(Color* _pFrom = nullptr);
 
-		virtual IText* createIText(IText* _pFrom = nullptr);
+		virtual Text* createText(Text* _pFrom = nullptr);
 
-		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
+		virtual Sprite* createSprite(Sprite* _pFrom = nullptr);
 
 		virtual bool isKeyPressed(Key _key);
 

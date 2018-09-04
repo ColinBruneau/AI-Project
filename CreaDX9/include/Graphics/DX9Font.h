@@ -6,12 +6,12 @@
 #ifndef _DX9Font_H
 #define _DX9Font_H
 
-#include "Graphics\IFont.h"
+#include "Graphics\Font.h"
 
 namespace crea
 {
 
-	class DX9Font : public IFont
+	class DX9Font : public Font
 	{
 		LPD3DXFONT m_pFont;
 		string m_szFont;

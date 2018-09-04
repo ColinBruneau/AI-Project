@@ -7,41 +7,10 @@
 #define __MapSearchManager_H__
 
 #include "AI\AI.h"
-#include "AI\Pathfinding\AStarSearch.h"
-#include "AI\Pathfinding\MapSearchNode.h"
+#include "AI\Pathfinding\MapSearch.h"
 
 namespace crea
 {
-	class CREAENGINE_API VectorVector2f : public vector<Vector2f*> {};
-	class CREAENGINE_API MapSearch
-	{
-	public:
-		enum SearchState
-		{
-			SEARCH_STATE_NOT_INITIALISED,
-			SEARCH_STATE_SEARCHING,
-			SEARCH_STATE_SUCCEEDED,
-			SEARCH_STATE_FAILED,
-			SEARCH_STATE_OUT_OF_MEMORY,
-			SEARCH_STATE_INVALID
-		};
-
-		MapSearch();
-		~MapSearch();
-
-		bool setStartAndGoal(Vector2f _vStart, Vector2f _vGoal);
-		SearchState update();
-		bool getSolution(VectorVector2f& _vSolution);
-
-	private:
-		// A*
-		AStarSearch<MapSearchNode> m_pAStarSearch;
-		SearchState m_uiSearchState;
-
-	};
-
-
-
 	class CREAENGINE_API MapStringMapSearch : public map<string, MapSearch*> {};
 
 	class CREAENGINE_API MapSearchManager : public Singleton <MapSearchManager>
@@ -53,13 +22,19 @@ namespace crea
 
 		MapSearch* getMapSearch(string _szName);
 
-		Map* getMap() { return m_pMap; }
-		void setMap(Map* _pMap) { m_pMap = _pMap;  }
+		// A*
+		Map* getCurrentMap() { return m_pMap; }
+		void setCurrentMap(Map* _pMap) { m_pMap = _pMap;  }
+
+		// AA*
+		Agent* getCurrentAgent() { return m_pAgent; }
+		void setCurrentAgent(Agent* _pAgent) { m_pAgent = _pAgent; }
 
 	private:
 
 		MapStringMapSearch m_MapSearches;
 		Map* m_pMap;
+		Agent* m_pAgent;
 	};
 
 }

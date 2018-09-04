@@ -5,44 +5,38 @@
 /***************************************************/
 #ifndef __DATAMANAGER_H_
 #define __DATAMANAGER_H_
-#include <map>
-using namespace std;
 
-#define DATAFONTPATH		"data/Font/"
-#define DATATEXTUREPATH		"data/Image/"
+#define DATAFONTPATH	"data/Font/"
+#define DATATEXTUREPATH "data/Image/"
+#define DATAMAPPATH		"data/Map/"
+#define DATAAGENTPATH	"data/Agent/"
 #define DATAANIMATIONPATH	"data/Animation/"
-#define DATAMAPPATH			"data/Map/"
-#define DATAAGENTPATH		"data/Agent/"
 
-// Prédéfinitions
 namespace crea
 {
-	class IFont;
-	class ITexture;
-	class IColor;
-	class IText;
-	class ISprite;
-	class Animation;
-	class ActionTable;
-	class AnimatedSprite;
+	class Font;
+	class Texture;
+	class Color;
+	class Text;
+	class Sprite;
+	class Shape;
 	class Map;
 	class Agent;
-	class Collider;
-}
+	class Animation;
+	class ActionTable;
+	class Vehicle;
 
-namespace crea
-{
-	class CREAENGINE_API MapStringFont : public map<string, IFont*> {};
-	class CREAENGINE_API MapStringTexture : public map<string, ITexture*> {};
-	class CREAENGINE_API MapStringColor : public map<string, IColor*> {};
-	class CREAENGINE_API MapStringText : public map<string, IText*> {};
-	class CREAENGINE_API MapStringSprite : public map<string, ISprite*> {};
+	class CREAENGINE_API MapStringFont : public map<string, Font*> {};
+	class CREAENGINE_API MapStringTexture : public map<string, Texture*> {};
+	class CREAENGINE_API MapStringColor : public map<string, Color*> {};
+	class CREAENGINE_API MapStringText : public map<string, Text*> {};
+	class CREAENGINE_API MapStringSprite : public map<string, Sprite*> {};
+	class CREAENGINE_API MapStringShape : public map<string, Shape*> {};
+	class CREAENGINE_API MapStringMap : public map<string, Map*> {};
+	class CREAENGINE_API MapStringAgent : public map<string, Agent*> {};
 	class CREAENGINE_API MapStringAnimation : public map<string, Animation*> {};
 	class CREAENGINE_API MapStringActionTable : public map<string, ActionTable*> {};
-	class CREAENGINE_API MapStringMap : public map<string, Map*> {};
-	class CREAENGINE_API MapStringAnimatedSprite : public map<string, AnimatedSprite*> {};
-	class CREAENGINE_API MapStringAgent : public map<string, Agent*> {};
-	class CREAENGINE_API MapStringCollider : public map<string, Collider*> {};
+	class CREAENGINE_API MapStringVehicle : public map<string, Vehicle*> {};
 
 	class CREAENGINE_API DataManager
 	{
@@ -56,18 +50,20 @@ namespace crea
 
 		MapStringSprite m_pSprites;
 
+		MapStringShape m_pShapes;
+
+		MapStringMap m_pMaps;
+
+		MapStringAgent m_pAgents;
+
 		MapStringAnimation m_pAnimations;
 
 		MapStringActionTable m_pActionTables;
 
-		MapStringAgent m_pAgents;
+		MapStringVehicle m_pVehicles;
 
-		MapStringMap m_pMaps;
-
-		MapStringAnimatedSprite m_pAnimatedSprites;
-
-		MapStringCollider m_pColliders;
-
+		bool m_bIsCleared;
+		
 		DataManager();
 
 	public:
@@ -75,26 +71,30 @@ namespace crea
 
 		static DataManager* getSingleton();
 
-		IFont* getFont(string _szName, bool _bCloned = false);
+		Font* getFont(string _szName, bool _bCloned = false);
 
-		ITexture* getTexture(string _szName, bool _bCloned = false);
+		Texture* getTexture(string _szName, bool _bCloned = false);
 
-		IColor* getColor(string _szName, bool _bCloned = false);
+		Color* getColor(string _szName, bool _bCloned = false);
 
-		IText* getText(string _szName, bool _bCloned = false);
+		Text* getText(string _szName, bool _bCloned = false);
 
-		ISprite* getSprite(string _szName, bool _bCloned = false);
+		Sprite* getSprite(string _szName, bool _bCloned = false);
 
-		Animation* getAnimation(string _szName, bool _bCloned = false);
-		
-		ActionTable* getActionTable(string _szName, bool _bCloned = false);
+		Sprite* cloneSprite(Sprite* _pSprite);
 
-		Agent* getAgent(string _szName, bool _bCloned = false);
+		Shape* getShape(string _szType, string _szName, bool _bCloned = false);
 
 		Map* getMap(string _szName, bool _bCloned = false);
 
-		Collider* getCollider(string _szName, bool _bCloned = false);
-		
+		Agent* getAgent(string _szName, bool _bCloned = false);
+
+		Animation* getAnimation(string _szName, bool _bCloned = false);
+
+		ActionTable* getActionTable(string _szName, bool _bCloned = false);
+
+		Vehicle* getVehicle(string _szName, bool _bCloned = false);
+
 		void clear();
 	};
 

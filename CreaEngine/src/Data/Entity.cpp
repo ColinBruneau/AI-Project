@@ -1,21 +1,45 @@
 #include "stdafx.h"
 
-#include "Tools/json/json.h"
+#include "Tools\json\json.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include "Data\Entity.h"
 #include "Core\Component.h"
-#include "Physics\Collider.h"
+#include "AI\Agent.h"
+#include "AI\ActionTable.h"
 #include "Core\Script.h"
+#include "Physics\Collider.h"
 
 namespace crea
 {
 	Entity::Entity()
 	{
 		m_pParent = nullptr;
-		m_szName = "Entity";
+		m_szName = "Entity"; 
+		m_ID = 0;
+	}
+
+	Entity::Entity(Entity& _entity)
+	{
+		m_pParent = nullptr;
+		m_szName = _entity.m_szName + " Instance";
+		m_ID = -1;
+
+		// Components
+		for (list<Component*>::iterator it = _entity.m_pComponents.begin(); it != _entity.m_pComponents.end(); ++it)
+		{
+			Component* p = (*it)->clone();
+			p->setEntity(this); 
+			addComponent(p);
+		}
+
+		// Children
+		for (list<Entity*>::iterator it = _entity.m_pChildren.begin(); it != _entity.m_pChildren.end(); ++it)
+		{
+			addChild((*it)->clone());
+		}
 	}
 
 	Entity::~Entity()
@@ -37,11 +61,8 @@ namespace crea
 
 	void Entity::addComponent(Component* _pComponent)
 	{
-		if (_pComponent)
-		{
-			_pComponent->setEntity(this);
-			m_pComponents.push_back(_pComponent);
-		}
+		_pComponent->setEntity(this);
+		m_pComponents.push_back(_pComponent);
 	}
 
 	void Entity::removeComponent(Component* _pComponent)
@@ -164,6 +185,16 @@ namespace crea
 		return nullptr;
 	}
 
+	bool Entity::removeEntity(Entity* _pEntity)
+	{
+		if (_pEntity->m_pParent != nullptr)
+		{
+			_pEntity->m_pParent->removeChild(_pEntity);
+			return true;
+		}
+		return false;
+	}
+
 	void Entity::selectEntities(FloatRect& _rect)
 	{
 		if (_rect.contains(getPosition()))
@@ -190,16 +221,6 @@ namespace crea
 		{
 			(*it)->unselectEntities();
 		}
-	}
-
-	bool Entity::removeEntity(Entity* _pEntity)
-	{
-		if (_pEntity->m_pParent != nullptr)
-		{
-			_pEntity->m_pParent->removeChild(_pEntity);
-			return true;
-		}
-		return false;
 	}
 
 	bool Entity::loadFromFileJSON(string& _filename)
@@ -230,10 +251,21 @@ namespace crea
 				SpriteRenderer* pSpriteRenderer = pGM->getSpriteRenderer(szName);
 
 				string szSprite = component["sprite"].asString();
-				ISprite* pSprite = pGM->getSprite(szSprite);
+				Sprite* pSprite = pGM->getSprite(szSprite);
+
+				string szTexture = component["image"].asString();
+				Texture* pTexture = pGM->getTexture(szTexture);
+				pSprite->setTexture(pTexture);
 
 				pSpriteRenderer->setSprite(pSprite);
 				addComponent(pSpriteRenderer);
+			}
+			else if (szType == "Agent")
+			{
+				string szName = component["name"].asString();
+				Agent* pAgent = pGM->getAgent(szName);
+
+				addComponent(pAgent);
 			}
 			else if (szType == "Animator")
 			{
@@ -241,7 +273,7 @@ namespace crea
 				Animator* pAnimator = pGM->getAnimator(szName);
 
 				string szSprite = component["sprite"].asString();
-				ISprite* pSprite = pGM->getSprite(szSprite);
+				Sprite* pSprite = pGM->getSprite(szSprite);
 
 				pAnimator->setSprite(pSprite);
 				addComponent(pAnimator);
@@ -252,27 +284,30 @@ namespace crea
 				ActionTable* pActionTable = pGM->getActionTable(szName);
 				addComponent(pActionTable);
 			}
-			else if (szType == "Collider")
-			{
-				string szName = component["name"].asString();
-				Collider* pCollider = pGM->getCollider(szName);
-				addComponent(pCollider);
-			}
 			else if (szType == "Script")
 			{
 				string szName = component["name"].asString();
 				Script* pScript = pGM->getScript(szName);
-
 				addComponent(pScript);
 			}
-			else if (szType == "Agent")
+			else if (szType == "Collider")
 			{
 				string szName = component["name"].asString();
-				Agent* pAgent = pGM->getAgent(szName);
-
-				addComponent(pAgent);
+				Collider* pCollider = pGM->getDynamicCollider(szName);
+				addComponent(pCollider);
 			}
-
+			else if (szType == "Steering")
+			{
+				string szName = component["name"].asString();
+				Steering* pSteering = pGM->getSteering(szName);
+				addComponent(pSteering);
+			}
+			else if (szType == "Vehicle")
+			{
+				string szName = component["name"].asString();
+				Vehicle* pVehicle = pGM->getVehicle(szName);
+				addComponent(pVehicle);
+			}
 		}
 		return true;
 	}

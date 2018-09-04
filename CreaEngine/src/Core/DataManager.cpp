@@ -1,21 +1,12 @@
 #include "stdafx.h"
 
 #include "Core\DataManager.h"
-#include "AI\ActionTable.h"
-#include "AI\Agent.h"
-#include "Graphics\IFont.h"
-#include "Graphics\ITexture.h"
-#include "Graphics\IGraphics.h"
-#include "Graphics\IText.h"
-#include "Graphics\ISprite.h"
-#include "Data\Map.h"
-#include "Physics\Collider.h"
 
 namespace crea
 {
 	DataManager::DataManager()
 	{
-
+		m_bIsCleared = false;
 	}
 
 	DataManager::~DataManager()
@@ -30,12 +21,12 @@ namespace crea
 			&instanceUnique;
 	}
 
-	IFont* DataManager::getFont(string _szName, bool _bCloned)
+	Font* DataManager::getFont(string _szName, bool _bCloned)
 	{
 		MapStringFont::iterator it = m_pFonts.find(_szName);
 		if (it == m_pFonts.end())
 		{
-			IFont* pFont = IFacade::get().createIFont();
+			Font* pFont = IFacade::get().createFont();
 
 			if (!pFont->loadFromFile(DATAFONTPATH + _szName))
 			{
@@ -50,7 +41,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IFacade::get().createIFont(it->second);
+				return IFacade::get().createFont(it->second);
 			}
 			else
 			{
@@ -59,12 +50,12 @@ namespace crea
 		}
 	}
 
-	ITexture* DataManager::getTexture(string _szName, bool _bCloned)
+	Texture* DataManager::getTexture(string _szName, bool _bCloned)
 	{
 		MapStringTexture::iterator it = m_pTextures.find(_szName);
 		if (it == m_pTextures.end())
 		{
-			ITexture* pTexture = IFacade::get().createITexture();
+			Texture* pTexture = IFacade::get().createTexture();
 
 			if (!pTexture->loadFromFile(DATATEXTUREPATH + _szName))
 			{
@@ -79,7 +70,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IFacade::get().createITexture(it->second);
+				return IFacade::get().createTexture(it->second);
 			}
 			else
 			{
@@ -88,12 +79,12 @@ namespace crea
 		}
 	}
 
-	IColor* DataManager::getColor(string _szName, bool _bCloned)
+	Color* DataManager::getColor(string _szName, bool _bCloned)
 	{
 		MapStringColor::iterator it = m_pColors.find(_szName);
 		if (it == m_pColors.end())
 		{
-			IColor* pColor = IFacade::get().createIColor(); // Create a default Color if none exist
+			Color* pColor = IFacade::get().createColor(); // Create a default Color if none exist
 			m_pColors[_szName] = pColor;
 			return pColor;
 		}
@@ -101,7 +92,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IFacade::get().createIColor(it->second);
+				return IFacade::get().createColor(it->second);
 			}
 			else
 			{
@@ -111,12 +102,12 @@ namespace crea
 		return nullptr;
 	}
 
-	IText* DataManager::getText(string _szName, bool _bCloned)
+	Text* DataManager::getText(string _szName, bool _bCloned)
 	{
 		MapStringText::iterator it = m_pTexts.find(_szName);
 		if (it == m_pTexts.end())
 		{
-			IText* pText = IFacade::get().createIText(); // Create a default Text if none exist
+			Text* pText = IFacade::get().createText(); // Create a default Text if none exist
 			m_pTexts[_szName] = pText;
 			return pText;
 		}
@@ -124,7 +115,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IFacade::get().createIText(it->second);
+				return IFacade::get().createText(it->second);
 			}
 			else
 			{
@@ -134,12 +125,12 @@ namespace crea
 		return nullptr;
 	}
 
-	ISprite* DataManager::getSprite(string _szName, bool _bCloned)
+	Sprite* DataManager::getSprite(string _szName, bool _bCloned)
 	{
 		MapStringSprite::iterator it = m_pSprites.find(_szName);
 		if (it == m_pSprites.end())
 		{
-			ISprite* pSprite = IFacade::get().createISprite(); // Create a default Sprite if none exist
+			Sprite* pSprite = IFacade::get().createSprite(); // Create a default Sprite if none exist
 			m_pSprites[_szName] = pSprite;
 			return pSprite;
 		}
@@ -147,7 +138,9 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return IFacade::get().createISprite(it->second);
+				Sprite* pSprite = IFacade::get().createSprite(it->second);// Clone Sprite if one exist
+				m_pSprites[_szName + " clone"] = pSprite;
+				return pSprite;
 			}
 			else
 			{
@@ -157,99 +150,48 @@ namespace crea
 		return nullptr;
 	}
 
-	crea::Animation* DataManager::getAnimation(string _szName, bool _bCloned)
+	Sprite* DataManager::cloneSprite(Sprite* _pSprite)
 	{
-		MapStringAnimation::iterator it = m_pAnimations.find(_szName);
-		if (it == m_pAnimations.end())
-		{
-			crea::Animation* pAnimation = new crea::Animation();
-
-			if (!pAnimation->loadFromFileJSON(DATAANIMATIONPATH + _szName))
+		for (MapStringSprite::iterator it = m_pSprites.begin(); it != m_pSprites.end(); ++it) {
+			if (it->second == _pSprite)
 			{
-				delete pAnimation;
-				cerr << "Unable to open Animation" << endl;
-				return nullptr;
+				Sprite* pSprite = IFacade::get().createSprite(it->second);// Clone Sprite if one exist
+				m_pSprites[string(it->first) + " clone"] = pSprite;
+				return pSprite;
 			}
-			m_pAnimations[_szName] = pAnimation;
-			return pAnimation;
+		}
+		return nullptr;
+	}
+
+	Shape* DataManager::getShape(string _szType, string _szName, bool _bCloned)
+	{
+		MapStringShape::iterator it = m_pShapes.find(_szName);
+		if (it == m_pShapes.end())
+		{
+			Shape* pShape = IFacade::get().createShape(_szType); // Create a default Shape if none exist
+			m_pShapes[_szName] = pShape;
+			return pShape;
 		}
 		else
 		{
 			if (_bCloned)
 			{
-				return new crea::Animation(*it->second);
+				return IFacade::get().createShape(_szType, it->second);
 			}
 			else
 			{
 				return it->second;
 			}
 		}
+		return nullptr;
 	}
 
-	crea::ActionTable* DataManager::getActionTable(string _szName, bool _bCloned)
-	{
-		MapStringActionTable::iterator it = m_pActionTables.find(_szName);
-		if (it == m_pActionTables.end())
-		{
-			crea::ActionTable* pActionTable = new crea::ActionTable();
-
-			if (!pActionTable->loadFromFileJSON(DATAANIMATIONPATH + _szName))
-			{
-				delete pActionTable;
-				cerr << "Unable to open ActionTable file" << endl;
-				return nullptr;
-			}
-			m_pActionTables[_szName] = pActionTable;
-			return pActionTable;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				return new crea::ActionTable(*it->second);
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-	}
-
-	crea::Agent* DataManager::getAgent(string _szName, bool _bCloned)
-	{
-		MapStringAgent::iterator it = m_pAgents.find(_szName);
-		if (it == m_pAgents.end())
-		{
-			crea::Agent* pAgent = new crea::Agent();
-
-			if (!pAgent->loadFromFileJSON(DATAAGENTPATH + _szName))
-			{
-				delete pAgent;
-				cerr << "Unable to open Agent file" << endl;
-				return nullptr;
-			}
-			m_pAgents[_szName] = pAgent;
-			return pAgent;
-		}
-		else
-		{
-			if (_bCloned)
-			{
-				return new crea::Agent(*it->second);
-			}
-			else
-			{
-				return it->second;
-			}
-		}
-	}
-
-	crea::Map* DataManager::getMap(string _szName, bool _bCloned)
+	Map* DataManager::getMap(string _szName, bool _bCloned)
 	{
 		MapStringMap::iterator it = m_pMaps.find(_szName);
 		if (it == m_pMaps.end())
 		{
-			crea::Map* pMap = new crea::Map();
+			Map* pMap = new Map();
 
 			if (!pMap->loadFromFileJSON(DATAMAPPATH + _szName))
 			{
@@ -264,7 +206,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				return new crea::Map(*it->second);
+				return new Map(*it->second);
 			}
 			else
 			{
@@ -273,28 +215,113 @@ namespace crea
 		}
 	}
 
-	Collider* DataManager::getCollider(string _szName, bool _bCloned)
+	Agent* DataManager::getAgent(string _szName, bool _bCloned)
 	{
-		MapStringCollider::iterator it = m_pColliders.find(_szName);
-		if (it == m_pColliders.end())
+		MapStringAgent::iterator it = m_pAgents.find(_szName);
+		if (it == m_pAgents.end())
 		{
-			Collider* pCollider = new Collider(); // Create a default Collider if none exist
+			Agent* pAgent = new Agent();
 
-			if (!pCollider->loadFromFileJSON(DATAAGENTPATH + _szName))
+			if (!pAgent->loadFromFileJSON(DATAAGENTPATH + _szName))
 			{
-				delete pCollider;
-				cerr << "Unable to open Collider file" << endl;
+				delete pAgent;
+				cerr << "Unable to open Agent file" << endl;
 				return nullptr;
 			}
-
-			m_pColliders[_szName] = pCollider;
-			return pCollider;
+			m_pAgents[_szName] = pAgent;
+			return pAgent;
 		}
 		else
 		{
 			if (_bCloned)
 			{
-				//return new Collider(it->second); // CB is it useful to clone?
+				return new Agent(*it->second);
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+	}
+
+	Animation* DataManager::getAnimation(string _szName, bool _bCloned)
+	{
+		MapStringAnimation::iterator it = m_pAnimations.find(_szName);
+		if (it == m_pAnimations.end())
+		{
+			Animation* pAnimation = new Animation();
+
+			if (!pAnimation->loadFromFileJSON(DATAANIMATIONPATH + _szName))
+			{
+				delete pAnimation;
+				cerr << "Unable to open Animation" << endl;
+				return nullptr;
+			}
+			m_pAnimations[_szName] = pAnimation;
+			return pAnimation;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				return new Animation(*it->second);
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+	}
+
+	ActionTable* DataManager::getActionTable(string _szName, bool _bCloned)
+	{
+		MapStringActionTable::iterator it = m_pActionTables.find(_szName);
+		if (it == m_pActionTables.end())
+		{
+			ActionTable* pActionTable = new ActionTable(); // Create a default ActionTable if none exist
+			if (!pActionTable->loadFromFileJSON(DATAANIMATIONPATH + _szName))
+			{
+				delete pActionTable;
+				cerr << "Unable to open ActionTable" << endl;
+				return nullptr;
+			}
+			m_pActionTables[_szName] = pActionTable;
+			return pActionTable;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new ActionTable(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	Vehicle* DataManager::getVehicle(string _szName, bool _bCloned)
+	{
+		MapStringVehicle::iterator it = m_pVehicles.find(_szName);
+		if (it == m_pVehicles.end())
+		{
+			Vehicle* pVehicle = new Vehicle(); // Create a default Vehicle if none exist
+			if (!pVehicle->loadFromFileJSON(DATAAGENTPATH + _szName))
+			{
+				delete pVehicle;
+				cerr << "Unable to open Vehicle" << endl;
+				return nullptr;
+			}
+			m_pVehicles[_szName] = pVehicle;
+			return pVehicle;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new Vehicle(it->second); // CB is it useful to clone?
 			}
 			else
 			{
@@ -306,38 +333,59 @@ namespace crea
 
 	void DataManager::clear()
 	{
+		if (!m_bIsCleared)
+		{
+			m_bIsCleared = true;
+		}
+		else
+		{
+			return;
+		}
+
 		MapStringFont::iterator itFont = m_pFonts.begin();
-		while (m_pFonts.size()) {
-			IFacade::get().destroyIFont((*itFont).second);
+		while (itFont != m_pFonts.end()) {
+			delete (*itFont).second;
 			itFont = m_pFonts.erase(itFont);
 		}
 
 		MapStringTexture::iterator itTexture = m_pTextures.begin();
-		while (m_pTextures.size()) {
-			IFacade::get().destroyITexture((*itTexture).second);
+		while (itTexture != m_pTextures.end()) {
+			delete (*itTexture).second;
 			itTexture = m_pTextures.erase(itTexture);
 		}
 
 		MapStringColor::iterator itColor = m_pColors.begin();
-		while (m_pColors.size()) {
-			IFacade::get().destroyIColor((*itColor).second);
+		while (itColor != m_pColors.end()) {
+			delete (*itColor).second;
 			itColor = m_pColors.erase(itColor);
 		}
 
 		MapStringText::iterator itText = m_pTexts.begin();
-		while (m_pTexts.size()) {
-			IFacade::get().destroyIText((*itText).second);
+		while (itText != m_pTexts.end()) {
+			delete (*itText).second;
 			itText = m_pTexts.erase(itText);
 		}
 
 		MapStringSprite::iterator itSprite = m_pSprites.begin();
-		while (m_pSprites.size()) {
-			IFacade::get().destroyISprite((*itSprite).second);
+		while (itSprite != m_pSprites.end()) {
+			delete (*itSprite).second;
 			itSprite = m_pSprites.erase(itSprite);
+		}
+		
+		MapStringMap::iterator itMap = m_pMaps.begin();
+		while (itMap != m_pMaps.end()) {
+			delete (*itMap).second;
+			itMap = m_pMaps.erase(itMap);
+		}
+
+		MapStringAgent::iterator itAgent = m_pAgents.begin();
+		while (itAgent != m_pAgents.end()) {
+			delete (*itAgent).second;
+			itAgent = m_pAgents.erase(itAgent);
 		}
 
 		MapStringAnimation::iterator itAnimation = m_pAnimations.begin();
-		while (m_pAnimations.size()) {
+		while (itAnimation != m_pAnimations.end()) {
 			delete (*itAnimation).second;
 			itAnimation = m_pAnimations.erase(itAnimation);
 		}
@@ -348,22 +396,10 @@ namespace crea
 			itActionTable = m_pActionTables.erase(itActionTable);
 		}
 
-		MapStringAgent::iterator itAgent = m_pAgents.begin();
-		while (m_pAgents.size()) {
-			delete (*itAgent).second;
-			itAgent = m_pAgents.erase(itAgent);
-		}
-
-		MapStringMap::iterator itMap = m_pMaps.begin();
-		while (m_pMaps.size()) {
-			delete (*itMap).second;
-			itMap = m_pMaps.erase(itMap);
-		}
-
-		MapStringCollider::iterator itCollider = m_pColliders.begin();
-		while (m_pColliders.size()) {
-			delete (*itCollider).second;
-			itCollider = m_pColliders.erase(itCollider);
+		MapStringVehicle::iterator itVehicle = m_pVehicles.begin();
+		while (m_pVehicles.size()) {
+			delete (*itVehicle).second;
+			itVehicle = m_pVehicles.erase(itVehicle);
 		}
 
 	}

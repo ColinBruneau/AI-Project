@@ -6,12 +6,12 @@
 #ifndef _DX9Text_H
 #define _DX9Text_H
 
-#include "Graphics\IText.h"
+#include "Graphics\Text.h"
 
 namespace crea
 {
 
-	class DX9Text : public IText
+	class DX9Text : public Text
 	{
 		DX9Font* m_pDX9Font;
 		LPD3DXFONT m_pFont;
@@ -46,13 +46,13 @@ namespace crea
 			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, 0, m_color); // CB: pass a sprite as 1st param to improve speed x4
 		}
 
-		virtual void setFont(IFont* _pFont)
+		virtual void setFont(Font* _pFont)
 		{
 			m_pDX9Font = (DX9Font*)_pFont;
 			m_pFont = m_pDX9Font->getFont();
 		}
 
-		virtual void setColor(IColor* _pColor)
+		virtual void setColor(Color* _pColor)
 		{
 			DX9Color* pColor = (DX9Color*)_pColor;
 			m_color = pColor->getColor();

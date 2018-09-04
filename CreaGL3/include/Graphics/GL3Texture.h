@@ -6,12 +6,12 @@
 #ifndef _GL3Texture_H
 #define _GL3Texture_H
 
-#include "Graphics\ITexture.h"
+#include "Graphics\Texture.h"
 
 namespace crea
 {
 
-	class GL3Texture : public ITexture
+	class GL3Texture : public Texture
 	{
 		//LPDIRECT3DTEXTURE9 
 		void* m_pTexture;

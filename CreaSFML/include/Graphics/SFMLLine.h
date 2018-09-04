@@ -6,14 +6,14 @@
 #ifndef _SFMLLine_H
 #define _SFMLLine_H
 
-#include "Graphics\IGraphics.h"
+#include "Graphics\Shape.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace crea
 {
 
-	class SFMLLine : public ILine
+	class SFMLLine : public Line
 	{
 	public:
 		sf::Vertex m_line[2];

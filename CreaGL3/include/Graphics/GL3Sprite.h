@@ -6,12 +6,12 @@
 #ifndef _GL3Sprite_H
 #define _GL3Sprite_H
 
-#include "Graphics\ISprite.h"
+#include "Graphics\Sprite.h"
 
 namespace crea
 {
 
-	class GL3Sprite : public ISprite
+	class GL3Sprite : public Sprite
 	{
 		/*
 		LPD3DXSPRITE m_pSprite;
@@ -122,7 +122,7 @@ namespace crea
 			m_pSprite->End();
 		}
 
-		virtual void setTexture(ITexture* _pTexture)
+		virtual void setTexture(Texture* _pTexture)
 		{
 			GL3Texture* pTexture = (GL3Texture*)_pTexture;
 			m_pTexture = (LPDIRECT3DTEXTURE9)pTexture->getTexture();

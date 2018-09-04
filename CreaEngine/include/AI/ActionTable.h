@@ -34,17 +34,20 @@ namespace crea
 		virtual ~ActionTable();
 
 		void		read();
-		string*		getAnimation(	unsigned char _ucAnimCond1, 
-									unsigned char _ucAnimCond2,
-									unsigned short _unAction,
-									string* _pszActionDesc = nullptr);
-		string*		getAnimation(	unsigned short _unAnimCond,
-									unsigned short _unAction,
-									string* _pszActionDesc = nullptr);
-		bool		addAnimation(	unsigned short _unAnimCond,
-									unsigned short _unAction,
-									string* _pszAnimFileName,
-									string* _pszActionDesc = nullptr);
+		string*		getAnimation(
+			unsigned char _ucAnimCond1,
+			unsigned char _ucAnimCond2,
+			unsigned short _unAction,
+			string* _pszActionDesc = nullptr);
+		string*		getAnimation(
+			unsigned short _unAnimCond,
+			unsigned short _unAction,
+			string* _pszActionDesc = nullptr);
+		bool		addAnimation(
+			unsigned short _unAnimCond,
+			unsigned short _unAction,
+			string* _pszAnimFileName,
+			string* _pszActionDesc = nullptr);
 
 		bool		loadFromFileJSON(string& _filename);
 
@@ -52,6 +55,8 @@ namespace crea
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+		virtual Component* clone() { return this; } // CB: no need to clone the ActionTable!
 	};
 
 } // namespace crea

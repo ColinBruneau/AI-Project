@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Data\Node.h"
-#include "Graphics\ISprite.h"
+#include "Graphics\Sprite.h"
 
 namespace crea
 {

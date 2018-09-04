@@ -341,27 +341,27 @@ namespace crea
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	IFont* DX9Facade::createIFont(IFont* _pFrom)
+	Font* DX9Facade::createFont(Font* _pFrom)
 	{
 		return (_pFrom ? new DX9Font(*(DX9Font*)_pFrom) : new DX9Font);
 	}
 
-	ITexture* DX9Facade::createITexture(ITexture* _pFrom)
+	Texture* DX9Facade::createTexture(Texture* _pFrom)
 	{
 		return (_pFrom ? new DX9Texture(*(DX9Texture*)_pFrom) : new DX9Texture);
 	}
 
-	IColor* DX9Facade::createIColor(IColor* _pFrom)
+	Color* DX9Facade::createColor(Color* _pFrom)
 	{
 		return (_pFrom ? new DX9Color(*(DX9Color*)_pFrom) : new DX9Color);
 	}
 
-	IText* DX9Facade::createIText(IText* _pFrom)
+	Text* DX9Facade::createText(Text* _pFrom)
 	{
 		return (_pFrom ? new DX9Text(*(DX9Text*)_pFrom) : new DX9Text);
 	}
 
-	ISprite* DX9Facade::createISprite(ISprite* _pFrom)
+	Sprite* DX9Facade::createSprite(Sprite* _pFrom)
 	{
 		return (_pFrom ? new DX9Sprite(*(DX9Sprite*)_pFrom) : new DX9Sprite);
 	}

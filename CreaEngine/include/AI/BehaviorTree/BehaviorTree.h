@@ -7,28 +7,35 @@
 #define __BehaviorTree_H_
 
 #include "Core\Component.h"
-#include "Core\Math.h"
 
 namespace crea
 {
 	// Predefinitions
-	class BTBehavior;
+	class Behavior;
 
 	class CREAENGINE_API BehaviorTree : public Component
 	{
 	protected:
-		BTBehavior* m_pRoot;
+		Behavior* m_pRoot;
 
 	public:
 		BehaviorTree();
 		virtual ~BehaviorTree();
 
-		void setRootBehavior(BTBehavior* _pRoot);
+		void setRootBehavior(Behavior* _pRoot);
 
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+		virtual Component* clone()
+		{
+			BehaviorTree* p = new BehaviorTree(*this);
+			// CB: copy tree structure...
+			p->m_pRoot = m_pRoot->clone();
+			return p;
+		}
 	};
 
 } // namespace crea

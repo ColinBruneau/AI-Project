@@ -45,37 +45,33 @@ namespace crea
 		// Quitte le renderer
 		virtual void quit() const;
 
-		virtual IFont* createIFont(IFont* _pFrom = nullptr);
+		virtual Font* createFont(Font* _pFrom = nullptr);
 
-		virtual void destroyIFont(IFont* _pFont);
+		virtual void destroyFont(Font* _pFont);
 
-		virtual ITexture* createITexture(ITexture* _pFrom = nullptr);
+		virtual Texture* createTexture(Texture* _pFrom = nullptr);
 
-		virtual void destroyITexture(ITexture* _pTexture);
+		virtual void destroyTexture(Texture* _pTexture);
 
-		virtual IColor* createIColor(IColor* _pFrom = nullptr);
+		virtual Color* createColor(Color* _pFrom = nullptr);
 
-		virtual void destroyIColor(IColor* _pColor);
+		virtual void destroyColor(Color* _pColor);
 
-		virtual IText* createIText(IText* _pFrom = nullptr);
+		virtual Text* createText(Text* _pFrom = nullptr);
 
-		virtual void destroyIText(IText* _pText);
+		virtual void destroyText(Text* _pText);
 
-		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
+		virtual Sprite* createSprite(Sprite* _pFrom = nullptr);
 
-		virtual void destroyISprite(ISprite* _pSprite);
+		virtual void destroySprite(Sprite* _pSprite);
 
-		virtual ILine* createILine(ILine* _pFrom = nullptr);
+		virtual Shape* createShape(string _szType, Shape* _pFrom = nullptr);
 
-		virtual void destroyILine(ILine* _pLine);
+		virtual void destroyShape(Shape* _pShape);
 
-		virtual IShape* createIShape(IShape* _pFrom = nullptr);
+		virtual Line* createLine(Line* _pFrom = nullptr);
 
-		virtual void destroyIShape(IShape* _pShape);
-
-		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr);
-
-		virtual void destroyIRectangleShape(IRectangleShape* _pShape);
+		virtual void destroyLine(Line* _pLine);
 
 		virtual bool isKeyPressed(Key _key);
 

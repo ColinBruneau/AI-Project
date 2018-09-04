@@ -6,14 +6,14 @@
 #ifndef _SFMLColor_H
 #define _SFMLColor_H
 
-#include "Graphics\IGraphics.h"
+#include "Graphics\Color.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace crea
 {
 
-	class SFMLColor : public IColor
+	class SFMLColor : public Color
 	{
 	public:
 		sf::Color m_color;

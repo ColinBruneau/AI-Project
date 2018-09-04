@@ -7,7 +7,7 @@
 #define __SceneMap_H_
 
 #include "Core\Scene.h"
-#include "Tools\AITools.h"
+#include "AITools.h"
 #include "Scripts\CellsScriptFactory.h"
 
 using namespace crea;
@@ -29,6 +29,7 @@ class SceneMap : public Scene
 	CellsScriptFactory* m_pCellsScriptFactory;
 
 public:
+
 	SceneMap();
 	virtual ~SceneMap();
 

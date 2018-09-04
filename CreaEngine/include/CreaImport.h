@@ -10,24 +10,53 @@ namespace crea
 #       define CREAENGINE_API __declspec(dllimport)
 #   endif
 
-} // namespace LibMath
+} // namespace crea
 
+#include <iomanip>   
+#include <sstream> 
 
+#include <cassert>
+#include <iostream>
+#include <map>
+#include <list>
+using namespace std;
+
+#pragma warning( disable: 4251 )
+
+#define INVALID_OBJECT_ID 0
+typedef unsigned int objectID;
+
+#include "Tools\json\json.h"
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
 #include "Core\DataManager.h"
 #include "Core\EntityManager.h"
-#include "Core\TimeManager.h"
+#include "Core\Scene.h"
+#include "Core\Math.h"
+#include "Data\Entity.h"
+#include "Data\Map.h"
+#include "Data\Animation.h"
+#include "Data\Node.h"
+#include "Data\Cluster.h"
+#include "Graphics\IDrawable.h"
+#include "Graphics\IFacade.h"
+#include "Graphics\Color.h"
+#include "Graphics\Font.h"
+#include "Graphics\Text.h"
+#include "Graphics\Texture.h"
+#include "Graphics\Sprite.h"
+#include "Graphics\Shape.h"
 #include "Graphics\SpriteRenderer.h"
-#include "Graphics\ShapeRenderer.h"
 #include "Graphics\TextRenderer.h"
 #include "Graphics\MapRenderer.h"
 #include "Graphics\Animator.h"
-#include "Graphics\IShape.h"
-#include "Data\Entity.h"
-#include "Data\Animation.h"
-#include "Data\Map.h"
+#include "AI\Agent.h"
 #include "AI\ActionTable.h"
-#include "AI\Pathfinding\MapSearchManager.h"
+#include "AI\Steering\Steering.h"
+#include "AI\Steering\Vehicle.h"
+#include "AI\BehaviorTree\Behavior.h"
+#include "AI\BehaviorTree\BehaviorTree.h"
+#include "Core\PhysicsManager.h"
+#include "Physics\Collider.h"
 
 #   endif // _CREAIMPORT_H

@@ -3,11 +3,6 @@
 #include "Core\EntityManager.h"
 #include "Core\Script.h"
 #include "Data\Entity.h"
-#include "Graphics\TextRenderer.h"
-#include "Graphics\SpriteRenderer.h"
-#include "Graphics\MapRenderer.h"
-#include "Graphics\Animator.h"
-#include "AI\Steering\Steering.h"
 
 namespace crea
 {
@@ -16,10 +11,12 @@ namespace crea
 		m_pRoot = new Entity();
 		m_pRoot->setName(string("root"));
 		m_pScriptFactory = nullptr;
+		nextFreeID = 1;
 	}
 
 	EntityManager::~EntityManager()
 	{
+		clear();
 		delete m_pRoot;
 		m_pRoot = nullptr;
 	}
@@ -29,6 +26,40 @@ namespace crea
 		static EntityManager instanceUnique;
 		return
 			&instanceUnique;
+	}
+
+	Entity* EntityManager::getEntity(string& _szName)
+	{
+		Entity* pEntity = nullptr;
+		pEntity = m_pRoot->getEntity(_szName);
+		if (!pEntity)
+		{
+			pEntity = new Entity();
+			pEntity->setName(_szName);
+			pEntity->SetID(getNewObjectID());
+			Store(*pEntity);
+		}
+		return pEntity;
+	}
+	
+	Entity* EntityManager::instanciate(string& _szName, Entity* _pEntity)
+	{
+		Entity* pEntity = nullptr;
+		pEntity = m_pRoot->getEntity(_szName);
+		if (!pEntity)
+		{
+			pEntity = _pEntity->clone();
+			pEntity->init();
+			pEntity->setName(_szName);
+			pEntity->SetID(getNewObjectID());
+			Store(*pEntity);
+		}
+		else
+		{
+			cerr << "Name: " << _szName << " already exists, can't instanciate Entity." << endl;
+		}
+		return pEntity;
+
 	}
 
 	void EntityManager::addEntity(Entity* _pEntity, Entity* _pParent)
@@ -41,18 +72,6 @@ namespace crea
 		{
 			m_pRoot->addChild(_pEntity);
 		}
-	}
-
-	Entity* EntityManager::getEntity(string& _szName)
-	{
-		Entity* pEntity = nullptr;
-		pEntity = m_pRoot->getEntity(_szName);
-		if (!pEntity)
-		{
-			pEntity = new Entity();
-			pEntity->setName(_szName);
-		}
-		return pEntity;
 	}
 
 	TextRenderer* EntityManager::getTextRenderer(string _szName, bool _bCloned)
@@ -196,29 +215,8 @@ namespace crea
 		return nullptr;
 	}
 
-	bool EntityManager::init()
+	void EntityManager::selectEntities(Vector2f _vStart, Vector2f _vEnd)
 	{
-		return m_pRoot->init();
-	}
-
-	bool EntityManager::update()
-	{
-		return m_pRoot->update();
-	}
-
-	bool EntityManager::draw()
-	{		
-		return m_pRoot->draw();
-	}
-
-	void EntityManager::clearEntity(Entity* _pEntity)
-	{
-		m_pRoot->removeEntity(_pEntity);
-		delete _pEntity;
-	}
-
-	void EntityManager::selectEntities(Vector2f _vStart, Vector2f _vEnd) 
-	{ 
 		FloatRect rect(_vStart, _vEnd);
 		m_pRoot->selectEntities(rect);
 	}
@@ -232,6 +230,68 @@ namespace crea
 	void EntityManager::addSelectedEntity(Entity* _pEntity)
 	{
 		m_pSelectedEntities.push_back(_pEntity);
+	}
+
+	void EntityManager::Store(Entity& _entity)
+	{
+		if (Find(_entity.GetID()) == 0) {
+			m_Entities[_entity.GetID()] = &_entity;
+		}
+		else {
+			assert(!"EntityManager::Store - Object ID already represented in database.");
+		}
+	}
+
+
+	void EntityManager::Remove(objectID _id)
+	{
+		MapObjectIDEntity::iterator it = m_Entities.find(_id);
+		if (it != m_Entities.end())
+		{
+			m_Entities.erase(it);
+		}
+
+		return;
+	}
+
+
+	Entity* EntityManager::Find(objectID _id)
+	{
+		MapObjectIDEntity::iterator it = m_Entities.find(_id);
+		if (it != m_Entities.end())
+		{
+			return it->second;
+		}
+
+		return(0);
+
+	}
+
+	objectID EntityManager::getNewObjectID()
+	{
+		return(nextFreeID++);
+
+	}
+
+	void EntityManager::clearEntity(Entity* _pEntity)
+	{
+		m_pRoot->removeEntity(_pEntity);
+		delete _pEntity;
+	}
+
+	bool EntityManager::init()
+	{
+		return m_pRoot->init();
+	}
+
+	bool EntityManager::update()
+	{
+		return m_pRoot->update();
+	}
+
+	bool EntityManager::draw()
+	{		
+		return m_pRoot->draw();
 	}
 
 	void EntityManager::clear()
@@ -271,7 +331,7 @@ namespace crea
 			delete (*itSteering).second;
 			itSteering = m_pSteerings.erase(itSteering);
 		}
-		
+
 		if (m_pRoot)
 		{
 			m_pRoot->clear();

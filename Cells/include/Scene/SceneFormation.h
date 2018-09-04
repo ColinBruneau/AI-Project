@@ -14,10 +14,10 @@ class SceneFormation : public crea::Scene
 {
 	GameManager*	m_pGM;
 
-	IText* m_pTextFPS;
+	Text* m_pTextFPS;
 	Clock frameClock;
 
-	IText* m_pTextSteeringMode;
+	Text* m_pTextSteeringMode;
 	int m_iSteeringMode;
 
 	// Entitites

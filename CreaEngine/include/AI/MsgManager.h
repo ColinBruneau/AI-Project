@@ -7,10 +7,11 @@
 
 namespace crea
 {
+	class Msg;
 
 	typedef std::list<Msg*> MessageContainer;
 
-	class MsgManager : public Singleton <MsgManager>
+	class CREAENGINE_API MsgManager : public Singleton <MsgManager>
 	{
 	public:
 

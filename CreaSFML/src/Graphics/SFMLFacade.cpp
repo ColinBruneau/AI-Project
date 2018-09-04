@@ -74,85 +74,95 @@ namespace crea
 	{
 	}
 
-	IFont* SFMLFacade::createIFont(IFont* _pFrom)
+	Font* SFMLFacade::createFont(Font* _pFrom)
 	{
 		return (_pFrom ? new SFMLFont(*(SFMLFont*)_pFrom) : new SFMLFont);
 	}
 
-	void SFMLFacade::destroyIFont(IFont* _pFont)
+	void SFMLFacade::destroyFont(Font* _pFont)
 	{
 		delete _pFont;
 	}
 
-	ITexture* SFMLFacade::createITexture(ITexture* _pFrom)
+	Texture* SFMLFacade::createTexture(Texture* _pFrom)
 	{
 		return (_pFrom ? new SFMLTexture(*(SFMLTexture*)_pFrom) : new SFMLTexture);
 	}
 
-	void SFMLFacade::destroyITexture(ITexture* _pTexture)
+	void SFMLFacade::destroyTexture(Texture* _pTexture)
 	{
 		delete _pTexture;
 	}
 
-	IColor* SFMLFacade::createIColor(IColor* _pFrom)
+	Color* SFMLFacade::createColor(Color* _pFrom)
 	{
 		return (_pFrom ? new SFMLColor(*(SFMLColor*)_pFrom) : new SFMLColor);
 	}
 
-	void SFMLFacade::destroyIColor(IColor* _pColor)
+	void SFMLFacade::destroyColor(Color* _pColor)
 	{
 		delete _pColor;
 	}
 
-	IText* SFMLFacade::createIText(IText* _pFrom)
+	Text* SFMLFacade::createText(Text* _pFrom)
 	{
 		return (_pFrom ? new SFMLText(*(SFMLText*)_pFrom) : new SFMLText);
 	}
 
-	void SFMLFacade::destroyIText(IText* _pText)
+	void SFMLFacade::destroyText(Text* _pText)
 	{
 		delete _pText;
 	}
 
-	ISprite* SFMLFacade::createISprite(ISprite* _pFrom)
+	Sprite* SFMLFacade::createSprite(Sprite* _pFrom)
 	{
 		return (_pFrom ? new SFMLSprite(*(SFMLSprite*)_pFrom) : new SFMLSprite);
 	}
 
-	void SFMLFacade::destroyISprite(ISprite* _pSprite)
+	void SFMLFacade::destroySprite(Sprite* _pSprite)
 	{
 		delete _pSprite;
 	}
 
-	ILine* SFMLFacade::createILine(ILine* _pFrom)
+	Shape* SFMLFacade::createShape(string _szType, Shape* _pFrom)
+	{
+		if(_szType == "Default")
+		{
+			return (_pFrom ? new SFMLShape(*(SFMLShape*)_pFrom) : new SFMLShape);
+		}		
+		else if (_szType == "Rectangle")
+		{
+			return (_pFrom ? new SFMLRectangleShape(*(SFMLRectangleShape*)_pFrom) : new SFMLRectangleShape);
+		}
+		else if (_szType == "Circle")
+		{
+			return (_pFrom ? new SFMLCircleShape(*(SFMLCircleShape*)_pFrom) : new SFMLCircleShape);
+		}
+		else if (_szType == "Arrow")
+		{
+			return (_pFrom ? new SFMLArrowShape(*(SFMLArrowShape*)_pFrom) : new SFMLArrowShape);
+		}
+		else if (_szType == "Line")
+		{
+			return (_pFrom ? new SFMLLineShape(*(SFMLLineShape*)_pFrom) : new SFMLLineShape);
+		}
+		return nullptr;
+	}
+
+	void SFMLFacade::destroyShape(Shape* _pShape)
+	{
+		delete _pShape;
+	}
+
+	Line* SFMLFacade::createLine(Line* _pFrom)
 	{
 		return (_pFrom ? new SFMLLine(*(SFMLLine*)_pFrom) : new SFMLLine);
 	}
 
-	void SFMLFacade::destroyILine(ILine* _pLine)
+	void SFMLFacade::destroyLine(Line* _pLine)
 	{
 		delete _pLine;
 	}
-
-	IShape* SFMLFacade::createIShape(IShape* _pFrom)
-	{
-		return (_pFrom ? new SFMLShape(*(SFMLShape*)_pFrom) : new SFMLShape);
-	}
-
-	void SFMLFacade::destroyIShape(IShape* _pShape)
-	{
-		delete _pShape;
-	}
-
-	IRectangleShape* SFMLFacade::createIRectangleShape(IRectangleShape* _pFrom)
-	{
-		return (_pFrom ? new SFMLRectangleShape(*(SFMLRectangleShape*)_pFrom) : new SFMLRectangleShape);
-	}
-
-	void SFMLFacade::destroyIRectangleShape(IRectangleShape* _pShape)
-	{
-		delete _pShape;
-	}	
 
 	bool SFMLFacade::isKeyPressed(Key _key)
 	{

@@ -9,9 +9,9 @@
 #include "Core\SceneManager.h"
 #include "Core\Math.h"
 #include "Graphics\SpriteRenderer.h"
-#include "Graphics\ISprite.h"
+#include "Graphics\Sprite.h"
 #include "AI\Steering\Steering.h"
-#include "AI\Steering\Behavior.h"
+#include "AI\Steering\Behaviour.h"
 
 
 SceneFormation::SceneFormation()
@@ -35,13 +35,13 @@ void SceneFormation::deleteEntities()
 
 void SceneFormation::createEntities()
 {
-	ITexture* pTexture1 = m_pGM->getTexture("image.png");
-	ITexture* pTexture2 = m_pGM->getTexture("image2.png");
+	Texture* pTexture1 = m_pGM->getTexture("image.png");
+	Texture* pTexture2 = m_pGM->getTexture("image2.png");
 	for (int i = 0; i < m_iNbEntities; i++)
 	{
 		std::string s = std::to_string(i);
 		Entity* pEntityCell1 = m_pGM->getEntity(s);
-		ISprite* pSprite1 = m_pGM->getSprite(s);
+		Sprite* pSprite1 = m_pGM->getSprite(s);
 		pSprite1->setOrigin(32, 32);
 		SpriteRenderer* pSP = m_pGM->getSpriteRenderer(s);
 		pSP->setSprite(pSprite1);
@@ -76,40 +76,40 @@ void SceneFormation::setBehavior()
 		std::string s = std::to_string(i);
 		Steering* pSteering = m_pGM->getSteering(s);
 		pSteering->init();
-		pSteering->clearBehaviors();
+		pSteering->clearBehaviours();
 		// Behavior
 		switch (m_iSteeringMode)
 		{
-		case 0: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+		case 0: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
 			break;
-		case 1: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
+		case 1: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
 			break;
-		case 2: pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.0f);
+		case 2: pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.0f);
 			break;
 		case 3: 
-			pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
-			pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
+			pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+			pSteering->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
 			break;
 		case 4 : 
 			if (i >= 23)
 			{
-				pSteering->addBehavior(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
+				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
 			}
 			else if (i >= 13)
 			{
-				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else if (i >= 3)
 			{
-				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else
 			{
-				pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
+				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
 			}
 			break;
 		case 5: 			
-			pSteering->addBehavior(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
+			pSteering->addBehaviour(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
 			break;
 		}
 	}
@@ -121,7 +121,7 @@ bool SceneFormation::onInit()
 	m_rWindowRect = m_pGM->getRenderer()->getWindowRect();
 
 	// Text
-	IColor* pRed = m_pGM->getColor("Red");
+	Color* pRed = m_pGM->getColor("Red");
 	pRed->setValues(255, 0,  0, 255);
 	m_pTextFPS = m_pGM->getText("fps");
 	m_pTextFPS->setFont(m_pGM->getFont("arial.ttf"));
@@ -138,21 +138,21 @@ bool SceneFormation::onInit()
 	// Obstacles
 	Entity* pEntityObstacle = m_pGM->getEntity("o1");
 	pEntityObstacle->setPosition(Vector2f(100, 600));
-	Collider* pCollider = m_pGM->getCollider("Obstacle/Obstacle1.col");
+	Collider* pCollider = m_pGM->getStaticCollider("Obstacle/Obstacle1.col");
 	pEntityObstacle->addComponent(pCollider);
 	m_pGM->addEntity(pEntityObstacle);
 	m_vObstacles.push_back(pEntityObstacle);
 
 	pEntityObstacle = m_pGM->getEntity("o2");
 	pEntityObstacle->setPosition(Vector2f(600, 600));
-	pCollider = m_pGM->getCollider("Obstacle/Obstacle2.col");
+	pCollider = m_pGM->getStaticCollider("Obstacle/Obstacle2.col");
 	pEntityObstacle->addComponent(pCollider);
 	m_pGM->addEntity(pEntityObstacle);
 	m_vObstacles.push_back(pEntityObstacle);
 
 	pEntityObstacle = m_pGM->getEntity("o3");
 	pEntityObstacle->setPosition(Vector2f(600, 100));
-	pCollider = m_pGM->getCollider("Obstacle/Obstacle3.col");
+	pCollider = m_pGM->getStaticCollider("Obstacle/Obstacle3.col");
 	pEntityObstacle->addComponent(pCollider);
 	m_pGM->addEntity(pEntityObstacle);
 	m_vObstacles.push_back(pEntityObstacle);

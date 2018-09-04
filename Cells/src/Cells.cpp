@@ -9,21 +9,19 @@
 #include "stdafx.h"
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
-#include "Scene\SceneMenu.h"
-#include "Scene\SceneGame.h"
-#include "Scene\SceneMap.h"
 #include "Scene\SceneSteering.h"
-#include "Scene\SceneFormation.h"
-#include "Scene\SceneBehaviorTree.h"
 
+using namespace crea;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	GameManager* pGM = GameManager::getSingleton();
 
-	pGM->init();
+	pGM->setWindowRect(IntRect(0, 0, 1152, 896));
 
-	pGM->setScene(new SceneMap());
+	pGM->setScene(new SceneSteering());
+
+	pGM->init();
 
 	pGM->update();
 

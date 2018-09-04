@@ -1,8 +1,6 @@
 #include "stdafx.h"
 
 #include "Graphics\ShapeRenderer.h"
-#include "Core\GameManager.h"
-#include "Graphics\IShape.h"
 
 namespace crea
 {
@@ -30,7 +28,6 @@ namespace crea
 	{
 		if (m_pShape)
 		{
-			// Draw
 			m_pShape->draw();
 		}
 

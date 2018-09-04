@@ -11,12 +11,12 @@
 
 namespace crea
 {
-	class IFont;
-	class ITexture;
+	class Font;
+	class Texture;
 	class IntRect;
-	class ILine;
-	class IShape;
-	class IRectangleShape;
+	class Line;
+	class Shape;
+	class RectangleShape;
 
 	class CREAENGINE_API IFacade
 	{
@@ -66,37 +66,33 @@ namespace crea
 		// Quitte le renderer
 		virtual void quit() const = 0;
 
-		virtual IFont* createIFont(IFont* _pFrom = nullptr) = 0;
+		virtual Font* createFont(Font* _pFrom = nullptr) = 0;
 
-		virtual void destroyIFont(IFont* _pFont) = 0;
+		virtual void destroyFont(Font* _pFont) = 0;
 
-		virtual ITexture* createITexture(ITexture* _pFrom = nullptr) = 0;
+		virtual Texture* createTexture(Texture* _pFrom = nullptr) = 0;
 
-		virtual void destroyITexture(ITexture* _pTexture) = 0;
+		virtual void destroyTexture(Texture* _pTexture) = 0;
 
-		virtual IColor* createIColor(IColor* _pFrom = nullptr) = 0;
+		virtual Color* createColor(Color* _pFrom = nullptr) = 0;
 
-		virtual void destroyIColor(IColor* _pColor) = 0;
+		virtual void destroyColor(Color* _pColor) = 0;
 
-		virtual IText* createIText(IText* _pFrom = nullptr) = 0;
+		virtual Text* createText(Text* _pFrom = nullptr) = 0;
 
-		virtual void destroyIText(IText* _pText) = 0;
+		virtual void destroyText(Text* _pText) = 0;
 
-		virtual ISprite* createISprite(ISprite* _pFrom = nullptr) = 0;
+		virtual Sprite* createSprite(Sprite* _pFrom = nullptr) = 0;
 
-		virtual void destroyISprite(ISprite* _pSprite) = 0;
+		virtual void destroySprite(Sprite* _pSprite) = 0;
 
-		virtual ILine* createILine(ILine* _pFrom = nullptr) = 0;
+		virtual Shape* createShape(string _szType, Shape* _pFrom = nullptr) = 0;
 
-		virtual void destroyILine(ILine* _pLine) = 0;
+		virtual void destroyShape(Shape* _pShape) = 0;
 
-		virtual IShape* createIShape(IShape* _pFrom = nullptr) = 0;
+		virtual Line* createLine(Line* _pFrom = nullptr) = 0;
 
-		virtual void destroyIShape(IShape* _pShape) = 0;
-
-		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr) = 0;
-
-		virtual void destroyIRectangleShape(IRectangleShape* _pShape) = 0;
+		virtual void destroyLine(Line* _pLine) = 0;
 
 		virtual bool isKeyPressed(Key _key) = 0;
 

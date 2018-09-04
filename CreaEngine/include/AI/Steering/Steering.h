@@ -9,24 +9,25 @@
 #include "Core\Component.h"
 #include "Core\Math.h"
 #include "Core\GameManager.h"
-#include "Graphics\IGraphics.h"
+#include "Graphics\Shape.h"
 
 namespace crea
 {
-
 	// Predefinitions
 	class GameManager;
-	class Behavior;
+	class Behaviour;
 
-	class CREAENGINE_API PairFloatBehavior : public pair<float, Behavior*> 
+	class CREAENGINE_API PairFloatBehaviour : public pair<float, Behaviour*> 
 	{
 	public:
-		PairFloatBehavior(float _f, Behavior* _p);
-		~PairFloatBehavior();
+		PairFloatBehaviour(float _f, Behaviour* _p);
+		~PairFloatBehaviour();
 	};
 
 	class CREAENGINE_API Steering : public Component
 	{
+		Vector2f steer();
+
 	protected:
 		GameManager* m_pGM;
 		
@@ -37,22 +38,9 @@ namespace crea
 		Entity* m_pTarget;
 		Vector2f m_vTargetOffset;
 
-		// Locomotion
-		float m_mass;
-		Vector2f m_vVelocity;
-		float m_maxForce;
-		float m_maxSpeed;
+		vector<PairFloatBehaviour*> m_Behaviours; // All the Behaviours and their weight associated
 
-		//last force to render
-		Vector2f m_lastForce;
-		Vector2f m_lastR;
-
-		std::vector<PairFloatBehavior*> m_behaviors; // All the behaviors and their weight associated
-
-		// debug lines
-		ILine* m_pVelocityLine;
-		ILine* m_pForceLine;
-		ILine* m_pTargetLine;
+		Vector2f m_vSteeringDirection;
 
 	public:
 		Steering();
@@ -63,29 +51,29 @@ namespace crea
 		void setTarget(Entity* _pEntity) { m_pTarget = _pEntity; }
 		Entity* getTarget() { return m_pTarget; }
 		void setTargetOffset(Vector2f _vOffset) { m_vTargetOffset = _vOffset; }
+		Vector2f getTargetOffset() { return m_vTargetOffset; }
 
-		float getMass() { return m_mass; }
-		Vector2f getVelocity() { return m_vVelocity; }
-		float getMaxForce() { return m_maxForce; }
-		float getMaxSpeed() { return m_maxSpeed; }
-		Vector2f getLastForce() { return m_lastForce; }
-		Vector2f getLastR() { return m_lastR; }
+		void addBehaviour(Behaviour* _Behaviour, float _weight);
+		void removeBehaviour(Behaviour* _Behaviour);
+		void clearBehaviours();
 
-		void setMass(float _mass) { m_mass = _mass; }
-		void setVelocity(Vector2f _velocity) { m_vVelocity = _velocity; }
-		void setMaxForce(float _maxForce) { m_maxForce = _maxForce; }
-		void setMaxSpeed(float _maxSpeed) { m_maxSpeed = _maxSpeed; }
-		void setLastR(Vector2f _lastR) { m_lastR = _lastR; }
+		vector<PairFloatBehaviour*>* getBehaviours() { return &m_Behaviours; }
 
-		Vector2f steer();
-		void addBehavior(Behavior* _behavior, float _weight);
-		void removeBehavior(Behavior* _behavior);
-		void clearBehaviors();
-						
+		Vector2f getSteeringDirection() { return m_vSteeringDirection; }
+
+		string asString();
+
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+		virtual Component* clone() 
+		{ 
+			Steering* p = new Steering(*this); 
+			m_Behaviours.clear();  
+			return p; 
+		} // CB: to do: keep Behaviours (instanciate new PairFloatBehaviour for each Behaviour)
 	};
 
 } // namespace crea

@@ -9,6 +9,20 @@ namespace crea
 	GameManager::GameManager()
 	{
 		m_pRenderer = nullptr;
+#ifdef _DIRECTX
+#ifdef _DEBUG
+		IFacade::load("CreaDirectX9-d.dll");
+#else
+		IFacade::load("CreaDirectX9.dll");
+#endif
+#else
+#ifdef _DEBUG
+		IFacade::load("CreaSFML-d.dll");
+#else
+		IFacade::load("CreaSFML.dll");
+#endif
+#endif
+		m_pRenderer = &IFacade::get();
 	}
 
 	GameManager::~GameManager()
@@ -31,24 +45,11 @@ namespace crea
 		ILogger::SetLogger(m_pLogger);
 		ILogger::Log("GameManager::init()\n");
 
-#ifdef _DIRECTX
-#ifdef _DEBUG
-		IFacade::load("CreaDirectX9-d.dll");
-#else
-		IFacade::load("CreaDirectX9.dll");
-#endif
-#else
-#ifdef _DEBUG
-		IFacade::load("CreaSFML-d.dll");
-#else
-		IFacade::load("CreaSFML.dll");
-#endif
-#endif
-		m_pRenderer = &IFacade::get();
-
 		m_pRenderer->initialize();
 
 		TimeManager::getSingleton()->init();
+		EntityManager::getSingleton()->init();
+		PhysicsManager::getSingleton()->init();
 
 	}
 
@@ -58,24 +59,28 @@ namespace crea
 		{
 			// Time
 			TimeManager::getSingleton()->update();
-
-			// Input
 			InputManager::getSingleton()->update();
-
-			// Update
 			SceneManager::getSingleton()->update();
-			
+			EntityManager::getSingleton()->update();
+			PhysicsManager::getSingleton()->update();
+			MsgManager::getSingleton()->update();
+
 			// Draw
 			m_pRenderer->beginScene();
 
+			EntityManager::getSingleton()->draw();
 			SceneManager::getSingleton()->draw();
 
 			m_pRenderer->endScene();
 		}
+
 	}
 
 	void GameManager::quit()
 	{
+		// Clear managers
+		EntityManager::getSingleton()->clear();
+		PhysicsManager::getSingleton()->clear();
 		ILogger::Log("GameManager::quit()\n");
 		m_pRenderer->quit();
 		delete m_pLogger;

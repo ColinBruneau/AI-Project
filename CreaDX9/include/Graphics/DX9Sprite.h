@@ -6,12 +6,12 @@
 #ifndef _DX9Sprite_H
 #define _DX9Sprite_H
 
-#include "Graphics\ISprite.h"
+#include "Graphics\Sprite.h"
 
 namespace crea
 {
 
-	class DX9Sprite : public ISprite
+	class DX9Sprite : public Sprite
 	{
 		LPD3DXSPRITE m_pSprite;
 		LPDIRECT3DTEXTURE9 m_pTexture;
@@ -120,7 +120,7 @@ namespace crea
 			m_pSprite->End();
 		}
 
-		virtual void setTexture(ITexture* _pTexture)
+		virtual void setTexture(Texture* _pTexture)
 		{
 			DX9Texture* pTexture = (DX9Texture*)_pTexture;
 			m_pTexture = (LPDIRECT3DTEXTURE9)pTexture->getTexture();

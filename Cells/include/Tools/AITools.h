@@ -34,18 +34,18 @@ class AITools
 	bool m_bSelection;
 	Vector2f m_vStartSelection;
 	Vector2f m_vEndSelection;
-	IRectangleShape* m_pSelectionShape;
+	RectangleShape* m_pSelectionShape;
 
 	// Command
 	FloatRect m_rCommandWindow;
 	bool m_bCommand;
 	EnumCommandType m_eCommandType;
-	ISprite* m_pCommandsSprite;
+	Sprite* m_pCommandsSprite;
 
 	// Diagnostic
-	IText* m_pTextFPS;
-	IText* m_pTextCommand;
-	IText* m_pTextDiagnostics;
+	Text* m_pTextFPS;
+	Text* m_pTextCommand;
+	Text* m_pTextDiagnostics;
 	Clock m_FPSDisplayClock;
 	float m_fFPSDisplayTime;
 	Clock m_CommandDisplayClock;
@@ -57,8 +57,8 @@ class AITools
 	short m_nHeight;
 	short m_nTileWidth;
 	short m_nTileHeight;
-	IRectangleShape* m_pNodeShape;
-	IRectangleShape* m_pPathShape;
+	RectangleShape* m_pNodeShape;
+	RectangleShape* m_pPathShape;
 
 	// Tile index Limits
 	int m_iMin;

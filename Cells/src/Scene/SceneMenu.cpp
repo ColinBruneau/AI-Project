@@ -28,10 +28,10 @@ bool SceneMenu::onInit()
 	m_pGM = GameManager::getSingleton();
 
 	// Text
-	crea::IColor* pRed = m_pGM->getColor("Red");
+	crea::Color* pRed = m_pGM->getColor("Red");
 	pRed->setValues(255, 0, 0, 255);
 
-	crea::IText* pText = m_pGM->getText("SceneMenu Text");
+	crea::Text* pText = m_pGM->getText("SceneMenu Text");
 	pText->setFont(m_pGM->getFont("arial.ttf"));
 	pText->setColor(pRed);
 	pText->setCharacterSize(20);

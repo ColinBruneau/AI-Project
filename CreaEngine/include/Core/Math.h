@@ -8,12 +8,12 @@
 
 namespace crea
 {
-	// constants
+// constants
 #define PI 3.14159265f
 #define EPSILON 0.00001f
 #define ONEOVER128 0.0078125f
 
-	// Macros
+// Macros
 #define MIN(a, b) (a<b ? a : b)
 #define MAX(a, b) (a>b ? a : b)
 
@@ -63,16 +63,16 @@ namespace crea
 		inline Vector2f& operator*=(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
 		inline Vector2f operator/(float _f) { assert(_f); return Vector2f(m_fX / _f, m_fY / _f); }
 		inline Vector2f& operator/=(float _f) { assert(_f); m_fX /= _f; m_fY /= _f; return *this; }
+		inline bool operator!=(Vector2f& _v) { return m_fX != _v.m_fX || m_fY != _v.m_fY; }
 	};
 
 	class CREAENGINE_API IntRect
 	{
+	public:
 		int m_iX;
 		int m_iY;
 		int m_iW;
 		int m_iH;
-
-	public:
 
 		IntRect()
 		{
@@ -176,6 +176,8 @@ namespace crea
 
 		static float lerp(float a, float b, float f) { return a * (1 - f) + b * f; }
 
+		static Vector2f lerp(Vector2f& a, Vector2f& b, float f) { return a * (1 - f) + b * f; }
+
 		static float degreetoradian(float a) { return a * 0.01745329251945f; }
 
 		static float radiantodegreee(float a) { return a * 57.29577951471995f; }
@@ -188,4 +190,4 @@ namespace crea
 
 } // namespace crea
 
-#endif // _Math_H
+#endif // _ICore_H

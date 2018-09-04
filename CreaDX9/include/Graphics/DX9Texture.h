@@ -6,12 +6,12 @@
 #ifndef _DX9Texture_H
 #define _DX9Texture_H
 
-#include "Graphics\ITexture.h"
+#include "Graphics\Texture.h"
 
 namespace crea
 {
 
-	class DX9Texture : public ITexture
+	class DX9Texture : public Texture
 	{
 		LPDIRECT3DTEXTURE9 m_pTexture;
 	public:

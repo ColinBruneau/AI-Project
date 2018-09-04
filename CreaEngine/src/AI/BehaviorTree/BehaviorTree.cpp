@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "AI\BehaviorTree\BehaviorTree.h"
-#include "AI\BehaviorTree\BTBehavior.h"
+#include "AI\BehaviorTree\Behavior.h"
 
 namespace crea
 {
@@ -14,7 +14,7 @@ namespace crea
 	{
 	}
 
-	void BehaviorTree::setRootBehavior(BTBehavior* _pRoot)
+	void BehaviorTree::setRootBehavior(Behavior* _pRoot)
 	{
 		m_pRoot = _pRoot;
 	}

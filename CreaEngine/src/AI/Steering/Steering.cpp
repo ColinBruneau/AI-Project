@@ -1,39 +1,25 @@
 #include "stdafx.h"
 
 #include "AI\Steering\Steering.h"
-#include "AI\Steering\Behavior.h"
+#include "AI\Steering\Behaviour.h"
 #include "Physics\Collider.h"
 #include "Core\PhysicsManager.h"
 
 namespace crea
 {
-	PairFloatBehavior::PairFloatBehavior(float _f, Behavior* _p) : pair<float, Behavior*>(_f, _p) {}
-	PairFloatBehavior::~PairFloatBehavior() { delete this->second; }
+	PairFloatBehaviour::PairFloatBehaviour(float _f, Behaviour* _p) : pair<float, Behaviour*>(_f, _p) {}
+	PairFloatBehaviour::~PairFloatBehaviour() { delete this->second; }
 
 	Steering::Steering() :
-		m_mass(1.0f),
-		m_vVelocity(Vector2f(0.0f, 0.0f)),
-		m_maxForce(100.0f),
-		m_maxSpeed(100.0f),
-		m_lastForce(Vector2f(0.0f, 0.0f)),
-		m_lastR(Vector2f(1.0f, 0.0f)),
-		m_pTarget(nullptr)
+		m_pTarget(nullptr), m_vSteeringDirection(0.f, 0.f)
 	{
 		m_pGM = GameManager::getSingleton();
 		m_pCollider = nullptr;
-
-		m_pVelocityLine = IFacade::get().createILine();
-		m_pForceLine = IFacade::get().createILine();
-		m_pForceLine->setColor(255, 0, 0, 255);
-		m_pTargetLine = IFacade::get().createILine();
-		m_pTargetLine->setColor(0, 255, 0, 255);
 	}
 
 	Steering::~Steering()
 	{
-		clearBehaviors();
-
-		delete m_pVelocityLine;
+		clearBehaviours();
 	}
 
 	void Steering::setCollider(Collider* _pCollider)
@@ -41,53 +27,68 @@ namespace crea
 		m_pCollider = _pCollider;
 	}
 	
-	void Steering::addBehavior(Behavior* _behavior, float _weight)
+	void Steering::addBehaviour(Behaviour* _Behaviour, float _weight)
 	{
-		m_behaviors.push_back(new PairFloatBehavior(_weight, _behavior));
+		m_Behaviours.push_back(new PairFloatBehaviour(_weight, _Behaviour));
 	};
 
-	void Steering::removeBehavior(Behavior* _behavior)
+	void Steering::removeBehaviour(Behaviour* _Behaviour)
 	{
-		if (m_behaviors.empty())
+		if (m_Behaviours.empty())
 			return;
 
-		auto a = std::remove_if(m_behaviors.begin(), m_behaviors.end(),
-			[=](PairFloatBehavior* p) { return p->second == _behavior; });
+		auto a = std::remove_if(m_Behaviours.begin(), m_Behaviours.end(),
+			[=](PairFloatBehaviour* p) { return p->second == _Behaviour; });
 
-		m_behaviors.erase(a);
+		if (a != m_Behaviours.end())
+		{
+			m_Behaviours.erase(a);
+		}
 	};
 
-	void Steering::clearBehaviors()
+	void Steering::clearBehaviours()
 	{
-		for (int i = 0; i < (int)m_behaviors.size(); i++)
+		for (int i = 0; i < (int)m_Behaviours.size(); i++)
 		{
-			PairFloatBehavior* p = m_behaviors.back();
+			PairFloatBehaviour* p = m_Behaviours.back();
 			delete(p);
-			m_behaviors.pop_back();
+			m_Behaviours.pop_back();
 		}
-		m_behaviors.clear();
+		m_Behaviours.clear();
 	};
 
 	Vector2f Steering::steer()
 	{
 		Vector2f steeringDirection;
-		for (int i = 0; i < (int)m_behaviors.size(); i++)
+		for (int i = 0; i < (int)m_Behaviours.size(); i++)
 		{
-			PairFloatBehavior* t = m_behaviors[i];
-			Behavior* b = (Behavior*)t->second;
- 			steeringDirection += (t->second->Update() * t->first);
+			PairFloatBehaviour* t = m_Behaviours[i];
+			Behaviour* b = (Behaviour*)t->second;
+			Vector2f v = b->Update();
+ 			steeringDirection += (v * t->first);
 		}
 		return steeringDirection;
+	}
+
+	string Steering::asString()
+	{
+		stringstream stream;
+		string szSteering("");
+		Vector2f steeringDirection;
+		for (int i = 0; i < (int)m_Behaviours.size(); i++)
+		{
+			PairFloatBehaviour* t = m_Behaviours[i];
+			Behaviour* b = (Behaviour*)t->second;
+			szSteering += t->second->asString();
+			szSteering += " ";
+			stream << fixed << setprecision(1) << t->first;
+			szSteering += stream.str();
+		}
+		return szSteering;
 	}
 	
 	bool Steering::init()
 	{
-		m_mass = 1.0f;
-		m_vVelocity = Vector2f(0.0f, 0.0f);
-		m_maxForce = 100.0f;
-		m_maxSpeed = 100.0f;
-		m_lastForce = Vector2f(0.0f, 0.0f);
-		m_lastR = Vector2f(1.0f, 0.0f);
 		m_pTarget = nullptr;
 
 		return true;
@@ -95,56 +96,13 @@ namespace crea
 
 	bool Steering::update()
 	{
-		Vector2f steeringDirection = steer();
-		float frameTime = (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
-
-		if (!MathTools::zeroByEpsilon(steeringDirection.lengthSq()))
-		{
-			Vector2f steeringForce = MathTools::truncate(steeringDirection, m_maxForce);
-			Vector2f acceleration = steeringForce / m_mass;
-			m_vVelocity = MathTools::truncate(m_vVelocity + acceleration * frameTime, m_maxSpeed);
-
-			m_lastForce = steeringForce;
-		}
-		else
-		{
-			m_lastForce = Vector2f(0.0f, 0.0f);
-		}
-		Vector2f position = m_pEntity->getPosition();
-		position += m_vVelocity * frameTime;
-		m_pEntity->setPosition(position);
+		m_vSteeringDirection = steer();
 
 		return true;
 	}
 
 	bool Steering::draw()
 	{
-		// draw velocity (debug)
-		if (m_pVelocityLine)
-		{
-			Vector2f position = m_pEntity->getPosition();
-			m_pVelocityLine->setLine(position.getX(), position.getY(),
-				position.getX() + m_vVelocity.getX(), position.getY() + m_vVelocity.getY());
-			m_pVelocityLine->draw();
-		}
-		// draw force (debug)
-		if (m_pForceLine)
-		{
-			Vector2f position = m_pEntity->getPosition();
-			m_pForceLine->setLine(position.getX(), position.getY(),
-				position.getX() + m_lastForce.getX(), position.getY() + m_lastForce.getY());
-			m_pForceLine->draw();
-		}
-		// draw target (debug)
-		if (m_pTargetLine && m_pTarget)
-		{
-			Vector2f position = m_pEntity->getPosition();
-			Vector2f targetposition = m_pTarget->getPosition() + m_vTargetOffset;
-
-			m_pTargetLine->setLine(position.getX(), position.getY(),
-				targetposition.getX(), targetposition.getY());
-			m_pTargetLine->draw();
-		}
 		return true;
 	}
 

@@ -10,17 +10,16 @@
 
 namespace crea
 {
-	class IShape;
 
 	class CREAENGINE_API ShapeRenderer : public Component
 	{
-		IShape* m_pShape;
+		Shape* m_pShape;
 
 	public:
 		ShapeRenderer();
 		virtual ~ShapeRenderer();
 
-		inline void setShape(IShape* _pShape) { m_pShape = _pShape; }
+		inline void setShape(Shape* _pShape) { m_pShape = _pShape; }
 
 		virtual bool init();
 		virtual bool update();

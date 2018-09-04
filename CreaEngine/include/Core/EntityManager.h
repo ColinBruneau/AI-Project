@@ -6,27 +6,20 @@
 #ifndef __EntityManager_H_
 #define __EntityManager_H_
 
-#include <string>
-#include <list>
-#include <map>
-using namespace std;
-
-// Prédéfinitions
 namespace crea
 {
+	// Prédéfinitions
+	class Entity;
 	class TextRenderer;
 	class SpriteRenderer;
 	class MapRenderer;
 	class Animator;
-	class Entity;
-	class Steering;
 	class Vector2f;
 	class Script;
-	class ScriptFactory;
-}
+	class Steering;
 
-namespace crea
-{
+	class ScriptFactory;
+
 	class CREAENGINE_API MapStringTextRenderer : public map<string, TextRenderer*> {};
 	class CREAENGINE_API MapStringSpriteRenderer : public map<string, SpriteRenderer*> {};
 	class CREAENGINE_API MapStringMapRenderer : public map<string, MapRenderer*> {};
@@ -34,9 +27,12 @@ namespace crea
 	class CREAENGINE_API MapStringScript : public map<string, Script*> {};
 	class CREAENGINE_API MapStringSteering : public map<string, Steering*> {};
 	class CREAENGINE_API ListEntity : public list<Entity*> {};
+	class CREAENGINE_API MapObjectIDEntity : public map<objectID, Entity*> {};
 
 	class CREAENGINE_API EntityManager
 	{
+		Entity* m_pRoot;
+
 		MapStringTextRenderer m_pTextRenderers;
 
 		MapStringSpriteRenderer m_pSpriteRenderers;
@@ -47,15 +43,17 @@ namespace crea
 
 		MapStringScript m_pScripts;
 
-		ScriptFactory* m_pScriptFactory;
-
 		MapStringSteering m_pSteerings;
+
+		ScriptFactory* m_pScriptFactory;
 
 		ListEntity m_pSelectedEntities;
 
-		Entity* m_pRoot;
-
 		EntityManager();
+
+		objectID nextFreeID;
+
+		MapObjectIDEntity m_Entities;
 
 	public:
 		virtual ~EntityManager();
@@ -63,6 +61,8 @@ namespace crea
 		static EntityManager* getSingleton();
 
 		Entity* getEntity(string& _szName);
+
+		Entity* instanciate(string& _szName, Entity* _pEntity);
 
 		void addEntity(Entity* _pEntity, Entity* _pParent = nullptr);
 
@@ -80,6 +80,24 @@ namespace crea
 
 		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { m_pScriptFactory = _pScriptFactory; }
 
+		void selectEntities(Vector2f _vStart, Vector2f _vEnd);
+
+		void addSelectedEntity(Entity* _pEntity);
+
+		void unselectEntities();
+
+		inline ListEntity* getSelectedEntities() { return &m_pSelectedEntities; }
+
+		void Store(Entity& _agent);
+
+		void Remove(objectID _id);
+
+		Entity* Find(objectID _id);
+
+		objectID getNewObjectID();
+
+		void clearEntity(Entity* _pEntity);
+
 		bool init();
 
 		bool update();
@@ -87,18 +105,7 @@ namespace crea
 		bool draw();
 
 		void clear();
-
-		void clearEntity(Entity* _pEntity);
-
-		void selectEntities(Vector2f _vStart, Vector2f _vEnd);
-		
-		void addSelectedEntity(Entity* _pEntity);
-
-		void unselectEntities();
-
-		inline ListEntity* getSelectedEntities() { return &m_pSelectedEntities; }
 	};
-
 
 } // namespace crea
 

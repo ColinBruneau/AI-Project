@@ -18,8 +18,15 @@ namespace crea
 		short m_nTile;
 		float m_fFriction;
 	};
-	
+
+	class CREAENGINE_API TileInfo
+	{
+	public:
+		unsigned short m_nTerrain[4];
+	};
+
 	class CREAENGINE_API VectorTerrain : public vector<Terrain*> {};
+	class CREAENGINE_API MapTileInfo : public map<string, TileInfo*> {};
 
 	class CREAENGINE_API TileSet
 	{
@@ -36,15 +43,17 @@ namespace crea
 		short m_nTileheight;
 		short m_nTilewidth;
 		string m_szTransparentcolor;
-		ISprite* m_pSprite;
+		Sprite* m_pSprite;
+		Vector2f m_vTileOffset;
 
 		VectorTerrain m_Terrains;
+		MapTileInfo m_TileInfos;
 
 		TileSet();
 
 		~TileSet();
 		
-		float getFriction(short nTerrain);
+		float getFriction(unsigned short _nTileId, unsigned short _nQuad); // 0:TopLeft, 1: TopRight, 2: BottomLeft, 3: BottomRight
 
 		IntRect getTextureRect(int _iTileId)
 		{

@@ -6,12 +6,12 @@
 #ifndef _GL3Text_H
 #define _GL3Text_H
 
-#include "Graphics\IText.h"
+#include "Graphics\Text.h"
 
 namespace crea
 {
 
-	class GL3Text : public IText
+	class GL3Text : public Text
 	{
 		//LPD3DXFONT 
 		void* m_pFont;
@@ -51,7 +51,7 @@ namespace crea
 			m_pFont = pFont->getFont();
 		}
 
-		virtual void setColor(IColor* _pColor)
+		virtual void setColor(Color* _pColor)
 		{
 			m_color = (GL3Color*)_pColor;
 		}

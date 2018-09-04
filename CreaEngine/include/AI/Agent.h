@@ -11,46 +11,45 @@
 
 namespace crea
 {
-	class ISprite;
+	class Sprite;
 	class StateMachine;
 
 	class CREAENGINE_API Agent : public Component
 	{
-		int m_iStrength;
-		int m_iDexterity;
-		int m_iIntelligence;
-		int m_iHealth;
-
-		// FSM
-		objectID m_ID;	
-		StateMachine* m_pStateMachine;
+		short m_nStrength;
+		short m_nDexterity;
+		short m_nIntelligence;
+		short m_nHealth;
+		short m_nSize;	// Unit size (ex: 2 is a 2*2 nodes unit)
+		short m_nCapability; // Unit capability (ex: 0 is a Ground unit)
 
 	public:
 
 		Agent();
 		virtual ~Agent();
 
-		inline void setStrength(int _iStength) { m_iStrength = _iStength; }
-		inline void setDexterity(int _iDexterity) { m_iDexterity = _iDexterity; }
-		inline void setIntelligence(int _iIntelligence) { m_iIntelligence = _iIntelligence; }
-		inline void setHealth(int _iHealth) { m_iHealth = _iHealth; }
+		inline void setStrength(short _iStength) { m_nStrength = _iStength; }
+		inline void setDexterity(short _iDexterity) { m_nDexterity = _iDexterity; }
+		inline void setIntelligence(short _iIntelligence) { m_nIntelligence = _iIntelligence; }
+		inline void setHealth(short _iHealth) { m_nHealth = _iHealth; }
+		inline void setSize(short _iSize) { m_nSize = _iSize; }
+		inline void setCapability(short _iCapability) { m_nCapability = _iCapability; }
 
-		inline int getStrength() const { return m_iStrength; }
-		inline int getDexterity() const { return m_iDexterity; }
-		inline int getIntelligence() const { return m_iIntelligence; }
-		inline int getHealth() const { return m_iHealth; }
+		inline short getStrength() const { return m_nStrength; }
+		inline short getDexterity() const { return m_nDexterity; }
+		inline short getIntelligence() const { return m_nIntelligence; }
+		inline short getHealth() const { return m_nHealth; }
+		inline short getSize() const { return m_nSize; }
+		inline short getCapability() const { return m_nCapability; }
 
 		bool loadFromFileJSON(string _filename);
 
-		void SetID(objectID _id) { m_ID = _id; }
-		objectID GetID() { return m_ID; }
-		StateMachine* GetStateMachine() { return m_pStateMachine; }
-		void SetStateMachine(StateMachine * _p) { m_pStateMachine = _p; }
-		
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+		virtual Component* clone() { return new Agent(*this); }
 
 	private:
 

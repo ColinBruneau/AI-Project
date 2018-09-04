@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
 #include "Physics\Collider.h"
-#include "Graphics\ISprite.h"
-#include "Tools/json/json.h"
+#include "Graphics\Sprite.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -11,47 +10,23 @@ namespace crea
 {
 	Collider::Collider(EnumColliderType _eColliderType)
 	{
-		m_pSprite = nullptr;
 		m_bIsColliding = false;
-		setType(_eColliderType);
+		m_bIsTrigger = false;
+		m_eColliderType = _eColliderType;
 	}
 
 	Collider::~Collider()
 	{
-		delete m_pCollider;
 	}
 
-	void Collider::setType(EnumColliderType _eColliderType)
+	// Is the collider colliding with the given one
+	bool Collider::isColliding(Collider* _pCollider, bool _bWithTrigger)
 	{
-		if (m_pCollider)
+		if (m_bIsTrigger && !_bWithTrigger)
 		{
-			delete m_pCollider;
+			return false;
 		}
 
-		m_eColliderType = _eColliderType;
-
-		if (m_eColliderType == Collider_Box)
-		{
-			m_pCollider = new BoxCollider;
-			m_pSprite = crea::GameManager::getSingleton()->getSprite("debug/boxcollider");
-			m_pSprite->setTexture(crea::GameManager::getSingleton()->getTexture("debug/boxcollider.png"));
-		}
-		else
-		{
-			m_pCollider = new CircleCollider;
-			m_pSprite = crea::GameManager::getSingleton()->getSprite("debug/circlecollider");
-			m_pSprite->setTexture(crea::GameManager::getSingleton()->getTexture("debug/circlecollider.png"));
-		}
-	}
-
-	void* Collider::getCollider()
-	{
-		return m_pCollider;
-	}
-
-	// Move the controller by a vector, only constrained by collisions
-	bool Collider::isColliding(Collider* _pCollider)
-	{
 		if (m_eColliderType == Collider_Box)
 		{
 			if (_pCollider->m_eColliderType == Collider_Box)
@@ -80,7 +55,7 @@ namespace crea
 		return m_bIsColliding;
 	}
 
-	bool Collider::loadFromFileJSON(string _filename)
+	Collider* Collider::loadFromFileJSON(string& _filename)
 	{
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);
@@ -89,20 +64,20 @@ namespace crea
 		string szType = root["type"].asString();
 		if (szType == "Circle")
 		{
-			setType(Collider_Circle);
-			CircleCollider* pCircleCollider = (CircleCollider*) m_pCollider;
+			CircleCollider* pCircleCollider = new CircleCollider;
 			pCircleCollider->getCenter() = Vector2f(root["x"].asFloat(), root["y"].asFloat());
 			pCircleCollider->getRadius() = root["radius"].asFloat();
+			return pCircleCollider;
 		}
 		else if (szType == "Box")
 		{
-			setType(Collider_Box);
-			BoxCollider* pBoxCollider = (BoxCollider*)m_pCollider;
+			BoxCollider* pBoxCollider = new BoxCollider;
 			pBoxCollider->getOrigin() = Vector2f(root["x"].asFloat(), root["y"].asFloat());
 			pBoxCollider->getSize() = Vector2f(root["w"].asFloat(), root["h"].asFloat());
+			return pBoxCollider;
 		}
 		
-		return true;
+		return nullptr;
 	}
 
 	bool Collider::init()
@@ -117,32 +92,6 @@ namespace crea
 
 	bool Collider::draw()
 	{
-		if (m_pSprite)
-		{
-			if (m_eColliderType == Collider_Box)
-			{
-				BoxCollider* pCollider = (BoxCollider*)m_pCollider;
-				Vector2f vOrigin = pCollider->getOrigin();
-				Vector2f vSize = pCollider->getSize();
-				m_pSprite->setPosition(vOrigin.getX(), vOrigin.getY());
-				m_pSprite->setScale(ONEOVER128*vSize.getX(), ONEOVER128*vSize.getY());
-				m_pSprite->draw();
-			}
-			else
-			{
-				Entity* pEntity1 = getEntity();
-				Vector2f vPos1 = pEntity1 ? pEntity1->getPosition() : Vector2f(0.f, 0.f); 
-				CircleCollider* pCollider = (CircleCollider*)m_pCollider;
-				Vector2f vCenter = vPos1 + pCollider->getCenter();
-				float fRadius = pCollider->getRadius();
-
-				m_pSprite->setPosition(vCenter.getX() - fRadius + 1.f, vCenter.getY() - fRadius + 1.f);
-				m_pSprite->setScale(ONEOVER128*(2*fRadius-1), ONEOVER128*(2*fRadius-1));
-				m_pSprite->draw();
-			}
-
-
-		}
 		return true;
 	}
 
@@ -157,8 +106,8 @@ namespace crea
 		Entity* pEntity2 = _pCollider2->getEntity();
 		Vector2f vPos1 = pEntity1 ? pEntity1->getPosition() : Vector2f(0.f, 0.f);
 		Vector2f vPos2 = pEntity2 ? pEntity2->getPosition() : Vector2f(0.f, 0.f);
-		BoxCollider* pBox1 = (BoxCollider*)_pCollider1->m_pCollider;
-		BoxCollider* pBox2 = (BoxCollider*)_pCollider2->m_pCollider;
+		BoxCollider* pBox1 = (BoxCollider*)_pCollider1;
+		BoxCollider* pBox2 = (BoxCollider*)_pCollider2;
 		
 		Vector2f vWorldMin1 = vPos1 + pBox1->getMin();
 		Vector2f vWorldMax1 = vPos1 + pBox1->getMax();
@@ -185,8 +134,8 @@ namespace crea
 		Entity* pEntity2 = _pCollider2->getEntity();
 		Vector2f vPos1 = pEntity1 ? pEntity1->getPosition() : Vector2f(0.f, 0.f);
 		Vector2f vPos2 = pEntity2 ? pEntity2->getPosition() : Vector2f(0.f, 0.f);
-		BoxCollider* pBox1 = (BoxCollider*)_pCollider1->m_pCollider;
-		CircleCollider* pCircle2 = (CircleCollider*)_pCollider2->m_pCollider;
+		BoxCollider* pBox1 = (BoxCollider*)_pCollider1;
+		CircleCollider* pCircle2 = (CircleCollider*)_pCollider2;
 
 		Vector2f vWorldMin1 = vPos1 + pBox1->getMin();
 		Vector2f vWorldMax1 = vPos1 + pBox1->getMax();
@@ -218,8 +167,8 @@ namespace crea
 		Entity* pEntity2 = _pCollider2->getEntity();
 		Vector2f vPos1 = pEntity1 ? pEntity1->getPosition() : Vector2f(0.f, 0.f);
 		Vector2f vPos2 = pEntity2 ? pEntity2->getPosition() : Vector2f(0.f, 0.f);
-		CircleCollider* pCircle1 = (CircleCollider*)_pCollider1->m_pCollider;
-		CircleCollider* pCircle2 = (CircleCollider*)_pCollider2->m_pCollider;
+		CircleCollider* pCircle1 = (CircleCollider*)_pCollider1;
+		CircleCollider* pCircle2 = (CircleCollider*)_pCollider2;
 
 		Vector2f vWorldCenter1 = vPos1 + pCircle1->getCenter();
 		Vector2f vWorldCenter2 = vPos2 + pCircle2->getCenter();
@@ -236,15 +185,16 @@ namespace crea
 	}
 
 	BoxCollider::BoxCollider()
+		: Collider(Collider_Box)
 	{
 	}
 
 	BoxCollider::~BoxCollider()
 	{
 	}
-
+	
 	CircleCollider::CircleCollider()
-		: m_fRadius(0.f)
+		: Collider(Collider_Circle), m_fRadius(0.f)
 	{
 	}
 
@@ -252,4 +202,12 @@ namespace crea
 	{
 	}
 
+	Component* CircleCollider::clone()
+	{
+		Collider* pCollider = new CircleCollider(*this);
+		// CB: Patch, make sure the circleCollider is dynamic...
+		string s = this->m_szName + to_string(EntityManager::getSingleton()->getNewObjectID());
+		PhysicsManager::getSingleton()->addDynamicCollider(s, pCollider);
+		return pCollider;
+	}
 } // namespace crea

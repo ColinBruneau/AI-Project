@@ -9,9 +9,9 @@
 #include "SFMLFacade.h"
 #include "Graphics\IGraphics.h"
 #include "Graphics\IFont.h"
-#include "Graphics\ITexture.h"
-#include "Graphics\IText.h"
-#include "Graphics\ISprite.h"
+#include "Graphics\Texture.h"
+#include "Graphics\Text.h"
+#include "Graphics\Sprite.h"
 
 #include <SFML/Graphics.hpp>
 

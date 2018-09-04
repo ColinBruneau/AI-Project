@@ -304,22 +304,22 @@ namespace crea
 		return (_pFrom ? new GL3Font(*(GL3Font*)_pFrom) : new GL3Font);
 	}
 
-	ITexture* GL3Facade::createITexture(ITexture* _pFrom)
+	Texture* GL3Facade::createTexture(Texture* _pFrom)
 	{
 		return (_pFrom ? new GL3Texture(*(GL3Texture*)_pFrom) : new GL3Texture);
 	}
 
-	IColor* GL3Facade::createIColor(IColor* _pFrom)
+	Color* GL3Facade::createColor(Color* _pFrom)
 	{
 		return (_pFrom ? new GL3Color(*(GL3Color*)_pFrom) : new GL3Color);
 	}
 
-	IText* GL3Facade::createIText(IText* _pFrom)
+	Text* GL3Facade::createText(Text* _pFrom)
 	{
 		return (_pFrom ? new GL3Text(*(GL3Text*)_pFrom) : new GL3Text);
 	}
 
-	ISprite* GL3Facade::createISprite(ISprite* _pFrom)
+	Sprite* GL3Facade::createSprite(Sprite* _pFrom)
 	{
 		return (_pFrom ? new GL3Sprite(*(GL3Sprite*)_pFrom) : new GL3Sprite);
 	}

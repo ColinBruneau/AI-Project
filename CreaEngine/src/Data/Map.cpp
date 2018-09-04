@@ -2,13 +2,14 @@
 
 #include "Data\Map.h"
 #include "Data\Node.h"
-#include "Tools/json/json.h"
+#include "Tools\json\json.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include "Graphics\ISprite.h"
-#include "Core\PhysicsManager.h"
+#include "Graphics\Sprite.h"
 #include "Physics\Collider.h"
+#include "Core\PhysicsManager.h"
+#include "Data\Cluster.h"
 
 namespace crea
 {
@@ -18,10 +19,13 @@ namespace crea
 		m_nHeight = 0;
 		m_nTileWidth = 0;
 		m_nTileHeight = 0;
+		m_Grid = nullptr;
 		m_bIsGrid8 = false;
-		m_bDisplayCollision = false;
 		m_pTerrainTileSet = nullptr;
+		m_iMin = m_iMax = m_jMin = m_jMax = 0;
 		m_pGM = crea::GameManager::getSingleton();
+		m_Clusters = nullptr;
+		m_bUseHPA = false;
 	}
 
 	Map::~Map()
@@ -83,18 +87,18 @@ namespace crea
 			pTileSet->m_nTilecount = tileset["tilecount"].asInt();
 			pTileSet->m_nTileheight = tileset["tileheight"].asInt();
 			pTileSet->m_nTilewidth = tileset["tilewidth"].asInt();
+			pTileSet->m_vTileOffset = Vector2f((float)tileset["tileoffset"]["x"].asInt(), (float)tileset["tileoffset"]["y"].asInt());
 
 			// terrain 
 			Json::Value terrains = tileset["terrains"];
 			if (terrains.size() != 0)
 			{
 				m_pTerrainTileSet = pTileSet;
-				PhysicsManager::getSingleton()->setCurrentMap(this); // Physics props are given by terrains 
 			}
 			for (unsigned int iTerrain = 0; iTerrain < terrains.size(); ++iTerrain)
 			{
 				Json::Value terrain = terrains[iTerrain];
-				Terrain* pTerrain = new Terrain(); // CB: Vérify tileset and terrain deleted?
+				Terrain* pTerrain = new Terrain();
 				pTerrain->m_szName = terrain["name"].asString();
 				pTerrain->m_nTile = terrain["tile"].asInt();
 				pTerrain->m_fFriction = terrain["properties"]["Friction"].asFloat();
@@ -104,22 +108,25 @@ namespace crea
 			// Load Image and create sprite
 			pTileSet->m_pSprite = m_pGM->getSprite(pTileSet->m_szName);
 			pTileSet->m_pSprite->setTexture(m_pGM->getTexture(image));
+			pTileSet->m_pSprite->setOrigin(-pTileSet->m_vTileOffset.getX(), pTileSet->m_nTileheight - pTileSet->m_vTileOffset.getY()); // origin of a tile at lower left in Tiled, upper left in SFML
 
 			//  Tiles
 			if (pTileSet->m_nTilecount > 1)
 			{
+				// Tile info (terrains)
 				Json::Value tiles = tileset["tiles"];
-				/*
-				for (short i = 1; i <= tilecount; i++)
+				for (unsigned int i = 0; i < tiles.size(); ++i)
 				{
-				Json::Value tile = tiles.get(; // Comment récupérer une key?
-				Json::Value terrain = tile["terrain"];
-				int topleft = terrain[0].asInt();
-				int topright = terrain[1].asInt();
-				int bottomleft = terrain[2].asInt();
-				int bottomright = terrain[3].asInt();
+					string tilenumber = tiles.getMemberNames()[i];
+					Json::Value tile = tiles[tilenumber];
+					Json::Value tileinfo = tile["terrain"];
+					TileInfo* pTileInfo = new TileInfo;
+					for (unsigned int iTerrain = 0; iTerrain < 4; iTerrain++)
+					{
+						pTileInfo->m_nTerrain[iTerrain] = tileinfo[iTerrain].asInt();
+					}
+					pTileSet->m_TileInfos[tilenumber] = pTileInfo;
 				}
-				*/
 			}
 
 			m_TileSet.push_back(pTileSet);
@@ -139,10 +146,11 @@ namespace crea
 			{
 				string szLayerName = layer["name"].asString();
 				bool bIsTerrain = (szLayerName == "Terrain");
-				bool bIsCollision = (szLayerName == "Collisions");
-				if (!bIsTerrain && !bIsCollision)
+				bool bIsCollisions = (szLayerName == "CollisionTiles");
+				bool bIsClearance = (szLayerName == "Clearance Ground");
+				if (!bIsTerrain)
 				{
-					cerr << "Layer name not recognized (should be \"Terrain\" or \"Collisions\"): " << szLayerName << endl;
+					MapSearchManager::getSingleton()->setCurrentMap(this);
 				}
 				Json::Value data = layer["data"];
 				for (short i = 0; i < iWidth; i++)
@@ -154,26 +162,24 @@ namespace crea
 						{
 							m_Grid[i][j]->setTileTerrainId(nIndex);
 						}
-						else if (bIsCollision)
+						else if (bIsCollisions)
 						{
 							m_Grid[i][j]->setTileCollisionId(nIndex);
-
-							if (nIndex != 0)
-							{
-								Collider* pCollider = new Collider(Collider_Box);
-								BoxCollider* pBoxCollider = (BoxCollider*)pCollider->getCollider();
-								pBoxCollider->getOrigin() = Vector2f((float)i*m_nTileWidth, (float)j*m_nTileHeight);
-								pBoxCollider->getSize() = Vector2f(m_nTileWidth, m_nTileHeight);
-								PhysicsManager::getSingleton()->addCollider(pCollider);
-							}
+						}
+						else if (bIsClearance)
+						{
+							m_Grid[i][j]->setTileClearanceId(nIndex == 0 ? 0 : nIndex - 23); // Depend on tile used ad 1st 
 						}
 					}
 				}
 			}
-			else if (type == "objectgroup")
+
+			// TD Agents
+			if (type == "objectgroup")
 			{
-				bool bIsPersos = (layer["name"].asString() == "Persos");
-				if (bIsPersos)
+				string szLayerName = layer["name"].asString();
+
+				if (szLayerName == "Agents")
 				{
 					Json::Value objects = layer["objects"];
 					for (unsigned int iObject = 0; iObject < objects.size(); ++iObject)
@@ -193,9 +199,9 @@ namespace crea
 						// Create entity
 						// A sprite is a gid linked to a tileset that is loaded before in function
 						TileSet* pTileSet = getTileSet(iGId);
-									
+
 						Entity* pEntity = m_pGM->getEntity(szName);
-						pEntity->setPosition(Vector2f((float)iPersoX, (float)(iPersoY - iPersoHeight)));
+						pEntity->setPosition(Vector2f((float)iPersoX, (float)iPersoY));
 
 						m_pGM->addEntity(pEntity);
 
@@ -205,21 +211,102 @@ namespace crea
 						{
 							pEntity->loadFromFileJSON(string(DATAAGENTPATH + entityName.asString()));
 						}
-						else if (bVisible)// CB: add a SpriteRenderer component only if no .ent set and visible
+						else
 						{
-							SpriteRenderer* pSpriteRenderer = nullptr;
-							pSpriteRenderer = new crea::SpriteRenderer();
+							SpriteRenderer* pSpriteRenderer = new crea::SpriteRenderer();
 							pSpriteRenderer->setSprite(pTileSet->m_pSprite);
 							IntRect iRect = pTileSet->getTextureRect(iGId);
 							pSpriteRenderer->setTextureRect(&iRect);
 							pEntity->addComponent(pSpriteRenderer);
 						}
+					}
+				}
+				else if (szLayerName == "Collisions")
+				{
+					PhysicsManager::getSingleton()->setCurrentMap(this);
+
+					Json::Value objects = layer["objects"];
+					for (unsigned int iObject = 0; iObject < objects.size(); ++iObject)
+					{
+						Json::Value object = objects[iObject];
+						int iColliderHeight = object["height"].asInt();
+						int iColliderWidth = object["width"].asInt();
+						int iColliderX = object["x"].asInt();
+						int iColliderY = object["y"].asInt();
+						int iRotation = object["rotation"].asInt();
+						int iId = object["id"].asInt();
+						string szName = object["name"].asString();
+						string szType = object["type"].asString();
+						bool bVisible = object["visible"].asBool();
+
+						bool bEllipse = object["ellipse"].asBool();
+						if (bEllipse)
+						{
+							// CircleCollider
+							CircleCollider* pCircleCollider = new CircleCollider();
+							float fRadius = iColliderWidth*0.5f;
+							pCircleCollider->getCenter() = Vector2f((float)iColliderX + fRadius, (float)iColliderY + fRadius);
+							pCircleCollider->getRadius() = fRadius;
+							if (szType.find("trigger") != string::npos)
+							{
+								pCircleCollider->getIsTrigger() = true;
+							}
+							PhysicsManager::getSingleton()->addStaticCollider(szName, pCircleCollider);
+						}
+						else
+						{
+							// BoxCollider
+							BoxCollider* pBoxCollider = new BoxCollider();
+							pBoxCollider->getOrigin() = Vector2f((float)iColliderX, (float)iColliderY);
+							pBoxCollider->getSize() = Vector2f((float)iColliderWidth, (float)iColliderHeight);
+							if (szType.find("trigger") != string::npos)
+							{
+								pBoxCollider->getIsTrigger() = true;
+							}
+							PhysicsManager::getSingleton()->addStaticCollider(szName, pBoxCollider);
+						}
 
 					}
 				}
+
 			}
 		}
 
+		if (m_bUseHPA)
+		{
+			// Create all clusters		
+			setClusterSize(10, 10);
+
+			// Find entrances in each clusters
+			for (short i = 0; i < m_nNbClustersX; i++)
+			{
+				for (short j = 0; j < m_nNbClustersY; j++)
+				{
+					Cluster* pCluster = m_Clusters[i][j];
+					pCluster->findEntrances();
+				}
+			}
+
+			// Find transitions in each clusters
+			for (short i = 0; i < m_nNbClustersX; i++)
+			{
+				for (short j = 0; j < m_nNbClustersY; j++)
+				{
+					Cluster* pCluster = m_Clusters[i][j];
+					pCluster->findTransitions();
+				}
+			}
+
+			// Find edges in each clusters
+			for (short i = 0; i < m_nNbClustersX; i++)
+			{
+				for (short j = 0; j < m_nNbClustersY; j++)
+				{
+					Cluster* pCluster = m_Clusters[i][j];
+					pCluster->findEdges();
+				}
+			}
+		}
 		return true;
 	}
 
@@ -292,6 +379,65 @@ namespace crea
 		_nTileHeight = m_nTileHeight;
 	}
 
+	void Map::setClusterSize(short _nClusterWidth, short _nClusterHeight)
+	{
+		m_nClusterWidth = _nClusterWidth;
+		m_nClusterHeight = _nClusterHeight;
+		m_nNbClustersX = (m_nWidth / _nClusterWidth) + (m_nWidth % _nClusterWidth > 0.f ? 1 : 0);
+		m_nNbClustersY = (m_nHeight / _nClusterHeight) + (m_nHeight % _nClusterHeight > 0.f ? 1 : 0);
+		m_Clusters = new Cluster**[m_nNbClustersX];
+		for (short i = 0; i < m_nNbClustersX; i++)
+		{
+			m_Clusters[i] = new Cluster*[m_nNbClustersY];
+			for (short j = 0; j < m_nNbClustersY; j++)
+			{
+				Cluster* pCluster = new Cluster();
+				pCluster->setPosition(i, j);
+				short iSize = (i == m_nNbClustersX - 1) ? m_nWidth % m_nClusterWidth : m_nClusterWidth;
+				short jSize = (j == m_nNbClustersY - 1) ? m_nHeight % m_nClusterHeight : m_nClusterHeight;
+				pCluster->setSize(iSize, jSize);
+				m_Clusters[i][j] = pCluster;
+			}
+		}
+
+		// Set Neighbors
+		for (short i = 0; i < m_nNbClustersX; i++)
+		{
+			for (short j = 0; j < m_nNbClustersY; j++)
+			{
+				if (j != 0)
+				{
+					m_Clusters[i][j]->addTopCluster(m_Clusters[i][j - 1]); // top node
+				}
+				if (i != m_nNbClustersX - 1)
+				{
+					m_Clusters[i][j]->addRightCluster(m_Clusters[i + 1][j]); // right node
+				}
+				if (j != m_nHeight - 1)
+				{
+					m_Clusters[i][j]->addBottomCluster(m_Clusters[i][j + 1]); // bottom node
+				}
+				if (i != 0)
+				{
+					m_Clusters[i][j]->addLeftCluster(m_Clusters[i - 1][j]); // left node
+				}
+			}
+		}
+	}
+
+	void Map::getClusterSize(short& _nClusterWidth, short& _nClusterHeight)
+	{
+		_nClusterWidth = m_nClusterWidth;
+		_nClusterHeight = m_nClusterHeight;
+	}
+
+	Node* Map::getNodeInCluster(Cluster* _pCluster, short _i, short _j)
+	{
+		short nX, nY;
+		_pCluster->getPosition(nX, nY);
+		return getNode(nX*m_nClusterWidth + _i, nY*m_nClusterHeight + _j);
+	}
+
 	TileSet* Map::getTileSet(short _gid)
 	{
 		TileSet* pTileSet = nullptr;
@@ -316,6 +462,22 @@ namespace crea
 			return nullptr;
 	}
 
+	unsigned short Map::getQuadAtPosition(Vector2f& _v)
+	{
+		float i = _v.getX() / m_nTileWidth;
+		float j = _v.getY() / m_nTileHeight;
+		float di = i - (int)i;
+		float dj = j - (int)j;
+		if (di < 0.5f && dj < 0.5f)
+			return 0;
+		else if (di >= 0.5f && dj < 0.5f)
+			return 1;
+		else if (di < 0.5f && dj >= 0.5f)
+			return 2;
+		else
+			return 3;
+	}
+
 	Vector2f Map::getNodePositionFromPixels(Vector2f _v)
 	{
 		int i = (int)_v.getX() / m_nTileWidth;
@@ -328,19 +490,19 @@ namespace crea
 
 	Vector2f Map::getPixelsFromNodePosition(Vector2f _v)
 	{
-		int i = (int)_v.getX() * m_nTileWidth;
-		int j = (int)_v.getY() * m_nTileHeight;
+		int i = (int)((_v.getX() + 0.5f) * m_nTileWidth);
+		int j = (int)((_v.getY() + 0.5f) * m_nTileHeight);
 		return Vector2f((float)i, (float)j);
 	}
-
 
 	float Map::getFrictionAtPosition(Vector2f _v)
 	{
 		Node* pNode = getNodeAtPosition(_v);
 		if (pNode)
 		{
-			short nTerrain = pNode->getTileTerrainId() - 1;
-			return m_pTerrainTileSet->getFriction(nTerrain);
+			unsigned short nTerrain = pNode->getTileTerrainId() - 1;
+			unsigned short nQuad = getQuadAtPosition(_v);
+			return m_pTerrainTileSet->getFriction(nTerrain, nQuad);
 		}
 		else
 		{
@@ -361,7 +523,6 @@ namespace crea
 		m_iMax = MIN(m_iMax, m_nWidth - 1);
 		m_jMax = MIN(m_jMax, m_nHeight - 1);
 	}
-
 
 	bool Map::update()
 	{
@@ -386,18 +547,9 @@ namespace crea
 				Node* pNode = line[j];
 				short tileid = pNode->getTileTerrainId(); // -1; // 30 -> 29
 				
-				if (m_bDisplayCollision)
-				{
-					short tileCollisionId = pNode->getTileCollisionId() - 1;
-					if (tileCollisionId != -1)
-					{
-						tileid = tileCollisionId; // Display collision only if valid
-					}
-				}
-
 				IntRect iRect = pTileSet->getTextureRect(tileid);
 				pTileSet->m_pSprite->setTextureRect(iRect.getLeft(), iRect.getTop(), iRect.getWidth(), iRect.getHeight());
-				pTileSet->m_pSprite->setPosition((float)i*pTileSet->m_nTilewidth, (float)j*pTileSet->m_nTileheight);
+				pTileSet->m_pSprite->setPosition((float)pTileSet->m_nTilewidth*(i), (float)pTileSet->m_nTileheight*(j+1));
 				pTileSet->m_pSprite->draw();
 			}
 		}

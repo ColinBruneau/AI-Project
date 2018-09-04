@@ -4,222 +4,59 @@
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
 #include "Scene\SceneMap.h"
-#include "Scene\SceneSteering.h"
-#include "Scene\SceneFormation.h"
-#include "Core\SceneManager.h"
-#include "Core\Math.h"
-#include "Graphics\SpriteRenderer.h"
-#include "Graphics\ISprite.h"
-#include "AI\Steering\Steering.h"
-#include "AI\Steering\Behavior.h"
-#include "AI\BehaviorTree\BehaviorTree.h"
-#include "AI\BehaviorTree\BTBehavior.h"
+#include "AI\Steering\Behaviour.h"
+#include "Scripts\Actions.h"
 
 
 SceneBehaviorTree::SceneBehaviorTree()
 {
-
+	// AI Tools
+	m_bUseAITools = true;
+	m_pAITools = new AITools();
 }
 
 SceneBehaviorTree::~SceneBehaviorTree()
 {
-
-}
-
-void SceneBehaviorTree::deleteEntities()
-{
-	for (int i = 0; i < m_iNbEntities; i++)
-	{
-		m_pGM->clearEntity(m_vEntities[i]);
-	}
-	m_vEntities.clear();
-}
-
-void SceneBehaviorTree::createEntities()
-{
-	ITexture* pTexture1 = m_pGM->getTexture("image.png");
-	ITexture* pTexture2 = m_pGM->getTexture("image2.png");
-	for (int i = 0; i < m_iNbEntities; i++)
-	{
-		std::string s = std::to_string(i);
-		Entity* pEntityCell1 = m_pGM->getEntity(s);
-		ISprite* pSprite1 = m_pGM->getSprite(s);
-		pSprite1->setOrigin(32, 32);
-		SpriteRenderer* pSP = m_pGM->getSpriteRenderer(s);
-		pSP->setSprite(pSprite1);
-		pEntityCell1->addComponent(pSP);
-		Steering* pSteering = m_pGM->getSteering(s);
-		pEntityCell1->addComponent(pSteering);
-		m_pGM->addEntity(pEntityCell1);
-
-		m_vEntities.push_back(pEntityCell1); // Keep pointers on entities
-
-		// Position random
-		int x = rand() % m_rWindowRect.getWidth();
-		int y = rand() % m_rWindowRect.getHeight();
-		pEntityCell1->setPosition(Vector2f((float)x, (float)y));
-
-		// Behavior
-		if (i % 2 == 0)
-		{
-			pSprite1->setTexture(pTexture1);
-		}
-		else
-		{
-			pSprite1->setTexture(pTexture2);
-		}
-	}
-}
-
-void SceneBehaviorTree::setBehavior()
-{
-	for (int i = 0; i < m_iNbEntities; i++)
-	{
-		std::string s = std::to_string(i);
-		Steering* pSteering = m_pGM->getSteering(s);
-		pSteering->init();
-		pSteering->clearBehaviors();
-
-		BehaviorTree* pBT = m_vEntities[i]->getComponent<BehaviorTree>();
-		if (pBT)
-		{
-			m_vEntities[i]->removeComponent(pBT);
-		}
-
-		// Behavior
-		switch (m_iBTMode)
-		{
-		case 1: 
-			{
-				Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-				SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-				Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
-				FleeUntil* pFleeUntil = new FleeUntil(pFlee, 300.0f);
-				Sequence* pSeq = new Sequence;
-				pSeq->addChild(pSeekTo);
-				pSeq->addChild(pFleeUntil);
-				BehaviorTree* pBT = new BehaviorTree();
-				pBT->setRootBehavior(pSeq);
-				m_vEntities[i]->addComponent(pBT);
-			}
-			break;
-		case 2:
-			{
-				Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-				SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-				Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
-				FleeUntil* pFleeUntil = new FleeUntil(pFlee, 300.0f);
-				Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-				BTWander* pBTWander = new BTWander(pWander);
-				Sequence* pSeq = new Sequence;
-				pSeq->addChild(pSeekTo);
-				pSeq->addChild(pFleeUntil);
-				pSeq->addChild(pBTWander);
-				BehaviorTree* pBT = new BehaviorTree();
-				pBT->setRootBehavior(pSeq);
-				m_vEntities[i]->addComponent(pBT);
-			}
-			break;
-		case 3:
-		{
-			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-			IsAwayFromTarget* pIsAwayFromTarget = new IsAwayFromTarget(m_pMouse, m_vObstacles[0], 64.f);
-			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
-			FleeUntil* pFleeUntil = new FleeUntil(pFlee, 300.0f);
-			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-			BTWander* pBTWander = new BTWander(pWander);
-			Sequence* pSeq = new Sequence;
-			pIsAwayFromTarget->addChild(pSeq);
-			pSeq->addChild(pSeekTo);
-			pSeq->addChild(pFleeUntil);
-			//pSeq->addChild(pBTWander);
-			BehaviorTree* pBT = new BehaviorTree();
-			pBT->setRootBehavior(pIsAwayFromTarget);
-			m_vEntities[i]->addComponent(pBT);
-		}
-		break;
-		case 4:
-		{
-			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-			IsAwayFromTarget* pIsAwayFromTarget = new IsAwayFromTarget(m_pMouse, m_vObstacles[0], 64.f);
-			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
-			FleeUntil* pFleeUntil = new FleeUntil(pFlee, 300.0f);
-			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-			BTWander* pBTWander = new BTWander(pWander);
-			Sequence* pSeq = new Sequence;
-			Selector* pSel = new Selector;
-			pIsAwayFromTarget->addChild(pSeq);
-			pSeq->addChild(pSeekTo);
-			pSeq->addChild(pFleeUntil);
-			pSel->addChild(pIsAwayFromTarget);
-			pSel->addChild(pBTWander);
-			BehaviorTree* pBT = new BehaviorTree();
-			pBT->setRootBehavior(pSel);
-			m_vEntities[i]->addComponent(pBT);
-		}
-		break;
-		case 5:
-		{
-			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
-			FleeUntil* pFleeUntil = new FleeUntil(pFlee, 300.0f);
-			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-			BTWander* pBTWander = new BTWander(pWander);
-			Sequence* pSeq = new Sequence;
-			pSeq->addChild(pSeekTo);
-			pSeq->addChild(pFleeUntil);
-			Repeat* pRepeat = new Repeat(pSeq);
-			pRepeat->setCount(3);
-			Sequence* pSeqTop = new Sequence;
-			pSeqTop->addChild(pRepeat);
-			pSeqTop->addChild(pBTWander);
-			BehaviorTree* pBT = new BehaviorTree();
-			pBT->setRootBehavior(pSeqTop);
-			m_vEntities[i]->addComponent(pBT);
-		}
-		break;
-		case 6:
-		{
-			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
-			SeekTo* pSeekTo = new SeekTo(pSeek, 10.0f);
-			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-			BTWander* pBTWander = new BTWander(pWander);
-			Timer* pTimer = new Timer(pBTWander);
-			pTimer->setTimeLimit(3.f);
-			Sequence* pSeq = new Sequence;
-			pSeq->addChild(pTimer);
-			pSeq->addChild(pSeekTo);
-			BehaviorTree* pBT = new BehaviorTree();
-			pBT->setRootBehavior(pSeq);
-			m_vEntities[i]->addComponent(pBT);
-		}
-		break;
-		case 7:
-		{
-			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
-			BTWander* pBTWander = new BTWander(pWander);
-			EntityNameIs* pEntityNameIs = new EntityNameIs(m_vEntities[i], "0");
-			pEntityNameIs->addChild(pBTWander);
-			BehaviorTree* pBT = new BehaviorTree();
-			pBT->setRootBehavior(pEntityNameIs);
-			m_vEntities[i]->addComponent(pBT);
-		}
-		break;
-		}
-	}
+	// AI Tools
+	delete m_pAITools;
 }
 
 bool SceneBehaviorTree::onInit()
 {
 	m_pGM = GameManager::getSingleton();
-	m_rWindowRect = m_pGM->getRenderer()->getWindowRect();
+	m_rWindowRect = m_pGM->getWindowRect();
+
+	// Set Script factory
+	m_pCellsScriptFactory = new CellsScriptFactory;
+	m_pGM->setScriptFactory(m_pCellsScriptFactory);
+
+	// Load Map
+	m_pEntity3 = m_pGM->getEntity("MapSteering");
+	m_pGM->addEntity(m_pEntity3);
+	m_pMap = m_pGM->getMap("MapSteering.json"); // CB: TO CHANGE: Map id loaded after entity added to display Map first (order in tree matters)
+	m_pMapRenderer = m_pGM->getMapRenderer("MapRenderer1");
+	m_pMapRenderer->setMap(m_pMap);
+	m_pEntity3->addComponent(m_pMapRenderer);
+
+	// AI Tools
+	if (m_bUseAITools)
+	{
+		m_pAITools->onInit();
+	}
+
+	// Mouse Entity
+	m_pMouse = m_pGM->getEntity("mouse");
+	// Add it to root
+	m_pGM->addEntity(m_pMouse, nullptr);
+
+	// Target Entity
+	m_pTarget = m_pGM->getEntity("target");
+	// Add it to root
+	m_pGM->addEntity(m_pTarget, nullptr);
 
 	// Text
-	IColor* pRed = m_pGM->getColor("Red");
-	pRed->setValues(255, 0,  0, 255);
+	Color* pRed = m_pGM->getColor("Red");
+	pRed->setValues(255, 0, 0, 255);
 	m_pTextFPS = m_pGM->getText("fps");
 	m_pTextFPS->setFont(m_pGM->getFont("arial.ttf"));
 	m_pTextFPS->setColor(pRed);
@@ -232,27 +69,35 @@ bool SceneBehaviorTree::onInit()
 	pEntityFPS->setPosition(Vector2f(1100, 0));
 	m_pGM->addEntity(pEntityFPS);
 
-	// Obstacles
-	Entity* pEntityObstacle = m_pGM->getEntity("o1");
-	pEntityObstacle->setPosition(Vector2f(100, 600));
-	Collider* pCollider = m_pGM->getCollider("Obstacle/Obstacle1.col");
-	pEntityObstacle->addComponent(pCollider);
-	m_pGM->addEntity(pEntityObstacle);
+	Entity* pEntityObstacle = m_pGM->getEntity("plant1");
 	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("plant2");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("plant3");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("rock1");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("cactus1");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("panel1");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("hq1");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
+	pEntityObstacle = m_pGM->getEntity("mine1");
+	m_vObstacles.push_back(pEntityObstacle);
+	m_vPath.push_back(&pEntityObstacle->getPosition());
 
-	pEntityObstacle = m_pGM->getEntity("o2");
-	pEntityObstacle->setPosition(Vector2f(600, 600));
-	pCollider = m_pGM->getCollider("Obstacle/Obstacle2.col");
-	pEntityObstacle->addComponent(pCollider);
-	m_pGM->addEntity(pEntityObstacle);
-	m_vObstacles.push_back(pEntityObstacle);
-
-	pEntityObstacle = m_pGM->getEntity("o3");
-	pEntityObstacle->setPosition(Vector2f(600, 100));
-	pCollider = m_pGM->getCollider("Obstacle/Obstacle3.col");
-	pEntityObstacle->addComponent(pCollider);
-	m_pGM->addEntity(pEntityObstacle);
-	m_vObstacles.push_back(pEntityObstacle);
+	// n entity
+	m_iNbEntities = 1;
+	m_bKeyPressedAdd = false;
+	m_bKeyPressedSub = false;
 
 	// Steering mode
 	m_pTextBTMode = m_pGM->getText("steering");
@@ -266,28 +111,22 @@ bool SceneBehaviorTree::onInit()
 	pEntitySteering->addComponent(pTextRendererSteering);
 	pEntitySteering->setPosition(Vector2f(0, 0));
 	m_pGM->addEntity(pEntitySteering);
-
-	m_iBTMode = 1;
+	m_iBTMode = 0;
 	m_pTextBTMode->setString("Sequence: SeekTo / FleeUntil");
 
-	// Mouse Entity
-	m_pMouse = m_pGM->getEntity("mouse");
-	m_pMouse->setPosition(InputManager::getSingleton()->getMousePosition());
-
-	// n entity
-	m_iNbEntities = 2;
-	m_bKeyPressedAdd = false;
-	m_bKeyPressedSub = false;
-
 	createEntities();
-	setBehavior();
-		
+	setBehaviour();
+
+	// FPS
+	Time frameTime = TimeManager::getSingleton()->getFrameTime();
+	m_pTextFPS->setString(to_string((int)(1 / frameTime.asSeconds())) + " fps");
+
+
 	return true;
 }
 
 bool SceneBehaviorTree::onUpdate()
 {
-	// Mouse entity
 	m_pMouse->setPosition(InputManager::getSingleton()->getMousePosition());
 
 	// entities leaving the window
@@ -300,9 +139,9 @@ bool SceneBehaviorTree::onUpdate()
 			vPos.setX(0.f);
 			pEntity->setPosition(vPos);
 		}
-		else if (vPos.getX() > m_rWindowRect.getWidth())
+		else if (vPos.getX() > 900)
 		{
-			vPos.setX((float)m_rWindowRect.getWidth());
+			vPos.setX((float)900);
 			pEntity->setPosition(vPos);
 		}
 		if (vPos.getY() < 0.f)
@@ -317,7 +156,6 @@ bool SceneBehaviorTree::onUpdate()
 		}
 	}
 
-	// Get direction from keyboard
 	if (m_pGM->isKeyPressed(Key::Num1))
 	{
 		m_pGM->setScene(new SceneMenu());
@@ -330,62 +168,57 @@ bool SceneBehaviorTree::onUpdate()
 	}
 	if (m_pGM->isKeyPressed(Key::Num3))
 	{
-		m_pGM->setScene(new SceneSteering());
+		m_pGM->setScene(new SceneMap());
 		return true;
 	}
-	if (m_pGM->isKeyPressed(Key::Num4))
-	{
-		m_pGM->setScene(new SceneFormation());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num5))
-	{
-		m_pGM->setScene(new SceneBehaviorTree());
-		return true;
-	}
-
 	// Steering mode
+	if (m_pGM->isKeyPressed(Key::Numpad0))
+	{
+		m_iBTMode = 0;
+		m_pTextBTMode->setString("Sequence: SeekTo -> FleeUntil");
+		setBehaviour();
+	}
 	if (m_pGM->isKeyPressed(Key::Numpad1))
 	{
 		m_iBTMode = 1;
-		m_pTextBTMode->setString("Sequence: SeekTo / FleeUntil");
-		setBehavior();
+		m_pTextBTMode->setString("Sequence: SeekTo -> FleeUntil -> Wander");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad2))
 	{
 		m_iBTMode = 2;
-		m_pTextBTMode->setString("Sequence: SeekTo / FleeUntil / Wander");
-		setBehavior();
+		m_pTextBTMode->setString("Sequence: IsAwayFromTarget / SeekTo -> FleeUntil -> Wander");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad3))
 	{
 		m_iBTMode = 3;
-		m_pTextBTMode->setString("Sequence: IsAwayFromTarget / SeekTo / FleeUntil / Wander");
-		setBehavior();
+		m_pTextBTMode->setString("Selector: IsAwayFromTarget / Selector / SeekTo -> FleeUntil OR Wander");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad4))
 	{
 		m_iBTMode = 4;
-		m_pTextBTMode->setString("Selector: IsAwayFromTarget / Sequence / SeekTo / FleeUntil OR Wander");
-		setBehavior();
+		m_pTextBTMode->setString("Repeat: 3 Sequence / SeekTo / FleeUntil THEN Wander");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad5))
 	{
 		m_iBTMode = 5;
-		m_pTextBTMode->setString("Repeat: 3 Sequence / SeekTo / FleeUntil THEN Wander");
-		setBehavior();
+		m_pTextBTMode->setString("Timer 3s on Wander THEN SeekTo");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad6))
 	{
 		m_iBTMode = 6;
-		m_pTextBTMode->setString("Timer 3s on Wander THEN SeekTo");
-		setBehavior();
+		m_pTextBTMode->setString("Wander if EntityNameIs 0");
+		setBehaviour();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad7))
 	{
 		m_iBTMode = 7;
-		m_pTextBTMode->setString("Wander if EntityNameIs 0");
-		setBehavior();
+		m_pTextBTMode->setString("Scenario individuel");
+		setBehaviour();
 	}
 
 	// Entities
@@ -393,10 +226,11 @@ bool SceneBehaviorTree::onUpdate()
 	{
 		if (!m_bKeyPressedAdd && m_iNbEntities < 100)
 		{
+			m_pGM->unselectEntities();
 			deleteEntities();
 			m_iNbEntities += 10;
 			createEntities();
-			setBehavior();
+			setBehaviour();
 		}
 		m_bKeyPressedAdd = true;
 	}
@@ -409,10 +243,11 @@ bool SceneBehaviorTree::onUpdate()
 	{
 		if (!m_bKeyPressedSub && m_iNbEntities > 10)
 		{
+			m_pGM->unselectEntities();
 			deleteEntities();
 			m_iNbEntities -= 10;
 			createEntities();
-			setBehavior();
+			setBehaviour();
 		}
 		m_bKeyPressedSub = true;
 	}
@@ -421,23 +256,253 @@ bool SceneBehaviorTree::onUpdate()
 		m_bKeyPressedSub = false;
 	}
 
-	// FPS
-	Time frameTime = TimeManager::getSingleton()->getFrameTime();
-	m_pTextFPS->setString(to_string((int)(1/frameTime.asSeconds())) + " fps");
+	// AI Tools
+	if (m_bUseAITools)
+	{
+		m_pAITools->onUpdate();
+	}
 
 	return true;
 }
 
 bool SceneBehaviorTree::onDraw()
 {
+	// AI Tools
+	if (m_bUseAITools)
+	{
+		m_pAITools->onDraw();
+	}
+
 	return true;
 }
 
 bool SceneBehaviorTree::onQuit()
-{	
+{
+	// AI Tools
+	if (m_bUseAITools)
+	{
+		m_pAITools->onQuit();
+	}
+
 	m_pGM->clearAllData();
 	m_pGM->clearAllEntities();
+
+	delete m_pCellsScriptFactory;
 
 	return true;
 }
 
+void SceneBehaviorTree::deleteEntities()
+{
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		m_pGM->clearEntity(m_vEntities[i]);
+	}
+	m_vEntities.clear();
+}
+
+void SceneBehaviorTree::createEntities()
+{
+	Entity* pEntityBase = m_pGM->getEntity("peonSteering");
+	Entity* pEntityCell1 = nullptr;
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		std::string s = std::to_string(i);
+
+		pEntityCell1 = m_pGM->instanciate(s, pEntityBase);
+		m_pGM->addEntity(pEntityCell1);
+		m_vEntities.push_back(pEntityCell1); // Keep pointers on entities
+
+		// Position random
+		int x = rand() % 900;
+		int y = rand() % m_rWindowRect.getHeight();
+		pEntityCell1->setPosition(Vector2f((float)x, (float)y));
+	}
+}
+
+void SceneBehaviorTree::setBehaviour()
+{
+	for (int i = 0; i < m_iNbEntities; i++)
+	{
+		std::string s = std::to_string(i);
+		Steering* pSteering = m_vEntities[i]->getComponent<Steering>();
+		pSteering->init();
+		pSteering->clearBehaviours();
+
+		BehaviorTree* pBT = m_vEntities[i]->getComponent<BehaviorTree>();
+		if (pBT)
+		{
+			m_vEntities[i]->removeComponent(pBT);
+		}
+
+		// Behavior Tree modes
+		switch (m_iBTMode)
+		{
+		case 0: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Sequence* pSeq = new Sequence;
+			BehaviorTree* pBT = new BehaviorTree();
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pBT->setRootBehavior(pSeq);
+			m_vEntities[i]->addComponent(pBT);
+		}
+			break;
+		case 1: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			Sequence* pSeq = new Sequence;
+			BehaviorTree* pBT = new BehaviorTree();
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pSeq->addChild(pActionWander);
+			pBT->setRootBehavior(pSeq);
+			m_vEntities[i]->addComponent(pBT);
+		}
+			break;
+		case 2: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			Sequence* pSeq = new Sequence;
+			DecoratorIsCloseToTarget* pIsCloseFromTarget = new DecoratorIsCloseToTarget(m_vEntities[i], m_pMouse, 400.0f);
+			BehaviorTree* pBT = new BehaviorTree();
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pSeq->addChild(pActionWander);
+			pIsCloseFromTarget->addChild(pSeq);
+			pBT->setRootBehavior(pIsCloseFromTarget);
+			m_vEntities[i]->addComponent(pBT);
+		}
+			break;
+		case 3: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			Sequence* pSeq = new Sequence;
+			DecoratorIsCloseToTarget* pIsCloseToTarget = new DecoratorIsCloseToTarget(m_vEntities[i], m_pMouse, 400.0f);
+			ActiveSelector* pSel = new ActiveSelector;
+			BehaviorTree* pBT = new BehaviorTree();
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pIsCloseToTarget->addChild(pSeq);
+			pSel->addChild(pIsCloseToTarget);
+			pSel->addChild(pActionWander);
+			pBT->setRootBehavior(pSel);
+			m_vEntities[i]->addComponent(pBT);
+		}
+			break;
+		case 4: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			Sequence* pSeq = new Sequence;
+			DecoratorRepeat* pRepeat = new DecoratorRepeat(pSeq, 3);
+			Sequence* pSeq0 = new Sequence;
+			BehaviorTree* pBT = new BehaviorTree();
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pSeq0->addChild(pRepeat);
+			pSeq0->addChild(pActionWander);
+			pBT->setRootBehavior(pSeq0);
+			m_vEntities[i]->addComponent(pBT);
+		}
+		break;
+		case 5: 
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			DecoratorTimer* pTimer = new DecoratorTimer(3.0f);
+			BehaviorTree* pBT = new BehaviorTree();
+			Sequence* pSeq = new Sequence;
+			pTimer->addChild(pActionWander);
+			pSeq->addChild(pTimer);
+			pSeq->addChild(pSeekTo);
+			pBT->setRootBehavior(pSeq);
+			m_vEntities[i]->addComponent(pBT);
+		}
+			break;
+		case 6:
+		{
+			Seek* pSeek = new Seek(m_vEntities[i], m_pMouse);
+			ActionSeekTo* pSeekTo = new ActionSeekTo(pSeek, 10.0f);
+			Flee* pFlee = new Flee(m_vEntities[i], m_pMouse);
+			ActionFleeUntil* pFleeUntil = new ActionFleeUntil(pFlee, 300.0f);
+			Sequence* pSeq = new Sequence;
+			Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			ActionWander* pActionWander = new ActionWander(pWander);
+			DecoratorEntityNameIs* pEntityNameIs = new DecoratorEntityNameIs(m_vEntities[i], "0");
+			Selector* pSel = new Selector();
+			BehaviorTree* pBT = new BehaviorTree();
+			pEntityNameIs->addChild(pSeq);
+			pSeq->addChild(pSeekTo);
+			pSeq->addChild(pFleeUntil);
+			pSel->addChild(pEntityNameIs);
+			pSel->addChild(pActionWander);
+			pBT->setRootBehavior(pSel);
+			m_vEntities[i]->addComponent(pBT);
+		}
+		break;
+		case 7:
+		{
+			ActionAnimation* pActionIdleGold = new ActionAnimation(m_vEntities[i], kAct_Idle, kACond_Gold);
+			DecoratorTimer* pTimer1 = new DecoratorTimer(3.0f);
+			ActionAnimation* pActionIdleDefault = new ActionAnimation(m_vEntities[i], kAct_Idle, kACond_Default);
+			DecoratorTimer* pTimer2 = new DecoratorTimer(3.0f);
+			Seek* pSeekToHQ = new Seek(m_vEntities[i], m_pGM->getEntity("hq1"));
+			pSeekToHQ->setOffset(Vector2f(30.f, 30.f));
+			ActionSeekTo* pActionSeekToHQ = new ActionSeekTo(pSeekToHQ, 10.0f, Vector2f(30.f, 40.f));
+			Seek* pSeekToMine = new Seek(m_vEntities[i], m_pGM->getEntity("mine1"));
+			pSeekToMine->setOffset(Vector2f(-30.f, 30.f));
+			ActionSeekTo* pActionSeekToMine = new ActionSeekTo(pSeekToMine, 10.0f, Vector2f(-30.f, 40.f));
+			Sequence* pSeq = new Sequence;
+			//Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
+			//ActionWander* pActionWander = new ActionWander(pWander);
+			Steering* pLeadFollowing = new Steering();
+			pLeadFollowing->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 2.0f);
+			pLeadFollowing->addBehaviour(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
+			pLeadFollowing->addBehaviour(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+			ActionSteer* pActionSteer = new ActionSteer(m_vEntities[i], pLeadFollowing);
+			DecoratorEntityNameIs* pEntityNameIs = new DecoratorEntityNameIs(m_vEntities[i], "0");
+			Selector* pSel = new Selector();
+			BehaviorTree* pBT = new BehaviorTree();
+
+			pTimer1->addChild(pActionIdleGold);
+			pTimer2->addChild(pActionIdleDefault);
+			pSeq->addChild(pActionSeekToMine);
+			pSeq->addChild(pTimer1);
+			pSeq->addChild(pActionSeekToHQ);
+			pSeq->addChild(pTimer2);
+			pEntityNameIs->addChild(pSeq);
+			pSel->addChild(pEntityNameIs);
+			pSel->addChild(pActionSteer);
+			pBT->setRootBehavior(pSel);
+			m_vEntities[i]->addComponent(pBT);
+		}
+		break;
+		}
+	}
+}

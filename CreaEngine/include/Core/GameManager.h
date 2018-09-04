@@ -9,14 +9,19 @@
 #include "SceneManager.h"
 #include "EntityManager.h"
 #include "Core\DataManager.h"
-#include "Core\Math.h"
 #include "Input\InputManager.h"
+#include "Core\Math.h"
 #include "Graphics\IFacade.h"
 #include "AI\Agent.h"
 #include "AI\Pathfinding\MapSearchManager.h"
+#include "AI\Pathfinding\ClusterSearchManager.h"
+#include "AI\Steering\Steering.h"
+#include "Core\Script.h"
+#include "Core\PhysicsManager.h"
 
 namespace crea
 {
+	class Collider;
 	class LoggerFile;
 
 	class CREAENGINE_API GameManager
@@ -26,15 +31,19 @@ namespace crea
 		IFacade* m_pRenderer;
 
 		LoggerFile* m_pLogger;
+		
+		IntRect m_rWindowRect;
 
 	public:
 		~GameManager();
 
 		static GameManager* getSingleton();
 
-		IntRect getWindowRect() { return m_pRenderer->getWindowRect(); }
+		IntRect getWindowRect() { return m_rWindowRect; }
 
 		inline IFacade* getRenderer() { return m_pRenderer; }
+
+		void setWindowRect(IntRect _rect) {m_rWindowRect = _rect; }
 
 		inline void setScene(Scene* s) { SceneManager::getSingleton()->setScene(s); }
 
@@ -46,59 +55,68 @@ namespace crea
 		inline Vector2f getMousePosition() { return InputManager::getSingleton()->getMousePosition(); }
 
 		// Data
-		inline IFont* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
+		inline Font* getFont(string _szName) { return DataManager::getSingleton()->getFont(_szName); }
 
-		inline ITexture* getTexture(string _szName) { return DataManager::getSingleton()->getTexture(_szName); }
+		inline Texture* getTexture(string _szName) { return DataManager::getSingleton()->getTexture(_szName); }
 
-		inline IColor* getColor(string _szName) { return DataManager::getSingleton()->getColor(_szName); }
+		inline Color* getColor(string _szName) { return DataManager::getSingleton()->getColor(_szName); }
 
-		inline IText* getText(string _szName) { return DataManager::getSingleton()->getText(_szName); }
+		inline Text* getText(string _szName) { return DataManager::getSingleton()->getText(_szName); }
 
-		inline ISprite* getSprite(string _szName) { return DataManager::getSingleton()->getSprite(_szName); }
+		inline Sprite* getSprite(string _szName) { return DataManager::getSingleton()->getSprite(_szName); }
+
+		inline Shape* getShape(string _szType, string _szName) { return DataManager::getSingleton()->getShape(_szType, _szName); }
 
 		inline Map* getMap(string _szName) { return DataManager::getSingleton()->getMap(_szName); }
+
+		inline Agent* getAgent(string _szName) { return DataManager::getSingleton()->getAgent(_szName); }
 
 		inline Animation* getAnimation(string _szName) { return DataManager::getSingleton()->getAnimation(_szName); }
 
 		inline ActionTable* getActionTable(string _szName) { return DataManager::getSingleton()->getActionTable(_szName); }
 
-		inline Agent* getAgent(string _szName) { return DataManager::getSingleton()->getAgent(_szName); }
+		inline Vehicle* getVehicle(string _szName) { return DataManager::getSingleton()->getVehicle(_szName); }
 
-		inline Collider* getCollider(string _szName) { return DataManager::getSingleton()->getCollider(_szName); }
+		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
 
-		inline Entity* getEntity(string _szName) { return EntityManager::getSingleton()->getEntity(_szName); }
+		inline Script* getScript(string _szName) { return EntityManager::getSingleton()->getScript(_szName); }
 
-		inline void addEntity(Entity* _pEntity, Entity* _pParent = nullptr)  { EntityManager::getSingleton()->addEntity(_pEntity, _pParent); }
+		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
+
+		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { return EntityManager::getSingleton()->setScriptFactory(_pScriptFactory); }
+
+		inline MapRenderer* getMapRenderer(string _szName) { return EntityManager::getSingleton()->getMapRenderer(_szName); }
 
 		inline TextRenderer* getTextRenderer(string _szName) { return EntityManager::getSingleton()->getTextRenderer(_szName); }
 
 		inline SpriteRenderer* getSpriteRenderer(string _szName) { return EntityManager::getSingleton()->getSpriteRenderer(_szName); }
 
-		inline MapRenderer* getMapRenderer(string _szName) { return EntityManager::getSingleton()->getMapRenderer(_szName); }
-		
-		inline Animator* getAnimator(string _szName) { return EntityManager::getSingleton()->getAnimator(_szName); }
+		inline Entity* getEntity(string _szName) { return EntityManager::getSingleton()->getEntity(_szName); }
 
-		inline Script* getScript(string _szName) { return EntityManager::getSingleton()->getScript(_szName); }
+		inline Entity* instanciate(string _szName, Entity* _pEntity) { return EntityManager::getSingleton()->instanciate(_szName, _pEntity); }
 
-		inline void setScriptFactory(ScriptFactory* _pScriptFactory) { return EntityManager::getSingleton()->setScriptFactory(_pScriptFactory); }
+		inline void addEntity(Entity* _pEntity, Entity* _pParent = nullptr)  { EntityManager::getSingleton()->addEntity(_pEntity, _pParent); }
 
-		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
+		inline Collider* getDynamicCollider(string _szName) { return PhysicsManager::getSingleton()->getDynamicCollider(_szName); }
+
+		inline Collider* getStaticCollider(string _szName) { return PhysicsManager::getSingleton()->getStaticCollider(_szName); }
 
 		inline MapSearch* getMapSearch(string _szName) { return MapSearchManager::getSingleton()->getMapSearch(_szName); }
 
+		inline ClusterSearch* getClusterSearch(string _szName) { return ClusterSearchManager::getSingleton()->getClusterSearch(_szName); }
+
 		inline void clearAllData() { DataManager::getSingleton()->clear(); }
 
-		inline void clearAllEntities() { EntityManager::getSingleton()->clear(); }
+		inline void clearAllEntities()  { EntityManager::getSingleton()->clear(); }
 
 		inline void clearEntity(Entity* _pEntity) { EntityManager::getSingleton()->clearEntity(_pEntity); }
 
 		// Selection
 		inline void selectEntities(Vector2f _vStart, Vector2f _vEnd) { EntityManager::getSingleton()->selectEntities(_vStart, _vEnd); }
-		
+
 		inline void unselectEntities() { EntityManager::getSingleton()->unselectEntities(); }
 
 		inline ListEntity* getSelectedEntities() { return EntityManager::getSingleton()->getSelectedEntities(); }
-
 
 		void init();
 

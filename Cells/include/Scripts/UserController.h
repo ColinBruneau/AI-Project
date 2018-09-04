@@ -8,30 +8,32 @@
 
 #include "Core\Script.h"
 #include "Core\Math.h"
+using namespace crea;
 
-namespace crea
+class CharacterController;
+
+class UserController : public Script
 {
-	class CharacterController;
+	GameManager* m_pGM;
+	CharacterController* m_pCharacterController;
 
-	class UserController : public Script
-	{
-		GameManager* m_pGM;
-		CharacterController* m_pCharacterController;
+	Vector2f m_vDirection;
 
-		Vector2f m_vVelocity;
+public:
+	UserController();
+	virtual ~UserController();
 
-	public:
-		UserController();
-		virtual ~UserController();
+	inline void setCharacterController(CharacterController* _pCharacterController);
 
-		inline void setCharacterController(CharacterController* _pCharacterController);
+	virtual bool init();
+	virtual bool update();
+	virtual bool draw();
+	virtual bool quit();
 
-		virtual bool init();
-		virtual bool update();
-		virtual bool draw();
-		virtual bool quit();
-	};
+	virtual void onCollisionEnter2D(Collision2D _coll) { return; }
 
-} // namespace crea
+	virtual Component* clone() { return new UserController(*this); }
+};
+
 
 #endif

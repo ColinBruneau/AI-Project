@@ -6,9 +6,8 @@
 namespace crea
 {
 
-	StateMachine::StateMachine(Agent * object)
+	StateMachine::StateMachine()
 	{
-		m_Owner = object;
 		m_currentState = 0;
 		m_stateChange = false;
 		m_nextState = false;
@@ -16,9 +15,13 @@ namespace crea
 		m_ccMessagesToAgent = 0;
 	}
 
-
-	void StateMachine::Initialize(void)
+	StateMachine::~StateMachine()
 	{
+	}
+
+	void StateMachine::Initialize(Entity* _pOwner)
+	{
+		setEntity(_pOwner);
 		Process(EVENT_Enter, 0);
 	}
 
@@ -73,10 +76,10 @@ namespace crea
 	}
 
 
-	void StateMachine::SetState(unsigned int newState)
+	void StateMachine::SetState(unsigned int _state)
 	{
 		m_stateChange = true;
-		m_nextState = newState;
+		m_nextState = _state;
 
 	}
 
@@ -91,14 +94,14 @@ namespace crea
 
 	void StateMachine::SendMsg(int name, objectID receiver, void* data)
 	{
-		g_msgmanager->sendMsg(0, name, m_Owner->GetID(), receiver, -1, data);
+		g_msgmanager->sendMsg(0, name, getEntity()->GetID(), receiver, -1, data);
 
 	}
 
 
 	void StateMachine::SendDelayedMsg(float delay, int name, objectID receiver, void* data)
 	{
-		g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), receiver, -1, data);
+		g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), receiver, -1, data);
 
 	}
 
@@ -106,10 +109,10 @@ namespace crea
 	void StateMachine::SendDelayedMsgToMe(float delay, int name, MSG_Scope scope)
 	{
 		if (scope == SCOPE_TO_THIS_STATE) {
-			g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), m_Owner->GetID(), m_currentState);
+			g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), getEntity()->GetID(), m_currentState);
 		}
 		else {
-			g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), m_Owner->GetID(), -1);
+			g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), getEntity()->GetID(), -1);
 		}
 
 	}

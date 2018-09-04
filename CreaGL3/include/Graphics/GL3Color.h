@@ -11,7 +11,7 @@
 namespace crea
 {
 
-	class GL3Color : public IColor
+	class GL3Color : public Color
 	{
 		int m_r; 
 		int m_g;

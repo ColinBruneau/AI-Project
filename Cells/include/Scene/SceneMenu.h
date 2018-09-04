@@ -7,12 +7,15 @@
 #define __SceneMenu_H_
 
 #include "Core\Scene.h"
-
 using namespace crea;
 
 class SceneMenu : public Scene
 {
 	GameManager*	m_pGM;
+
+	Entity* m_pEntity1;
+	Text* m_pText;
+	TextRenderer* m_pTextRenderer;
 
 public:
 	SceneMenu();

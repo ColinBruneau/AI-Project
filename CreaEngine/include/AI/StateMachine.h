@@ -14,6 +14,7 @@
 #include "Core\EntityManager.h"
 #include "Core\DebugLog.h"
 #include "Core\TimeManager.h"
+#include "Core\Script.h"
 
 #define MAX_STATES_IN_STACK 20
 
@@ -24,9 +25,9 @@ namespace crea
 #define BeginStateMachine		if( _state < 0 ) { char statename[64] = "STATE_Global"; if(0) {
 #define EndStateMachine			return( true ); } } else { assert( 0 && "Invalid Scene" ); return( false ); } return( false );
 #define State(a)				return( true ); } } else if( a == _state ) { char statename[64] = #a; if(0) { 
-#define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
+#define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( getEntity()->GetID(), _msg, statename, #a, true );
 #define OnOtherMsg()			return( true ); } else {
-#define OnEvent(a)				return( true ); } else if( a == _event ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
+#define OnEvent(a)				return( true ); } else if( a == _event ) { g_debuglog->LogStateMachineEvent( getEntity()->GetID(), _msg, statename, #a, true );
 #define OnUpdate				OnEvent( EVENT_Update )
 #define OnEnter					OnEvent( EVENT_Enter )
 #define OnExit					OnEvent( EVENT_Exit )
@@ -47,16 +48,16 @@ namespace crea
 	} MSG_Scope;
 
 
-	class CREAENGINE_API StateMachine
+	class CREAENGINE_API StateMachine : public Script
 	{
 	public:
 
-		StateMachine(Agent * object);
-		~StateMachine(void) {}
+		StateMachine();
+		virtual ~StateMachine();
 
-		void Initialize(void);
+		void Initialize(Entity* _pOwner);
 		void Update(void);
-		void SetState(unsigned int newScene);
+		void SetState(unsigned int _state);
 		int SetStateInHistory();
 
 		void SendMsg(int name, objectID receiver, void* data = NULL);
@@ -72,10 +73,10 @@ namespace crea
 
 		void Process(StateMachineEvent event, Msg * msg);
 
-
-	protected:
-
-		Agent * m_Owner;
+		virtual bool init() { Initialize(getEntity()); return true; }
+		virtual bool update() { Update(); return true; }
+		virtual bool draw() { return true; }
+		virtual bool quit() { return true; }
 
 
 	private:
@@ -89,6 +90,7 @@ namespace crea
 
 		virtual bool States(StateMachineEvent _event, Msg* _msg, int _state) = 0;
 
+		virtual Component* clone() = 0;
 	};
 
 }

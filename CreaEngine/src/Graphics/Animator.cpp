@@ -4,7 +4,7 @@
 #include "Core\GameManager.h"
 #include "Core\TimeManager.h"
 #include "Core\EntityManager.h"
-#include "Graphics\ISprite.h"
+#include "Graphics\Sprite.h"
 
 namespace crea
 {
@@ -16,7 +16,7 @@ namespace crea
 	{
 	}
 
-	void Animator::setSprite(ISprite* _pSprite)
+	void Animator::setSprite(Sprite* _pSprite)
 	{
 		m_pSprite = _pSprite;
 	}
@@ -83,6 +83,12 @@ namespace crea
 
 	bool Animator::init()
 	{
+		// Get Sprite from SpriteRenderer
+		SpriteRenderer* pRenderer = getEntity()->getComponent<SpriteRenderer>();
+		if (pRenderer)
+		{
+			m_pSprite = pRenderer->getSprite();
+		}
 		return true;
 	}
 	
@@ -113,7 +119,7 @@ namespace crea
 		if (m_pSprite && m_animation)
 		{
 			m_pSprite->setTexture(m_animation->getSpriteSheet());
-
+			
 			IntRect rect = m_animation->getFrame(m_currentFrame);
 			float fFlipH = (rect.getWidth() < 0) ? -1.0f : 1.0f;// width < 0 means flipH
 			float fFlipV = (rect.getHeight() < 0) ? -1.0f : 1.0f;// height < 0 means flipV
@@ -123,13 +129,8 @@ namespace crea
 				rect.getTop(),
 				rect.getWidth()*(int)fFlipH,
 				rect.getHeight()*(int)fFlipV);
-
+			
 			m_pSprite->setScale(fFlipH, fFlipV);
-
-			m_pSprite->setOrigin(rect.getWidth()*0.5f*fFlipH, rect.getHeight()*0.5f*fFlipV);
-
-			Vector2f _v = m_pEntity->getPosition();
-			m_pSprite->setPosition(_v.getX(), _v.getY());
 		}
 		return true;
 	}

@@ -10,12 +10,6 @@
 #include <stdio.h>
 #include <tchar.h>
 
-#include <cassert>
-#include <iostream>
-using namespace std;
-
-#pragma warning( disable: 4251 )
-#define NOMINMAX
 #include "CreaImport.h"
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme

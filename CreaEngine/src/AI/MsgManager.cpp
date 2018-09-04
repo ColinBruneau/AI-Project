@@ -79,15 +79,22 @@ namespace crea
 
 	void MsgManager::routeMsg(Msg & msg)
 	{
-		Agent * object = g_agentmanager->find(msg.GetReceiver());
+		Entity* object = g_entitymanager->Find(msg.GetReceiver());
 
 		if (object != 0)
 		{
-			if (msg.GetMsgState() < 0 ||
-				msg.GetMsgState() == object->GetStateMachine()->GetState())
-			{	//Scene was irrelevant or current state matches msg state (for msg scoping)
-				msg.SetDelivered(true);
-				object->GetStateMachine()->Process(EVENT_Message, &msg);
+			// deliver to all FSMs
+			list<StateMachine*> FSMs;
+			object->getComponents<StateMachine>(FSMs);
+			for (list<StateMachine*>::iterator it = FSMs.begin(); it != FSMs.end(); ++it)
+			{
+				StateMachine* pFSM = *it;
+				if (msg.GetMsgState() < 0 ||
+					msg.GetMsgState() == pFSM->GetState())
+				{	//State was irrelevant or current state matches msg state (for msg scoping)
+					msg.SetDelivered(true);
+					pFSM->Process(EVENT_Message, &msg);
+				}
 			}
 		}
 

@@ -9,7 +9,6 @@
 #include "Core\Component.h"
 #include "Core\Math.h"
 #include "Core\TimeManager.h"
-#include "Graphics\IGraphics.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Data\Animation.h"
 
@@ -18,26 +17,26 @@ namespace crea
 
 	class CREAENGINE_API Animator : public Component
 	{
-		ISprite* m_pSprite;
+		Sprite* m_pSprite;
 		Animation* m_animation;
 		Time m_frameTime;
 		Time m_currentTime;
 		int m_currentFrame;
 		bool m_isPaused;
-		ITexture* m_texture;
+		Texture* m_texture;
 
 	public:
 		Animator();
 		virtual ~Animator();
 
-		void setSprite(ISprite* _pSprite);
+		void setSprite(Sprite* _pSprite);
 		void setAnimation(Animation& animation);
 		void setFrameTime(Time& time);
 
 		Animation* getAnimation();
 		Time getFrameTime();
 		IntRect getFrame();
-		ITexture* getTexture() { return m_texture; }
+		Texture* getTexture() { return m_texture; }
 		
 		bool isPlaying();
 
@@ -51,6 +50,11 @@ namespace crea
 		virtual bool draw();
 		virtual bool quit();
 
+		virtual Component* clone() { 
+			Animator* pAnimator = new Animator(*this); 
+			pAnimator->m_pSprite = DataManager::getSingleton()->cloneSprite(m_pSprite);// Clone Sprite if one exist
+			return pAnimator;
+		}
 	};
 
 } // namespace crea

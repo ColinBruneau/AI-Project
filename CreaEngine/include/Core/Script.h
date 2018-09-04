@@ -7,6 +7,7 @@
 #define _Script_H
 
 #include "Core\Component.h"
+#include "Core\PhysicsManager.h"
 
 namespace crea
 {
@@ -31,6 +32,12 @@ namespace crea
 		virtual bool update() = 0;
 		virtual bool draw() = 0;
 		virtual bool quit() = 0;
+
+		virtual void onCollisionEnter2D(Collision2D _coll) {}
+		virtual void onCollisionStay2D(Collision2D _coll) {}
+		virtual void onCollisionExit2D(Collision2D _coll) {}
+
+		virtual Component* clone() = 0;
 	};
 
 } // namespace crea

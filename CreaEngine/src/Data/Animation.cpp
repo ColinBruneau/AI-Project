@@ -1,9 +1,8 @@
 #include "stdafx.h"
 
 #include "Data\Animation.h"
-#include "Graphics\IGraphics.h"
 
-#include "Tools/json/json.h"
+#include "Tools\json\json.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -20,11 +19,11 @@ namespace crea
 		m_frames.push_back(rect);
 	}
 
-	void Animation::setSpriteSheet(ITexture& texture)
+	void Animation::setSpriteSheet(Texture& texture)
 	{
 		m_texture = &texture;
 	}
-	
+
 	void Animation::adjustToTranslationSpeed(float _fTranslationSpeed)
 	{
 		if (m_iTranslationSpeed)
@@ -69,12 +68,10 @@ namespace crea
 									multiframe["h"].asInt()));
 			}
 		}
-
+		
+		// Translation Speed
 		Json::Value translationspeed = root["translationspeed"];
-		if (translationspeed.isInt())
-		{
-			m_iTranslationSpeed = translationspeed.asInt();
-		}
+		m_iTranslationSpeed = translationspeed.asInt();
 
 		return true;
 	}

@@ -16,9 +16,6 @@ using namespace std;
 #pragma warning( disable: 4251 )
 
 #include "CreaImport.h"
-
-// SFML
-#include <SFML/Graphics.hpp>
-
+using namespace crea;
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme

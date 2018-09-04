@@ -7,22 +7,20 @@
 #define __AI_H_
 
 #include "Core\singleton.h"
+#include <vector>
 
 namespace crea
 {
+	class CREAENGINE_API VectorVector2f : public vector<Vector2f*> {};
 
 	#define g_time TimeManager::getSingleton()
-	#define g_agentmanager AgentManager::getSingleton()
+	#define g_entitymanager EntityManager::getSingleton()
 	#define g_msgmanager MsgManager::getSingleton()
 	#define g_debuglog DebugLog::getSingleton()
-
-	#define INVALID_OBJECT_ID 0
-	typedef unsigned int objectID;
 
 }
 
 #include "StateMachine.h"
-#include "AgentManager.h"
 #include "Agent.h"
 #include "MsgManager.h"
 #include "Msg.h"

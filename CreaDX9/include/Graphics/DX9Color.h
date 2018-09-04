@@ -6,12 +6,12 @@
 #ifndef _DX9Color_H
 #define _DX9Color_H
 
-#include "Graphics\IGraphics.h"
+#include "Graphics\Color.h"
 
 namespace crea
 {
 
-	class DX9Color : public IColor
+	class DX9Color : public Color
 	{
 		D3DCOLOR m_color;
 	public:

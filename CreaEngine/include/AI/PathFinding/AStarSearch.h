@@ -37,15 +37,6 @@ given where due.
 #include <set>
 #include <vector>
 
-using namespace std;
-
-// fast fixed size memory allocator, used for fast node memory management
-#include "FixedSizeAllocator.h"
-
-// Fixed size memory allocator can be disabled to compare performance
-// Uses std new and delete instead if you turn it off
-#define USE_FSA_MEMORY 1
-
 // disable warning that debugging information has lines that are truncated
 // occurs in stl headers
 #pragma warning( disable : 4786 )
@@ -114,10 +105,9 @@ public: // methods
 
 
 	// constructor just initialises private data
-	AStarSearch( int MaxNodes = 1000 ) :
+	AStarSearch( ) :
 		m_AllocateNodeCount(0),
 		m_FreeNodeCount(0),
-		m_FixedSizeAllocator( MaxNodes ),
 		m_State( SEARCH_STATE_NOT_INITIALISED ),
 		m_CurrentSolutionNode( NULL ),
 		m_CancelRequest( false ),
@@ -249,8 +239,7 @@ public: // methods
 
 			if( !ret )
 			{
-
-			        typename vector< Node * >::iterator successor;
+			    typename vector< Node * >::iterator successor;
 
 				// free the nodes that may previously have been added 
 				for( successor = m_Successors.begin(); successor != m_Successors.end(); successor ++ )
@@ -270,7 +259,6 @@ public: // methods
 			// Now handle each successor to the current node ...
 			for( typename vector< Node * >::iterator successor = m_Successors.begin(); successor != m_Successors.end(); successor ++ )
 			{
-
 				// 	The g value for this successor ...
 				float newg = n->g + n->m_UserState.GetCost( (*successor)->m_UserState );
 
@@ -671,33 +659,14 @@ private: // methods
 	// Node memory management
 	Node *AllocateNode()
 	{
-
-#if !USE_FSA_MEMORY
 		Node *p = new Node;
 		return p;
-#else
-		Node *address = m_FixedSizeAllocator.alloc();
-
-		if( !address )
-		{
-			return NULL;
-		}
-		m_AllocateNodeCount ++;
-		Node *p = new (address) Node;
-		return p;
-#endif
 	}
 
 	void FreeNode( Node *node )
 	{
-
 		m_FreeNodeCount ++;
-
-#if !USE_FSA_MEMORY
 		delete node;
-#else
-		m_FixedSizeAllocator.free( node );
-#endif
 	}
 
 private: // data
@@ -724,9 +693,6 @@ private: // data
 
 	Node *m_CurrentSolutionNode;
 
-	// Memory
- 	FixedSizeAllocator<Node> m_FixedSizeAllocator;
-	
 	//Debug : need to keep these two iterators around
 	// for the user Dbg functions
 	typename vector< Node * >::iterator iterDbgOpen;

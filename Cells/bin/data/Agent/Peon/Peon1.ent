@@ -2,16 +2,25 @@
 		{
 			"type":"SpriteRenderer",
 			"name":"Peon/Peon1.sr",
-			"sprite":"Sprite1"
+			"sprite":"peon",
+			"image":"..\/Image\/peon.png"
+		},
+		{
+			"type":"Agent",
+			"name":"Peon/Peon1.chr"
 		},
 		{
 			"type":"Animator",
 			"name":"Peon/Peon1.animator",
-			"sprite":"Sprite1"
+			"sprite":"peon"
 		},
 		{
 			"type":"ActionTable",
 			"name":"Peon/Peon.act"
+		},
+		{
+			"type":"Script",
+			"name":"CharacterController"		
 		},
 		{
 			"type":"Collider",
@@ -19,15 +28,7 @@
 		},
 		{
 			"type":"Script",
-			"name":"CharacterController"		
-		},
-		{
-			"type":"Script",
-			"name":"UserController"		
-		},
-		{
-			"type":"Agent",
-			"name":"Peon/Peon1.chr"
-		}		
+			"name":"FSMPeon"		
+		}
 	]
 } 

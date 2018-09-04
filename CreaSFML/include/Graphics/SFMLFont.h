@@ -6,14 +6,14 @@
 #ifndef _SFMLFont_H
 #define _SFMLFont_H
 
-#include "Graphics\IFont.h"
+#include "Graphics\Font.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace crea
 {
 
-	class SFMLFont : public IFont
+	class SFMLFont : public Font
 	{
 	public:
 		sf::Font m_font;

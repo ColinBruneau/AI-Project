@@ -6,29 +6,31 @@
 #ifndef _SFMLTexture_H
 #define _SFMLTexture_H
 
-#include "Graphics\ITexture.h"
+#include "Graphics\Texture.h"
 
 #include <SFML/Graphics.hpp>
 
 namespace crea
 {
 
-	class SFMLTexture : public ITexture
+	class SFMLTexture : public Texture
 	{
 	public:
-		sf::Texture m_texture;
+		sf::Texture* m_pTexture;
 
 		SFMLTexture()
 		{
+			m_pTexture = new sf::Texture;
 		}
 
 		~SFMLTexture()
 		{
+			delete m_pTexture;
 		}
 
 		virtual bool loadFromFile(string _file)
 		{
-			return m_texture.loadFromFile(_file);
+			return m_pTexture->loadFromFile(_file);
 		}
 	};
 

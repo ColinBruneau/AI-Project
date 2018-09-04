@@ -7,23 +7,23 @@
 #define __SpriteRenderer_H_
 
 #include "Core\Component.h"
+#include "Core\Math.h"
 
 namespace crea
 {
-	class ISprite;
 
 	class CREAENGINE_API SpriteRenderer : public Component
 	{
-		ISprite* m_pSprite;
-		ISprite* m_pSelectionSprite;
+		Sprite* m_pSprite;
 		IntRect* m_pTextureRect;
 
 	public:
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
 
-		inline void setSprite(ISprite* _pSprite) { m_pSprite = _pSprite; }
-		inline void setSelectionSprite(ISprite* _pSprite) { m_pSelectionSprite = _pSprite; }
+		inline void setSprite(Sprite* _pSprite) { m_pSprite = _pSprite; }
+		inline Sprite* getSprite() { return m_pSprite; }
+
 		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
 		virtual bool init();
@@ -31,6 +31,15 @@ namespace crea
 		virtual bool draw();
 		virtual bool quit();
 
+		virtual Component* clone() 
+		{ 
+			SpriteRenderer* p = new SpriteRenderer(*this); 
+			//p->m_pSprite = new Sprite(*m_pSprite); 
+			//p->m_pSprite = IFacade::get().createSprite(m_pSprite);// Clone Sprite if one exist
+			p->m_pSprite = DataManager::getSingleton()->cloneSprite(m_pSprite);// Clone Sprite if one exist
+			m_pTextureRect = nullptr;
+			return p; 
+		}
 	};
 
 } // namespace crea

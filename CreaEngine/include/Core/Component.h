@@ -24,13 +24,14 @@ namespace crea
 		inline bool hasName(string& _szName) { return (m_szName == _szName); }
 		inline void setName(string& _szName) { m_szName = _szName; }
 
-		inline void setEntity(Entity* _pEntity)	{ m_pEntity = _pEntity; }
-		inline Entity* getEntity()				{ return m_pEntity; }
+		inline void setEntity(Entity* _pEntity) { m_pEntity = _pEntity; }
+		inline Entity* getEntity() { return m_pEntity; }
 
 		virtual bool init() = 0;
 		virtual bool update() = 0;
 		virtual bool draw() = 0;
 		virtual bool quit() = 0;
+		virtual Component* clone() = 0;
 
 	};
 

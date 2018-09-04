@@ -27,7 +27,8 @@
 03/2017 BehaviorTree
 09/2017 VS2017
 10/2017 OpenGL3
-11/2017 Script integration (UserControllerand CharacterController as scripts)
+11/2017 Script integration (UserController and CharacterController as scripts)
+04/2018 integration of modifications from classes (Shapes,
 
 Doing:
 - OpenGL3 integration (following http://www.opengl-tutorial.org)
@@ -47,6 +48,8 @@ To do:
 - SelectEntities: should not be able to select root!
 - .anm: change -W to Flip parameter
 - table d'action: vérifier chargement de la table, bug si ordre des anims différent que ordre de l'EnumAction...
+- DXShape not implemented
+- merge sfmlLine with SFMLLineShape
 
 Removed:
 - DataManager: regrouper les différentes map dans 1 map de maps? ex: au lieu de GetTexture() GetData("Texture", ...)
