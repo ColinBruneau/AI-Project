@@ -30,7 +30,7 @@ namespace crea
 		bool m_bMouseRightButtonDown;
 
 	private:
-		// Données membres
+		// Donnï¿½es membres
 		DX9Facade();
 
 		HRESULT initD3D(HWND hWnd);
@@ -52,13 +52,13 @@ namespace crea
 		// Boucle de rendu
 		virtual bool update();
 
-		// Démarre le rendu de la scène
+		// Dï¿½marre le rendu de la scï¿½ne
 		virtual void beginScene() const;
 
 		// Rendu d'un objet
 		virtual void draw(IDrawable& _o) const;
 
-		// Termine le rendu de la scène
+		// Termine le rendu de la scï¿½ne
 		virtual void endScene() const;
 
 		// Quitte le renderer
@@ -66,13 +66,35 @@ namespace crea
 
 		virtual Font* createFont(Font* _pFrom = nullptr);
 
-		virtual Texture* createTexture(Texture* _pFrom = nullptr);
+		virtual void destroyIFont(IFont* _pFont);
 
-		virtual Color* createColor(Color* _pFrom = nullptr);
+		virtual ITexture* createITexture(ITexture* _pFrom = nullptr);
 
-		virtual Text* createText(Text* _pFrom = nullptr);
+		virtual void destroyITexture(ITexture* _pTexture);
 
-		virtual Sprite* createSprite(Sprite* _pFrom = nullptr);
+		virtual IColor* createIColor(IColor* _pFrom = nullptr);
+
+		virtual void destroyIColor(IColor* _pColor);
+
+		virtual IText* createIText(IText* _pFrom = nullptr);
+
+		virtual void destroyIText(IText* _pText);
+
+		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
+
+		virtual void destroyISprite(ISprite* _pSprite);
+
+		virtual ILine* createILine(ILine* _pFrom = nullptr);
+
+		virtual void destroyILine(ILine* _pLine);
+
+		virtual IShape* createIShape(IShape* _pFrom = nullptr);
+
+		virtual void destroyIShape(IShape* _pShape);
+
+		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr);
+
+		virtual void destroyIRectangleShape(IRectangleShape* _pShape);
 
 		virtual bool isKeyPressed(Key _key);
 

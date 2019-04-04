@@ -26,13 +26,6 @@ bool AITools::onInit()
 	pRed->setValues(255, 0, 0, 255);
 	Color* pBlue = m_pGM->getColor("Blue");
 	pBlue->setValues(0, 0, 255, 255);
-	Color* pBlack = m_pGM->getColor("Black");
-	pBlack->setValues(0, 0, 0, 255);
-	Color* pTransparent = m_pGM->getColor("Transparent");
-	pTransparent->setValues(0, 0, 0, 0);
-	Color* pRedTransparent = m_pGM->getColor("RedTransparent");
-	pRedTransparent->setValues(255, 0, 0, 125);
-	Color* pGreenTransparent = m_pGM->getColor("GreenTransparent");
 	pGreenTransparent->setValues(0, 255, 0, 255);
 
 	// Selection
@@ -425,11 +418,11 @@ bool AITools::onDraw()
 		m_pCharacterController = pEntity->getComponent<CharacterController>();
 		if (m_pCharacterController)
 		{
-			szDiagnostics += "\nAct°: ";
+			szDiagnostics += "\nActï¿½: ";
 			szDiagnostics += to_string(m_pCharacterController->getAction());
-			szDiagnostics += " Condit°: ";
+			szDiagnostics += " Conditï¿½: ";
 			szDiagnostics += to_string(m_pCharacterController->getCondition());
-			szDiagnostics += " Direct°: ";
+			szDiagnostics += " Directï¿½: ";
 			szDiagnostics += to_string(m_pCharacterController->getDirection());
 		}
 
@@ -484,7 +477,8 @@ bool AITools::onDraw()
 	{
 		m_pTextCommand->draw();
 	}
-
+	// Todo: uncomment when transparency ok in directx
+	/*
 	// Grid
 	for (short i = m_iMin; i <= m_iMax; i++)
 	{
@@ -503,6 +497,7 @@ bool AITools::onDraw()
 			}
 		}
 	}
+	*/
 
 	// Collisions
 	MapStringCollider* pStaticColliders = PhysicsManager::getSingleton()->getStaticColliders();

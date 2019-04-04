@@ -21,8 +21,8 @@ namespace crea
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
 
-		inline void setSprite(Sprite* _pSprite) { m_pSprite = _pSprite; }
-		inline Sprite* getSprite() { return m_pSprite; }
+		inline void setSprite(ISprite* _pSprite) { m_pSprite = _pSprite; }
+		inline ISprite* getSprite() { return m_pSprite; }
 
 		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
@@ -34,9 +34,7 @@ namespace crea
 		virtual Component* clone() 
 		{ 
 			SpriteRenderer* p = new SpriteRenderer(*this); 
-			//p->m_pSprite = new Sprite(*m_pSprite); 
-			//p->m_pSprite = IFacade::get().createSprite(m_pSprite);// Clone Sprite if one exist
-			p->m_pSprite = DataManager::getSingleton()->cloneSprite(m_pSprite);// Clone Sprite if one exist
+			p->m_pSprite = IFacade::get().createISprite(m_pSprite);
 			m_pTextureRect = nullptr;
 			return p; 
 		}

@@ -29,6 +29,14 @@ namespace crea
 	{
 		if (m_pText)
 		{
+			Vector2f vPos = getEntity()->getPosition();
+			m_pText->setPosition(vPos.getX(), vPos.getY());
+			/*
+			if (m_pTextureRect)
+			{
+				m_pText->setTextureRect(m_pTextureRect->getLeft(), m_pTextureRect->getTop(),
+					m_pTextureRect->getWidth(), m_pTextureRect->getHeight());
+			}*/
 			m_pText->draw();
 		}
 

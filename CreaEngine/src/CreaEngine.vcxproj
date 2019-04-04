@@ -55,7 +55,9 @@
     <ClInclude Include="..\include\Graphics\MapRenderer.h" />
     <ClInclude Include="..\include\Graphics\Shape.h" />
     <ClInclude Include="..\include\Graphics\ShapeRenderer.h" />
-    <ClInclude Include="..\include\Graphics\Sprite.h" />
+    <ClInclude Include="..\include\Graphics\Texture.h" />
+    <ClInclude Include="..\include\Graphics\Transformable.h" />
+    <ClInclude Include="..\include\Graphics\MapRenderer.h" />
     <ClInclude Include="..\include\Graphics\SpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\Text.h" />
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
@@ -165,7 +167,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>CREAENGINE_EXPORTS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DIRECTX;CREAENGINE_EXPORTS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm150 %(AdditionalOptions)</AdditionalOptions>
