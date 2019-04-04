@@ -6,7 +6,7 @@
 #ifndef _SFMLTexture_H
 #define _SFMLTexture_H
 
-#include "Graphics\ITexture.h"
+#include "Graphics\Texture.h"
 
 #include <SFML/Graphics.hpp>
 

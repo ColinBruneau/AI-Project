@@ -50,6 +50,8 @@ namespace crea
 		m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		m_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+		m_d3dpp.EnableAutoDepthStencil = true;
+		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
 		// Create the Direct3D device
 		if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
@@ -144,7 +146,7 @@ namespace crea
 
 	void DX9Facade::beginScene() const
 	{
-		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET/*| D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
+		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER/*| D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
 		m_pDevice->BeginScene();
 	}
 	
@@ -346,9 +348,19 @@ namespace crea
 		return (_pFrom ? new DX9Font(*(DX9Font*)_pFrom) : new DX9Font);
 	}
 
+	void DX9Facade::destroyIFont(IFont* _pFont)
+	{
+		delete ((DX9Font*)_pFont);
+	}
+
 	ITexture* DX9Facade::createITexture(ITexture* _pFrom)
 	{
 		return (_pFrom ? new DX9Texture(*(DX9Texture*)_pFrom) : new DX9Texture);
+	}
+
+	void DX9Facade::destroyITexture(ITexture* _pTexture)
+	{
+		delete ((DX9Texture*)_pTexture);
 	}
 
 	IColor* DX9Facade::createIColor(IColor* _pFrom)
@@ -356,14 +368,59 @@ namespace crea
 		return (_pFrom ? new DX9Color(*(DX9Color*)_pFrom) : new DX9Color);
 	}
 
+	void DX9Facade::destroyIColor(IColor* _pColor)
+	{
+		delete ((DX9Color*)_pColor);
+	}
+
 	IText* DX9Facade::createIText(IText* _pFrom)
 	{
 		return (_pFrom ? new DX9Text(*(DX9Text*)_pFrom) : new DX9Text);
 	}
 
+	void DX9Facade::destroyIText(IText* _pText)
+	{
+		delete ((DX9Text*)_pText);
+	}
+
 	ISprite* DX9Facade::createISprite(ISprite* _pFrom)
 	{
 		return (_pFrom ? new DX9Sprite(*(DX9Sprite*)_pFrom) : new DX9Sprite);
+	}
+
+	void DX9Facade::destroyISprite(ISprite* _pSprite)
+	{
+		delete ((DX9Sprite*)_pSprite);
+	}
+
+	ILine* DX9Facade::createILine(ILine* _pFrom)
+	{
+		return (_pFrom ? new DX9Line(*(DX9Line*)_pFrom) : new DX9Line);
+	}
+
+	void DX9Facade::destroyILine(ILine* _pLine)
+	{
+		delete ((DX9Line*)_pLine);
+	}
+
+	IShape* DX9Facade::createIShape(IShape* _pFrom)
+	{
+		return (_pFrom ? new DX9Shape(*(DX9Shape*)_pFrom) : new DX9Shape);
+	}
+
+	void DX9Facade::destroyIShape(IShape* _pShape)
+	{
+		delete ((DX9Shape*)_pShape);
+	}
+
+	IRectangleShape* DX9Facade::createIRectangleShape(IRectangleShape* _pFrom)
+	{
+		return (_pFrom ? new DX9RectangleShape(*(DX9RectangleShape*)_pFrom) : new DX9RectangleShape);
+	}
+
+	void DX9Facade::destroyIRectangleShape(IRectangleShape* _pRectangleShape)
+	{
+		delete ((DX9RectangleShape*)_pRectangleShape);
 	}
 
 	bool DX9Facade::isKeyPressed(Key _key)

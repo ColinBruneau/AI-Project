@@ -18,6 +18,8 @@ namespace crea
 #include "Core\DataManager.h"
 #include "Core\EntityManager.h"
 #include "Core\TimeManager.h"
+#include "Graphics\Text.h"
+#include "Graphics\Texture.h"
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\ShapeRenderer.h"
 #include "Graphics\TextRenderer.h"

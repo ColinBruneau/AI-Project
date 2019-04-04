@@ -6,7 +6,7 @@
 #ifndef _DX9Text_H
 #define _DX9Text_H
 
-#include "Graphics\IText.h"
+#include "Graphics\Text.h"
 
 namespace crea
 {

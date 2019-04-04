@@ -10,24 +10,23 @@
 
 namespace crea
 {
-	class IText;
 
 	class CREAENGINE_API TextRenderer : public Component
 	{
 		IText* m_pText;
-		IntRect* m_pTextureRect;
 
 	public:
 		TextRenderer();
 		virtual ~TextRenderer();
 
 		inline void setText(IText* _pText) { m_pText = _pText; }
-		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
+
+		virtual Component* clone() { TextRenderer* p = new TextRenderer(*this); p->m_pText = IFacade::get().createIText(m_pText); return p; }
 	};
 
 } // namespace crea

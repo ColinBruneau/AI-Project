@@ -30,7 +30,7 @@ bool AITools::onInit()
 	IColor* pBlack = m_pGM->getColor("Black");
 	pBlack->setValues(0, 0, 0, 100);
 	IColor* pTransparent = m_pGM->getColor("Transparent");
-	pTransparent->setValues(0, 0, 0, 0);
+	pTransparent->setValues(0, 0, 255, 10);
 
 	// Selection
 	m_bSelection = false;
@@ -361,7 +361,8 @@ bool AITools::onDraw()
 	{
 		m_pTextCommand->draw();
 	}
-
+	// Todo: uncomment when transparency ok in directx
+	/*
 	// Grid
 	for (short i = m_iMin; i < m_iMax; i++)
 	{
@@ -371,6 +372,7 @@ bool AITools::onDraw()
 			m_pNodeShape->draw();			
 		}
 	}
+	*/
 
 	return true;
 }

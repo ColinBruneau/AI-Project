@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CreaEngine",
+    "\\CreaEngine\\include",
+    "\\CreaEngine\\include\\AI",
+    "\\CreaEngine\\include\\Graphics",
+    "\\CreaEngine\\src",
+    "\\CreaEngine\\src\\Tools",
+    "\\CreaEngine\\src\\Tools\\json"
+  ],
+  "SelectedNode": "\\CreaEngine\\include\\Graphics",
+  "PreviewInSolutionExplorer": false
+}

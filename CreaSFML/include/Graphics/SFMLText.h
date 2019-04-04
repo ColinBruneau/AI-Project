@@ -6,7 +6,7 @@
 #ifndef _SFMLText_H
 #define _SFMLText_H
 
-#include "Graphics\IText.h"
+#include "Graphics\Text.h"
 
 #include <SFML/Graphics.hpp>
 

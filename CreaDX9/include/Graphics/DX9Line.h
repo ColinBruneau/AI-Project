@@ -23,10 +23,10 @@ namespace crea
 
 		virtual void setLine(float _x1, float _y1, float _x2, float _y2)
 		{
-			m_rect.left = _x1;
-			m_rect.top = _y1;
-			m_rect.bottom = _y2;
-			m_rect.right = _x2;
+			m_rect.left = (long)_x1;
+			m_rect.top = (long)_y1;
+			m_rect.bottom = (long)_y2;
+			m_rect.right = (long)_x2;
 		}
 
 		virtual void setColor(int _r, int _g, int _b, int _a)
