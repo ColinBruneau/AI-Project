@@ -31,7 +31,7 @@ namespace crea
 			if (!pFont->loadFromFile(DATAFONTPATH + _szName))
 			{
 				delete pFont;
-				cerr << "Unable to open font" << endl;
+				cerr << "Unable to open font" << DATAFONTPATH + _szName << endl;
 				return nullptr;
 			}
 			m_pFonts[_szName] = pFont;

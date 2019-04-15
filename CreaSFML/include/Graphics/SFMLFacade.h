@@ -68,11 +68,7 @@ namespace crea
 		virtual Shape* createShape(string _szType, Shape* _pFrom = nullptr);
 
 		virtual void destroyShape(Shape* _pShape);
-
-		virtual Line* createLine(Line* _pFrom = nullptr);
-
-		virtual void destroyLine(Line* _pLine);
-
+		
 		virtual bool isKeyPressed(Key _key);
 
 		virtual bool isMouseButtonPressed(Button _button);
@@ -80,6 +76,8 @@ namespace crea
 		virtual Vector2f getMousePosition();
 
 		virtual IntRect& getWindowRect() { return m_rWindowRect; }
+
+		virtual void setWindowRect(IntRect _rect) { m_rWindowRect = _rect; }
 
 		sf::RenderWindow* m_pWindow;
 

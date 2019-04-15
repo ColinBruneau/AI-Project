@@ -48,7 +48,6 @@ namespace crea
 		m_pRenderer->initialize();
 
 		TimeManager::getSingleton()->init();
-		EntityManager::getSingleton()->init();
 		PhysicsManager::getSingleton()->init();
 
 	}

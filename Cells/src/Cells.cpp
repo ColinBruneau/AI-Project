@@ -19,9 +19,9 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	pGM->setWindowRect(IntRect(0, 0, 1152, 896));
 
-	pGM->setScene(new SceneSteering());
-
 	pGM->init();
+
+	pGM->setScene(new SceneSteering());
 
 	pGM->update();
 

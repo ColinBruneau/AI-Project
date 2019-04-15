@@ -22,11 +22,12 @@
     <ClInclude Include="..\include\AI\Pathfinding\ClusterSearch.h" />
     <ClInclude Include="..\include\AI\Pathfinding\ClusterSearchManager.h" />
     <ClInclude Include="..\include\AI\Pathfinding\ClusterSearchNode.h" />
+    <ClInclude Include="..\include\AI\Pathfinding\FixedSizeAllocator.h" />
     <ClInclude Include="..\include\AI\Pathfinding\MapSearch.h" />
     <ClInclude Include="..\include\AI\Pathfinding\MapSearchManager.h" />
     <ClInclude Include="..\include\AI\Pathfinding\MapSearchNode.h" />
     <ClInclude Include="..\include\AI\StateMachine.h" />
-    <ClInclude Include="..\include\AI\Steering\Behaviour.h" />
+    <ClInclude Include="..\include\AI\Steering\Behavior.h" />
     <ClInclude Include="..\include\AI\Steering\Steering.h" />
     <ClInclude Include="..\include\AI\Steering\Vehicle.h" />
     <ClInclude Include="..\include\Core\Component.h" />
@@ -52,17 +53,17 @@
     <ClInclude Include="..\include\Graphics\Animator.h" />
     <ClInclude Include="..\include\Graphics\Color.h" />
     <ClInclude Include="..\include\Graphics\Font.h" />
+    <ClInclude Include="..\include\Graphics\IDrawable.h" />
+    <ClInclude Include="..\include\Graphics\IFacade.h" />
     <ClInclude Include="..\include\Graphics\MapRenderer.h" />
     <ClInclude Include="..\include\Graphics\Shape.h" />
     <ClInclude Include="..\include\Graphics\ShapeRenderer.h" />
+    <ClInclude Include="..\include\Graphics\Sprite.h" />
     <ClInclude Include="..\include\Graphics\Texture.h" />
-    <ClInclude Include="..\include\Graphics\Transformable.h" />
     <ClInclude Include="..\include\Graphics\MapRenderer.h" />
     <ClInclude Include="..\include\Graphics\SpriteRenderer.h" />
     <ClInclude Include="..\include\Graphics\Text.h" />
     <ClInclude Include="..\include\Graphics\TextRenderer.h" />
-    <ClInclude Include="..\include\Graphics\Texture.h" />
-    <ClInclude Include="..\include\Graphics\Transformable.h" />
     <ClInclude Include="..\include\Input\InputManager.h" />
     <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
@@ -83,7 +84,7 @@
     <ClCompile Include="AI\Pathfinding\MapSearchManager.cpp" />
     <ClCompile Include="AI\Pathfinding\MapSearchNode.cpp" />
     <ClCompile Include="AI\StateMachine.cpp" />
-    <ClCompile Include="AI\Steering\Behaviour.cpp" />
+    <ClCompile Include="AI\Steering\Behavior.cpp" />
     <ClCompile Include="AI\Steering\Steering.cpp" />
     <ClCompile Include="AI\Steering\Vehicle.cpp" />
     <ClCompile Include="Core\Component.cpp" />
@@ -124,7 +125,7 @@
     <ProjectGuid>{11B9D570-67E3-438B-9A3C-98A7CA4B2CCC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CreaEngine</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

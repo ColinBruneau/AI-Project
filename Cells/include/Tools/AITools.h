@@ -7,6 +7,7 @@
 #define __AITools_H_
 
 #include "Core\Scene.h"
+#include "Scripts\CharacterController.h"
 using namespace crea;
 
 enum EnumCommandType
@@ -20,15 +21,24 @@ enum EnumCommandType
 	Command_Build,
 	Command_Mine,
 	Command_Harvest,
-	Command_Suicide,
-	Command_Boost
-}; 
+	Command_Die,
+	Command_Boost,
+	Command_GoToHQWithLumber,
+	Command_Seek,
+	Command_Flee,
+	Command_Pursuit,
+	Command_Evasion,
+	Command_Arrival,
+	Command_Wander,
+	Command_PathFollowing,
+	Command_UCA
+
+};
+
 
 class AITools
 {
 	GameManager*	m_pGM;
-
-	Map* m_pCurrentMap;
 
 	// Selection
 	bool m_bSelection;
@@ -46,8 +56,6 @@ class AITools
 	Text* m_pTextFPS;
 	Text* m_pTextCommand;
 	Text* m_pTextDiagnostics;
-	Clock m_FPSDisplayClock;
-	float m_fFPSDisplayTime;
 	Clock m_CommandDisplayClock;
 	float m_fCommandDisplayTime;
 
@@ -58,9 +66,8 @@ class AITools
 	short m_nTileWidth;
 	short m_nTileHeight;
 	RectangleShape* m_pNodeShape;
-	RectangleShape* m_pPathShape;
 
-	// Tile index Limits
+	// Tile index limits
 	int m_iMin;
 	int m_iMax;
 	int m_jMin;
@@ -68,11 +75,36 @@ class AITools
 
 	bool isButton(int _i, Vector2f& _vMousePosition);
 
+	// CharacterController
+	CharacterController* m_pCharacterController;
+
+	// Collisions
+	RectangleShape* m_pBoxColliderShape;
+	CircleShape* m_pCircleColliderShape;
+	RectangleShape* m_pCollisionNodeShape;
+	void DisplayCollider(MapStringCollider* _pColliders);
+
+	// Cluster
+	RectangleShape* m_pClusterShape;
+	RectangleShape* m_pEntranceShape;
+	ArrowShape* m_pTransitionShape;
+	int m_iClusterMin;
+	int m_iClusterMax;
+	int m_jClusterMin;
+	int m_jClusterMax;
+	short m_nClusterWidth;
+	short m_nClusterHeight;
+
+	// Steering
+	Steering* m_pSteering;
+	ArrowShape* m_pTargetShape;
+	LineShape* m_pLineShape;
+
+	Sprite* m_pTargetSprite;
+
 public:
 	AITools();
 	virtual ~AITools();
-
-	void setCurrentMap(Map* _pMap) { m_pCurrentMap = _pMap; }
 
 	virtual bool onInit();
 	virtual bool onUpdate();

@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
 #include "AI\Steering\Steering.h"
-#include "AI\Steering\Behaviour.h"
+#include "AI\Steering\Behavior.h"
 #include "Physics\Collider.h"
 #include "Core\PhysicsManager.h"
 
 namespace crea
 {
-	PairFloatBehaviour::PairFloatBehaviour(float _f, Behaviour* _p) : pair<float, Behaviour*>(_f, _p) {}
-	PairFloatBehaviour::~PairFloatBehaviour() { delete this->second; }
+	PairFloatBehavior::PairFloatBehavior(float _f, Behavior* _p) : pair<float, Behavior*>(_f, _p) {}
+	PairFloatBehavior::~PairFloatBehavior() { delete this->second; }
 
 	Steering::Steering() :
 		m_pTarget(nullptr), m_vSteeringDirection(0.f, 0.f)
@@ -19,7 +19,7 @@ namespace crea
 
 	Steering::~Steering()
 	{
-		clearBehaviours();
+		clearBehaviors();
 	}
 
 	void Steering::setCollider(Collider* _pCollider)
@@ -27,43 +27,43 @@ namespace crea
 		m_pCollider = _pCollider;
 	}
 	
-	void Steering::addBehaviour(Behaviour* _Behaviour, float _weight)
+	void Steering::addBehavior(Behavior* _Behavior, float _weight)
 	{
-		m_Behaviours.push_back(new PairFloatBehaviour(_weight, _Behaviour));
+		m_Behaviors.push_back(new PairFloatBehavior(_weight, _Behavior));
 	};
 
-	void Steering::removeBehaviour(Behaviour* _Behaviour)
+	void Steering::removeBehavior(Behavior* _Behavior)
 	{
-		if (m_Behaviours.empty())
+		if (m_Behaviors.empty())
 			return;
 
-		auto a = std::remove_if(m_Behaviours.begin(), m_Behaviours.end(),
-			[=](PairFloatBehaviour* p) { return p->second == _Behaviour; });
+		auto a = std::remove_if(m_Behaviors.begin(), m_Behaviors.end(),
+			[=](PairFloatBehavior* p) { return p->second == _Behavior; });
 
-		if (a != m_Behaviours.end())
+		if (a != m_Behaviors.end())
 		{
-			m_Behaviours.erase(a);
+			m_Behaviors.erase(a);
 		}
 	};
 
-	void Steering::clearBehaviours()
+	void Steering::clearBehaviors()
 	{
-		for (int i = 0; i < (int)m_Behaviours.size(); i++)
+		for (int i = 0; i < (int)m_Behaviors.size(); i++)
 		{
-			PairFloatBehaviour* p = m_Behaviours.back();
+			PairFloatBehavior* p = m_Behaviors.back();
 			delete(p);
-			m_Behaviours.pop_back();
+			m_Behaviors.pop_back();
 		}
-		m_Behaviours.clear();
+		m_Behaviors.clear();
 	};
 
 	Vector2f Steering::steer()
 	{
 		Vector2f steeringDirection;
-		for (int i = 0; i < (int)m_Behaviours.size(); i++)
+		for (int i = 0; i < (int)m_Behaviors.size(); i++)
 		{
-			PairFloatBehaviour* t = m_Behaviours[i];
-			Behaviour* b = (Behaviour*)t->second;
+			PairFloatBehavior* t = m_Behaviors[i];
+			Behavior* b = (Behavior*)t->second;
 			Vector2f v = b->Update();
  			steeringDirection += (v * t->first);
 		}
@@ -75,10 +75,10 @@ namespace crea
 		stringstream stream;
 		string szSteering("");
 		Vector2f steeringDirection;
-		for (int i = 0; i < (int)m_Behaviours.size(); i++)
+		for (int i = 0; i < (int)m_Behaviors.size(); i++)
 		{
-			PairFloatBehaviour* t = m_Behaviours[i];
-			Behaviour* b = (Behaviour*)t->second;
+			PairFloatBehavior* t = m_Behaviors[i];
+			Behavior* b = (Behavior*)t->second;
 			szSteering += t->second->asString();
 			szSteering += " ";
 			stream << fixed << setprecision(1) << t->first;

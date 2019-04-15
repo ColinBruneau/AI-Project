@@ -15,13 +15,13 @@ namespace crea
 {
 	// Predefinitions
 	class GameManager;
-	class Behaviour;
+	class Behavior;
 
-	class CREAENGINE_API PairFloatBehaviour : public pair<float, Behaviour*> 
+	class CREAENGINE_API PairFloatBehavior : public pair<float, Behavior*> 
 	{
 	public:
-		PairFloatBehaviour(float _f, Behaviour* _p);
-		~PairFloatBehaviour();
+		PairFloatBehavior(float _f, Behavior* _p);
+		~PairFloatBehavior();
 	};
 
 	class CREAENGINE_API Steering : public Component
@@ -38,7 +38,7 @@ namespace crea
 		Entity* m_pTarget;
 		Vector2f m_vTargetOffset;
 
-		vector<PairFloatBehaviour*> m_Behaviours; // All the Behaviours and their weight associated
+		vector<PairFloatBehavior*> m_Behaviors; // All the Behaviors and their weight associated
 
 		Vector2f m_vSteeringDirection;
 
@@ -53,11 +53,11 @@ namespace crea
 		void setTargetOffset(Vector2f _vOffset) { m_vTargetOffset = _vOffset; }
 		Vector2f getTargetOffset() { return m_vTargetOffset; }
 
-		void addBehaviour(Behaviour* _Behaviour, float _weight);
-		void removeBehaviour(Behaviour* _Behaviour);
-		void clearBehaviours();
+		void addBehavior(Behavior* _Behavior, float _weight);
+		void removeBehavior(Behavior* _Behavior);
+		void clearBehaviors();
 
-		vector<PairFloatBehaviour*>* getBehaviours() { return &m_Behaviours; }
+		vector<PairFloatBehavior*>* getBehaviors() { return &m_Behaviors; }
 
 		Vector2f getSteeringDirection() { return m_vSteeringDirection; }
 
@@ -71,9 +71,9 @@ namespace crea
 		virtual Component* clone() 
 		{ 
 			Steering* p = new Steering(*this); 
-			m_Behaviours.clear();  
+			m_Behaviors.clear();  
 			return p; 
-		} // CB: to do: keep Behaviours (instanciate new PairFloatBehaviour for each Behaviour)
+		} // CB: to do: keep Behaviors (instanciate new PairFloatBehavior for each Behavior)
 	};
 
 } // namespace crea

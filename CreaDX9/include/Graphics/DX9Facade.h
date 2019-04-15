@@ -38,6 +38,8 @@ namespace crea
 		static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		void setMousePosition(int _iX, int _iY) { m_iMousePosX = _iX; m_iMousePosY = _iY; }
 		void setMouseButtonsDown(bool _bLeftButtonDown, bool _bRightButtonDown) { m_bMouseLeftButtonDown = _bLeftButtonDown; m_bMouseRightButtonDown = _bRightButtonDown; }
+		void setMouseLButtonDown(bool _bLeftButtonDown) { m_bMouseLeftButtonDown = _bLeftButtonDown; }
+		void setMouseRButtonDown(bool _bRightButtonDown) { m_bMouseRightButtonDown = _bRightButtonDown; }
 		bool setCursor(bool _bVisible);
 
 	public:
@@ -66,35 +68,27 @@ namespace crea
 
 		virtual Font* createFont(Font* _pFrom = nullptr);
 
-		virtual void destroyIFont(IFont* _pFont);
+		virtual void destroyFont(Font* _pFont);
 
-		virtual ITexture* createITexture(ITexture* _pFrom = nullptr);
+		virtual Texture* createTexture(Texture* _pFrom = nullptr);
 
-		virtual void destroyITexture(ITexture* _pTexture);
+		virtual void destroyTexture(Texture* _pTexture);
 
-		virtual IColor* createIColor(IColor* _pFrom = nullptr);
+		virtual Color* createColor(Color* _pFrom = nullptr);
 
-		virtual void destroyIColor(IColor* _pColor);
+		virtual void destroyColor(Color* _pColor);
 
-		virtual IText* createIText(IText* _pFrom = nullptr);
+		virtual Text* createText(Text* _pFrom = nullptr);
 
-		virtual void destroyIText(IText* _pText);
+		virtual void destroyText(Text* _pText);
 
-		virtual ISprite* createISprite(ISprite* _pFrom = nullptr);
+		virtual Sprite* createSprite(Sprite* _pFrom = nullptr);
 
-		virtual void destroyISprite(ISprite* _pSprite);
+		virtual void destroySprite(Sprite* _pSprite);
 
-		virtual ILine* createILine(ILine* _pFrom = nullptr);
+		virtual Shape* createShape(string _szType, Shape* _pFrom = nullptr);
 
-		virtual void destroyILine(ILine* _pLine);
-
-		virtual IShape* createIShape(IShape* _pFrom = nullptr);
-
-		virtual void destroyIShape(IShape* _pShape);
-
-		virtual IRectangleShape* createIRectangleShape(IRectangleShape* _pFrom = nullptr);
-
-		virtual void destroyIRectangleShape(IRectangleShape* _pShape);
+		virtual void destroyShape(Shape* _pShape);
 
 		virtual bool isKeyPressed(Key _key);
 
@@ -103,6 +97,8 @@ namespace crea
 		virtual Vector2f getMousePosition();
 
 		virtual IntRect& getWindowRect() { return m_rWindowRect; }
+
+		virtual void setWindowRect(IntRect _rect) { m_rWindowRect = _rect; }
 
 		LPDIRECT3DDEVICE9 m_pDevice;
 		LPDIRECT3D9 m_pD3D;

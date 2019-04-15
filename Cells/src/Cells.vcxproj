@@ -108,7 +108,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\Scene\AITools.h" />
+    <ClInclude Include="..\include\Tools\AITools.h" />
     <ClInclude Include="..\include\Scene\SceneBehaviorTree.h" />
     <ClInclude Include="..\include\Scene\SceneGame.h" />
     <ClInclude Include="..\include\Scene\SceneMap.h" />
@@ -133,10 +133,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cells.cpp" />
-    <ClCompile Include="Scene\AITools.cpp" />
-    <ClCompile Include="Scene\FSMPeon.cpp" />
-    <ClCompile Include="Scene\FSMPeonGoTo.cpp" />
-    <ClCompile Include="Scene\FSMPeonLive.cpp" />
+    <ClCompile Include="Scripts\FSMPeon.cpp" />
+    <ClCompile Include="Scripts\FSMPeonGoTo.cpp" />
+    <ClCompile Include="Scripts\FSMPeonLive.cpp" />
+    <ClCompile Include="Tools\AITools.cpp" />
     <ClCompile Include="Scene\SceneBehaviorTree.cpp" />
     <ClCompile Include="Scene\SceneFormation.cpp" />
     <ClCompile Include="Scene\SceneGame.cpp" />

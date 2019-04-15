@@ -154,16 +154,6 @@ namespace crea
 		delete _pShape;
 	}
 
-	Line* SFMLFacade::createLine(Line* _pFrom)
-	{
-		return (_pFrom ? new SFMLLine(*(SFMLLine*)_pFrom) : new SFMLLine);
-	}
-
-	void SFMLFacade::destroyLine(Line* _pLine)
-	{
-		delete _pLine;
-	}
-
 	bool SFMLFacade::isKeyPressed(Key _key)
 	{
 		if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key)_key)) // Key mapping is the same as SFML

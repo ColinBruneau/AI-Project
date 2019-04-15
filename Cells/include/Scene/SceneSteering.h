@@ -7,7 +7,7 @@
 #define __SceneSteering_H_
 
 #include "Core\Scene.h"
-#include "AITools.h"
+#include "Tools\AITools.h"
 #include "Scripts\CellsScriptFactory.h"
 
 using namespace crea;
@@ -62,7 +62,7 @@ public:
 
 	void deleteEntities();
 	void createEntities();
-	void setBehaviour();
+	void setBehavior();
 
 };
 

@@ -7,7 +7,7 @@
 #define __SceneMap_H_
 
 #include "Core\Scene.h"
-#include "AITools.h"
+#include "Tools\AITools.h"
 #include "Scripts\CellsScriptFactory.h"
 
 using namespace crea;

@@ -13,20 +13,20 @@ namespace crea
 
 	class CREAENGINE_API TextRenderer : public Component
 	{
-		IText* m_pText;
+		Text* m_pText;
 
 	public:
 		TextRenderer();
 		virtual ~TextRenderer();
 
-		inline void setText(IText* _pText) { m_pText = _pText; }
+		inline void setText(Text* _pText) { m_pText = _pText; }
 
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
 
-		virtual Component* clone() { TextRenderer* p = new TextRenderer(*this); p->m_pText = IFacade::get().createIText(m_pText); return p; }
+		virtual Component* clone() { TextRenderer* p = new TextRenderer(*this); p->m_pText = IFacade::get().createText(m_pText); return p; }
 	};
 
 } // namespace crea

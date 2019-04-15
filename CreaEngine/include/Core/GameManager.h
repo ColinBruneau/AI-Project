@@ -32,20 +32,21 @@ namespace crea
 
 		LoggerFile* m_pLogger;
 		
-		IntRect m_rWindowRect;
-
 	public:
 		~GameManager();
 
 		static GameManager* getSingleton();
 
-		IntRect getWindowRect() { return m_rWindowRect; }
+		IntRect getWindowRect() { return m_pRenderer->getWindowRect(); }
 
 		inline IFacade* getRenderer() { return m_pRenderer; }
 
-		void setWindowRect(IntRect _rect) {m_rWindowRect = _rect; }
+		void setWindowRect(IntRect _rect) { m_pRenderer->setWindowRect(_rect); }
 
-		inline void setScene(Scene* s) { SceneManager::getSingleton()->setScene(s); }
+		inline void setScene(Scene* s) { 
+			SceneManager::getSingleton()->setScene(s);
+			EntityManager::getSingleton()->init();
+		}
 
 		// Input
 		inline bool isKeyPressed(Key _key) { return InputManager::getSingleton()->isKeyPressed(_key); }

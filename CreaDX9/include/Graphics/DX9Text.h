@@ -43,7 +43,7 @@ namespace crea
 		virtual void draw()
 		{
 			assert(m_pFont); // A font must be set	
-			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, 0, m_color); // CB: pass a sprite as 1st param to improve speed x4
+			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, 0, m_color); // todo: CB: pass a sprite as 1st param to improve speed x4
 		}
 
 		virtual void setFont(Font* _pFont)
@@ -76,10 +76,11 @@ namespace crea
 
 			m_pRect->left = (LONG)_x;
 			m_pRect->top = (LONG)_y;
-			m_pRect->bottom = (LONG)_y+100; 
+			m_pRect->bottom = (LONG)_y+100; // todo: valeurs hardcodées, calculer rect?
 			m_pRect->right = (LONG)_x+300;
+			// CB: commented to fix a bug for multiple text displayed in the same frame using the same text
 			// CB: get size when only position is given (DrawText with CALCRECT)
-			m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, DT_CALCRECT, m_color);
+			//m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, DT_CALCRECT, m_color);
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h) 

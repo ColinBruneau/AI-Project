@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "Scene\AITools.h"
+#include "Tools\AITools.h"
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneMap.h"
 #include "Core\SceneManager.h"
@@ -26,11 +26,18 @@ bool AITools::onInit()
 	pRed->setValues(255, 0, 0, 255);
 	Color* pBlue = m_pGM->getColor("Blue");
 	pBlue->setValues(0, 0, 255, 255);
+	Color* pBlack = m_pGM->getColor("Black");
+	pBlack->setValues(0, 0, 0, 255);
+	Color* pTransparent = m_pGM->getColor("Transparent");
+	pTransparent->setValues(0, 0, 0, 0);
+	Color* pRedTransparent = m_pGM->getColor("RedTransparent");
+	pRedTransparent->setValues(255, 0, 0, 125);
+	Color* pGreenTransparent = m_pGM->getColor("GreenTransparent");
 	pGreenTransparent->setValues(0, 255, 0, 255);
 
 	// Selection
 	m_bSelection = false;
-	m_pSelectionShape = new RectangleShape;
+	m_pSelectionShape = (RectangleShape*)m_pGM->getShape("Rectangle", "SelectionShape");
 	m_pSelectionShape->setOutlineColor(pBlue);
 	m_pSelectionShape->setColor(pTransparent);
 	m_pSelectionShape->setOutlineThickness(1.f);
@@ -71,7 +78,7 @@ bool AITools::onInit()
 	m_pMap->getSize(m_nWidth, m_nHeight);
 	m_pMap->getTileSize(m_nTileWidth, m_nTileHeight);
 	m_pMap->getTileIndexLimits(m_iMin, m_iMax, m_jMin, m_jMax);
-	m_pNodeShape = new RectangleShape;
+	m_pNodeShape = (RectangleShape*)m_pGM->getShape("Rectangle", "NodeShape");
 	m_pNodeShape->setOutlineColor(pBlack);
 	m_pNodeShape->setColor(pTransparent);
 	m_pNodeShape->setOutlineThickness(0.5f);
@@ -82,19 +89,19 @@ bool AITools::onInit()
 	m_pCharacterController = nullptr;
 
 	// Collisions
-	m_pBoxColliderShape = new RectangleShape;
+	m_pBoxColliderShape = (RectangleShape*)m_pGM->getShape("Rectangle", "BoxColliderShape");
 	m_pBoxColliderShape->setOutlineColor(pRed);
 	m_pBoxColliderShape->setColor(pTransparent);
 	m_pBoxColliderShape->setOutlineThickness(1.0f);
-	m_pCircleColliderShape = new CircleShape;
+	m_pCircleColliderShape = (CircleShape*)m_pGM->getShape("Circle", "CircleColliderShape");
 	m_pCircleColliderShape->setOutlineColor(pRed);
 	m_pCircleColliderShape->setColor(pTransparent);
 	m_pCircleColliderShape->setOutlineThickness(1.0f);
-	m_pCollisionNodeShape = new RectangleShape;
+	m_pCollisionNodeShape = (RectangleShape*)m_pGM->getShape("Rectangle", "CollisionNodeShape");
 	m_pCollisionNodeShape->setColor(pRedTransparent);
 
 	// Cluster
-	m_pClusterShape = new RectangleShape;
+	m_pClusterShape = (RectangleShape*)m_pGM->getShape("Rectangle", "ClusterShape");
 	m_pClusterShape->setOutlineColor(pBlue);
 	m_pClusterShape->setColor(pTransparent);
 	m_pClusterShape->setOutlineThickness(2.0f);
@@ -102,27 +109,31 @@ bool AITools::onInit()
 	m_pClusterShape->setSize(m_nClusterWidth, m_nClusterHeight);
 	m_pMap->getClusterIndexLimits(m_iClusterMin, m_iClusterMax, m_jClusterMin, m_jClusterMax);
 
-	m_pEntranceShape = new RectangleShape;
+	m_pEntranceShape = (RectangleShape*)m_pGM->getShape("Rectangle", "EntranceShape");
 	m_pEntranceShape->setOutlineColor(pBlue);
 	m_pEntranceShape->setColor(pBlue);
 	m_pEntranceShape->setSize(m_nTileWidth, m_nTileHeight);
 
-	m_pTransitionShape = new ArrowShape;
+	m_pTransitionShape = (ArrowShape*)m_pGM->getShape("Arrow", "TransitionShape");
 	m_pTransitionShape->setOutlineColor(pGreenTransparent);
 	m_pTransitionShape->setColor(pGreenTransparent);
 	m_pTransitionShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
 
 	// Steering
-	m_pTargetShape = new ArrowShape;
+	m_pTargetShape = (ArrowShape*)m_pGM->getShape("Arrow", "TargetShape");
 	m_pTargetShape->setOutlineColor(pBlue);
-	m_pTargetShape->setColor(pBlue);
+	m_pTargetShape->setColor(pRed);
 	m_pTargetShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
+	
+	m_pLineShape = (LineShape*)m_pGM->getShape("Line", "LineShape");
+	m_pLineShape->setOutlineColor(pBlue);
+	m_pLineShape->setColor(pRed);
+	m_pLineShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
 
 	//m_pTarget = m_pGM->getEntity("target");
-	m_pTargetSprite = new Sprite;
+	m_pTargetSprite = (Sprite*)m_pGM->getSprite("TargetSprite");
 	m_pTargetSprite->setTexture(m_pGM->getSingleton()->getTexture("/debug/target.png"));
 	m_pTargetSprite->setOrigin(32.f, 32.f);
-
 
 	return true;
 }
@@ -141,6 +152,10 @@ bool AITools::isButton(int _i, Vector2f& _vMousePosition)
 
 bool AITools::onUpdate()
 {
+	Vector2f v = m_pGM->getMousePosition();
+	//m_pTargetShape->setStartAndEnd(400.f, 400.f, v.getX(), v.getY());
+	m_pTargetSprite->setPosition(v.getX(), v.getY());
+
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
 	m_pTextFPS->setString(to_string((int)(1 / frameTime.asSeconds())) + " fps");
@@ -152,6 +167,7 @@ bool AITools::onUpdate()
 		{
 			m_vStartSelection = m_pGM->getMousePosition();
 		}
+
 		m_bSelection = true;
 	}
 	else
@@ -381,6 +397,8 @@ bool AITools::onUpdate()
 
 bool AITools::onDraw()
 {
+	m_pTargetSprite->draw();
+
 	// Selection
 	if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
 	{
@@ -418,11 +436,11 @@ bool AITools::onDraw()
 		m_pCharacterController = pEntity->getComponent<CharacterController>();
 		if (m_pCharacterController)
 		{
-			szDiagnostics += "\nAct�: ";
+			szDiagnostics += "\nAct°: ";
 			szDiagnostics += to_string(m_pCharacterController->getAction());
-			szDiagnostics += " Condit�: ";
+			szDiagnostics += " Condit°: ";
 			szDiagnostics += to_string(m_pCharacterController->getCondition());
-			szDiagnostics += " Direct�: ";
+			szDiagnostics += " Direct°: ";
 			szDiagnostics += to_string(m_pCharacterController->getDirection());
 		}
 
@@ -477,8 +495,7 @@ bool AITools::onDraw()
 	{
 		m_pTextCommand->draw();
 	}
-	// Todo: uncomment when transparency ok in directx
-	/*
+
 	// Grid
 	for (short i = m_iMin; i <= m_iMax; i++)
 	{
@@ -488,7 +505,7 @@ bool AITools::onDraw()
 			{
 				m_pCollisionNodeShape->setPosition((float)i*m_nTileWidth, (float)j*m_nTileHeight);
 				m_pCollisionNodeShape->setSize((float)m_nTileWidth, (float)m_nTileHeight);
-				//m_pCollisionNodeShape->draw();
+				m_pCollisionNodeShape->draw();
 			}
 			else
 			{
@@ -497,7 +514,6 @@ bool AITools::onDraw()
 			}
 		}
 	}
-	*/
 
 	// Collisions
 	MapStringCollider* pStaticColliders = PhysicsManager::getSingleton()->getStaticColliders();

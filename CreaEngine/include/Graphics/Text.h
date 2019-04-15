@@ -18,9 +18,9 @@ namespace crea
 
 		virtual void draw() {}
 
-		virtual void setFont(IFont* _pFont) {}
+		virtual void setFont(Font* _pFont) {}
 
-		virtual void setColor(IColor* _pColor) {}
+		virtual void setColor(Color* _pColor) {}
 
 		virtual void setCharacterSize(int _iSize) {}
 

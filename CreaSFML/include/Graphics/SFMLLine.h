@@ -13,7 +13,7 @@
 namespace crea
 {
 
-	class SFMLLine : public Line
+	class SFMLLine : public LineShape
 	{
 	public:
 		sf::Vertex m_line[2];

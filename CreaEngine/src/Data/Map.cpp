@@ -35,6 +35,14 @@ namespace crea
 		m_nHeight = 0;
 	}
 
+	// Remove path
+	string getFileName(const string& _fullName, const string& _fromName)
+	{
+		size_t s = _fullName.size();
+		int quotePos = _fullName.rfind(_fromName, s); //finds last quote mark
+		return _fullName.substr(quotePos + _fromName.size(), s - quotePos);
+	}
+
 	bool Map::loadFromFileJSON(string& _filename)
 	{
 		Json::Value root;
@@ -78,7 +86,7 @@ namespace crea
 
 			pTileSet->m_nColumns = tileset["columns"].asInt();
 			pTileSet->m_nFirstgid = tileset["firstgid"].asInt();
-			string image = tileset["image"].asString();
+			string image = getFileName(tileset["image"].asString(), "Image/");
 			pTileSet->m_nImageheight = tileset["imageheight"].asInt();
 			pTileSet->m_nImagewidth = tileset["imagewidth"].asInt();
 			pTileSet->m_nMargin = tileset["margin"].asInt();

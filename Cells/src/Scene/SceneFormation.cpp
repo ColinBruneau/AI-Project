@@ -11,7 +11,7 @@
 #include "Graphics\SpriteRenderer.h"
 #include "Graphics\Sprite.h"
 #include "AI\Steering\Steering.h"
-#include "AI\Steering\Behaviour.h"
+#include "AI\Steering\Behavior.h"
 
 
 SceneFormation::SceneFormation()
@@ -76,40 +76,40 @@ void SceneFormation::setBehavior()
 		std::string s = std::to_string(i);
 		Steering* pSteering = m_pGM->getSteering(s);
 		pSteering->init();
-		pSteering->clearBehaviours();
+		pSteering->clearBehaviors();
 		// Behavior
 		switch (m_iSteeringMode)
 		{
-		case 0: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+		case 0: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
 			break;
-		case 1: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
+		case 1: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
 			break;
-		case 2: pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.0f);
+		case 2: pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.0f);
 			break;
 		case 3: 
-			pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
-			pSteering->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
+			pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+			pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
 			break;
 		case 4 : 
 			if (i >= 23)
 			{
-				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
+				pSteering->addBehavior(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
 			}
 			else if (i >= 13)
 			{
-				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else if (i >= 3)
 			{
-				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else
 			{
-				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
+				pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
 			}
 			break;
 		case 5: 			
-			pSteering->addBehaviour(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
+			pSteering->addBehavior(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
 			break;
 		}
 	}

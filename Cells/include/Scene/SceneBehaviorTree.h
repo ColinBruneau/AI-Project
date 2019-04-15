@@ -7,7 +7,7 @@
 #define __SceneBehaviorTree_H_
 
 #include "Core\Scene.h"
-#include "AITools.h"
+#include "Tools\AITools.h"
 #include "Scripts\CellsScriptFactory.h"
 
 using namespace crea;
@@ -51,7 +51,7 @@ class SceneBehaviorTree : public Scene
 	VectorVector2f m_vPath;
 
 	// Steering for LeadFollowing
-	vector<PairFloatBehaviour*>* m_LeadFollowingSteering;
+	vector<PairFloatBehavior*>* m_LeadFollowingSteering;
 
 public:
 
@@ -65,7 +65,7 @@ public:
 
 	void deleteEntities();
 	void createEntities();
-	void setBehaviour();
+	void setBehavior();
 
 };
 

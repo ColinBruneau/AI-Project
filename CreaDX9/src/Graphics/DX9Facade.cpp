@@ -7,7 +7,7 @@ namespace crea
 	{
 		m_iR = 0;
 		m_iG = 0;
-		m_iB = 255;
+		m_iB = 0;
 
 		m_szWindowName = "Application DirectX9";
 
@@ -50,8 +50,8 @@ namespace crea
 		m_d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
 		m_d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 		m_d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
-		m_d3dpp.EnableAutoDepthStencil = true;
-		m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
+		//m_d3dpp.EnableAutoDepthStencil = true;
+		//m_d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
 		// Create the Direct3D device
 		if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
@@ -103,11 +103,15 @@ namespace crea
 
 		RegisterClassEx(&wc);
 
+		RECT wr = { 0, 0, m_rWindowRect.getWidth(), m_rWindowRect.getHeight() };    // set the size, but not the position
+		AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);    // adjust the size
+
 		// Create the application's window
 		HWND hWnd = CreateWindow("DX9Facade", m_szWindowName,
 			WS_OVERLAPPEDWINDOW, 
 			m_rWindowRect.getLeft(), m_rWindowRect.getTop(), 
-			m_rWindowRect.getWidth(), m_rWindowRect.getHeight(),
+			wr.right - wr.left,    // width of the window
+			wr.bottom - wr.top,    // height of the window
 			NULL, NULL, wc.hInstance, NULL);
 
 		// Initialize Direct3D
@@ -146,7 +150,7 @@ namespace crea
 
 	void DX9Facade::beginScene() const
 	{
-		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER/*| D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
+		m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET/* | D3DCLEAR_ZBUFFER| D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
 		m_pDevice->BeginScene();
 	}
 	
@@ -319,8 +323,7 @@ namespace crea
 			// Retrieve mouse screen position
 			int x = (short)LOWORD(lParam);
 			int y = (short)HIWORD(lParam);
-			DX9Facade::Instance().setMousePosition(x, y);  //CB: Bug: returns 1263*760 on a 1280*800 window
-			cout << x << " " << y << endl;
+			DX9Facade::Instance().setMousePosition(x, y);  //CB: Bug: returns 1263*760 on a 1280*800 window (1134x855 on a 1152x896)
 
 			// Check to see if the left button is held down:
 			bool bLeftButtonDown = (wParam & MK_LBUTTON) ? true : false;
@@ -328,9 +331,25 @@ namespace crea
 			// Check if right button down:
 			bool bRightButtonDown = (wParam & MK_RBUTTON) ? true : false;
 			
-			DX9Facade::Instance().setMouseButtonsDown(bLeftButtonDown, bRightButtonDown);
+			DX9Facade::Instance().setMouseButtonsDown(bLeftButtonDown, bRightButtonDown); 
 			return 0;
 		}
+
+		case WM_LBUTTONDOWN:
+			DX9Facade::Instance().setMouseLButtonDown(true);
+			return 0;
+
+		case WM_RBUTTONDOWN:
+			DX9Facade::Instance().setMouseRButtonDown(true);
+			return 0;
+
+		case WM_LBUTTONUP:
+			DX9Facade::Instance().setMouseLButtonDown(false);
+			return 0;
+
+		case WM_RBUTTONUP:
+			DX9Facade::Instance().setMouseRButtonDown(false);
+			return 0;
 
 		case WM_PAINT:
 			ValidateRect(hWnd, NULL);
@@ -348,81 +367,81 @@ namespace crea
 		return (_pFrom ? new DX9Font(*(DX9Font*)_pFrom) : new DX9Font);
 	}
 
-	void DX9Facade::destroyIFont(IFont* _pFont)
+	void DX9Facade::destroyFont(Font* _pFont)
 	{
 		delete ((DX9Font*)_pFont);
 	}
 
-	ITexture* DX9Facade::createITexture(ITexture* _pFrom)
+	Texture* DX9Facade::createTexture(Texture* _pFrom)
 	{
 		return (_pFrom ? new DX9Texture(*(DX9Texture*)_pFrom) : new DX9Texture);
 	}
 
-	void DX9Facade::destroyITexture(ITexture* _pTexture)
+	void DX9Facade::destroyTexture(Texture* _pTexture)
 	{
 		delete ((DX9Texture*)_pTexture);
 	}
 
-	IColor* DX9Facade::createIColor(IColor* _pFrom)
+	Color* DX9Facade::createColor(Color* _pFrom)
 	{
 		return (_pFrom ? new DX9Color(*(DX9Color*)_pFrom) : new DX9Color);
 	}
 
-	void DX9Facade::destroyIColor(IColor* _pColor)
+	void DX9Facade::destroyColor(Color* _pColor)
 	{
 		delete ((DX9Color*)_pColor);
 	}
 
-	IText* DX9Facade::createIText(IText* _pFrom)
+	Text* DX9Facade::createText(Text* _pFrom)
 	{
 		return (_pFrom ? new DX9Text(*(DX9Text*)_pFrom) : new DX9Text);
 	}
 
-	void DX9Facade::destroyIText(IText* _pText)
+	void DX9Facade::destroyText(Text* _pText)
 	{
 		delete ((DX9Text*)_pText);
 	}
 
-	ISprite* DX9Facade::createISprite(ISprite* _pFrom)
+	Sprite* DX9Facade::createSprite(Sprite* _pFrom)
 	{
 		return (_pFrom ? new DX9Sprite(*(DX9Sprite*)_pFrom) : new DX9Sprite);
 	}
 
-	void DX9Facade::destroyISprite(ISprite* _pSprite)
+	void DX9Facade::destroySprite(Sprite* _pSprite)
 	{
 		delete ((DX9Sprite*)_pSprite);
 	}
 
-	ILine* DX9Facade::createILine(ILine* _pFrom)
+	Shape* DX9Facade::createShape(string _szType, Shape* _pFrom)
 	{
-		return (_pFrom ? new DX9Line(*(DX9Line*)_pFrom) : new DX9Line);
+		if (_szType == "Default")
+		{
+			return (_pFrom ? new DX9Shape(*(DX9Shape*)_pFrom) : new DX9Shape);
+		}
+		else if (_szType == "Rectangle")
+		{
+			return (_pFrom ? new DX9RectangleShape(*(DX9RectangleShape*)_pFrom) : new DX9RectangleShape);
+		}
+		else if (_szType == "Circle")
+		{
+			return (_pFrom ? new DX9CircleShape(*(DX9CircleShape*)_pFrom) : new DX9CircleShape);
+		}
+		else if (_szType == "Arrow")
+		{
+			return (_pFrom ? new DX9ArrowShape(*(DX9ArrowShape*)_pFrom) : new DX9ArrowShape);
+		}
+		else if (_szType == "Line")
+		{
+			return (_pFrom ? new DX9LineShape(*(DX9LineShape*)_pFrom) : new DX9LineShape);
+		}
+		return nullptr;
 	}
 
-	void DX9Facade::destroyILine(ILine* _pLine)
+	void DX9Facade::destroyShape(Shape* _pShape)
 	{
-		delete ((DX9Line*)_pLine);
+		delete _pShape;
 	}
-
-	IShape* DX9Facade::createIShape(IShape* _pFrom)
-	{
-		return (_pFrom ? new DX9Shape(*(DX9Shape*)_pFrom) : new DX9Shape);
-	}
-
-	void DX9Facade::destroyIShape(IShape* _pShape)
-	{
-		delete ((DX9Shape*)_pShape);
-	}
-
-	IRectangleShape* DX9Facade::createIRectangleShape(IRectangleShape* _pFrom)
-	{
-		return (_pFrom ? new DX9RectangleShape(*(DX9RectangleShape*)_pFrom) : new DX9RectangleShape);
-	}
-
-	void DX9Facade::destroyIRectangleShape(IRectangleShape* _pRectangleShape)
-	{
-		delete ((DX9RectangleShape*)_pRectangleShape);
-	}
-
+	
 	bool DX9Facade::isKeyPressed(Key _key)
 	{
 		if (m_abKeys[_key])

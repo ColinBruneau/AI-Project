@@ -4,7 +4,7 @@
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
 #include "Scene\SceneMap.h"
-#include "AI\Steering\Behaviour.h"
+#include "AI\Steering\Behavior.h"
 #include "Scripts\Actions.h"
 
 
@@ -115,7 +115,7 @@ bool SceneBehaviorTree::onInit()
 	m_pTextBTMode->setString("Sequence: SeekTo / FleeUntil");
 
 	createEntities();
-	setBehaviour();
+	setBehavior();
 
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
@@ -176,49 +176,49 @@ bool SceneBehaviorTree::onUpdate()
 	{
 		m_iBTMode = 0;
 		m_pTextBTMode->setString("Sequence: SeekTo -> FleeUntil");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad1))
 	{
 		m_iBTMode = 1;
 		m_pTextBTMode->setString("Sequence: SeekTo -> FleeUntil -> Wander");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad2))
 	{
 		m_iBTMode = 2;
 		m_pTextBTMode->setString("Sequence: IsAwayFromTarget / SeekTo -> FleeUntil -> Wander");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad3))
 	{
 		m_iBTMode = 3;
 		m_pTextBTMode->setString("Selector: IsAwayFromTarget / Selector / SeekTo -> FleeUntil OR Wander");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad4))
 	{
 		m_iBTMode = 4;
 		m_pTextBTMode->setString("Repeat: 3 Sequence / SeekTo / FleeUntil THEN Wander");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad5))
 	{
 		m_iBTMode = 5;
 		m_pTextBTMode->setString("Timer 3s on Wander THEN SeekTo");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad6))
 	{
 		m_iBTMode = 6;
 		m_pTextBTMode->setString("Wander if EntityNameIs 0");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad7))
 	{
 		m_iBTMode = 7;
 		m_pTextBTMode->setString("Scenario individuel");
-		setBehaviour();
+		setBehavior();
 	}
 
 	// Entities
@@ -230,7 +230,7 @@ bool SceneBehaviorTree::onUpdate()
 			deleteEntities();
 			m_iNbEntities += 10;
 			createEntities();
-			setBehaviour();
+			setBehavior();
 		}
 		m_bKeyPressedAdd = true;
 	}
@@ -247,7 +247,7 @@ bool SceneBehaviorTree::onUpdate()
 			deleteEntities();
 			m_iNbEntities -= 10;
 			createEntities();
-			setBehaviour();
+			setBehavior();
 		}
 		m_bKeyPressedSub = true;
 	}
@@ -320,14 +320,14 @@ void SceneBehaviorTree::createEntities()
 	}
 }
 
-void SceneBehaviorTree::setBehaviour()
+void SceneBehaviorTree::setBehavior()
 {
 	for (int i = 0; i < m_iNbEntities; i++)
 	{
 		std::string s = std::to_string(i);
 		Steering* pSteering = m_vEntities[i]->getComponent<Steering>();
 		pSteering->init();
-		pSteering->clearBehaviours();
+		pSteering->clearBehaviors();
 
 		BehaviorTree* pBT = m_vEntities[i]->getComponent<BehaviorTree>();
 		if (pBT)
@@ -482,9 +482,9 @@ void SceneBehaviorTree::setBehaviour()
 			//Wander* pWander = new Wander(m_vEntities[i], 100.f, 50.f, 10.0f);
 			//ActionWander* pActionWander = new ActionWander(pWander);
 			Steering* pLeadFollowing = new Steering();
-			pLeadFollowing->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 2.0f);
-			pLeadFollowing->addBehaviour(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
-			pLeadFollowing->addBehaviour(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+			pLeadFollowing->addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 2.0f);
+			pLeadFollowing->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
+			pLeadFollowing->addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
 			ActionSteer* pActionSteer = new ActionSteer(m_vEntities[i], pLeadFollowing);
 			DecoratorEntityNameIs* pEntityNameIs = new DecoratorEntityNameIs(m_vEntities[i], "0");
 			Selector* pSel = new Selector();

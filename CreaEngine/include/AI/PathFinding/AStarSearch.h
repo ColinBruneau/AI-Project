@@ -37,6 +37,8 @@ given where due.
 #include <set>
 #include <vector>
 
+using namespace std;
+
 // disable warning that debugging information has lines that are truncated
 // occurs in stl headers
 #pragma warning( disable : 4786 )

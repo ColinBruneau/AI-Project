@@ -4,7 +4,7 @@
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
 #include "Scene\SceneMap.h"
-#include "AI\Steering\Behaviour.h"
+#include "AI\Steering\Behavior.h"
 
 
 SceneSteering::SceneSteering()
@@ -92,12 +92,7 @@ bool SceneSteering::onInit()
 	pEntityObstacle = m_pGM->getEntity("mine1");
 	m_vObstacles.push_back(pEntityObstacle);
 	m_vPath.push_back(&pEntityObstacle->getPosition());
-
-	// n entity
-	m_iNbEntities = 2;
-	m_bKeyPressedAdd = false;
-	m_bKeyPressedSub = false;
-
+	
 	// Steering mode
 	m_pTextSteeringMode = m_pGM->getText("steering");
 	m_pTextSteeringMode->setFont(m_pGM->getFont("arial.ttf"));
@@ -113,8 +108,15 @@ bool SceneSteering::onInit()
 	m_iSteeringMode = 0;
 	m_pTextSteeringMode->setString("Seek/Flee");
 
-	createEntities();
-	setBehaviour();
+	// n entity
+	//m_iNbEntities = 2;
+	m_bKeyPressedAdd = false;
+	m_bKeyPressedSub = false;
+
+	// todo : l'entity est mal clonée, la fsm n'existe pas
+	m_iNbEntities = 0;
+	//createEntities();
+	//setBehavior();
 
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
@@ -175,91 +177,91 @@ bool SceneSteering::onUpdate()
 	{
 		m_iSteeringMode = 0;
 		m_pTextSteeringMode->setString("Seek/Flee");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad1))
 	{
 		m_iSteeringMode = 1;
 		m_pTextSteeringMode->setString("Pursuit/Evasion");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad2))
 	{
 		m_iSteeringMode = 2;
 		m_pTextSteeringMode->setString("Arrival/Obstacle Avoidance");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad3))
 	{
 		m_iSteeringMode = 3;
 		m_pTextSteeringMode->setString("Wander");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad4))
 	{
 		m_iSteeringMode = 4;
 		m_pTextSteeringMode->setString("Pathfinding");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad5))
 	{
 		m_iSteeringMode = 5;
 		m_pTextSteeringMode->setString("Unaligned Collision Avoidance");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad6))
 	{
 		m_iSteeringMode = 6;
 		m_pTextSteeringMode->setString("Flocking");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad7))
 	{
 		m_iSteeringMode = 7;
 		m_pTextSteeringMode->setString("Lead Following");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Numpad8))
 	{
 		m_iSteeringMode = 8;
 		m_pTextSteeringMode->setString("Swarming");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::A))
 	{
 		m_iSteeringMode = 10;
 		m_pTextSteeringMode->setString("Formation V");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Z))
 	{
 		m_iSteeringMode = 11;
 		m_pTextSteeringMode->setString("Formation L");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::E))
 	{
 		m_iSteeringMode = 12;
 		m_pTextSteeringMode->setString("Formation Circle");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::R))
 	{
 		m_iSteeringMode = 13;
 		m_pTextSteeringMode->setString("Formation 2-Level");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::T))
 	{
 		m_iSteeringMode = 14;
 		m_pTextSteeringMode->setString("Formation of formation");
-		setBehaviour();
+		setBehavior();
 	}
 	if (m_pGM->isKeyPressed(Key::Y))
 	{
 		m_iSteeringMode = 15;
 		m_pTextSteeringMode->setString("Dynamic formation");
-		setBehaviour();
+		setBehavior();
 	}
 
 	// Entities
@@ -271,7 +273,7 @@ bool SceneSteering::onUpdate()
 			deleteEntities();
 			m_iNbEntities += 10;
 			createEntities();
-			setBehaviour();
+			setBehavior();
 		}
 		m_bKeyPressedAdd = true;
 	}
@@ -288,7 +290,7 @@ bool SceneSteering::onUpdate()
 			deleteEntities();
 			m_iNbEntities -= 10;
 			createEntities();
-			setBehaviour();
+			setBehavior();
 		}
 		m_bKeyPressedSub = true;
 	}
@@ -361,83 +363,83 @@ void SceneSteering::createEntities()
 	}
 }
 
-void SceneSteering::setBehaviour()
+void SceneSteering::setBehavior()
 {
 	for (int i = 0; i < m_iNbEntities; i++)
 	{
 		std::string s = std::to_string(i);
 		Steering* pSteering = m_vEntities[i]->getComponent<Steering>();
 		pSteering->init();
-		pSteering->clearBehaviours();
-		// Behaviour
+		pSteering->clearBehaviors();
+		// Behavior
 		switch (m_iSteeringMode)
 		{
 		case 0: 
-			if (i % 2 == 0)	pSteering->addBehaviour(new Seek(m_vEntities[i], m_pMouse), 1.0f);
-			else pSteering->addBehaviour(new Flee(m_vEntities[i], m_pMouse), 1.0f);
+			if (i % 2 == 0)	pSteering->addBehavior(new Seek(m_vEntities[i], m_pMouse), 1.0f);
+			else pSteering->addBehavior(new Flee(m_vEntities[i], m_pMouse), 1.0f);
 			break;
 		case 1: 
-			if (i % 2 == 0)	pSteering->addBehaviour(new Pursuit(m_vEntities[i], m_pMouse, 1.0f), 1.0f);
-			else pSteering->addBehaviour(new Evasion(m_vEntities[i], m_pMouse, 1.f), 1.0f);
+			if (i % 2 == 0)	pSteering->addBehavior(new Pursuit(m_vEntities[i], m_pMouse, 1.0f), 1.0f);
+			else pSteering->addBehavior(new Evasion(m_vEntities[i], m_pMouse, 1.f), 1.0f);
 			break;
-		case 2: pSteering->addBehaviour(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
-			pSteering->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 1.0f);
+		case 2: pSteering->addBehavior(new Arrival(m_vEntities[i], m_pMouse, 200.0f), 1.0f);
+			pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 32.f, 100.f, &m_vObstacles), 1.0f);
 			break;
-		case 3: pSteering->addBehaviour(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
+		case 3: pSteering->addBehavior(new Wander(m_vEntities[i], 100.f, 50.f, 10.0f), 1.0f);
 			break;
-		case 4: pSteering->addBehaviour(new PathFollowing(m_vEntities[i], m_pTarget, 40.f, &m_vPath), 1.0f);
+		case 4: pSteering->addBehavior(new PathFollowing(m_vEntities[i], m_pTarget, 40.f, &m_vPath), 1.0f);
 			break;
-		case 5: pSteering->addBehaviour(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, 1.0f, &m_vEntities), 1.0f);
+		case 5: pSteering->addBehavior(new UnalignedCollisionAvoidance(m_vEntities[i], 60.f, 1.0f, &m_vEntities), 1.0f);
 			break;
 		case 6:
-			pSteering->addBehaviour(new Separation(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
-			pSteering->addBehaviour(new Cohesion(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
-			pSteering->addBehaviour(new Alignment(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+			pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+			pSteering->addBehavior(new Cohesion(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
+			pSteering->addBehavior(new Alignment(m_vEntities[i], 60.f, &m_vEntities), 1.0f);
 			break;
 		case 7:
 			if (i == 0)
 			{
-				pSteering->addBehaviour(new Arrival(m_vEntities[0], m_pMouse, 200.f), 1.0f);
+				pSteering->addBehavior(new Arrival(m_vEntities[0], m_pMouse, 200.f), 1.0f);
 			}
 			else
 			{
-				pSteering->addBehaviour(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
-				pSteering->addBehaviour(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
+				pSteering->addBehavior(new Separation(m_vEntities[i], 60.f, &m_vEntities), 2.0f);
+				pSteering->addBehavior(new LeadFollowing(m_vEntities[i], m_vEntities[0], 180.f, 1.57f, 80.f, 50.f), 1.0f);
 			}
 			break;
 		case 8:
-			pSteering->addBehaviour(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
+			pSteering->addBehavior(new Swarming(m_vEntities[i], i, m_pMouse, 100.f), 2.0f);
 			break;
-		case 10: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+		case 10: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
 			break;
-		case 11: pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
+		case 11: pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, 0.0f), 1.0f);
 			break;
-		case 12: pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -180.0f, 180.0f, 60.0f), 1.0f);
+		case 12: pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -180.0f, 180.0f, 60.0f), 1.0f);
 			break;
 		case 13:
-			pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
-			pSteering->addBehaviour(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
+			pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, true, 10, i, m_iNbEntities, 60.0f, 100.0f, MathTools::degreetoradian(45.0f)), 1.0f);
+			pSteering->addBehavior(new ObstacleAvoidance(m_vEntities[i], 12, 100, &m_vObstacles), 8.0f);
 			break;
 		case 14:
 			if (i >= 23)
 			{
-				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
+				pSteering->addBehavior(new FormationV(m_vEntities[i], m_vEntities[1], false, 10, i - 23, m_iNbEntities - 23, 60.0f, 100.0f, MathTools::degreetoradian(0.0f)), 1.f);
 			}
 			else if (i >= 13)
 			{
-				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[2], false, 10, i - 13, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else if (i >= 3)
 			{
-				pSteering->addBehaviour(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
+				pSteering->addBehavior(new FormationCircle(m_vEntities[i], m_vEntities[0], false, 10, i - 3, 10, 60.0f, 100.0f, 0.0f, 360.0f, 60.0f), 1.f);
 			}
 			else
 			{
-				pSteering->addBehaviour(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
+				pSteering->addBehavior(new FormationV(m_vEntities[i], m_pMouse, false, 10, i, 3, 200.0f, 100.0f, MathTools::degreetoradian(-45.0f)), 1.f);
 			}
 			break;
 		case 15:
-			pSteering->addBehaviour(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
+			pSteering->addBehavior(new FormationDynamic(m_vEntities[i], m_pMouse, false, 10, i, m_iNbEntities, 60.0f, 100.0f, -90.0f, 90.0f, 60.0f), 1.f);
 			break;
 		}
 	}

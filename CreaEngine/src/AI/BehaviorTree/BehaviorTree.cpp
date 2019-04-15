@@ -3,7 +3,7 @@
 #include "AI\BehaviorTree\BehaviorTree.h"
 #include "AI\BehaviorTree\Behavior.h"
 
-namespace crea
+namespace bt
 {
 	BehaviorTree::BehaviorTree()
 		: m_pRoot(nullptr)
@@ -43,5 +43,13 @@ namespace crea
 	bool BehaviorTree::quit()
 	{
 		return true;
+	}
+
+	crea::Component* BehaviorTree::clone()
+	{
+		BehaviorTree* p = new BehaviorTree(*this);
+		// CB: copy tree structure...
+		p->m_pRoot = m_pRoot->clone();
+		return p;
 	}
 } // namespace crea

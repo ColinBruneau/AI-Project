@@ -34,5 +34,4 @@ using namespace std;
 #include "Graphics\DX9Color.h"
 #include "Graphics\DX9Text.h"
 #include "Graphics\DX9Sprite.h"
-#include "Graphics\DX9Line.h"
 #include "Graphics\DX9Shape.h"

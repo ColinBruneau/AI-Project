@@ -90,10 +90,6 @@ namespace crea
 
 		virtual void destroyShape(Shape* _pShape) = 0;
 
-		virtual Line* createLine(Line* _pFrom = nullptr) = 0;
-
-		virtual void destroyLine(Line* _pLine) = 0;
-
 		virtual bool isKeyPressed(Key _key) = 0;
 
 		virtual bool isMouseButtonPressed(Button _button) = 0;
@@ -101,6 +97,8 @@ namespace crea
 		virtual Vector2f getMousePosition() = 0;
 
 		virtual IntRect& getWindowRect() = 0;
+
+		virtual void setWindowRect(IntRect _rect) = 0;
 
 	protected:
 		IFacade()
