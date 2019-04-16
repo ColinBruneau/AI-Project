@@ -151,6 +151,12 @@ namespace crea
 			delete m_pShape;
 		}
 
+		virtual void setSize(float _x, float _y)
+		{
+			sf::ConvexShape* pArrow = (sf::ConvexShape*) m_pShape;
+			pArrow->setScale(sf::Vector2f(_x, _y));
+		}
+
 		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd)
 		{
 			float dx = _xEnd - _xStart;
