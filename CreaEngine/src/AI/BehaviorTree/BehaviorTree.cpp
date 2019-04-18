@@ -36,20 +36,12 @@ namespace bt
 
 	bool BehaviorTree::draw()
 	{
-	
+
 		return true;
 	}
 
 	bool BehaviorTree::quit()
 	{
 		return true;
-	}
-
-	crea::Component* BehaviorTree::clone()
-	{
-		BehaviorTree* p = new BehaviorTree(*this);
-		// CB: copy tree structure...
-		p->m_pRoot = m_pRoot->clone();
-		return p;
 	}
 } // namespace crea

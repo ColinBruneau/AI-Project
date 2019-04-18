@@ -18,12 +18,11 @@ namespace crea
 	class CREAENGINE_API Animator : public Component
 	{
 		Sprite* m_pSprite;
-		Animation* m_animation;
+		Animation* m_pAnimation;
 		Time m_frameTime;
 		Time m_currentTime;
 		int m_currentFrame;
 		bool m_isPaused;
-		Texture* m_texture;
 
 	public:
 		Animator();
@@ -36,8 +35,7 @@ namespace crea
 		Animation* getAnimation();
 		Time getFrameTime();
 		IntRect getFrame();
-		Texture* getTexture() { return m_texture; }
-		
+
 		bool isPlaying();
 
 		void play();
@@ -45,14 +43,25 @@ namespace crea
 		void pause();
 		void stop();
 
+		bool loadFromFileJSON(const string& _filename);
+
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
 
-		virtual Component* clone() { 
-			Animator* pAnimator = new Animator(*this); 
-			pAnimator->m_pSprite = DataManager::getSingleton()->cloneSprite(m_pSprite);// Clone Sprite if one exist
+		virtual Component* clone()
+		{
+			Animator* pAnimator = new Animator(*this);
+			pAnimator->m_pSprite = nullptr;
+			if (pAnimator->m_pAnimation)
+				pAnimator->m_pAnimation = m_pAnimation->clone();
+			/*
+			if (pAnimator->m_pSprite)
+				pAnimator->m_pSprite = m_pSprite->clone();
+			if (pAnimator->m_pAnimation)
+				pAnimator->m_pAnimation = m_pAnimation->clone();
+			*/
 			return pAnimator;
 		}
 	};

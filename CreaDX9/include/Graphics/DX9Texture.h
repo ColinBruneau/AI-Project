@@ -20,7 +20,7 @@ namespace crea
 		DX9Texture() { m_pTexture = nullptr; }
 		~DX9Texture() { SafeRelease(m_pTexture); }
 
-		virtual bool loadFromFile(string _file)
+		virtual bool loadFromFile(const string& _file)
 		{
 			if (FAILED(D3DXCreateTextureFromFile(DX9Facade::Instance().m_pDevice, _file.c_str(), &m_pTexture)))
 			{

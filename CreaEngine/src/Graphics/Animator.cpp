@@ -23,7 +23,7 @@ namespace crea
 
 	void Animator::setAnimation(Animation& animation)
 	{
-		m_animation = &animation;
+		m_pAnimation = &animation;
 		m_currentFrame = 0;
 		m_currentTime = 0.f;
 	}
@@ -35,7 +35,7 @@ namespace crea
 
 	Animation* Animator::getAnimation()
 	{
-		return m_animation;
+		return m_pAnimation;
 	}
 
 	bool Animator::isPlaying()
@@ -50,9 +50,9 @@ namespace crea
 
 	IntRect Animator::getFrame()
 	{
-		if (m_animation)
+		if (m_pAnimation)
 		{
-			return m_animation->getFrame(m_currentFrame);
+			return m_pAnimation->getFrame(m_currentFrame);
 		}
 		return IntRect();
 	}
@@ -81,32 +81,55 @@ namespace crea
 		m_currentTime = 0.f;
 	}
 
-	bool Animator::init()
+	bool Animator::loadFromFileJSON(const string& _filename)
 	{
-		// Get Sprite from SpriteRenderer
-		SpriteRenderer* pRenderer = getEntity()->getComponent<SpriteRenderer>();
-		if (pRenderer)
+		// TD Animation
+		Json::Value root;
+		std::ifstream srStream(_filename, std::ifstream::binary);
+		if (srStream.fail())
 		{
-			m_pSprite = pRenderer->getSprite();
+			cerr << "Can't open SpriteRenderer file: " << _filename << endl;
+			return false;
 		}
+		srStream >> root;
+
+		string szSprite = root["sprite"].asString();
+		GameManager* pGM = GameManager::getSingleton();
+		m_pSprite = pGM->getSprite(szSprite);
+
 		return true;
 	}
-	
+
+	bool Animator::init()
+	{
+		return true;
+	}
+
 	bool Animator::update()
 	{
+		// if sprite not set, try to get it from SpriteRenderer
+		if (!m_pSprite)
+		{
+			SpriteRenderer* pSr = getEntity()->getComponent<SpriteRenderer>();
+			if (pSr)
+			{
+				m_pSprite = pSr->getSprite();
+			}
+		}
+
 		// if not paused and we have a valid animation
-		if (!m_isPaused && m_animation)
+		if (!m_isPaused && m_pAnimation)
 		{
 			// add delta time
-			m_currentTime += (TimeManager::getSingleton()->getFrameTime()*m_animation->getSpeed());
+			m_currentTime += (TimeManager::getSingleton()->getFrameTime()*m_pAnimation->getSpeed());
 
 			// Get the current animation frame
-			float fScaledTime = (float) (m_currentTime.asSeconds() / m_animation->getDuration().asSeconds());
-			int iNumFrames = m_animation->getSize();
+			float fScaledTime = (float)(m_currentTime.asSeconds() / m_pAnimation->getDuration().asSeconds());
+			int iNumFrames = m_pAnimation->getSize();
 			m_currentFrame = (int)(fScaledTime * iNumFrames);
 
 			// If the animation is looping, calculate the correct frame
-			if (m_animation->getLooping())
+			if (m_pAnimation->getLooping())
 			{
 				m_currentFrame %= iNumFrames;
 			}
@@ -116,11 +139,11 @@ namespace crea
 			}
 		}
 
-		if (m_pSprite && m_animation)
+		if (m_pSprite && m_pAnimation)
 		{
-			m_pSprite->setTexture(m_animation->getSpriteSheet());
-			
-			IntRect rect = m_animation->getFrame(m_currentFrame);
+			m_pSprite->setTexture(m_pAnimation->getSpriteSheet());
+
+			IntRect rect = m_pAnimation->getFrame(m_currentFrame);
 			float fFlipH = (rect.getWidth() < 0) ? -1.0f : 1.0f;// width < 0 means flipH
 			float fFlipV = (rect.getHeight() < 0) ? -1.0f : 1.0f;// height < 0 means flipV
 
@@ -129,17 +152,19 @@ namespace crea
 				rect.getTop(),
 				rect.getWidth()*(int)fFlipH,
 				rect.getHeight()*(int)fFlipV);
-			
+
 			m_pSprite->setScale(fFlipH, fFlipV);
+
+			// CB: SpriteRenderer is already setting the position
 		}
 		return true;
 	}
-	
+
 	bool Animator::draw()
-	{				
+	{
 		return true;
 	}
-	
+
 	bool Animator::quit()
 	{
 		return true;

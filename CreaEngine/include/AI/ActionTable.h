@@ -33,7 +33,6 @@ namespace crea
 		ActionTable();
 		virtual ~ActionTable();
 
-		void		read();
 		string*		getAnimation(
 			unsigned char _ucAnimCond1,
 			unsigned char _ucAnimCond2,
@@ -49,7 +48,7 @@ namespace crea
 			string* _pszAnimFileName,
 			string* _pszActionDesc = nullptr);
 
-		bool		loadFromFileJSON(string& _filename);
+		bool		loadFromFileJSON(const string& _filename);
 
 		virtual bool init();
 		virtual bool update();

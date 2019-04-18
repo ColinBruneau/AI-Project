@@ -16,6 +16,5 @@ using namespace std;
 #pragma warning( disable: 4251 )
 
 #include "CreaImport.h"
-using namespace crea;
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme

@@ -6,6 +6,7 @@
 #ifndef __Map_H_
 #define __Map_H_
 
+#include <vector>
 #include "TileSet.h"
 
 namespace crea
@@ -15,7 +16,7 @@ namespace crea
 
 	class CREAENGINE_API Map
 	{
-		crea::GameManager*	m_pGM;
+		GameManager*	m_pGM;
 
 		// Name
 		string m_szName;
@@ -29,18 +30,21 @@ namespace crea
 		// Tilesets
 		vector<TileSet*> m_TileSet;
 		TileSet* m_pTerrainTileSet;
+		TileSet* m_pClearanceTileSet;
 
 		// Nodes
 		Node* **m_Grid;	// Allocation dynamique
 		bool m_bIsGrid8;
 
 		// Clusters
-		bool m_bUseHPA;
 		short m_nClusterWidth;
 		short m_nClusterHeight;
 		short m_nNbClustersX;
 		short m_nNbClustersY;
 		Cluster* **m_Clusters;
+		bool m_bUseHPA;
+		bool m_bUseAStar;
+		bool m_bUseAA;
 
 		// Draw modes
 		bool m_bDisplayCollision;
@@ -59,15 +63,11 @@ namespace crea
 
 		~Map();
 
-		bool loadFromFileJSON(string& _filename);
+		bool loadFromFileJSON(const string& _filename);
 
-		inline void setName(string& _szName) { m_szName = _szName; }
+		void findClearance();
 
-		void setSize(short _nWidth, short _nHeight);
-
-		void getSize(short& _nWidth, short& _nHeight);
-
-		void getTileSize(short& _nWidth, short& _nHeight);
+		void findClusters();
 
 		void setClusterSize(short _nClusterWidth, short _nClusterHeight);
 
@@ -81,29 +81,37 @@ namespace crea
 
 		Node* getNodeInCluster(Cluster* _pCluster, short _i, short _j);
 
+		Cluster* getClusterFromNode(Node* _pNode);
+
+		inline void setName(const string& _szName) { m_szName = _szName; }
+
+		void setSize(short _nWidth, short _nHeight);
+
+		void getSize(short& _nWidth, short& _nHeight) { _nWidth = m_nWidth; _nHeight = m_nHeight; }
+
+		void getTileSize(short& _nWidth, short& _nHeight) { _nWidth = m_nTileWidth; _nHeight = m_nTileHeight; }
+
 		void setNode(short _i, short _j, Node* _pNode) { m_Grid[_i][_j] = _pNode; }
 
-		Node* getNode(short _i, short _j) { /*limitTileIndex(_i, _j);*/  return (isInLimitTileIndex(_i, _j) ? m_Grid[_i][_j] : nullptr); }
+		Node* getNode(short _i, short _j) { if (isInLimitTileIndex(_i, _j)) return nullptr;  return m_Grid[_i][_j]; }
 
 		TileSet* getTileSet(short _gid);
 
 		Node* getNodeAtPosition(Vector2f _v);
 
-		unsigned short getQuadAtPosition(Vector2f& _v);
-			
 		Vector2f getNodePositionFromPixels(Vector2f _v);
 
 		Vector2f getPixelsFromNodePosition(Vector2f _v);
 
+		void getTileIndexLimits(int& _iMin, int& _iMax, int& _jMin, int& _jMax) { _iMin = m_iMin; _iMax = m_iMax; _jMin = m_jMin; _jMax = m_jMax; }
+
+		bool isInLimitTileIndex(short& _i, short& _j) { return (_i < m_iMin || _i > m_iMax || _j < m_jMin || _j > m_jMax); }
+
 		float getFrictionAtPosition(Vector2f _v);
 
-		void getTileIndexLimits(int& _iMin, int& _iMax, int& _jMin, int& _jMax) { _iMin = m_iMin; _iMax = m_iMax; _jMin = m_jMin; _jMax = m_jMax; }
-		
-		void limitTileIndex(short& _i, short& _j) { _i = _i < m_iMin ? m_iMin : _i; _i = _i > m_iMax ? m_iMax : _i; _j = _j < m_jMin ? m_jMin : _j; _j = _j > m_jMax ? m_jMax : _j;}
+		unsigned short getQuadAtPosition(Vector2f& _v);
 
-		bool isInLimitTileIndex(short& _i, short& _j) { return (_i >= m_iMin && _i <= m_iMax && _j >= m_jMin && _j <= m_jMax); }
-
-		bool init();
+		inline bool getUseAA() { return m_bUseAA; }
 
 		bool update();
 

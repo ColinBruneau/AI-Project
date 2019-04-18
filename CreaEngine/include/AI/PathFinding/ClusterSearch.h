@@ -6,13 +6,12 @@
 #ifndef __ClusterSearch_H__
 #define __ClusterSearch_H__
 
-#include "AI\AI.h"
 #include "AI\Pathfinding\AStarSearch.h"
 #include "AI\Pathfinding\ClusterSearchNode.h"
 
 namespace crea
 {
-	class CREAENGINE_API ClusterSearch
+	class CREAENGINE_API ClusterSearch : public AStarSearch<ClusterSearchNode>
 	{
 	public:
 		enum SearchState
@@ -34,8 +33,6 @@ namespace crea
 		float getSolutionLength();
 
 	private:
-		// A*
-		AStarSearch<ClusterSearchNode> m_pAStarSearch;
 		SearchState m_uiSearchState;
 
 	};

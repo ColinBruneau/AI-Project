@@ -1,10 +1,6 @@
 #include "stdafx.h"
 
 #include "AI\ActionTable.h"
-#include "Tools\json\json.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
 namespace crea
 {
@@ -22,11 +18,6 @@ namespace crea
 			delete (*ca_it).second;
 			ca_it = m_condActionMap.erase(ca_it);
 		}
-	}
-
-	void ActionTable::read()
-	{
-
 	}
 
 	string* ActionTable::getAnimation(
@@ -126,7 +117,7 @@ namespace crea
 		return true;
 	}
 
-	bool ActionTable::loadFromFileJSON(string& _filename)
+	bool ActionTable::loadFromFileJSON(const string& _filename)
 	{
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);

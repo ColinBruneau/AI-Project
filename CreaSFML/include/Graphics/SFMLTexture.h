@@ -28,7 +28,7 @@ namespace crea
 			delete m_pTexture;
 		}
 
-		virtual bool loadFromFile(string _file)
+		virtual bool loadFromFile(const string& _file)
 		{
 			return m_pTexture->loadFromFile(_file);
 		}

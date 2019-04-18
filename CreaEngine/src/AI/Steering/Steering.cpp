@@ -26,46 +26,43 @@ namespace crea
 	{
 		m_pCollider = _pCollider;
 	}
-	
-	void Steering::addBehavior(Behavior* _Behavior, float _weight)
+
+	void Steering::addBehavior(Behavior* _behavior, float _weight)
 	{
-		m_Behaviors.push_back(new PairFloatBehavior(_weight, _Behavior));
+		m_behaviors.push_back(new PairFloatBehavior(_weight, _behavior));
 	};
 
-	void Steering::removeBehavior(Behavior* _Behavior)
+	void Steering::removeBehavior(Behavior* _behavior)
 	{
-		if (m_Behaviors.empty())
+		if (m_behaviors.empty())
 			return;
 
-		auto a = std::remove_if(m_Behaviors.begin(), m_Behaviors.end(),
-			[=](PairFloatBehavior* p) { return p->second == _Behavior; });
+		auto a = std::remove_if(m_behaviors.begin(), m_behaviors.end(),
+			[=](PairFloatBehavior* p) { return p->second == _behavior; });
 
-		if (a != m_Behaviors.end())
-		{
-			m_Behaviors.erase(a);
-		}
+		m_behaviors.erase(a);
 	};
 
 	void Steering::clearBehaviors()
 	{
-		for (int i = 0; i < (int)m_Behaviors.size(); i++)
+		for (int i = 0; i < (int)m_behaviors.size(); i++)
 		{
-			PairFloatBehavior* p = m_Behaviors.back();
+			PairFloatBehavior* p = m_behaviors.back();
 			delete(p);
-			m_Behaviors.pop_back();
+			m_behaviors.pop_back();
 		}
-		m_Behaviors.clear();
+		m_behaviors.clear();
 	};
 
 	Vector2f Steering::steer()
 	{
 		Vector2f steeringDirection;
-		for (int i = 0; i < (int)m_Behaviors.size(); i++)
+		for (int i = 0; i < (int)m_behaviors.size(); i++)
 		{
-			PairFloatBehavior* t = m_Behaviors[i];
+			PairFloatBehavior* t = m_behaviors[i];
 			Behavior* b = (Behavior*)t->second;
 			Vector2f v = b->Update();
- 			steeringDirection += (v * t->first);
+			steeringDirection += (v * t->first);
 		}
 		return steeringDirection;
 	}
@@ -75,9 +72,9 @@ namespace crea
 		stringstream stream;
 		string szSteering("");
 		Vector2f steeringDirection;
-		for (int i = 0; i < (int)m_Behaviors.size(); i++)
+		for (int i = 0; i < (int)m_behaviors.size(); i++)
 		{
-			PairFloatBehavior* t = m_Behaviors[i];
+			PairFloatBehavior* t = m_behaviors[i];
 			Behavior* b = (Behavior*)t->second;
 			szSteering += t->second->asString();
 			szSteering += " ";
@@ -86,7 +83,7 @@ namespace crea
 		}
 		return szSteering;
 	}
-	
+
 	bool Steering::init()
 	{
 		m_pTarget = nullptr;

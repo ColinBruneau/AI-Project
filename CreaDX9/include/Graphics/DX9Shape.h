@@ -59,30 +59,7 @@ namespace crea
 			if (m_pScale)
 				delete m_pScale;
 		}
-
-		void setOrigin(float _x, float _y)
-		{
-			if (!m_pOrigin)
-			{
-				m_pOrigin = new D3DXVECTOR2;
-			}
-			*m_pOrigin = D3DXVECTOR2(_x, _y);
-		}
-
-		void setRotation(float _angle)
-		{
-			m_fRotation = _angle;
-		}
-
-		void setScale(float _x, float _y)
-		{
-			if (!m_pScale)
-			{
-				m_pScale = new D3DXVECTOR2;
-			}
-			*m_pScale = D3DXVECTOR2(_x, _y);
-		}
-
+		
 		virtual void draw() { }
 		
 		virtual void setColor(Color* _pColor) 
@@ -115,6 +92,28 @@ namespace crea
 			m_bUpdateVertices = true;
 		}
 
+		virtual void setRotation(float _angle)
+		{
+			m_fRotation = _angle;
+		}
+
+		virtual void setScale(float _x, float _y)
+		{
+			if (!m_pScale)
+			{
+				m_pScale = new D3DXVECTOR2;
+			}
+			*m_pScale = D3DXVECTOR2(_x, _y);
+		}
+
+		virtual void setOrigin(float _x, float _y)
+		{
+			if (!m_pOrigin)
+			{
+				m_pOrigin = new D3DXVECTOR2;
+			}
+			*m_pOrigin = D3DXVECTOR2(_x, _y);
+		}
 	};
 
 	class DX9RectangleShape : public DX9Shape
@@ -502,7 +501,7 @@ namespace crea
 
 		DX9LineShape()
 		{
-			m_pVB = nullptr;
+			m_pVB = nullptr; 
 			if (FAILED(m_pD3DDevice->CreateVertexBuffer(9 * sizeof(CUSTOMVERTEX),
 				0, D3DFVF_CUSTOMVERTEX,
 				D3DPOOL_DEFAULT, &m_pVB, NULL)))
@@ -510,10 +509,10 @@ namespace crea
 				return;
 			}
 
-			m_points[0] = D3DXVECTOR2(0.0f, 0.5f);
-			m_points[1] = D3DXVECTOR2(0.0f, -0.5f);
-			m_points[2] = D3DXVECTOR2(1.0f, -0.5f);
-			m_points[3] = D3DXVECTOR2(1.0f, 0.5f);
+			m_points[0] = D3DXVECTOR2(0.0f, 1.0f);
+			m_points[1] = D3DXVECTOR2(0.0f, 0.0f);
+			m_points[2] = D3DXVECTOR2(1.0f, 0.0f);
+			m_points[3] = D3DXVECTOR2(1.0f, 1.0f);
 		}
 
 		~DX9LineShape()

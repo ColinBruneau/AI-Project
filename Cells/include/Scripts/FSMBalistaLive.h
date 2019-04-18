@@ -18,13 +18,15 @@ class FSMBalistaLive : public StateMachine
 	Entity*			m_pEntity;
 	CharacterController* m_pCharacterController;
 	Agent*			m_pAgent;
+	Steering*		m_pSteering;
+	Vehicle*		m_pVehicle;
 
 	FSMBalistaGoTo*	m_pFSMBalistaGoTo;
 
 	Vector2f		m_vTarget;
 
 	bool			m_bPaused;
-	
+
 public:
 	FSMBalistaLive();
 	virtual ~FSMBalistaLive();
@@ -35,6 +37,8 @@ public:
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 
 	virtual Component* clone() { return new FSMBalistaLive(*this); }
+
+	bool Move();
 };
 
 #endif

@@ -1,17 +1,15 @@
 { 	"components":[
 		{
 			"type":"SpriteRenderer",
-			"name":"Peon/Peon1.sr",
-			"sprite":"peon",
-			"image":"..\/Image\/peon.png"
+			"name":"Peon/PeonSteering.sr"
 		},
 		{
 			"type":"Agent",
-			"name":"Peon/Peon1.chr"
+			"name":"Peon/PeonSteering.chr"
 		},
 		{
 			"type":"Animator",
-			"name":"Peon/Peon1.animator",
+			"name":"Peon/PeonSteering.animator",
 			"sprite":"peon"
 		},
 		{

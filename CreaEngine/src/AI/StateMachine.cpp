@@ -13,6 +13,7 @@ namespace crea
 		m_nextState = false;
 		m_timeOnEnter = 0.0f;
 		m_ccMessagesToAgent = 0;
+		m_stack.push_back(m_currentState);
 	}
 
 	StateMachine::~StateMachine()
@@ -21,7 +22,7 @@ namespace crea
 
 	void StateMachine::Initialize(Entity* _pOwner)
 	{
-		setEntity(_pOwner);
+		m_Owner = _pOwner;
 		Process(EVENT_Enter, 0);
 	}
 
@@ -46,7 +47,7 @@ namespace crea
 		}
 
 		// Check for a state change
-		int safetyCount = 50;
+		int safetyCount = 10;
 		while (m_stateChange && (--safetyCount >= 0))
 		{
 			assert(safetyCount > 0 && "StateMachine::Process - Scenes are flip-flopping in an infinite loop.");
@@ -75,17 +76,19 @@ namespace crea
 
 	}
 
-
-	void StateMachine::SetState(unsigned int _state)
+	void StateMachine::SetState(unsigned int newState)
 	{
 		m_stateChange = true;
-		m_nextState = _state;
+		m_nextState = newState;
 
 	}
 
-
 	int StateMachine::SetStateInHistory()
 	{
+		// Can't set previous state if only 1 state in queue
+		if (m_stack.size() == 1)
+			return false;
+
 		m_stateChange = true;
 		m_stack.pop_back();
 		m_nextState = m_stack.back();
@@ -94,14 +97,14 @@ namespace crea
 
 	void StateMachine::SendMsg(int name, objectID receiver, void* data)
 	{
-		g_msgmanager->sendMsg(0, name, getEntity()->GetID(), receiver, -1, data);
+		g_msgmanager->sendMsg(0, name, m_Owner->GetID(), receiver, -1, data);
 
 	}
 
 
 	void StateMachine::SendDelayedMsg(float delay, int name, objectID receiver, void* data)
 	{
-		g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), receiver, -1, data);
+		g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), receiver, -1, data);
 
 	}
 
@@ -109,10 +112,10 @@ namespace crea
 	void StateMachine::SendDelayedMsgToMe(float delay, int name, MSG_Scope scope)
 	{
 		if (scope == SCOPE_TO_THIS_STATE) {
-			g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), getEntity()->GetID(), m_currentState);
+			g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), m_Owner->GetID(), m_currentState);
 		}
 		else {
-			g_msgmanager->sendMsg(delay, name, getEntity()->GetID(), getEntity()->GetID(), -1);
+			g_msgmanager->sendMsg(delay, name, m_Owner->GetID(), m_Owner->GetID(), -1);
 		}
 
 	}

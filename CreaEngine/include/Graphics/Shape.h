@@ -17,15 +17,21 @@ namespace crea
 
 		virtual ~Shape() {}
 
-		virtual void draw() {}
+		virtual void draw() { assert(false); }
 
-		virtual void setColor(Color* _pColor) {}
+		virtual void setColor(Color* _pColor) { assert(false); }
 
-		virtual void setOutlineColor(Color* _pColor) {}
+		virtual void setOutlineColor(Color* _pColor) { assert(false); }
 
-		virtual void setOutlineThickness(float _fPixels) {}
+		virtual void setOutlineThickness(float _fPixels) { assert(false); }
 
-		virtual void setPosition(float _x, float _y) {}
+		virtual void setPosition(float _x, float _y) { assert(false); }
+
+		virtual void setRotation(float _angle) { assert(false); }
+
+		virtual void setScale(float _x, float _y) { assert(false); }
+
+		virtual void setOrigin(float _x, float _y) { assert(false); }
 	};
 
 	class CREAENGINE_API RectangleShape : public Shape
@@ -34,9 +40,13 @@ namespace crea
 
 		RectangleShape() {}
 
+		// Todo: add const copie and operator= on all RectangleShape
+		//RectangleShape(const RectangleShape& _other);
+		//virtual RectangleShape& operator=(const RectangleShape& _other);
+
 		~RectangleShape() {}
 
-		virtual void setSize(float _x, float _y) {}
+		virtual void setSize(float _x, float _y) { assert(false); }
 	};
 
 	class CREAENGINE_API CircleShape : public Shape
@@ -45,9 +55,13 @@ namespace crea
 
 		CircleShape() {}
 
+		// Todo: add const copie and operator= on CircleShape
+		//CircleShape(const CircleShape& _other);virtual CircleShape& operator=(const CircleShape& _other);
+		//virtual CircleShape& operator=(const CircleShape& _other);
+
 		~CircleShape() {}
 
-		virtual void setRadius(float _r) {}
+		virtual void setRadius(float _r) { assert(false); }
 	};
 
 	class CREAENGINE_API ArrowShape : public Shape
@@ -57,10 +71,11 @@ namespace crea
 		ArrowShape() {}
 
 		~ArrowShape() {}
+		// Todo: add const copie and operator= on ArrowShape
 
-		virtual void setSize(float _x, float _y) {}
+		virtual void setSize(float _x, float _y) { assert(false); }
 
-		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd) {}
+		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd) { assert(false); }
 	};
 
 	class CREAENGINE_API LineShape : public Shape
@@ -71,9 +86,11 @@ namespace crea
 
 		~LineShape() {}
 
-		virtual void setSize(float _x, float _y) {}
+		// Todo: add const copie and operator= on LineShape
+
+		virtual void setSize(float _x, float _y) { assert(false); }
 		
-		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd) {}
+		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd) { assert(false); }
 	};
 } // namespace crea
 

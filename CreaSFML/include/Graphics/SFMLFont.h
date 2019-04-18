@@ -18,10 +18,14 @@ namespace crea
 	public:
 		sf::Font m_font;
 
-		// Initialise le Font
-		virtual bool loadFromFile(string _file)
+		virtual bool loadFromFile(const string& _file)
 		{
 			return m_font.loadFromFile(_file);
+		}
+
+		virtual void setFontSize(int _iSize)
+		{
+			// Todo: setFontSize SFML
 		}
 	};
 

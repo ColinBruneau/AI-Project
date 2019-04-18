@@ -71,6 +71,7 @@ bool FSMSteeringPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 		State(STATE_Live)
 		OnEnter
 			m_pFSMSteeringPeonLive = new FSMSteeringPeonLive();
+			//m_pEntity->addComponent(m_pFSMSteeringPeonLive);
 			m_pFSMSteeringPeonLive->Initialize(getEntity());
 
 		OnUpdate
@@ -81,6 +82,7 @@ bool FSMSteeringPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 			}
 
 		OnExit
+			m_pEntity->removeComponent(m_pFSMSteeringPeonLive);
 			delete m_pFSMSteeringPeonLive;
 			m_pFSMSteeringPeonLive = nullptr;
 			

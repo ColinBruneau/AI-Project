@@ -10,6 +10,15 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <cassert>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <iomanip>
+using namespace std;
+
+#pragma warning( disable: 4251 )
+
 #include "CreaImport.h"
 
 // TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme

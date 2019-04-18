@@ -3,8 +3,8 @@
 /* Description: Behavior
 /* Auteur: BRUNEAU Colin
 /***************************************************/
-#ifndef __Behavior_H_
-#define __Behavior_H_
+#ifndef __BEHAVIOR_H_
+#define __BEHAVIOR_H_
 
 #include "Core\Math.h"
 #include <vector>
@@ -58,9 +58,9 @@ namespace crea
 	class CREAENGINE_API Pursuit : public Behavior
 	{
 		Entity* m_target;
-		float m_fC;
+		float m_fTimeMax;
 	public:
-		Pursuit(Entity* _Entity, Entity* _target, float _fC) : Behavior(_Entity), m_target(_target), m_fC(_fC) { };
+		Pursuit(Entity* _Entity, Entity* _target, float _fTimeMax) : Behavior(_Entity), m_target(_target), m_fTimeMax(_fTimeMax) { };
 		Vector2f& Update();
 		virtual string asString() { return "Pursuit"; }
 	};
@@ -68,9 +68,9 @@ namespace crea
 	class CREAENGINE_API Evasion : public Behavior
 	{
 		Entity* m_target;
-		float m_fC;
+		float m_fTimeMax;
 	public:
-		Evasion(Entity* _Entity, Entity* _target, float _fC) : Behavior(_Entity), m_target(_target), m_fC(_fC) { };
+		Evasion(Entity* _Entity, Entity* _target, float _fTimeMax) : Behavior(_Entity), m_target(_target), m_fTimeMax(_fTimeMax) { };
 		Vector2f& Update();
 		virtual string asString() { return "Evasion"; }
 	};
@@ -90,9 +90,13 @@ namespace crea
 		float m_distance;
 		float m_radius;
 		float m_littleRadius;
+		Vector2f m_vR = Vector2f(0.f, 0.f);
 	public:
 		Wander(Entity* _Entity, float _distance, float _radius, float _littleRadius)
-			: Behavior(_Entity), m_distance(_distance), m_radius(_radius), m_littleRadius(_littleRadius) { };
+			: Behavior(_Entity), m_distance(_distance), m_radius(_radius), m_littleRadius(_littleRadius)
+		{
+			m_vR = Vector2f(m_radius, 0.f);
+		};
 		Vector2f& Update();
 		virtual string asString() { return "Wander"; }
 	};
@@ -207,22 +211,21 @@ namespace crea
 	class CREAENGINE_API FormationV : public Behavior
 	{
 		Entity* m_leader;
-		bool m_bUseLeaderOrientation;
+		bool m_bUseLeaderOrientation, m_bLeaderInvisible;
 		unsigned int m_id, m_maxId, m_nbInLine;
 		float m_distanceMax, m_slowingDistance;
 		float m_angle;
-		Vector2f m_vOldForward;
 
 	public:
 		FormationV(Entity* _entity, Entity* _leader, bool _bUseLeaderOrientation,
 			unsigned int _nbInLine, unsigned int _id, unsigned int _maxId,
 			float _distanceMax, float _slowingDistance,
-			float _angle)
+			float _angle, bool _bLeaderInvisible = true)
 			: Behavior(_entity), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
 			m_nbInLine(_nbInLine), m_id(_id), m_maxId(_maxId),
 			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
 			m_angle(_angle),
-			m_vOldForward(1.0f, 0.0f)
+			m_bLeaderInvisible(_bLeaderInvisible)
 		{};
 		Vector2f& Update();
 		virtual string asString() { return "FormationV"; }
@@ -250,31 +253,6 @@ namespace crea
 		virtual string asString() { return "FormationCircle"; }
 	};
 
-	class CREAENGINE_API FormationDynamic : public Behavior
-	{
-		Entity* m_leader;
-		bool m_bUseLeaderOrientation;
-		unsigned int m_id, m_maxId, m_nbInCircle;
-		float m_distanceMax, m_slowingDistance;
-		float m_minAngle, m_maxAngle, m_minRadius;
-
-		float m_angleStart;
-
-	public:
-		FormationDynamic(Entity* _entity, Entity* _leader, bool _bUseLeaderOrientation,
-			unsigned int _nbInCircle, unsigned int _id, unsigned int _maxId,
-			float _distanceMax, float _slowingDistance,
-			float _minAngle, float _maxAngle, float _minRadius)
-			: Behavior(_entity), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
-			m_nbInCircle(_nbInCircle), m_id(_id), m_maxId(_maxId),
-			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
-			m_minAngle(_minAngle), m_maxAngle(_maxAngle), m_minRadius(_minRadius)
-		{
-			m_angleStart = 0.0f;
-		};
-		Vector2f& Update();
-		virtual string asString() { return "FormationDynamic"; }
-	};
 }
 
 #endif

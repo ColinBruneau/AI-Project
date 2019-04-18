@@ -3,7 +3,6 @@
 #define __DEBUGLOG_H__
 
 #include "Core\Singleton.h"
-#include "AI\AI.h"
 #include <list>
 
 namespace crea

@@ -4,7 +4,6 @@
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneMap.h"
 #include "Core\SceneManager.h"
-#include "Core\PhysicsManager.h"
 #include "Scripts\Messages.h"
 #include <string>
 
@@ -34,6 +33,8 @@ bool AITools::onInit()
 	pRedTransparent->setValues(255, 0, 0, 125);
 	Color* pGreenTransparent = m_pGM->getColor("GreenTransparent");
 	pGreenTransparent->setValues(0, 255, 0, 255);
+	Color* pBlueTransparent = m_pGM->getColor("BlueTransparent");
+	pBlueTransparent->setValues(0, 0, 255, 125);
 
 	// Selection
 	m_bSelection = false;
@@ -83,10 +84,23 @@ bool AITools::onInit()
 	m_pNodeShape->setColor(pTransparent);
 	m_pNodeShape->setOutlineThickness(0.5f);
 	m_pNodeShape->setSize(m_nTileWidth, m_nTileHeight);
+	
+	m_pLineShape = (LineShape*)m_pGM->getShape("Line", "m_pLineShape");
+	m_pLineShape->setColor(pBlack);
 
 	// CharacterController
 	//m_pCharacterController = (CharacterController*) m_pGM->getScript("CharacterController");
 	m_pCharacterController = nullptr;
+
+	m_pathToHQ.push_back(Vector2f(645.f, 125.f));
+	m_pathToHQ.push_back(Vector2f(513.f, 97.f));
+	m_pathToHQ.push_back(Vector2f(383.f, 97.f));
+	m_pathToHQ.push_back(Vector2f(185.f, 130.f));
+
+	m_pathToMine.push_back(Vector2f(185.f, 130.f));
+	m_pathToMine.push_back(Vector2f(352.f, 191.f));
+	m_pathToMine.push_back(Vector2f(608.f, 191.f));
+	m_pathToMine.push_back(Vector2f(645.f, 125.f));
 
 	// Collisions
 	m_pBoxColliderShape = (RectangleShape*)m_pGM->getShape("Rectangle", "BoxColliderShape");
@@ -99,6 +113,7 @@ bool AITools::onInit()
 	m_pCircleColliderShape->setOutlineThickness(1.0f);
 	m_pCollisionNodeShape = (RectangleShape*)m_pGM->getShape("Rectangle", "CollisionNodeShape");
 	m_pCollisionNodeShape->setColor(pRedTransparent);
+	m_pCollisionNodeShape->setSize(m_nTileWidth, m_nTileHeight);
 
 	// Cluster
 	m_pClusterShape = (RectangleShape*)m_pGM->getShape("Rectangle", "ClusterShape");
@@ -111,7 +126,7 @@ bool AITools::onInit()
 
 	m_pEntranceShape = (RectangleShape*)m_pGM->getShape("Rectangle", "EntranceShape");
 	m_pEntranceShape->setOutlineColor(pBlue);
-	m_pEntranceShape->setColor(pBlue);
+	m_pEntranceShape->setColor(pBlueTransparent);
 	m_pEntranceShape->setSize(m_nTileWidth, m_nTileHeight);
 
 	m_pTransitionShape = (ArrowShape*)m_pGM->getShape("Arrow", "TransitionShape");
@@ -119,21 +134,20 @@ bool AITools::onInit()
 	m_pTransitionShape->setColor(pGreenTransparent);
 	m_pTransitionShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
 
-	// Steering
-	m_pTargetShape = (ArrowShape*)m_pGM->getShape("Arrow", "TargetShape");
-	m_pTargetShape->setOutlineColor(pBlue);
-	m_pTargetShape->setColor(pRed);
-	m_pTargetShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
-	
-	m_pLineShape = (LineShape*)m_pGM->getShape("Line", "LineShape");
-	m_pLineShape->setOutlineColor(pBlue);
-	m_pLineShape->setColor(pRed);
-	m_pLineShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
+	m_pEdgeShape = (ArrowShape*)m_pGM->getShape("Arrow", "EdgeShape");
+	m_pEdgeShape->setOutlineColor(pRed);
+	m_pEdgeShape->setColor(pRedTransparent);
+	m_pEdgeShape->setSize(m_nTileWidth, m_nTileHeight*0.5f);
 
-	//m_pTarget = m_pGM->getEntity("target");
-	m_pTargetSprite = (Sprite*)m_pGM->getSprite("TargetSprite");
-	m_pTargetSprite->setTexture(m_pGM->getSingleton()->getTexture("/debug/target.png"));
-	m_pTargetSprite->setOrigin(32.f, 32.f);
+	//Steering
+	m_pTarget = (LineShape*)m_pGM->getShape("Line", "Target");
+	m_pTarget->setColor(pGreenTransparent);
+	m_pSteeringLine = (LineShape*)m_pGM->getShape("Line", "Steering");
+	m_pSteeringLine->setColor(pBlue);
+	m_pForceLine = (LineShape*)m_pGM->getShape("Line", "Force");
+	m_pForceLine->setColor(pBlack);
+	m_pVelocityLine = (LineShape*)m_pGM->getShape("Line", "Velocity");
+	m_pVelocityLine->setColor(pRed);
 
 	return true;
 }
@@ -152,10 +166,6 @@ bool AITools::isButton(int _i, Vector2f& _vMousePosition)
 
 bool AITools::onUpdate()
 {
-	Vector2f v = m_pGM->getMousePosition();
-	//m_pTargetShape->setStartAndEnd(400.f, 400.f, v.getX(), v.getY());
-	m_pTargetSprite->setPosition(v.getX(), v.getY());
-
 	// FPS
 	Time frameTime = TimeManager::getSingleton()->getFrameTime();
 	m_pTextFPS->setString(to_string((int)(1 / frameTime.asSeconds())) + " fps");
@@ -167,7 +177,6 @@ bool AITools::onUpdate()
 		{
 			m_vStartSelection = m_pGM->getMousePosition();
 		}
-
 		m_bSelection = true;
 	}
 	else
@@ -234,38 +243,6 @@ bool AITools::onUpdate()
 				{
 					m_eCommandType = Command_GoToHQWithLumber;
 				}
-				else if (isButton(11, vMousePosition))
-				{
-					m_eCommandType = Command_Seek;
-				}
-				else if (isButton(12, vMousePosition))
-				{
-					m_eCommandType = Command_Flee;
-				}
-				else if (isButton(13, vMousePosition))
-				{
-					m_eCommandType = Command_Pursuit;
-				}
-				else if (isButton(14, vMousePosition))
-				{
-					m_eCommandType = Command_Evasion;
-				}
-				else if (isButton(15, vMousePosition))
-				{
-					m_eCommandType = Command_Arrival;
-				}
-				else if (isButton(16, vMousePosition))
-				{
-					m_eCommandType = Command_Wander;
-				}
-				else if (isButton(17, vMousePosition))
-				{
-					m_eCommandType = Command_PathFollowing;
-				}
-				else if (isButton(18, vMousePosition))
-				{
-					m_eCommandType = Command_UCA;
-				}
 			}
 		}
 		m_bCommand = true;
@@ -285,105 +262,88 @@ bool AITools::onUpdate()
 
 				// CharacterController
 				m_pCharacterController = pEntity->getComponent<CharacterController>();
-
-				if (m_eCommandType == Command_Reset)
+				if (m_pCharacterController)
 				{
-					m_pTextCommand->setString("Reset");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Reset, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Kill)
-				{
-					m_pTextCommand->setString("Kill");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Kill, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Stop)
-				{
-					m_pTextCommand->setString("Stop");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Stop, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_GoToHQ)
-				{
-					m_pTextCommand->setString("GoToWithGold");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_GoToWithGold, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_GoTo)
-				{
-					m_pTextCommand->setString("GoTo");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_GoTo, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Build)
-				{
-					m_pTextCommand->setString("Build");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Build, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Mine)
-				{
-					m_pTextCommand->setString("Mine");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Mine, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Harvest)
-				{
-					m_pTextCommand->setString("Harvest");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Harvest, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Die)
-				{
-					m_pTextCommand->setString("Die");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Hit, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Boost)
-				{
-					m_pTextCommand->setString("Boost");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Boost, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_GoToHQWithLumber)
-				{
-					m_pTextCommand->setString("GoToWithLumber");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_GoToWithLumber, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Seek)
-				{
-					m_pTextCommand->setString("Seek");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Seek, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Flee)
-				{
-					m_pTextCommand->setString("Flee");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Flee, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Pursuit)
-				{
-					m_pTextCommand->setString("Pursuit");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Pursuit, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Evasion)
-				{
-					m_pTextCommand->setString("Evasion");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Evasion, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Arrival)
-				{
-					m_pTextCommand->setString("Arrival");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Arrival, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_Wander)
-				{
-					m_pTextCommand->setString("Wander");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_Wander, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_PathFollowing)
-				{
-					m_pTextCommand->setString("PathFollowing");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_PathFollowing, 0, pEntity->GetID(), -1);
-				}
-				else if (m_eCommandType == Command_UCA)
-				{
-					m_pTextCommand->setString("UCA");
-					MsgManager::getSingleton()->sendMsg(0.f, MSG_UCA, 0, pEntity->GetID(), -1);
-				}
-				else
-				{
-					m_pTextCommand->setString("?");
+					if (m_eCommandType == Command_Reset)
+					{
+						m_pTextCommand->setString("Reset");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Reset, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Default);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Kill)
+					{
+						m_pTextCommand->setString("Kill");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Kill, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Chop);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Stop)
+					{
+						m_pTextCommand->setString("Stop");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Stop, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Idle);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_GoToHQ)
+					{
+						m_pTextCommand->setString("GoToWithGold");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_GoToWithGold, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Walk);
+						//m_pCharacterController->setCondition(kACond_Gold);
+					}
+					else if (m_eCommandType == Command_GoTo)
+					{
+						m_pTextCommand->setString("GoTo");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_GoTo, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Walk);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Build)
+					{
+						m_pTextCommand->setString("Build");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Build, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Chop);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Mine)
+					{
+						m_pTextCommand->setString("Mine");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Mine, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Chop);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Harvest)
+					{
+						m_pTextCommand->setString("Harvest");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Harvest, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Chop);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Die)
+					{
+						m_pTextCommand->setString("Die");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Hit, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Die);
+						//m_pCharacterController->setCondition(kACond_Default);
+					}
+					else if (m_eCommandType == Command_Boost)
+					{
+						m_pTextCommand->setString("Boost");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_Boost, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Idle);
+					}
+					else if (m_eCommandType == Command_GoToHQWithLumber)
+					{
+						m_pTextCommand->setString("GoToWithLumber");
+						MsgManager::getSingleton()->sendMsg(0.f, MSG_GoToWithLumber, 0, pEntity->GetID(), -1);
+						//m_pCharacterController->setAction(kAct_Walk);
+						//m_pCharacterController->setCondition(kACond_Lumber);
+					}
+					else
+					{
+						m_pTextCommand->setString("?");
+					}
 				}
 			}
 
@@ -397,8 +357,6 @@ bool AITools::onUpdate()
 
 bool AITools::onDraw()
 {
-	m_pTargetSprite->draw();
-
 	// Selection
 	if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
 	{
@@ -436,49 +394,46 @@ bool AITools::onDraw()
 		m_pCharacterController = pEntity->getComponent<CharacterController>();
 		if (m_pCharacterController)
 		{
-			szDiagnostics += "\nActÂ°: ";
+			szDiagnostics += "\nAct°: ";
 			szDiagnostics += to_string(m_pCharacterController->getAction());
-			szDiagnostics += " ConditÂ°: ";
+			szDiagnostics += " Condit°: ";
 			szDiagnostics += to_string(m_pCharacterController->getCondition());
-			szDiagnostics += " DirectÂ°: ";
+			szDiagnostics += " Direct°: ";
 			szDiagnostics += to_string(m_pCharacterController->getDirection());
-		}
-
-		// Steering
-		m_pSteering = pEntity->getComponent<Steering>();
-		if (m_pSteering)
-		{
-			szDiagnostics += "\nSteering: ";
-			szDiagnostics += m_pSteering->asString();
 		}
 
 		m_pTextDiagnostics->setString(szDiagnostics);
 		m_pTextDiagnostics->draw();
 
 		// Steering
+		m_pSteering = pEntity->getComponent<Steering>();
 		if (m_pSteering)
 		{
-			bool bDisplayTarget = szDiagnostics.find("Seek") != string::npos
-				|| szDiagnostics.find("Pursuit") != string::npos
-				|| szDiagnostics.find("Arrival") != string::npos;
+			Vector2f start = pEntity->getPosition();
+
 			Entity* pTarget = m_pSteering->getTarget();
-			if (pTarget /*&& bDisplayTarget*/)
+			if (pTarget)
 			{
-				Vector2f vEntity = pEntity->getPosition();
-				Vector2f vTarget = pTarget->getPosition() + m_pSteering->getTargetOffset();
-
-				m_pTransitionShape->setStartAndEnd(
-					vEntity.getX(), vEntity.getY(),
-					vTarget.getX(), vTarget.getY()
-				);
-				m_pTransitionShape->draw();
+				Vector2f end = pTarget->getPosition() + m_pSteering->getTargetOffset();
+				m_pTarget->setStartAndEnd(start.getX(), start.getY(), end.getX(), end.getY());
+				m_pTarget->draw();
 			}
+			Vector2f steeringend = start + m_pSteering->getSteeringDirection();
+			m_pSteeringLine->setStartAndEnd(start.getX(), start.getY(), steeringend.getX(), steeringend.getY());
+			m_pSteeringLine->draw();
 
+			m_pVehicle = pEntity->getComponent<Vehicle>();
+			if (m_pVehicle)
+			{
+				Vector2f forceend = start + m_pVehicle->getLastForce();
+				m_pForceLine->setStartAndEnd(start.getX(), start.getY(), forceend.getX(), forceend.getY());
+				m_pForceLine->draw();
+
+				Vector2f velocityend = start + m_pVehicle->getVelocity();
+				m_pVelocityLine->setStartAndEnd(start.getX(), start.getY(), velocityend.getX(), velocityend.getY());
+				m_pVelocityLine->draw();
+			}
 		}
-
-		Vector2f v = pEntity->getFuturePosition(1.0f);
-		m_pTargetSprite->setPosition(v.getX(), v.getY());
-		m_pTargetSprite->draw();
 
 	}
 
@@ -496,7 +451,33 @@ bool AITools::onDraw()
 		m_pTextCommand->draw();
 	}
 
-	// Grid
+	/*
+	// Grid (slow drawing)
+	for (short i = m_iMin; i <= m_iMax; i++)
+	{
+		for (short j = m_jMin; j <= m_jMax; j++)
+		{
+			m_pNodeShape->setPosition((float)i*m_nTileWidth, (float)j*m_nTileHeight);
+			m_pNodeShape->draw();
+		}
+	}
+	*/
+	
+	// Grid (fast drawing)
+	m_pLineShape->setScale(1.0f, (float)(m_jMax + 1)*m_nTileHeight);
+	for (short i = m_iMin; i <= m_iMax; i++)
+	{
+		m_pLineShape->setPosition((float)i*m_nTileWidth, (float)m_jMin);
+		m_pLineShape->draw();
+	}
+	m_pLineShape->setScale((float)(m_iMax + 1)*m_nTileWidth, 1.f);
+	for (short j = m_jMin; j <= m_jMax; j++)
+	{
+		m_pLineShape->setPosition((float)m_iMin, (float)j*m_nTileHeight);
+		m_pLineShape->draw();
+	}
+	
+	// Collision nodes
 	for (short i = m_iMin; i <= m_iMax; i++)
 	{
 		for (short j = m_jMin; j <= m_jMax; j++)
@@ -504,13 +485,7 @@ bool AITools::onDraw()
 			if (m_pMap->getNode(i, j)->getTileCollisionId() == 9)
 			{
 				m_pCollisionNodeShape->setPosition((float)i*m_nTileWidth, (float)j*m_nTileHeight);
-				m_pCollisionNodeShape->setSize((float)m_nTileWidth, (float)m_nTileHeight);
 				m_pCollisionNodeShape->draw();
-			}
-			else
-			{
-				m_pNodeShape->setPosition((float)i*m_nTileWidth, (float)j*m_nTileHeight);
-				m_pNodeShape->draw();
 			}
 		}
 	}
@@ -520,72 +495,67 @@ bool AITools::onDraw()
 	DisplayCollider(pStaticColliders);
 	MapStringCollider* pDynamicColliders = PhysicsManager::getSingleton()->getDynamicColliders();
 	DisplayCollider(pDynamicColliders);
-	/*
+
 	// Cluster
 	short nVariableClusterWidth, nVariableClusterHeigth;
 	for (short i = m_iClusterMin; i < m_iClusterMax; i++)
 	{
-	for (short j = m_jClusterMin; j < m_jClusterMax; j++)
-	{
-	Cluster* pCluster = m_pMap->getCluster(i, j);
-	pCluster->getSize(nVariableClusterWidth, nVariableClusterHeigth);
-	m_pClusterShape->setPosition((float)i*m_nClusterWidth*m_nTileWidth, (float)j*m_nClusterHeight*m_nTileHeight);
-	m_pClusterShape->setSize((float)nVariableClusterWidth*m_nTileWidth, (float)nVariableClusterHeigth*m_nTileHeight);
-	m_pClusterShape->draw();
+		for (short j = m_jClusterMin; j < m_jClusterMax; j++)
+		{
+			Cluster* pCluster = m_pMap->getCluster(i, j);
+			pCluster->getSize(nVariableClusterWidth, nVariableClusterHeigth);
+			m_pClusterShape->setPosition((float)i*m_nClusterWidth*m_nTileWidth, (float)j*m_nClusterHeight*m_nTileHeight);
+			m_pClusterShape->setSize((float)nVariableClusterWidth*m_nTileWidth, (float)nVariableClusterHeigth*m_nTileHeight);
+			m_pClusterShape->draw();
 
-	// Entrances
-	vector<Entrance*>* vEntrances = pCluster->getEntrances();
-	for (unsigned int e = 0; e < vEntrances->size(); e++)
-	{
-	Entrance* pEntrance = (*vEntrances)[e];
-	m_pEntranceShape->setPosition((float)pEntrance->m_pStart->getX()*m_nTileWidth, (float)pEntrance->m_pStart->getY()*m_nTileHeight);
-	m_pEntranceShape->draw();
-	m_pEntranceShape->setPosition((float)pEntrance->m_pEnd->getX()*m_nTileWidth, (float)pEntrance->m_pEnd->getY()*m_nTileHeight);
-	m_pEntranceShape->draw();
-	}
-	}
+			// Entrances
+			vector<Entrance*>* vEntrances = pCluster->getEntrances();
+			for (size_t e = 0; e < vEntrances->size(); e++)
+			{
+				Entrance* pEntrance = (*vEntrances)[e];
+				m_pEntranceShape->setPosition((float)pEntrance->m_pStart->getX()*m_nTileWidth, (float)pEntrance->m_pStart->getY()*m_nTileHeight);
+				m_pEntranceShape->draw();
+				m_pEntranceShape->setPosition((float)pEntrance->m_pEnd->getX()*m_nTileWidth, (float)pEntrance->m_pEnd->getY()*m_nTileHeight);
+				m_pEntranceShape->draw();
+			}
+		}
 	}
 
 	for (short i = m_iClusterMin; i < m_iClusterMax; i++)
 	{
-	for (short j = m_jClusterMin; j < m_jClusterMax; j++)
-	{
-	Cluster* pCluster = m_pMap->getCluster(i, j);
-	// Transitions
-	vector<Transition*>* vTransitions = pCluster->getTransitions();
-	for (unsigned int t = 0; t < vTransitions->size(); t++)
-	{
-	Transition* pTransition = (*vTransitions)[t];
-	m_pTransitionShape->setStartAndEnd(
-	(float)(pTransition->m_pStart->getX() + 0.5f)*m_nTileWidth, (float)(pTransition->m_pStart->getY() + 0.5f)*m_nTileWidth,
-	(float)(pTransition->m_pEnd->getX() + 0.5f)*m_nTileHeight, (float)(pTransition->m_pEnd->getY() + 0.5f)*m_nTileHeight
-	);
-	m_pTransitionShape->draw();
+		for (short j = m_jClusterMin; j < m_jClusterMax; j++)
+		{
+			Cluster* pCluster = m_pMap->getCluster(i, j);
+			// Transitions
+			vector<Transition*>* vTransitions = pCluster->getTransitions();
+			for (size_t t = 0; t < vTransitions->size(); t++)
+			{
+				Transition* pTransition = (*vTransitions)[t];
+				m_pTransitionShape->setStartAndEnd(
+					(float)(pTransition->m_pStart->getX() + 0.5f)*m_nTileWidth, (float)(pTransition->m_pStart->getY() + 0.5f)*m_nTileWidth,
+					(float)(pTransition->m_pEnd->getX() + 0.5f)*m_nTileHeight, (float)(pTransition->m_pEnd->getY() + 0.5f)*m_nTileHeight
+				);
+				m_pTransitionShape->draw();
+			}
+			// Edges
+			vector<Edge*>* vEdges = pCluster->getEdges();
+			for (size_t t = 0; t < vEdges->size(); t++)
+			{
+				Edge* pEdge = (*vEdges)[t];
+				m_pEdgeShape->setStartAndEnd(
+					(float)(pEdge->m_pStart->getX() + 0.5f)*m_nTileWidth, (float)(pEdge->m_pStart->getY() + 0.5f)*m_nTileWidth,
+					(float)(pEdge->m_pEnd->getX() + 0.5f)*m_nTileHeight, (float)(pEdge->m_pEnd->getY() + 0.5f)*m_nTileHeight
+				);
+				m_pEdgeShape->draw();
+			}
+		}
 	}
-	// Edges
-	vector<Edge*>* vEdges = pCluster->getEdges();
-	for (unsigned int t = 0; t < vEdges->size(); t++)
-	{
-	Edge* pEdge = (*vEdges)[t];
-	m_pTransitionShape->setStartAndEnd(
-	(float)(pEdge->m_pStart->getX() + 0.5f)*m_nTileWidth, (float)(pEdge->m_pStart->getY() + 0.5f)*m_nTileWidth,
-	(float)(pEdge->m_pEnd->getX() + 0.5f)*m_nTileHeight, (float)(pEdge->m_pEnd->getY() + 0.5f)*m_nTileHeight
-	);
-	m_pTransitionShape->draw();
-	}
-	}
-	}
-	*/
-
 
 	return true;
 }
 
 bool AITools::onQuit()
 {
-	delete m_pSelectionShape;
-	delete m_pNodeShape;
-
 	return true;
 }
 

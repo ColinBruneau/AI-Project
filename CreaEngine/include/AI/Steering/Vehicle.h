@@ -17,7 +17,7 @@ namespace crea
 	class CREAENGINE_API Vehicle : public Component
 	{
 	protected:
-		Steering* m_pSteering;
+		Steering * m_pSteering;
 
 		// Locomotion
 		float m_mass;
@@ -31,12 +31,12 @@ namespace crea
 		Vector2f m_lastR;
 
 		bool m_bUpdatePosition;
-		
+
 	public:
 		Vehicle();
 		virtual ~Vehicle();
 
-		bool loadFromFileJSON(string _filename);
+		bool loadFromFileJSON(const string& _filename);
 
 		float getMass() { return m_mass; }
 		Vector2f getVelocity() { return m_vVelocity; }
@@ -51,8 +51,8 @@ namespace crea
 		void setMaxSpeed(float _maxSpeed) { m_maxSpeed = _maxSpeed; }
 		void setLastR(Vector2f _lastR) { m_lastR = _lastR; }
 
-		void setUpdatePosition(bool _bUpdatePosition) { m_bUpdatePosition = _bUpdatePosition;  }
-					
+		void setUpdatePosition(bool _bUpdatePosition) { m_bUpdatePosition = _bUpdatePosition; }
+
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();

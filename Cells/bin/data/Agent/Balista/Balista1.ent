@@ -1,9 +1,7 @@
 { 	"components":[
 		{
 			"type":"SpriteRenderer",
-			"name":"Balista/Balista1.sr",
-			"sprite":"balista",
-			"image":"..\/Image\/balista.png"
+			"name":"Balista/Balista1.sr"
 		},
 		{
 			"type":"Agent",
@@ -29,6 +27,14 @@
 		{
 			"type":"Script",
 			"name":"FSMBalista"		
+		},
+		{
+			"type":"Steering",
+			"name":"SteeringBalista"		
+		},
+		{
+			"type":"Vehicle",
+			"name":"Balista/Balista1.veh"		
 		}
 	]
 } 

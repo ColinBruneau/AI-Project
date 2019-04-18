@@ -160,6 +160,11 @@ namespace crea
 			m_pScaleCenter->x = _x;
 			m_pScaleCenter->y = _y;
 		}
+
+		virtual Sprite* clone()
+		{
+			return new DX9Sprite(*this);
+		}
 	};
 
 } // namespace crea

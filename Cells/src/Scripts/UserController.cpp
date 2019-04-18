@@ -21,6 +21,7 @@ void UserController::setCharacterController(CharacterController* _pCharacterCont
 
 bool UserController::init()
 {
+	// Attention, ne marche que si CharacterController est avant le UserController
 	m_pCharacterController = getEntity()->getComponent<CharacterController>();
 
 	return true;
@@ -38,37 +39,8 @@ bool UserController::update()
 		return false;
 	}
 
-	// Conditions
-	if (m_pGM->isKeyPressed(Key::D))
-	{
-		m_pCharacterController->setCondition(kACond_Default);
-	}
-
-	if (m_pGM->isKeyPressed(Key::G))
-	{
-		m_pCharacterController->setCondition(kACond_Gold);
-	}
-
-	if (m_pGM->isKeyPressed(Key::L))
-	{
-		m_pCharacterController->setCondition(kACond_Lumber);
-	}
-
-	// Actions
-	if (m_pGM->isKeyPressed(Key::C))
-	{
-		m_pCharacterController->setCondition(kACond_Default);
-		m_pCharacterController->setAction(kAct_Chop);
-	}
-	else if (m_pGM->isKeyPressed(Key::K))
-	{
-		m_pCharacterController->setCondition(kACond_Default);
-		m_pCharacterController->setAction(kAct_Die);
-	}
-	else
-	{
-		m_pCharacterController->setAction(kAct_Default);
-	}
+	// Default to no action
+	m_pCharacterController->setAction(kAct_Default);
 
 	// Directions
 	m_vDirection = Vector2f(0.f, 0.f);
@@ -127,8 +99,9 @@ bool UserController::update()
 		Vector2f vMousePosition = m_pGM->getMousePosition();
 		Vector2f vEntityPosition = getEntity()->getPosition();
 		m_vDirection = vMousePosition - vEntityPosition;
-		if (m_vDirection.length() > 1 && vMousePosition.getX() < 900)
+		if (m_vDirection.length() > 10 && vMousePosition.getX() < 900)
 		{
+			m_pCharacterController->setDirection(m_vDirection);
 			m_pCharacterController->setAction(kAct_Walk);
 		}
 		else
@@ -138,7 +111,6 @@ bool UserController::update()
 	}
 
 	m_vDirection.normalize();
-	m_vDirection *= 200;
 	m_pCharacterController->move(m_vDirection);
 
 	return true;

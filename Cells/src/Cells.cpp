@@ -10,6 +10,7 @@
 #include "Core\GameManager.h"
 #include "Core\SceneManager.h"
 #include "Scene\SceneSteering.h"
+#include "Scene\ScenePlanning.h"
 
 using namespace crea;
 
@@ -17,11 +18,14 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	GameManager* pGM = GameManager::getSingleton();
 
+	pGM->setRendererType(Renderer_DX9);
+	//pGM->setRendererType(Renderer_SFML);
+
 	pGM->setWindowRect(IntRect(0, 0, 1152, 896));
 
-	pGM->init();
+	pGM->setScene(new ScenePlanning());
 
-	pGM->setScene(new SceneSteering());
+	pGM->init();
 
 	pGM->update();
 

@@ -1,0 +1,2 @@
+GameManager::init()
+GameManager::quit()

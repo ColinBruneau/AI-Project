@@ -1,9 +1,7 @@
 { 	"components":[
 		{
 			"type":"SpriteRenderer",
-			"name":"Panel/Panel1.sr",
-			"sprite":"panel",
-			"image":"..\/Image\/panel.png"
+			"name":"Panel/Panel1.sr"
 		}
 	]
 } 

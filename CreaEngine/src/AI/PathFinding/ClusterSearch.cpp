@@ -6,7 +6,7 @@ namespace crea
 {
 	ClusterSearch::ClusterSearch()
 	{
-		m_uiSearchState = (SearchState) AStarSearch<ClusterSearchNode>::SEARCH_STATE_NOT_INITIALISED;
+		m_uiSearchState = (SearchState)AStarSearch<ClusterSearchNode>::SEARCH_STATE_NOT_INITIALISED;
 	}
 
 	ClusterSearch::~ClusterSearch()
@@ -23,7 +23,7 @@ namespace crea
 		}
 		if (m_uiSearchState == AStarSearch<ClusterSearchNode>::SEARCH_STATE_SUCCEEDED)
 		{
-			m_pAStarSearch.FreeSolutionNodes();
+			FreeSolutionNodes();
 			bAvailable = true;
 		}
 
@@ -38,8 +38,8 @@ namespace crea
 			ClusterSearchNode nodeStart((int)_vStart.getX(), (int)_vStart.getY());
 			ClusterSearchNode nodeEnd((int)_vGoal.getX(), (int)_vGoal.getY());
 			// Set Start and goal states	
-			m_pAStarSearch.SetStartAndGoalStates(nodeStart, nodeEnd);
-			m_uiSearchState = (SearchState)m_pAStarSearch.SearchStep();
+			SetStartAndGoalStates(nodeStart, nodeEnd);
+			m_uiSearchState = (SearchState)SearchStep();
 		}
 
 		return bAvailable;
@@ -50,7 +50,7 @@ namespace crea
 		if (m_uiSearchState == AStarSearch<ClusterSearchNode>::SEARCH_STATE_SEARCHING)
 		{
 			// Step into search
-			m_uiSearchState = (SearchState) m_pAStarSearch.SearchStep();
+			m_uiSearchState = (SearchState)SearchStep();
 		}
 		return m_uiSearchState;
 	}
@@ -60,12 +60,12 @@ namespace crea
 		if (m_uiSearchState == AStarSearch<ClusterSearchNode>::SEARCH_STATE_SUCCEEDED)
 		{
 			Map* pMap = ClusterSearchManager::getSingleton()->getCurrentMap();
-			ClusterSearchNode* node = m_pAStarSearch.GetSolutionStart();
+			ClusterSearchNode* node = GetSolutionStart();
 			while (node)
 			{
 				Vector2f vNode = pMap->getPixelsFromNodePosition(Vector2f((float)node->x, (float)node->y));
 				_vSolution.push_back(new Vector2f(vNode));
-				node = m_pAStarSearch.GetSolutionNext();
+				node = GetSolutionNext();
 			}
 			return true;
 		}
@@ -78,13 +78,13 @@ namespace crea
 		{
 			float fDist = 0.0f;
 			Map* pMap = MapSearchManager::getSingleton()->getCurrentMap();
-			ClusterSearchNode* node1 = m_pAStarSearch.GetSolutionStart();
-			ClusterSearchNode* node2 = m_pAStarSearch.GetSolutionNext();
+			ClusterSearchNode* node1 = GetSolutionStart();
+			ClusterSearchNode* node2 = GetSolutionNext();
 			while (node1 && node2)
 			{
 				fDist += node1->GetCost(*node2);
 				node1 = node2;
-				node2 = m_pAStarSearch.GetSolutionNext();
+				node2 = GetSolutionNext();
 			}
 			return fDist;
 		}

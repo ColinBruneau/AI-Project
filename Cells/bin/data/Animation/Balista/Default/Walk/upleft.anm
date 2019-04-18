@@ -6,9 +6,9 @@
 			 "y":0,
 			 "w":-66,
 			 "h":66,
-			 "frames":4,
+			 "frames":2,
 			 "offsetx":0,			 
 			 "offsety":66
 			}],
-	"translationspeed":80
+	"translationspeed":20
 } 

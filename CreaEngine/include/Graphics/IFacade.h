@@ -14,7 +14,7 @@ namespace crea
 	class Font;
 	class Texture;
 	class IntRect;
-	class Line;
+	class LineShape;
 	class Shape;
 	class RectangleShape;
 

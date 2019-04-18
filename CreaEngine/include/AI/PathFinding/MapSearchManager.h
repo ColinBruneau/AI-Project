@@ -6,8 +6,9 @@
 #ifndef __MapSearchManager_H__
 #define __MapSearchManager_H__
 
-#include "AI\AI.h"
+#include "Core\Singleton.h"
 #include "AI\Pathfinding\MapSearch.h"
+#include "AI\Pathfinding\MapSearchNode.h"
 
 namespace crea
 {
@@ -23,18 +24,13 @@ namespace crea
 		MapSearch* getMapSearch(string _szName);
 
 		// A*
-		Map* getCurrentMap() { return m_pMap; }
-		void setCurrentMap(Map* _pMap) { m_pMap = _pMap;  }
-
-		// AA*
-		Agent* getCurrentAgent() { return m_pAgent; }
-		void setCurrentAgent(Agent* _pAgent) { m_pAgent = _pAgent; }
+		Map* getCurrentMap() { return m_pCurrentMap; }
+		void setCurrentMap(Map* _pCurrentMap) { m_pCurrentMap = _pCurrentMap; }
 
 	private:
 
 		MapStringMapSearch m_MapSearches;
-		Map* m_pMap;
-		Agent* m_pAgent;
+		Map* m_pCurrentMap;
 	};
 
 }

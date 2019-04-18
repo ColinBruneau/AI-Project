@@ -3,8 +3,6 @@
 #include "Scene\SceneGame.h"
 #include "Scene\SceneMenu.h"
 #include "Core\SceneManager.h"
-#include "Scene\SceneMap.h"
-#include "Scene\SceneBehaviorTree.h"
 
 SceneGame::SceneGame()
 {
@@ -42,19 +40,10 @@ bool SceneGame::onInit()
 
 bool SceneGame::onUpdate()
 {
+	// Get direction from keyboard
 	if (m_pGM->isKeyPressed(Key::Num1))
 	{
 		m_pGM->setScene(new SceneMenu());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num3))
-	{
-		m_pGM->setScene(new SceneMap());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num4))
-	{
-		m_pGM->setScene(new SceneBehaviorTree());
 		return true;
 	}
 

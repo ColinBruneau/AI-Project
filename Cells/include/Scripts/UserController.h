@@ -30,8 +30,6 @@ public:
 	virtual bool draw();
 	virtual bool quit();
 
-	virtual void onCollisionEnter2D(Collision2D _coll) { return; }
-
 	virtual Component* clone() { return new UserController(*this); }
 };
 

@@ -16,6 +16,14 @@ namespace crea
 		LPD3DXFONT m_pFont;
 		string m_szFont;
 		int m_iHeight;
+
+		string getFontShortName(const string& _s)
+		{
+			int startPos = _s.rfind("/");
+			int endPos = _s.rfind(".");
+			return _s.substr(startPos + 1, endPos - startPos - 1);
+		}
+
 	public:
 		DX9Font() 
 		{ 
@@ -27,15 +35,7 @@ namespace crea
 
 		LPD3DXFONT getFont() { return m_pFont; }
 
-		string getFontShortName(string& _s)
-		{
-			int startPos = _s.rfind("/");
-			int endPos = _s.rfind(".");
-			return _s.substr(startPos + 1, endPos - startPos - 1);
-		}
-
-		// Initialise le Font
-		virtual bool loadFromFile(string _file)
+		virtual bool loadFromFile(const string& _file)
 		{
 			SafeRelease(m_pFont);
 			m_szFont = _file;

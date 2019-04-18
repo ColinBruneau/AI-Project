@@ -26,6 +26,8 @@ namespace crea
 		virtual bool draw();
 		virtual bool quit();
 
+		virtual Component* clone() { return new ShapeRenderer(*this); }
+
 	};
 
 } // namespace crea

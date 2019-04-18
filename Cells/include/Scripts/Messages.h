@@ -32,7 +32,14 @@ typedef enum {
 	MSG_Arrival,
 	MSG_Wander,
 	MSG_PathFollowing,
-	MSG_UCA
+	MSG_UCA,
+	MSG_CutWood,
+	MSG_PickupBranches,
+	MSG_ActionCompleted,
+	MSG_ToolUsed,
+	MSG_ToolBroken,
+	MSG_NewTool,
+	MSG_Think
 } MSG_Name;
 
 #endif

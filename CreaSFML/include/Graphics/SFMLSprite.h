@@ -16,47 +16,50 @@ namespace crea
 	class SFMLSprite : public Sprite
 	{
 	public:
-		sf::Sprite* m_pSprite;
+		sf::Sprite m_sprite;
 
 		SFMLSprite()
 		{
-			m_pSprite = new sf::Sprite;
 		}
 
 		~SFMLSprite()
 		{
-			delete m_pSprite;
 		}
 
 		virtual void draw()
 		{
 			sf::RenderWindow* pWin = SFMLFacade::Instance().m_pWindow;
-			pWin->draw(*m_pSprite);
+			pWin->draw(m_sprite);
 		}
 
 		virtual void setTexture(Texture* _pTexture)
 		{
-			m_pSprite->setTexture(*((SFMLTexture*)_pTexture)->m_pTexture);
+			m_sprite.setTexture(*((SFMLTexture*)_pTexture)->m_pTexture);
 		}
 
 		virtual void setPosition(float _x, float _y)
 		{
-			m_pSprite->setPosition(_x, _y);
+			m_sprite.setPosition(_x, _y);
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h)
 		{
-			m_pSprite->setTextureRect(sf::IntRect(_x, _y, _w, _h));
+			m_sprite.setTextureRect(sf::IntRect(_x, _y, _w, _h));
 		}
 
 		virtual void setScale(float _x, float _y)
 		{
-			m_pSprite->setScale(_x, _y);
+			m_sprite.setScale(_x, _y);
 		}
 
 		virtual void setOrigin(float _x, float _y)
 		{
-			m_pSprite->setOrigin(_x, _y);
+			m_sprite.setOrigin(_x, _y);
+		}
+
+		virtual Sprite* clone()
+		{
+			return new SFMLSprite(*this);
 		}
 	};
 

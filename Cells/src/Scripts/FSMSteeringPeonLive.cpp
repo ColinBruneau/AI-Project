@@ -89,7 +89,7 @@ bool FSMSteeringPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state
 			// Get Game Manager
 			m_pGM = GameManager::getSingleton();
 			// Get Entity
-			m_pEntity = getEntity();
+			m_pEntity = this->m_Owner;
 			// Get CharacterController
 			m_pCharacterController = m_pEntity->getComponent<CharacterController>();
 			// Get Agent
@@ -204,6 +204,7 @@ bool FSMSteeringPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state
 		State(STATE_PathFollowing)
 		OnEnter
 			m_pFSMSteeringPeonGoTo = new FSMSteeringPeonGoTo(m_vTarget);
+			getEntity()->addComponent(m_pFSMSteeringPeonGoTo);
 			m_pFSMSteeringPeonGoTo->Initialize(getEntity());
 
 		OnUpdate
@@ -214,6 +215,7 @@ bool FSMSteeringPeonLive::States(StateMachineEvent _event, Msg* _msg, int _state
 			}
 
 		OnExit
+			getEntity()->removeComponent(m_pFSMSteeringPeonGoTo);
 			delete m_pFSMSteeringPeonGoTo;
 			m_pFSMSteeringPeonGoTo = nullptr;
 
@@ -255,6 +257,7 @@ bool FSMSteeringPeonLive::Move()
 	// CB: adjust velocity with dexterity
 	int iDexterity = m_pAgent->getDexterity() / 5;
 	m_pCharacterController->move(vVelocity * (float)iDexterity);
+	m_pCharacterController->setDirection(vVelocity);
 
 	return bMoving;
 }

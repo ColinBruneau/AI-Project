@@ -19,19 +19,25 @@ namespace crea
 
 		void addFrame(IntRect rect);
 		void setSpriteSheet(Texture& texture);
-		inline void setSpeed(float _fSpeed)		{ m_fSpeed = _fSpeed; }
+		inline void setSpeed(float _fSpeed) { m_fSpeed = _fSpeed; }
 
-		inline Texture* getSpriteSheet()		{ return m_texture; }
-		inline size_t getSize()					{ return m_frames.size(); }
+		inline Texture* getSpriteSheet() { return m_texture; }
+		inline size_t getSize() { return m_frames.size(); }
 		inline IntRect& getFrame(std::size_t n) { return m_frames[n]; }
-		inline string getName()					{ return m_szName; }
-		inline Time& getDuration()				{ return m_duration; }
-		inline bool getLooping()				{ return m_bLooping; }
-		inline float getSpeed()					{ return m_fSpeed; }
-		
+		inline string getName() { return m_szName; }
+		inline Time& getDuration() { return m_duration; }
+		inline bool getLooping() { return m_bLooping; }
+		inline float getSpeed() { return m_fSpeed; }
+
 		void adjustToTranslationSpeed(float _fTranslationSpeed);
 
-		bool loadFromFileJSON(string _filename);
+		bool loadFromFileJSON(const string& _filename);
+
+		virtual Animation* clone()
+		{
+			Animation* pAnimation = new Animation(*this);
+			return pAnimation;
+		}
 
 	private:
 		string m_szName;

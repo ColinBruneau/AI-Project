@@ -1,8 +1,8 @@
 #include "stdafx.h"
 
 #include "Core\EntityManager.h"
-#include "Core\Script.h"
-#include "Data\Entity.h"
+#include "Core\Entity.h"
+#include <string>
 
 namespace crea
 {
@@ -28,7 +28,7 @@ namespace crea
 			&instanceUnique;
 	}
 
-	Entity* EntityManager::getEntity(string& _szName)
+	Entity* EntityManager::getEntity(const string& _szName)
 	{
 		Entity* pEntity = nullptr;
 		pEntity = m_pRoot->getEntity(_szName);
@@ -41,25 +41,20 @@ namespace crea
 		}
 		return pEntity;
 	}
-	
-	Entity* EntityManager::instanciate(string& _szName, Entity* _pEntity)
-	{
-		Entity* pEntity = nullptr;
-		pEntity = m_pRoot->getEntity(_szName);
-		if (!pEntity)
-		{
-			pEntity = _pEntity->clone();
-			pEntity->init();
-			pEntity->setName(_szName);
-			pEntity->SetID(getNewObjectID());
-			Store(*pEntity);
-		}
-		else
-		{
-			cerr << "Name: " << _szName << " already exists, can't instanciate Entity." << endl;
-		}
-		return pEntity;
 
+	Entity* EntityManager::getEntityByModel(const string& _szName)
+	{
+		MapModelEntity::iterator it = m_EntitiesByModel.find(_szName);
+		if (it != m_EntitiesByModel.end())
+		{
+			return it->second;
+		}
+		return nullptr;
+	}
+
+	void EntityManager::addEntityByModel(const string& _szName, Entity* _pEntity)
+	{
+		m_EntitiesByModel[_szName] = _pEntity;
 	}
 
 	void EntityManager::addEntity(Entity* _pEntity, Entity* _pParent)
@@ -74,7 +69,33 @@ namespace crea
 		}
 	}
 
-	TextRenderer* EntityManager::getTextRenderer(string _szName, bool _bCloned)
+	Entity* EntityManager::instanciate(string& _szName, Entity* _pEntity)
+	{
+		Entity* pEntity = nullptr;
+		pEntity = m_pRoot->getEntity(_szName);
+		if (!pEntity)
+		{
+			pEntity = _pEntity->clone();
+			pEntity->init();
+			pEntity->setName(_szName);
+			pEntity->SetID(getNewObjectID());
+			Store(*pEntity);
+		}
+		else
+		{
+			cout << "Name: " << _szName << " already exists, can't instanciate Entity." << endl;
+		}
+		return pEntity;
+
+	}
+
+	void EntityManager::clearEntity(Entity* _pEntity)
+	{
+		m_pRoot->removeEntity(_pEntity);
+		delete _pEntity;
+	}
+
+	TextRenderer* EntityManager::getTextRenderer(const string& _szName, bool _bCloned)
 	{
 		MapStringTextRenderer::iterator it = m_pTextRenderers.find(_szName);
 		if (it == m_pTextRenderers.end())
@@ -97,7 +118,7 @@ namespace crea
 		return nullptr;
 	}
 
-	SpriteRenderer* EntityManager::getSpriteRenderer(string _szName, bool _bCloned)
+	SpriteRenderer* EntityManager::getSpriteRenderer(const string& _szName, bool _bCloned)
 	{
 		MapStringSpriteRenderer::iterator it = m_pSpriteRenderers.find(_szName);
 		if (it == m_pSpriteRenderers.end())
@@ -120,7 +141,7 @@ namespace crea
 		return nullptr;
 	}
 
-	MapRenderer* EntityManager::getMapRenderer(string _szName, bool _bCloned)
+	MapRenderer* EntityManager::getMapRenderer(const string& _szName, bool _bCloned)
 	{
 		MapStringMapRenderer::iterator it = m_pMapRenderers.find(_szName);
 		if (it == m_pMapRenderers.end())
@@ -143,7 +164,7 @@ namespace crea
 		return nullptr;
 	}
 
-	Animator* EntityManager::getAnimator(string _szName, bool _bCloned)
+	Animator* EntityManager::getAnimator(const string& _szName, bool _bCloned)
 	{
 		MapStringAnimator::iterator it = m_pAnimators.find(_szName);
 		if (it == m_pAnimators.end())
@@ -166,7 +187,7 @@ namespace crea
 		return nullptr;
 	}
 
-	Script* EntityManager::getScript(string _szName, bool _bCloned)
+	Script* EntityManager::getScript(const string& _szName, bool _bCloned)
 	{
 		MapStringScript::iterator it = m_pScripts.find(_szName);
 		if (it == m_pScripts.end())
@@ -242,7 +263,6 @@ namespace crea
 		}
 	}
 
-
 	void EntityManager::Remove(objectID _id)
 	{
 		MapObjectIDEntity::iterator it = m_Entities.find(_id);
@@ -270,13 +290,6 @@ namespace crea
 	objectID EntityManager::getNewObjectID()
 	{
 		return(nextFreeID++);
-
-	}
-
-	void EntityManager::clearEntity(Entity* _pEntity)
-	{
-		m_pRoot->removeEntity(_pEntity);
-		delete _pEntity;
 	}
 
 	bool EntityManager::init()
@@ -290,7 +303,7 @@ namespace crea
 	}
 
 	bool EntityManager::draw()
-	{		
+	{
 		return m_pRoot->draw();
 	}
 

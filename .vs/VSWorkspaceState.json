@@ -1,15 +1,16 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Cells",
-    "\\Cells\\src",
-    "\\Cells\\src\\Scene",
-    "\\Cells\\src\\Scripts",
-    "\\Cells\\src\\Tools",
-    "\\CreaDX9",
+    "\\CreaDX9\\include",
+    "\\CreaDX9\\include\\Graphics",
     "\\CreaDX9\\src",
-    "\\CreaDX9\\src\\Graphics"
+    "\\CreaDX9\\src\\Graphics",
+    "\\CreaEngine\\include",
+    "\\CreaEngine\\src\\Graphics",
+    "\\CreaEngine\\src\\Physics",
+    "\\CreaSFML\\include",
+    "\\CreaSFML\\include\\Graphics"
   ],
-  "SelectedNode": "\\Cells\\src\\Scripts\\FSMSteeringPeon.cpp",
+  "SelectedNode": "\\CreaEngine",
   "PreviewInSolutionExplorer": false
 }

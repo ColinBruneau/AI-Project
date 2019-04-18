@@ -16,7 +16,7 @@ namespace crea
 
 		~Texture() {}
 
-		virtual bool loadFromFile(string _file) { return false; }
+		virtual bool loadFromFile(const string& _file) { return false; }
 
 	};
 

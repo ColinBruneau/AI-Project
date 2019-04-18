@@ -23,16 +23,7 @@ enum EnumCommandType
 	Command_Harvest,
 	Command_Die,
 	Command_Boost,
-	Command_GoToHQWithLumber,
-	Command_Seek,
-	Command_Flee,
-	Command_Pursuit,
-	Command_Evasion,
-	Command_Arrival,
-	Command_Wander,
-	Command_PathFollowing,
-	Command_UCA
-
+	Command_GoToHQWithLumber
 };
 
 
@@ -66,6 +57,7 @@ class AITools
 	short m_nTileWidth;
 	short m_nTileHeight;
 	RectangleShape* m_pNodeShape;
+	LineShape* m_pLineShape;
 
 	// Tile index limits
 	int m_iMin;
@@ -78,6 +70,9 @@ class AITools
 	// CharacterController
 	CharacterController* m_pCharacterController;
 
+	vector<Vector2f> m_pathToHQ;
+	vector<Vector2f> m_pathToMine;
+
 	// Collisions
 	RectangleShape* m_pBoxColliderShape;
 	CircleShape* m_pCircleColliderShape;
@@ -88,6 +83,7 @@ class AITools
 	RectangleShape* m_pClusterShape;
 	RectangleShape* m_pEntranceShape;
 	ArrowShape* m_pTransitionShape;
+	ArrowShape* m_pEdgeShape;
 	int m_iClusterMin;
 	int m_iClusterMax;
 	int m_jClusterMin;
@@ -96,11 +92,12 @@ class AITools
 	short m_nClusterHeight;
 
 	// Steering
+	LineShape* m_pTarget;
+	LineShape* m_pSteeringLine;
+	LineShape* m_pForceLine;
+	LineShape* m_pVelocityLine;
 	Steering* m_pSteering;
-	ArrowShape* m_pTargetShape;
-	LineShape* m_pLineShape;
-
-	Sprite* m_pTargetSprite;
+	Vehicle* m_pVehicle;
 
 public:
 	AITools();

@@ -20,7 +20,7 @@ namespace crea
 	{
 		m_pChildren.push_back(_pNode);
 	}
-	
+
 	bool Node::update()
 	{
 		return true;

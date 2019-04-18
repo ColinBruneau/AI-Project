@@ -52,7 +52,7 @@ namespace crea
 		TileSet();
 
 		~TileSet();
-		
+
 		float getFriction(unsigned short _nTileId, unsigned short _nQuad); // 0:TopLeft, 1: TopRight, 2: BottomLeft, 3: BottomRight
 
 		IntRect getTextureRect(int _iTileId)
