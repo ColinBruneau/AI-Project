@@ -40,22 +40,23 @@ namespace crea
 		bool& getIsTrigger() { return m_bIsTrigger; }
 
 		virtual bool isColliding(Collider* _pCollider, bool _bWithTrigger = false);
-		
-		static Collider* loadFromFileJSON(string& _filename);
-			
+
+		static Collider* loadFromFileJSON(const string& _filename);
+
 		virtual bool init();
 		virtual bool update();
 		virtual bool draw();
 		virtual bool quit();
 
 		virtual Component* clone() = 0;
+
 	};
 
 	class CREAENGINE_API BoxCollider : public Collider
 	{
 		Vector2f m_vOrigin;
 		Vector2f m_vSize;
-		
+
 	public:
 		BoxCollider();
 		virtual ~BoxCollider();
@@ -68,7 +69,7 @@ namespace crea
 		inline float getMaxY() { return m_vOrigin.getY() + m_vSize.getY(); }
 		inline Vector2f getMin() { return Vector2f(getMinX(), getMinY()); }
 		inline Vector2f getMax() { return Vector2f(getMaxX(), getMaxY()); }
-	
+
 		virtual Component* clone() { return new BoxCollider(*this); }
 	};
 
@@ -81,11 +82,13 @@ namespace crea
 		CircleCollider();
 		virtual ~CircleCollider();
 
-		inline Vector2f& getCenter() {	return m_vCenter; }
-		inline Vector2f getWorldCenter() { return (m_pEntity ? m_pEntity->getPosition() + m_vCenter : m_vCenter); } // CB: for now, no rotation but to modify when Transformable with rotation
+		inline Vector2f& getCenter() { return m_vCenter; }
+		// TODO: CB: for now, no rotation but to modify when Transformable with rotation
+		inline Vector2f getWorldCenter() { return (m_pEntity ? m_pEntity->getPosition() + m_vCenter : m_vCenter); }
 		inline float& getRadius() { return m_fRadius; }
 
 		virtual Component* clone();
+
 	};
 
 } // namespace crea

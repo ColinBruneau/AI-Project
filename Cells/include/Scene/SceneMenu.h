@@ -14,7 +14,7 @@ class SceneMenu : public Scene
 	GameManager*	m_pGM;
 
 	Entity* m_pEntity1;
-	Text* m_pText;
+	Text text;
 	TextRenderer* m_pTextRenderer;
 
 public:

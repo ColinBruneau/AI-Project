@@ -6,6 +6,10 @@
 #ifndef __EntityManager_H_
 #define __EntityManager_H_
 
+#include <map>
+#include <list>
+using namespace std;
+
 namespace crea
 {
 	// Prédéfinitions
@@ -16,9 +20,8 @@ namespace crea
 	class Animator;
 	class Vector2f;
 	class Script;
-	class Steering;
-
 	class ScriptFactory;
+	class Steering;
 
 	class CREAENGINE_API MapStringTextRenderer : public map<string, TextRenderer*> {};
 	class CREAENGINE_API MapStringSpriteRenderer : public map<string, SpriteRenderer*> {};
@@ -28,6 +31,7 @@ namespace crea
 	class CREAENGINE_API MapStringSteering : public map<string, Steering*> {};
 	class CREAENGINE_API ListEntity : public list<Entity*> {};
 	class CREAENGINE_API MapObjectIDEntity : public map<objectID, Entity*> {};
+	class CREAENGINE_API MapModelEntity : public map<string, Entity*> {};
 
 	class CREAENGINE_API EntityManager
 	{
@@ -55,26 +59,34 @@ namespace crea
 
 		MapObjectIDEntity m_Entities;
 
+		MapModelEntity m_EntitiesByModel;
+
 	public:
 		virtual ~EntityManager();
 
 		static EntityManager* getSingleton();
 
-		Entity* getEntity(string& _szName);
+		Entity* getEntity(const string& _szName);
 
-		Entity* instanciate(string& _szName, Entity* _pEntity);
+		Entity* getEntityByModel(const string& _szName);
+
+		void addEntityByModel(const string& _szName, Entity* _pEntity);
 
 		void addEntity(Entity* _pEntity, Entity* _pParent = nullptr);
 
-		TextRenderer* getTextRenderer(string _szName, bool _bCloned = false);
+		Entity* instanciate(string& _szName, Entity* _pEntity);
 
-		SpriteRenderer* getSpriteRenderer(string _szName, bool _bCloned = false);
+		void clearEntity(Entity* _pEntity);
 
-		MapRenderer* getMapRenderer(string _szName, bool _bCloned = false);
+		TextRenderer* getTextRenderer(const string& _szName, bool _bCloned = false);
 
-		Animator* getAnimator(string _szName, bool _bCloned = false);
+		SpriteRenderer* getSpriteRenderer(const string& _szName, bool _bCloned = false);
 
-		Script* getScript(string _szName, bool _bCloned = false);
+		MapRenderer* getMapRenderer(const string& _szName, bool _bCloned = false);
+
+		Animator* getAnimator(const string& _szName, bool _bCloned = false);
+
+		Script* getScript(const string& _szName, bool _bCloned = false);
 
 		Steering* getSteering(string _szName, bool _bCloned = false);
 
@@ -95,8 +107,6 @@ namespace crea
 		Entity* Find(objectID _id);
 
 		objectID getNewObjectID();
-
-		void clearEntity(Entity* _pEntity);
 
 		bool init();
 

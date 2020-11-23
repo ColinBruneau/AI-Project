@@ -15,15 +15,29 @@
     <ClInclude Include="..\include\Graphics\GL3Facade.h" />
     <ClInclude Include="..\include\Graphics\GL3Font.h" />
     <ClInclude Include="..\include\Graphics\GL3Graphics.h" />
-    <ClInclude Include="..\include\Graphics\GL3Line.h" />
+    <ClInclude Include="..\include\Graphics\GL3Material.h" />
+    <ClInclude Include="..\include\Graphics\GL3Shader.h" />
+    <ClInclude Include="..\include\Graphics\GL3Shape.h" />
     <ClInclude Include="..\include\Graphics\GL3Sprite.h" />
     <ClInclude Include="..\include\Graphics\GL3Text.h" />
     <ClInclude Include="..\include\Graphics\GL3Texture.h" />
     <ClInclude Include="..\include\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Graphics\GL3Facade.cpp" />
-    <ClCompile Include="OpenGL3.cpp" />
+    <ClCompile Include="..\extern\glad\src\glad.c" />
+    <ClCompile Include="..\extern\json\src\jsoncpp.cpp" />
+    <ClCompile Include="..\extern\stb_image\src\stb_image.cpp" />
+    <ClCompile Include="Graphics\GL3Facade.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Graphics\GL3Material.cpp" />
+    <ClCompile Include="Graphics\GL3Shader.cpp" />
+    <ClCompile Include="Graphics\GL3Texture.cpp" />
+    <ClCompile Include="OpenGL3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -32,14 +46,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{EA490D8D-245C-4B92-B265-681266D9E32C}</ProjectGuid>
     <RootNamespace>CreaOpenGL3</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>CreaOpenGL3</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -63,24 +77,28 @@
     <OutDir>$(ProjectDir)..\bin\</OutDir>
     <IntDir>$(ProjectDir)..\tmp\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)-d</TargetName>
+    <IncludePath>..\extern\glfw-3.2.1\include;..\extern\glad\include;..\extern\stb_image\include;..\extern\json\include;..\extern\glm-0.9.9-a2\include;..\extern\assimp-5.0.0\include;..\extern\freetype-2.10.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\extern\glfw-3.2.1\lib\$(Configuration);..\extern\assimp-5.0.0\lib\$(Configuration);..\extern\freetype-2.10.1\win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)..\bin\</OutDir>
     <IntDir>$(ProjectDir)..\tmp\$(Configuration)\$(ProjectName)\</IntDir>
+    <LibraryPath>..\extern\glfw-3.2.1\lib\$(Configuration);..\extern\assimp-5.0.0\lib\$(Configuration);..\extern\freetype-2.10.1\win32;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\extern\glfw-3.2.1\include;..\extern\glad\include;..\extern\stb_image\include;..\extern\json\include;..\extern\glm-0.9.9-a2\include;..\extern\assimp-5.0.0\include;..\extern\freetype-2.10.1\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\ogl-master\external\glfw-3.1.2\include;D:\ogl-master\external\glm-0.9.7.1;D:\ogl-master\external\glew-1.13.0\include;..\include;..\..\CreaEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;..\..\CreaEngine\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\CreaEngine\lib;D:\ogl-master\external\glfw-3.1.2\lib\Debug;D:\ogl-master\external\glew-1.13.0\lib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CreaEngine-d.lib;glu32.lib;opengl32.lib;glfw3.lib;GLEW_1130.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc141-mtd.lib;CreaEngine-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(ProjectDir)..\lib\$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(ProjectDir)..\lib\$(TargetName).pgd</ProfileGuidedDatabase>
       <ImportLibrary>$(ProjectDir)..\lib\$(TargetName).lib</ImportLibrary>
@@ -89,7 +107,7 @@
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <PostBuildEvent>
-      <Command>xcopy  /y /d "$(OutDir)*.dll" "$(ProjectDir)..\..\Cells\bin\" </Command>
+      <Command>xcopy  /y /d "$(OutDir)*.dll" "$(ProjectDir)..\..\$(SolutionName)\bin\" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -99,20 +117,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(DXSDK_DIR)\Include;..\include; ..\..\CreaEngine\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\include;..\..\CreaEngine\include;..\..\LibMath\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\CreaEngine\lib;$(DXSDK_DIR)\Lib\x86</AdditionalLibraryDirectories>
-      <AdditionalDependencies>CreaEngine.lib;d3d9.lib;d3GL3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>CreaEngine.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc141-mt.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(ProjectDir)..\lib\$(TargetName).pdb</ProgramDatabaseFile>
       <ProfileGuidedDatabase>$(ProjectDir)..\lib$(TargetName).pgd</ProfileGuidedDatabase>
       <ImportLibrary>$(ProjectDir)..\lib\$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy  /y /d "$(OutDir)*.dll" "$(ProjectDir)..\..\Cells\bin\" </Command>
+      <Command>xcopy  /y /d "$(OutDir)*.dll" "$(ProjectDir)..\..\$(SolutionName)\bin\" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

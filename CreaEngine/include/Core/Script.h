@@ -11,11 +11,6 @@
 
 namespace crea
 {
-	class CREAENGINE_API ScriptFactory {
-	public:
-		virtual Script* create(string& _szName) = 0;
-	};
-
 	class CREAENGINE_API Script : public Component
 	{
 	public:
@@ -33,9 +28,9 @@ namespace crea
 		virtual bool draw() = 0;
 		virtual bool quit() = 0;
 
-		virtual void onCollisionEnter2D(Collision2D _coll) {}
-		virtual void onCollisionStay2D(Collision2D _coll) {}
-		virtual void onCollisionExit2D(Collision2D _coll) {}
+		virtual void onCollisionEnter2D(Collision2D& _coll) {}
+		virtual void onCollisionStay2D(Collision2D& _coll) {}
+		virtual void onCollisionExit2D(Collision2D& _coll) {}
 
 		virtual Component* clone() = 0;
 	};

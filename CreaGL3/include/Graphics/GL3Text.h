@@ -13,53 +13,53 @@ namespace crea
 
 	class GL3Text : public Text
 	{
-		//LPD3DXFONT 
-		void* m_pFont;
+		GL3Font* m_pFont;
 		RECT *m_pRect;
-		GL3Color* m_color;
-		string m_szText;
+		GL3Color m_color;
+		string m_szText; 
+		float m_fSize;
 
 	public:
 
 		GL3Text()
 		{
 			//init rectangle
-			m_pRect = nullptr;
+			m_pRect = new RECT();
 
 			//init color
-			m_color->setValues(255, 255, 255, 100);
+			m_color.setValues(255, 255, 255, 100);
 
 			//font
 			m_pFont = nullptr;
+
+			m_fSize = 20.f;
 		}
 
 		virtual ~GL3Text()
 		{
 			SafeDelete(m_pRect);
-			SafeDelete(m_pFont);
+			// SafeDelete(m_pFont); // Font not allocated in GL3Text
 		}
 
 		virtual void draw()
 		{
 			assert(m_pFont); // A font must be set	
-			//m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, 0, m_color); // CB: pass a sprite as 1st param to improve speed x4
+			m_pFont->renderText(m_szText.c_str(), (float)m_pRect->left, (float)m_pRect->top, m_fSize, glm::vec3(m_color.getR(), m_color.getG(), m_color.getB()));
 		}
 
-		virtual void setFont(IFont* _pFont)
+		virtual void setFont(Font* _pFont)
 		{
-			GL3Font* pFont = (GL3Font*)_pFont;
-			m_pFont = pFont->getFont();
+			m_pFont = (GL3Font*)_pFont;
 		}
 
 		virtual void setColor(Color* _pColor)
 		{
-			m_color = (GL3Color*)_pColor;
+			m_color.setValues(_pColor->m_r, _pColor->m_g, _pColor->m_b, _pColor->m_a);
 		}
 
 		virtual void setCharacterSize(int _iSize)
 		{
-			// CB: not handled as it requires to recreate a font...
-			cerr << "Text resizing not possible for now..." << endl;
+			m_fSize = (float)_iSize;
 		}
 
 		virtual void setString(string _szString)
@@ -69,22 +69,14 @@ namespace crea
 
 		virtual void setPosition(float _x, float _y) 
 		{
-			if (!m_pRect)
-				m_pRect = new RECT();
-
 			m_pRect->left = (LONG)_x;
 			m_pRect->top = (LONG)_y;
-			m_pRect->bottom = (LONG)_y+100; 
+			m_pRect->bottom = (LONG)_y+100; // todo: size is not handled for text in GL3
 			m_pRect->right = (LONG)_x+300;
-			// CB: get size when only position is given (DrawText with CALCRECT)
-			//m_pFont->DrawText(NULL, m_szText.c_str(), -1, m_pRect, DT_CALCRECT, m_color);
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h) 
 		{
-			if (!m_pRect)
-				m_pRect = new RECT();
-
 			m_pRect->left = _x;
 			m_pRect->top = _y;
 			m_pRect->bottom = _y + _h;

@@ -60,7 +60,7 @@ namespace crea
 
 		}
 
-		DX9Sprite::~DX9Sprite()
+		virtual DX9Sprite::~DX9Sprite()
 		{
 			SafeDelete(m_pRect);
 			SafeDelete(m_pCenter);
@@ -159,6 +159,11 @@ namespace crea
 			
 			m_pScaleCenter->x = _x;
 			m_pScaleCenter->y = _y;
+		}
+
+		virtual Sprite* clone()
+		{
+			return new DX9Sprite(*this);
 		}
 	};
 

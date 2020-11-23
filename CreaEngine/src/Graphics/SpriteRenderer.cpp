@@ -8,11 +8,36 @@ namespace crea
 	{
 		m_pSprite = nullptr;
 		m_pTextureRect = nullptr;
+		GameManager* m_pGM = GameManager::getSingleton();
+		m_bActive = true;
 	}
 
 	SpriteRenderer::~SpriteRenderer()
 	{
 
+	}
+
+	bool SpriteRenderer::loadFromFileJSON(const string& _filename)
+	{
+		Json::Value root;
+		std::ifstream srStream(_filename, std::ifstream::binary);
+		if (srStream.fail())
+		{
+			cerr << "Can't open SpriteRenderer file: " << _filename << endl;
+			return false;
+		}
+		srStream >> root;
+
+		string szSprite = root["sprite"].asString();
+		Sprite* pSprite = m_pGM->getSprite(szSprite);
+
+		string szTexture = root["image"].asString();
+		Texture* pTexture = m_pGM->getTexture(szTexture);
+		pSprite->setTexture(pTexture);
+
+		setSprite(pSprite);
+
+		return true;
 	}
 
 	bool SpriteRenderer::init()
@@ -27,7 +52,7 @@ namespace crea
 	
 	bool SpriteRenderer::draw()
 	{
-		if (m_pSprite)
+		if (m_pSprite && m_bActive) 
 		{
 			// Set sprite position
 			Vector2f vPos = getEntity()->getPosition();

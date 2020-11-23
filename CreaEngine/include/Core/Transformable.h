@@ -17,6 +17,7 @@ namespace crea
 	class CREAENGINE_API Transform
 	{
 		Vector2f m_vPosition;
+		Vector2f m_vOrientation;
 	public:
 
 		Transform()
@@ -30,6 +31,8 @@ namespace crea
 		void move(Vector2f& _v) { m_vPosition += _v; }
 		void setPosition(Vector2f& _v) { m_vPosition = _v; }
 		Vector2f& getPosition() { return m_vPosition; }
+		void setOrientation(Vector2f& _v) { m_vOrientation = _v; }
+		Vector2f& getOrientation() { return m_vOrientation; }
 		virtual FloatRect transformRect(const FloatRect&) { return FloatRect(); };
 	};
 
@@ -37,12 +40,12 @@ namespace crea
 	{
 		Transform m_Transform;
 		Vector2f m_vVelocity;
+		Vector2f m_vAngularVelocity;
 
 	public:
 
 		Transformable()
 		{
-			m_vVelocity = Vector2f(0.f, 0.f);
 		}
 
 		~Transformable()
@@ -50,8 +53,8 @@ namespace crea
 		}
 
 		Transform& getTransform() { return m_Transform; }
-		void move(Vector2f& _v) 
-		{ 
+		void move(Vector2f& _v)
+		{
 			float frameTime = (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
 			if (frameTime)
 			{
@@ -60,7 +63,7 @@ namespace crea
 			}
 			m_Transform.move(_v);
 		}
-		void setPosition(Vector2f& _v) 
+		void setPosition(Vector2f& _v)
 		{
 			float frameTime = (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
 			if (frameTime)
@@ -68,10 +71,24 @@ namespace crea
 				m_vVelocity = Vector2f(_v - getPosition());
 				m_vVelocity /= frameTime;
 			}
-			m_Transform.setPosition(_v); 
+			m_Transform.setPosition(_v);
 		}
 		Vector2f& getPosition() { return m_Transform.getPosition(); }
 		Vector2f& getVelocity() { return m_vVelocity; }
+
+		void setOrientation(Vector2f& _v)
+		{
+			float frameTime = (float)TimeManager::getSingleton()->getFrameTime().asSeconds();
+			if (frameTime)
+			{
+				m_vAngularVelocity = Vector2f(_v - getOrientation());
+				m_vAngularVelocity /= frameTime;
+			}
+			m_Transform.setOrientation(_v);
+		}
+		Vector2f& getOrientation() { return m_Transform.getOrientation(); }
+		Vector2f& getAngularVelocity() { return m_vAngularVelocity; }
+
 		Vector2f getFuturePosition(float _seconds) { return m_Transform.getPosition() + m_vVelocity * _seconds; }
 	};
 

@@ -1,10 +1,6 @@
 #include "stdafx.h"
 
 #include "Physics\Collider.h"
-#include "Graphics\Sprite.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
 namespace crea
 {
@@ -55,7 +51,7 @@ namespace crea
 		return m_bIsColliding;
 	}
 
-	Collider* Collider::loadFromFileJSON(string& _filename)
+	Collider* Collider::loadFromFileJSON(const string& _filename)
 	{
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);
@@ -76,7 +72,7 @@ namespace crea
 			pBoxCollider->getSize() = Vector2f(root["w"].asFloat(), root["h"].asFloat());
 			return pBoxCollider;
 		}
-		
+
 		return nullptr;
 	}
 
@@ -108,7 +104,7 @@ namespace crea
 		Vector2f vPos2 = pEntity2 ? pEntity2->getPosition() : Vector2f(0.f, 0.f);
 		BoxCollider* pBox1 = (BoxCollider*)_pCollider1;
 		BoxCollider* pBox2 = (BoxCollider*)_pCollider2;
-		
+
 		Vector2f vWorldMin1 = vPos1 + pBox1->getMin();
 		Vector2f vWorldMax1 = vPos1 + pBox1->getMax();
 		Vector2f vWorldMin2 = vPos2 + pBox2->getMin();
@@ -150,12 +146,12 @@ namespace crea
 			if (vWorldCenter2.get(i) < vWorldMin1.get(i))
 			{
 				s = vWorldCenter2.get(i) - vWorldMin1.get(i);
-				d += s*s;
+				d += s * s;
 			}
 			else if (vWorldCenter2.get(i) > vWorldMax1.get(i))
 			{
 				s = vWorldCenter2.get(i) - vWorldMax1.get(i);
-				d += s*s;
+				d += s * s;
 			}
 		}
 		return d <= (fRadius*fRadius);
@@ -192,7 +188,7 @@ namespace crea
 	BoxCollider::~BoxCollider()
 	{
 	}
-	
+
 	CircleCollider::CircleCollider()
 		: Collider(Collider_Circle), m_fRadius(0.f)
 	{
@@ -205,7 +201,7 @@ namespace crea
 	Component* CircleCollider::clone()
 	{
 		Collider* pCollider = new CircleCollider(*this);
-		// CB: Patch, make sure the circleCollider is dynamic...
+		// TODO: CB: Patch, make sure the circleCollider is dynamic...
 		string s = this->m_szName + to_string(EntityManager::getSingleton()->getNewObjectID());
 		PhysicsManager::getSingleton()->addDynamicCollider(s, pCollider);
 		return pCollider;

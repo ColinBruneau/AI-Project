@@ -3,10 +3,6 @@
 #include "AI\Steering\Vehicle.h"
 #include "AI\Steering\Steering.h"
 #include "Core\GameManager.h"
-#include "Tools\json\json.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
 
 namespace crea
 {
@@ -25,7 +21,7 @@ namespace crea
 	{
 	}
 
-	bool Vehicle::loadFromFileJSON(string _filename)
+	bool Vehicle::loadFromFileJSON(const string& _filename)
 	{
 		Json::Value root;
 		std::ifstream config_doc(_filename, std::ifstream::binary);
@@ -66,7 +62,6 @@ namespace crea
 		}
 		else
 		{
-			m_vVelocity = Vector2f(0.0f, 0.0f);
 			m_lastForce = Vector2f(0.0f, 0.0f);
 		}
 

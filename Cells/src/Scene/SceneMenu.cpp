@@ -2,15 +2,11 @@
 
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
-#include "Scene\SceneMap.h"
-#include "Scene\SceneFormation.h"
-#include "Scene\SceneSteering.h"
-#include "Scene\SceneBehaviorTree.h"
 #include "Core\SceneManager.h"
 #include "Core\GameManager.h"
-#include "Core\DataManager.h"
+#include "Data\DataManager.h"
 #include "Core\EntityManager.h"
-#include "Data\Entity.h"
+#include "Core\Entity.h"
 #include "Graphics\SpriteRenderer.h"
 
 SceneMenu::SceneMenu()
@@ -27,53 +23,36 @@ bool SceneMenu::onInit()
 {
 	m_pGM = GameManager::getSingleton();
 
-	// Text
-	crea::Color* pRed = m_pGM->getColor("Red");
+	// Color
+	Color* pRed = m_pGM->getColor("Red");
 	pRed->setValues(255, 0, 0, 255);
 
-	crea::Text* pText = m_pGM->getText("SceneMenu Text");
-	pText->setFont(m_pGM->getFont("arial.ttf"));
-	pText->setColor(pRed);
-	pText->setCharacterSize(20);
-	pText->setString("1) Menu 2) Game 3) Steering 4) Formation");
+	// Text
+	text.setFont(m_pGM->getFont("arial.ttf"));
+	text.setColor(pRed);
+	text.setCharacterSize(20);
+	text.setString("MENU. Press 1 to display Menu, 2 to display Game...");
 
-	crea::TextRenderer* pTextRenderer = m_pGM->getTextRenderer("TextRenderer1");
-	pTextRenderer->setText(pText);
+	// TextRenderer
+	m_pTextRenderer = new TextRenderer();
+	m_pTextRenderer->setText(&text);
 
-	crea::Entity* pEntity1 = m_pGM->getEntity("text 1");
-	pEntity1->addComponent(pTextRenderer);
+	// Entity
+	m_pEntity1 = new Entity();
+	m_pEntity1->setName(string("text 1"));
+	m_pEntity1->addComponent(m_pTextRenderer);
 
-	m_pGM->addEntity(pEntity1);
-
+	m_pGM->addEntity(m_pEntity1);
+	
 	return true;
 }
 
 bool SceneMenu::onUpdate()
 {
 	// Get direction from keyboard
-	if (m_pGM->isKeyPressed(Key::Num1))
-	{
-		m_pGM->setScene(new SceneMenu());
-		return true;
-	}
 	if (m_pGM->isKeyPressed(Key::Num2))
 	{
 		m_pGM->setScene(new SceneGame());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num3))
-	{
-		m_pGM->setScene(new SceneSteering());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num4))
-	{
-		m_pGM->setScene(new SceneFormation());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num5))
-	{
-		m_pGM->setScene(new SceneBehaviorTree());
 		return true;
 	}
 
@@ -88,7 +67,6 @@ bool SceneMenu::onDraw()
 bool SceneMenu::onQuit()
 {
 	m_pGM->clearAllEntities();
-	m_pGM->clearAllData();
 
 	return true;
 }

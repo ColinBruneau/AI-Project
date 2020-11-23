@@ -16,7 +16,7 @@ namespace crea
 	class SFMLColor : public Color
 	{
 	public:
-		sf::Color m_color;
+		sf::Color getColor() { return sf::Color(m_r, m_g, m_b, m_a); }
 
 		SFMLColor()
 		{
@@ -24,14 +24,6 @@ namespace crea
 
 		virtual ~SFMLColor()
 		{
-		}
-
-		virtual void setValues(int _r, int _g, int _b, int _a)
-		{
-			m_color.r = _r;
-			m_color.g = _g;
-			m_color.b = _b;
-			m_color.a = _a;
 		}
 	};
 

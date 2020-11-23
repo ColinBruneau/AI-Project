@@ -27,7 +27,11 @@ namespace crea
 	float TileSet::getFriction(unsigned short _nTileId, unsigned short _nQuad)
 	{
 		TileInfo* pTileInfo = m_TileInfos[to_string(_nTileId)];
-		unsigned short nTerrain = pTileInfo->m_nTerrain[_nQuad];
-		return m_Terrains[nTerrain]->m_fFriction;
+		if (pTileInfo)
+		{
+			unsigned short nTerrain = pTileInfo->m_nTerrain[_nQuad];
+			return m_Terrains[nTerrain]->m_fFriction;
+		}
+		return 0.f; // Default to no friction
 	}
 }

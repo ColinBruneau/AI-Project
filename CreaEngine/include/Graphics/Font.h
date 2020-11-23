@@ -16,8 +16,9 @@ namespace crea
 		Font() {}
 		virtual ~Font() {}
 
-		// Initialise le Font
-		virtual bool loadFromFile(std::string _file) { return false; }
+		virtual bool loadFromFile(const string& _file) { return false; }
+
+		virtual void setFontSize(int _iSize) {}
 	};
 
 } // namespace crea

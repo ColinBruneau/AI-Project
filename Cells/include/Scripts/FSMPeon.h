@@ -30,6 +30,7 @@ public:
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 
 	virtual Component* clone() { return new FSMPeon(*this); }
+
 };
 
 #endif

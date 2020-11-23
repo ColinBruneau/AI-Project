@@ -12,7 +12,12 @@ namespace crea
 
 	ClusterSearchManager::~ClusterSearchManager()
 	{
-	}	
+		MapStringClusterSearch::iterator it = m_ClusterSearches.begin();
+		while (it != m_ClusterSearches.end()) {
+			delete (*it).second;
+			it = m_ClusterSearches.erase(it);
+		}
+	}
 
 	ClusterSearch* ClusterSearchManager::getClusterSearch(string _szName)
 	{

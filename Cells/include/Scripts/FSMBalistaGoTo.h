@@ -22,12 +22,13 @@ class FSMBalistaGoTo : public StateMachine
 	Vector2f		m_vTarget;
 
 	VectorVector2f	m_vPath;
-	unsigned int	m_uiPathIndex;
-	Vector2f*		m_pPathTarget;
-	Vector2f		m_TargetWithOffset;
-	Vector2f		m_Offset;
 
-	bool GoTo(Vector2f& _vTargetPosition);
+	VectorVector2f	m_vOpenList;
+	RectangleShape* m_pPathNodeShapeOpen;
+	bool m_bHasOpenList = false;
+
+	RectangleShape* m_pPathNodeShape;
+	bool m_bHasPath = false;
 
 public:
 	FSMBalistaGoTo(Vector2f _vTarget);
@@ -41,7 +42,7 @@ public:
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 
 	virtual Component* clone() { return new FSMBalistaGoTo(*this); }
-
+	
 	enum States {
 		STATE_Init,
 		STATE_SearchPath,
@@ -49,6 +50,8 @@ public:
 		STATE_SearchFailed,
 		STATE_CompletedPath
 	};
+
+	virtual bool draw();
 };
 
 #endif

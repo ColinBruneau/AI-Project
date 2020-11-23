@@ -154,6 +154,28 @@ namespace crea
 		delete _pShape;
 	}
 
+	Shader* SFMLFacade::createShader(Shader* _pFrom)
+	{
+		// todo: implement SFML shaders
+		return nullptr;
+	}
+
+	void SFMLFacade::destroyShader(Shader* _pShader)
+	{
+		// todo: implement SFML shaders
+	}
+
+	Material* SFMLFacade::createMaterial(Material* _pFrom)
+	{
+		// todo: implement SFML materials
+		return nullptr;
+	}
+
+	void SFMLFacade::destroyMaterial(Material* _pMaterial)
+	{
+		// todo: implement SFML materials
+	}
+
 	bool SFMLFacade::isKeyPressed(Key _key)
 	{
 		if (sf::Keyboard::isKeyPressed((sf::Keyboard::Key)_key)) // Key mapping is the same as SFML

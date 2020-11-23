@@ -8,12 +8,13 @@
 
 namespace crea
 {
-// constants
+	// constants
 #define PI 3.14159265f
 #define EPSILON 0.00001f
 #define ONEOVER128 0.0078125f
+#define ONEOVER255 0.00392156862745f
 
-// Macros
+	// Macros
 #define MIN(a, b) (a<b ? a : b)
 #define MAX(a, b) (a>b ? a : b)
 
@@ -43,7 +44,7 @@ namespace crea
 		inline void setY(float _fY) { m_fY = _fY; }
 		inline float getX() { return m_fX; }
 		inline float getY() { return m_fY; }
-		inline float get(char _index) { return (_index==0? m_fX : m_fY); }
+		inline float get(char _index) { return (_index == 0 ? m_fX : m_fY); }
 		inline void addX(float _fX) { m_fX += _fX; }
 		inline void addY(float _fY) { m_fY += _fY; }
 		inline float dist(Vector2f& _v) { return sqrt((_v.m_fX - m_fX) * (_v.m_fX - m_fX) + (_v.m_fY - m_fY) * (_v.m_fY - m_fY)); }
@@ -51,9 +52,9 @@ namespace crea
 		inline float length() const { return sqrt((m_fX * m_fX) + (m_fY * m_fY)); }
 		inline float lengthSq() const { return (m_fX * m_fX) + (m_fY * m_fY); }
 		inline bool normalize() { float l = length();  if (!l) return false; m_fX /= l; m_fY /= l; return true; }
-		inline float dot(const Vector2f& _v) const {	return m_fX * _v.m_fX + m_fY * _v.m_fY;	}
-		inline float angle(const Vector2f& _v) const { float fLength = length() * _v.length(); return acosf(dot(_v) / fLength);	} // radians
-		bool isLeft(const Vector2f& _v) const { return (bool)((m_fX*_v.m_fY - m_fY*_v.m_fX) > 0.0f); }
+		inline float dot(const Vector2f& _v) const { return m_fX * _v.m_fX + m_fY * _v.m_fY; }
+		inline float angle(const Vector2f& _v) const { float fLength = length() * _v.length(); return acosf(dot(_v) / fLength); } // radians
+		bool isLeft(const Vector2f& _v) const { return (bool)((m_fX*_v.m_fY - m_fY * _v.m_fX) > 0.0f); }
 		inline Vector2f operator-() { return Vector2f(-m_fX, -m_fY); }
 		inline Vector2f operator+(Vector2f& _v) { return Vector2f(m_fX + _v.m_fX, m_fY + _v.m_fY); }
 		inline Vector2f operator-(Vector2f& _v) { return Vector2f(m_fX - _v.m_fX, m_fY - _v.m_fY); }
@@ -63,7 +64,6 @@ namespace crea
 		inline Vector2f& operator*=(float _f) { m_fX *= _f; m_fY *= _f; return *this; }
 		inline Vector2f operator/(float _f) { assert(_f); return Vector2f(m_fX / _f, m_fY / _f); }
 		inline Vector2f& operator/=(float _f) { assert(_f); m_fX /= _f; m_fY /= _f; return *this; }
-		inline bool operator!=(Vector2f& _v) { return m_fX != _v.m_fX || m_fY != _v.m_fY; }
 	};
 
 	class CREAENGINE_API IntRect
@@ -99,6 +99,23 @@ namespace crea
 		inline int getWidth() const { return m_iW; }
 		inline int getHeight() const { return m_iH; }
 
+		bool operator!=(const IntRect& _r)
+		{
+			if (_r.m_iX != m_iX || _r.m_iY != m_iY || _r.m_iW != m_iW || _r.m_iH != m_iH)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		bool contains(Vector2f& _v)
+		{
+			if (_v.getX() > m_iX && _v.getX() < m_iX + m_iW && _v.getY() > m_iY && _v.getY() < m_iY + m_iH)
+			{
+				return true;
+			}
+			return false;
+		}
 	};
 
 	class CREAENGINE_API FloatRect
@@ -181,11 +198,7 @@ namespace crea
 		static float degreetoradian(float a) { return a * 0.01745329251945f; }
 
 		static float radiantodegreee(float a) { return a * 57.29577951471995f; }
-
-		//static float min(float a, float b) { return a < b ? a : b; }
-
-		//static float max(float a, float b) { return a > b ? a : b; }
-
+		
 	};
 
 } // namespace crea

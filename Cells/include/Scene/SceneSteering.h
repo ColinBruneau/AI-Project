@@ -45,6 +45,7 @@ class SceneSteering : public Scene
 	Entity* m_pMouse;
 	Entity* m_pTarget; // Used to target destination
 	Entity* m_pPeon;
+	Entity* m_pBalista;
 
 	// Obstacles
 	vector<Entity*> m_vObstacles;

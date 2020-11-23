@@ -2,14 +2,9 @@
 
 #include "Data\Animation.h"
 
-#include "Tools\json\json.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-
 namespace crea
 {
-	Animation::Animation() : m_texture(NULL), m_duration(1.0), m_bLooping(true), m_fSpeed(1.0f)
+	Animation::Animation() : m_texture(NULL), m_duration(1.0), m_bLooping(true), m_fSpeed(1.0f), m_iTranslationSpeed(0)
 	{
 
 	}
@@ -32,7 +27,7 @@ namespace crea
 		}
 	}
 
-	bool Animation::loadFromFileJSON(string _filename)
+	bool Animation::loadFromFileJSON(const string& _filename)
 	{
 		m_szName = _filename;
 
@@ -62,13 +57,13 @@ namespace crea
 			Json::Value multiframe = multiframes[imultiFrame];
 			for (int i = 0; i < multiframe["frames"].asInt(); i++)
 			{
-				addFrame(IntRect(	multiframe["x"].asInt()+i*multiframe["offsetx"].asInt(), 
-									multiframe["y"].asInt()+i*multiframe["offsety"].asInt(), 
-									multiframe["w"].asInt(), 
-									multiframe["h"].asInt()));
+				addFrame(IntRect(multiframe["x"].asInt() + i * multiframe["offsetx"].asInt(),
+					multiframe["y"].asInt() + i * multiframe["offsety"].asInt(),
+					multiframe["w"].asInt(),
+					multiframe["h"].asInt()));
 			}
 		}
-		
+
 		// Translation Speed
 		Json::Value translationspeed = root["translationspeed"];
 		m_iTranslationSpeed = translationspeed.asInt();

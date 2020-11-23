@@ -6,7 +6,6 @@
 #ifndef __ClusterSearchManager_H__
 #define __ClusterSearchManager_H__
 
-#include "AI\AI.h"
 #include "AI\Pathfinding\ClusterSearch.h"
 
 namespace crea
@@ -24,7 +23,7 @@ namespace crea
 		ClusterSearch* getClusterSearch(string _szName);
 
 		Map* getCurrentMap() { return m_pMap; }
-		void setCurrentMap(Map* _pMap) { m_pMap = _pMap;  }
+		void setCurrentMap(Map* _pMap) { m_pMap = _pMap; }
 		Cluster* getCurrentCluster() { return m_pCluster; }
 		void setCurrentCluster(Cluster* _pCluster) { m_pCluster = _pCluster; }
 

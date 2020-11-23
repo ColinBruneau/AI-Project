@@ -9,15 +9,16 @@
 #include "Core\Script.h"
 #include "CharacterController.h"
 #include "UserController.h"
-#include "Scripts\FSMPeon.h"
+#include "FSMPeon.h"
 #include "Scripts\FSMSteeringPeon.h"
-#include "Scripts\FSMBalista.h"
+#include "FSMBalista.h"
+#include "Scripts\FSMHQ.h"
 
 
 class CellsScriptFactory : public ScriptFactory
 {
-	virtual Script* create(string& _szName)
-	{ 
+	virtual Script* create(const string& _szName)
+	{
 		if (_szName == "CharacterController")
 		{
 			return new CharacterController;
@@ -45,6 +46,10 @@ class CellsScriptFactory : public ScriptFactory
 		else if (_szName == "FSMSteeringPeon")
 		{
 			return new FSMSteeringPeon;
+		}
+		else if (_szName == "FSMHQ")
+		{
+			return new FSMHQ;
 		}
 		return nullptr;
 	}

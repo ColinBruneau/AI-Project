@@ -43,7 +43,7 @@ namespace crea
 		virtual void setColor(Color* _pColor)
 		{
 			SFMLColor* pColor = (SFMLColor*)_pColor;
-			m_pText->setFillColor(pColor->m_color);
+			m_pText->setFillColor(pColor->getColor());
 		}
 
 		virtual void setCharacterSize(int _iSize)

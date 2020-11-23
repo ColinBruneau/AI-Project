@@ -28,7 +28,7 @@ namespace crea
 	int Time::asMilliseconds() { return (int)(m_dTime * 1E3); }
 
 	double Time::asSeconds() { return (double)m_dTime; }
-	
+
 	void Time::setAsMicroSeconds(int _iTime) { m_dTime = _iTime * 1E-6; }
 
 	void Time::setAsMilliSeconds(int _iTime) { m_dTime = _iTime * 1E-3; }
@@ -72,8 +72,8 @@ namespace crea
 			&instanceUnique;
 	}
 
-	Time TimeManager::getFrameTime() 
-	{ 
+	Time TimeManager::getFrameTime()
+	{
 		return m_FrameTime;
 	}
 
@@ -82,8 +82,8 @@ namespace crea
 		return m_GameClock.getElapsedTime();
 	}
 
-	void TimeManager::init() 
-	{ 
+	void TimeManager::init()
+	{
 		m_FrameClock.restart();
 		m_GameClock.restart();
 	}

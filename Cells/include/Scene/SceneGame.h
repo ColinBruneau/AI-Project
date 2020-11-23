@@ -7,6 +7,7 @@
 #define __SceneGame_H_
 
 #include "Core\Scene.h"
+#include "Scripts\CellsScriptFactory.h"
 using namespace crea;
 
 class SceneGame : public Scene
@@ -16,6 +17,8 @@ class SceneGame : public Scene
 	Entity* m_pEntity1;
 	Sprite* m_pSprite1;
 	SpriteRenderer* m_pSpriteRenderer;
+	// Scripts
+	CellsScriptFactory* m_pCellsScriptFactory;
 
 public:
 	SceneGame();

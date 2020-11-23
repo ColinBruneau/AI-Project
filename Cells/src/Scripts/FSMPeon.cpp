@@ -33,7 +33,8 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 			SetState(STATE_Die);		
 		
 		OnMsg(MSG_Hit)
-			m_iLife -= 20;
+			m_iLife -= 1;
+			m_pAgent->setHealth(m_iLife);
 			if (m_iLife <= 0)
 			{
 				SetState(STATE_Die);
@@ -46,12 +47,6 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 		OnMsg(MSG_Boost)
 			m_pAgent->setDexterity(m_pAgent->getDexterity()+1);
 
-		OnOtherMsg()
-			if (m_pFSMPeonLive)
-			{
-				m_pFSMPeonLive->States(_event, _msg, _state); // CB: propagate msg to sub-state
-			}
-
 		///////////////////////////////////////////////////////////////
 		State(STATE_Spawn)
 		OnEnter
@@ -62,7 +57,7 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 			// Get Agent
 			m_pAgent = m_pEntity->getComponent<Agent>();
 
-			m_iLife = 100;
+			m_iLife = m_pAgent->getHealth();
 
 		OnUpdate
 			SetState(STATE_Live);
@@ -71,22 +66,24 @@ bool FSMPeon::States(StateMachineEvent _event, Msg* _msg, int _state)
 		State(STATE_Live)
 		OnEnter
 			m_pFSMPeonLive = new FSMPeonLive();
-			m_pFSMPeonLive->Initialize(getEntity());
+			m_pEntity->addComponent(m_pFSMPeonLive);
+			m_pFSMPeonLive->Initialize(m_pEntity);
 
 		OnUpdate
-			m_pFSMPeonLive->Update();
+			//m_pFSMPeonLive->Update(); // CBruneau: not necessary as it was added as a component
 			if (m_iLife <= 0)
 			{
 				SetState(STATE_Die);
 			}
 
-		OnExit
+			OnExit
+			m_pEntity->removeComponent(m_pFSMPeonLive);
 			delete m_pFSMPeonLive;
 			m_pFSMPeonLive = nullptr;
 			
 		///////////////////////////////////////////////////////////////
 		State(STATE_Die)
-		OnUpdate
+		OnEnter
 			m_pCharacterController->setCondition(kACond_Default);
 			m_pCharacterController->setAction(kAct_Die);
 

@@ -71,16 +71,17 @@ bool FSMBalista::States(StateMachineEvent _event, Msg* _msg, int _state)
 		State(STATE_Live)
 		OnEnter
 			m_pFSMBalistaLive = new FSMBalistaLive();
+			m_pEntity->addComponent(m_pFSMBalistaLive);
 			m_pFSMBalistaLive->Initialize(getEntity());
 
 		OnUpdate
-			m_pFSMBalistaLive->Update();
 			if (m_iLife <= 0)
 			{
 				SetState(STATE_Die);
 			}
 
 		OnExit
+			m_pEntity->removeComponent(m_pFSMBalistaLive);
 			delete m_pFSMBalistaLive;
 			m_pFSMBalistaLive = nullptr;
 			

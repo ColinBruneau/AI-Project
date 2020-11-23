@@ -1,0 +1,11 @@
+{ 	"components":[
+		{
+			"type":"SpriteRenderer",
+			"name":"Building/Hq1.sr"
+		},
+		{
+			"type":"Script",
+			"name":"FSMHQ"		
+		}	
+	]
+} 

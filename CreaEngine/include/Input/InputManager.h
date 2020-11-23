@@ -126,10 +126,13 @@ namespace crea
 		MouseButtonCount
 	};
 
+	class GameManager;
 	class Vector2f;
 
 	class CREAENGINE_API InputManager
 	{
+		GameManager*	m_pGM;
+
 		InputManager();
 
 	public:

@@ -6,13 +6,13 @@
 #ifndef __MapSearch_H__
 #define __MapSearch_H__
 
-#include "AI\AI.h"
 #include "AI\Pathfinding\AStarSearch.h"
 #include "AI\Pathfinding\MapSearchNode.h"
 
 namespace crea
 {
-	class CREAENGINE_API MapSearch
+	class CREAENGINE_API VectorVector2f : public vector<Vector2f*> {};
+	class CREAENGINE_API MapSearch : public AStarSearch<MapSearchNode>
 	{
 	public:
 		enum SearchState
@@ -28,15 +28,18 @@ namespace crea
 		MapSearch();
 		~MapSearch();
 
-		bool setStartAndGoal(Vector2f _vStart, Vector2f _vGoal, bool _bFromPixels = true);
+		bool setStartAndGoal(Vector2f _vStart, Vector2f _vGoal);
 		SearchState update();
 		bool getSolution(VectorVector2f& _vSolution);
-		float getSolutionLength();
+		bool getOpenList(VectorVector2f& _vOpenList);
+
+		// AA*
+		Agent* getCurrentAgent() { return m_pAgent; }
+		void setCurrentAgent(Agent* _pAgent) { m_pAgent = _pAgent; }
 
 	private:
-		// A*
-		AStarSearch<MapSearchNode> m_pAStarSearch;
 		SearchState m_uiSearchState;
+		Agent* m_pAgent;
 
 	};
 

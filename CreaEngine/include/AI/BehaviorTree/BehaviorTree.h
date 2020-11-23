@@ -16,7 +16,7 @@ namespace bt
 	class CREAENGINE_API BehaviorTree : public crea::Component
 	{
 	protected:
-		Behavior* m_pRoot;
+		Behavior * m_pRoot;
 
 	public:
 		BehaviorTree();
@@ -29,7 +29,13 @@ namespace bt
 		virtual bool draw();
 		virtual bool quit();
 
-		virtual Component* clone();
+		virtual Component* clone()
+		{
+			BehaviorTree* p = new BehaviorTree(*this);
+			// CB: copy tree structure...
+			p->m_pRoot = m_pRoot->clone();
+			return p;
+		}
 	};
 
 } // namespace crea

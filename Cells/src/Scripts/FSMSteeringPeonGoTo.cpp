@@ -33,7 +33,7 @@ bool FSMSteeringPeonGoTo::States(StateMachineEvent _event, Msg* _msg, int _state
 			// Get CharacterController
 			m_pCharacterController = m_pEntity->getComponent<CharacterController>();
 			// A*
-			m_pMapSearch = m_pGM->getMapSearch("FSMSteeringPeonGoTo");
+			m_pMapSearch = m_pGM->getMapSearch(m_pEntity->getName());
 			// Get Agent
 			m_pAgent = m_pEntity->getComponent<Agent>();
 			// Get Steering

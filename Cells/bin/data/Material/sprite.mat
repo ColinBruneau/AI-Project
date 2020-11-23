@@ -1,0 +1,13 @@
+{
+	"shader":"sprite.shader",
+	"color":
+	{
+		"r":255,
+		"g":255,
+		"b":255,
+		"a":255
+	},
+	"model":"model",
+	"view":"view",
+	"projection":"projection"
+}

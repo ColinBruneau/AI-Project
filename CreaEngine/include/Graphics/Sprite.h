@@ -14,10 +14,8 @@ namespace crea
 	public:
 
 		Sprite() {}
-
-		Sprite(Sprite& _pSprite) {}
-
-		~Sprite() {}
+		
+		virtual ~Sprite() {}
 
 		virtual void draw() {}
 
@@ -30,6 +28,8 @@ namespace crea
 		virtual void setScale(float _x, float _y) {}
 
 		virtual void setOrigin(float _x, float _y) {}
+
+		virtual Sprite* clone() { return new Sprite(*this); }
 	};
 
 } // namespace crea

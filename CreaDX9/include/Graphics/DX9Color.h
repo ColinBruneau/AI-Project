@@ -13,9 +13,8 @@ namespace crea
 
 	class DX9Color : public Color
 	{
-		D3DCOLOR m_color;
 	public:
-		D3DCOLOR getColor() { return m_color; }
+		D3DCOLOR getColor() { return D3DCOLOR_RGBA(m_r, m_g, m_b, m_a); }
 
 		DX9Color()
 		{
@@ -25,10 +24,6 @@ namespace crea
 		{
 		}
 
-		virtual void setValues(int _r, int _g, int _b, int _a)
-		{
-			m_color = D3DCOLOR_RGBA(_r, _g, _b, _a);
-		}
 	};
 
 } // namespace crea

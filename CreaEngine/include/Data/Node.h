@@ -7,6 +7,7 @@
 #define __Node_H_
 
 #include <vector>
+#include <map>
 
 namespace crea
 {
@@ -16,7 +17,8 @@ namespace crea
 		// TileId
 		short m_nTileTerrainId;
 		short m_nTileCollisionId;
-		short m_nTileClearanceId;
+		// TileIds Key: 0: Capability0, etc.
+		map<short, short> m_nTileCapabilityIds;
 
 		// Position
 		short m_nX;
@@ -24,12 +26,12 @@ namespace crea
 
 		// Neighbors
 		vector<Node*> m_pChildren;
-		
+
 	public:
 		Node();
-		Node(short _nX, short _nY)								{ m_nX = _nX; m_nY = _nY; }
+		Node(short _nX, short _nY) { m_nX = _nX; m_nY = _nY; }
 		virtual ~Node();
-		
+
 		inline void setX(short _nX) { m_nX = _nX; }
 
 		inline short getX() { return  m_nX; }
@@ -38,22 +40,23 @@ namespace crea
 
 		inline short getY() { return  m_nY; }
 
-		inline void setTileTerrainId(short _nTileTerrainId)		{ m_nTileTerrainId = _nTileTerrainId; }
+		inline void setTileTerrainId(short _nTileTerrainId) { m_nTileTerrainId = _nTileTerrainId; }
 
-		inline short getTileTerrainId()							{ return  m_nTileTerrainId; }
+		inline short getTileTerrainId() { return  m_nTileTerrainId; }
 
-		inline void setTileCollisionId(short _nTileCollisionId)	{ m_nTileCollisionId = _nTileCollisionId; }
+		inline void setTileCollisionId(short _nTileCollisionId) { m_nTileCollisionId = _nTileCollisionId; }
 
-		inline short getTileCollisionId()						{ return  m_nTileCollisionId; }
+		inline short getTileCollisionId() { return  m_nTileCollisionId; }
 
-		inline void setTileClearanceId(short _nTileClearanceId) { m_nTileClearanceId = _nTileClearanceId; }
+		inline void setTileClearanceId(short _nTileClearanceId, short _nCapability) { m_nTileCapabilityIds[_nCapability] = _nTileClearanceId; }
 
-		inline short getTileClearanceId() { return  m_nTileClearanceId; }
+		inline short getTileClearanceId(short _nCapability) { return m_nTileCapabilityIds.find(_nCapability)->second; }
 
-		double getDistance(Node* _pNode) { short dx = m_nX - _pNode->getX(); short dy = m_nY - _pNode->getY(); return sqrt(dx*dx + dy*dy); }
-		
+
+		double getDistance(Node* _pNode) { short dx = m_nX - _pNode->getX(); short dy = m_nY - _pNode->getY(); return sqrt(dx*dx + dy * dy); }
+
 		void addChild(Node* _pNode);
-		
+
 		bool update();
 
 		bool draw();

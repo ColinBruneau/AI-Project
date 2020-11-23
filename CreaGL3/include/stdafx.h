@@ -14,21 +14,45 @@ using namespace std;
 
 #pragma warning( disable: 4251 )
 
+// Constants
+#define ONEOVER255 0.00392156862745f
+#include <algorithm>
+
 // Windows
-#include <Windows.h>
-#include <Windowsx.h>
+//#include <Windows.h>
+//#include <Windowsx.h> 
+
+
+#include <fstream>
+#include <sstream>
+#include <iostream>
+using namespace std;
+
+// GLAD / GLFW
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+// JSON
+#include "json.h"
+
+// stb_image
+#include <stb_image.h>
+
+// assimp
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+// glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+// FreeType
+#include "ft2build.h"
+#include "freetype/freetype.h"
 
 #include "CreaImport.h"
-
-// TODO: faites référence ici aux en-têtes supplémentaires nécessaires au programme
-
-// Include GLEW. Always include it before gl.h and glfw.h, since it's a bit magic.
-#include <GL/glew.h>
-// Include GLFW
-#include <GLFW/glfw3.h>
-// Include GLM
-#include <glm/glm.hpp>
-using namespace glm;
 
 #define SafeDelete(pObject) if(pObject != NULL) {delete pObject; pObject=NULL;}
 
@@ -38,3 +62,6 @@ using namespace glm;
 #include "Graphics\GL3Color.h"
 #include "Graphics\GL3Text.h"
 #include "Graphics\GL3Sprite.h"
+#include "Graphics\GL3Shape.h"
+#include "Graphics\GL3Shader.h"
+#include "Graphics\GL3Material.h"

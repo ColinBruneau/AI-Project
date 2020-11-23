@@ -8,26 +8,24 @@
 #define __STATEMCH_H__
 
 #include <assert.h>
-#include <deque>
-#include "AI.h"
-#include "Msg.h"
+#include "Core\Msg.h"
 #include "Core\EntityManager.h"
 #include "Core\DebugLog.h"
 #include "Core\TimeManager.h"
-#include "Core\Script.h"
 
+#include <deque>
 #define MAX_STATES_IN_STACK 20
 
 namespace crea
 {
 
-//Scene Machine Language Macros (put these keywords in the file USERTYPE.DAT in the same directory as MSDEV.EXE)
+	//Scene Machine Language Macros (put these keywords in the file USERTYPE.DAT in the same directory as MSDEV.EXE)
 #define BeginStateMachine		if( _state < 0 ) { char statename[64] = "STATE_Global"; if(0) {
 #define EndStateMachine			return( true ); } } else { assert( 0 && "Invalid Scene" ); return( false ); } return( false );
 #define State(a)				return( true ); } } else if( a == _state ) { char statename[64] = #a; if(0) { 
-#define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( getEntity()->GetID(), _msg, statename, #a, true );
+#define OnMsg(a)				return( true ); } else if( EVENT_Message == _event && _msg && a == _msg->GetMsgName() ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
 #define OnOtherMsg()			return( true ); } else {
-#define OnEvent(a)				return( true ); } else if( a == _event ) { g_debuglog->LogStateMachineEvent( getEntity()->GetID(), _msg, statename, #a, true );
+#define OnEvent(a)				return( true ); } else if( a == _event ) { g_debuglog->LogStateMachineEvent( m_Owner->GetID(), _msg, statename, #a, true );
 #define OnUpdate				OnEvent( EVENT_Update )
 #define OnEnter					OnEvent( EVENT_Enter )
 #define OnExit					OnEvent( EVENT_Exit )
@@ -57,7 +55,7 @@ namespace crea
 
 		void Initialize(Entity* _pOwner);
 		void Update(void);
-		void SetState(unsigned int _state);
+		void SetState(unsigned int newScene);
 		int SetStateInHistory();
 
 		void SendMsg(int name, objectID receiver, void* data = NULL);
@@ -73,11 +71,15 @@ namespace crea
 
 		void Process(StateMachineEvent event, Msg * msg);
 
+		// TD FSM: inherit StateMachine from Script
 		virtual bool init() { Initialize(getEntity()); return true; }
 		virtual bool update() { Update(); return true; }
 		virtual bool draw() { return true; }
 		virtual bool quit() { return true; }
 
+	protected:
+
+		Entity * m_Owner;
 
 	private:
 
@@ -93,6 +95,6 @@ namespace crea
 		virtual Component* clone() = 0;
 	};
 
-}
+	}
 
 #endif	// __STATEMCH_H__

@@ -6,8 +6,6 @@
 #ifndef __BT_BEHAVIOR_H_
 #define __BT_BEHAVIOR_H_
 
-#include "AI\Steering\Behavior.h"
-#include "AI\Steering\Steering.h"
 #include <vector>
 
 namespace bt
@@ -360,8 +358,7 @@ namespace bt
 
 			if (previous != m_Children.end() && m_Current != previous)
 			{
-				// Colin Bruneau: Fix, abort() to set the status instead of onTerminate(BH_ABORT)
-				(*previous)->abort();
+				(*previous)->onTerminate(BH_ABORTED);
 			}
 			return result;
 		}
@@ -369,4 +366,4 @@ namespace bt
 
 }
 
-#endif //__Behavior_H_
+#endif //__BT_Behavior_H_

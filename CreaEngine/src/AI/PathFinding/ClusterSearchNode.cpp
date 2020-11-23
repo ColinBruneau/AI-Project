@@ -21,8 +21,8 @@ namespace crea
 
 		//return sqrt((xd*xd) + (yd*yd));	// Pythagore
 		return ((xd*xd) + (yd*yd));			// Simple Pythagore
-		//return (abs(xd) + abs(yd));		// Manhattan
-		//return max(abs(xd), abs(yd));		// Diagonal
+											//return (abs(xd) + abs(yd));		// Manhattan
+											//return max(abs(xd), abs(yd));		// Diagonal
 	}
 
 	bool ClusterSearchNode::IsGoal(ClusterSearchNode &nodeGoal)
@@ -77,7 +77,7 @@ namespace crea
 			NewNode = ClusterSearchNode(x + 1, y);
 			astarsearch->AddSuccessor(NewNode);
 		}
-		
+
 		Node* pDown = pCluster->isInCluster(x, y + 1) ? pMap->getNode(x, y + 1) : nullptr;
 		if (pDown && (pDown->getTileCollisionId() == 0)
 			&& !((parent_x == x) && (parent_y == y + 1))
@@ -86,7 +86,7 @@ namespace crea
 			NewNode = ClusterSearchNode(x, y + 1);
 			astarsearch->AddSuccessor(NewNode);
 		}
-		
+
 		// Diagonals
 		Node* pUpLeft = pCluster->isInCluster(x - 1, y - 1) ? pMap->getNode(x - 1, y - 1) : nullptr;
 		if (pUpLeft && (pUpLeft->getTileCollisionId() == 0)
@@ -131,30 +131,23 @@ namespace crea
 			NewNode = ClusterSearchNode(x + 1, y - 1);
 			astarsearch->AddSuccessor(NewNode);
 		}
-		
+
 		return true;
 	}
 
 	// given this node, what does it cost to move to successor. 
 	float ClusterSearchNode::GetCost(ClusterSearchNode &successor)
 	{
+		float fDistance = 1.0f;
 		// The G cost is 1.4 for diagonal move and 1.0 for horizontal or vertical move
 		int dx = successor.x - x;
 		int dy = successor.y - y;
 		if ((dx != 0) && (dy != 0))
 		{
-			return 1.4f;
-		}
-		else if ((dx != 0) && (dy == 0))
-		{
-			return 1.0f;
-		}
-		else if ((dx == 0) && (dy != 0))
-		{
-			return 1.0f;
+			fDistance = 1.4f;
 		}
 
-		return 0.0f;
+		return fDistance * 100.f;
 	}
 
 }

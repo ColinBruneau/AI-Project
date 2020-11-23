@@ -1,17 +1,23 @@
 #include "stdafx.h"
 
 #include "AI\Pathfinding\MapSearchManager.h"
+#include "Data\Node.h"
 
 namespace crea
 {
 	MapSearchManager::MapSearchManager()
 	{
-		m_pMap = nullptr;
+		m_pCurrentMap = nullptr;
 	}
 
 	MapSearchManager::~MapSearchManager()
 	{
-	}	
+		MapStringMapSearch::iterator it = m_MapSearches.begin();
+		while (it != m_MapSearches.end()) {
+			delete (*it).second;
+			it = m_MapSearches.erase(it);
+		}
+	}
 
 	MapSearch* MapSearchManager::getMapSearch(string _szName)
 	{

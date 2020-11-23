@@ -3,7 +3,6 @@
 #include "Scene\SceneMap.h"
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
-#include "Scene\SceneSteering.h"
 
 
 SceneMap::SceneMap()
@@ -28,9 +27,10 @@ bool SceneMap::onInit()
 	m_pGM->setScriptFactory(m_pCellsScriptFactory);
 
 	// Load Map
-	m_pEntity3 = m_pGM->getEntity("map0");
+	m_pEntity3 = m_pGM->getEntity("map2");
 	m_pGM->addEntity(m_pEntity3);
-	m_pMap = m_pGM->getMap("map0.json"); // CB: TO CHANGE: map id loaded after entity added to display map first (order in tree matters)
+	m_pMap = m_pGM->getMap("map2.json"); // CB: TO CHANGE: map id loaded after entity added to display map first (order in tree matters)
+	m_pMap->loadFromFileJSON(string(DATAMAPPATH) + "map2.json");
 	m_pMapRenderer = m_pGM->getMapRenderer("MapRenderer1");
 	m_pMapRenderer->setMap(m_pMap);
 	m_pEntity3->addComponent(m_pMapRenderer);
@@ -54,11 +54,6 @@ bool SceneMap::onUpdate()
 	if (m_pGM->isKeyPressed(Key::Num2))
 	{
 		m_pGM->setScene(new SceneGame());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num4))
-	{
-		m_pGM->setScene(new SceneSteering());
 		return true;
 	}
 

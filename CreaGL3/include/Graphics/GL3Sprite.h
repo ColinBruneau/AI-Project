@@ -7,162 +7,155 @@
 #define _GL3Sprite_H
 
 #include "Graphics\Sprite.h"
+#include "Graphics\GL3Shape.h"
+#include "Graphics\GL3Material.h"
 
 namespace crea
 {
 
 	class GL3Sprite : public Sprite
 	{
-		/*
-		LPD3DXSPRITE m_pSprite;
-		LPDIRECT3DTEXTURE9 m_pTexture;
-		RECT *m_pRect;
-		D3DXVECTOR2 *m_pCenter;
-		float m_fRotation;
-		D3DXVECTOR2 *m_pScaleCenter;
-		D3DXVECTOR2 *m_pScale;
-		D3DXVECTOR2 m_Position;
-		D3DCOLOR m_color;
-		*/
+		GL3Material* m_pMaterial;
+		GL3RectangleShape m_quad;
+		IntRect m_textureRect;
+		bool m_bShaderApplied = false;
+		Texture* m_pTexture = nullptr;
+
 	public:
 
 		GL3Sprite::GL3Sprite()
-		{/*
-			//init translation
-			m_Position.x = 0.0f;
-			m_Position.y = 0.0f;
-
-			//init rectangle
-			m_pRect = nullptr;
-
-			//init center
-			m_pCenter = nullptr;
-
-			//init de la rotation
-			m_fRotation = 0.0f;
-
-			//init du centre de scale
-			m_pScaleCenter = nullptr;
-
-			//init du scale
-			m_pScale = nullptr;
-
-			//init color
-			m_color = D3DCOLOR_XRGB(255, 255, 255);
-
-			//init pointeur texture
-			m_pTexture = nullptr;
-
-			//creation du sprite
-			if (FAILED(D3DXCreateSprite(GL3Facade::Instance().m_pDevice, &m_pSprite)))
-			{
-				OutputDebugString("Failed to create Sprite.\n");
-			}
-			*/
-		}
-
-		GL3Sprite::~GL3Sprite()
-		{/*
-			SafeDelete(m_pRect);
-			SafeDelete(m_pCenter);
-			SafeDelete(m_pScaleCenter);
-			SafeDelete(m_pScale);
-			SafeRelease(m_pTexture);
-			SafeRelease(m_pSprite);
-			*/
-		}
-/*
-		// Build 2D transformation matrix in XY plane. NULL arguments are treated as identity.
-		// Mout = Morig-1 * Ms * Mt
-		D3DXMATRIX* myMatrixTransformation2D
-		(D3DXMATRIX *pOut, 
-			CONST D3DXVECTOR2* pOrigin,
-			CONST D3DXVECTOR2* pScaling,
-			CONST D3DXVECTOR2* pTranslation)
 		{
-			D3DXMATRIX Morig, Ms, Mt;
-			D3DXMatrixIdentity(pOut);
-			if (pOrigin)
-			{
-				D3DXMatrixTranslation(&Morig, pOrigin->x, pOrigin->y, 0.0f);
-				float fDet = 0.f;
-				D3DXMatrixInverse(pOut, &fDet, &Morig);
-			}
-			if (pScaling)
-			{
-				D3DXMatrixScaling(&Ms, pScaling->x, pScaling->y, 1.0f);
-				D3DXMatrixMultiply(pOut, pOut, &Ms);
-			}
-			if (pTranslation)
-			{
-				//cout << pTranslation->x << " " << pTranslation->y << endl;
-				D3DXMatrixTranslation(&Mt, pTranslation->x, pTranslation->y, 0.0f);
-				D3DXMatrixMultiply(pOut, pOut, &Mt);
-			}
-			return pOut;
+			// Clone the sprite material
+			m_pMaterial = (GL3Material*)GameManager::getSingleton()->getMaterial("sprite.mat", true);
+			m_textureRect.m_iW = 0;
+			m_textureRect.m_iH = 0;
+		}
+
+		virtual GL3Sprite::~GL3Sprite()
+		{
 		}
 
 		virtual void draw()
-		{
-			m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		{			
+			// Pre Draw
+			if (m_pMaterial != nullptr)
+			{
+				// Apply shader on shape
+				if (!m_bShaderApplied)
+				{
+					if (m_pMaterial)
+						m_pMaterial->setTexture(0, "texture1", m_pTexture);
 
-			// Build our matrix to rotate, scale and position our sprite
-			D3DXMATRIX mat;
+					m_pMaterial->applyShaderToShape(&m_quad);
+					m_bShaderApplied = true;
+				}
 
-			// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
-			myMatrixTransformation2D(&mat, m_pScaleCenter, m_pScale, &m_Position);
+				// Use our shader on Entity
+				m_pMaterial->use();
 
-			// Tell the sprite about the matrix
-			m_pSprite->SetTransform(&mat);
+			}
 
-			// Draw the sprite 
-			m_pSprite->Draw(m_pTexture, m_pRect, NULL, NULL, m_color);
+			m_quad.draw();
 
-			// Thats it
-			m_pSprite->End();
+			// Post Draw
+			if (m_pMaterial != nullptr)
+			{
+				// Unset shader
+				m_pMaterial->unuse();
+			}
 		}
 
 		virtual void setTexture(Texture* _pTexture)
 		{
-			GL3Texture* pTexture = (GL3Texture*)_pTexture;
-			m_pTexture = (LPDIRECT3DTEXTURE9)pTexture->getTexture();
+			// update quad with new texture sizes and window sizes
+			if (m_pTexture != _pTexture)
+			{
+				m_pTexture = _pTexture;
+				GL3Texture* pTexture = (GL3Texture*)m_pTexture;
+				m_quad.setTextureSize(pTexture->getWidth(), pTexture->getHeight());
+
+				//When texture changes, adjust display size but also make sure to reset texture rect...
+				m_quad.setDisplaySize(pTexture->getWidth(), pTexture->getHeight());
+				m_textureRect = IntRect (0, 0, 1, 1);
+
+				GameManager* pGM = GameManager::getSingleton();
+				IntRect r = pGM->getWindowRect();
+				m_quad.setWindowSize(r.getWidth(), r.getHeight()); 
+				m_bShaderApplied = false; // to reapply texture
+			}
+		}
+
+		Texture* getTexture()
+		{
+			return m_pTexture;
 		}
 
 		virtual void setPosition(float _x, float _y)
 		{
-			m_Position.x = _x;
-			m_Position.y = _y;
+			// todo: sprite position (GL3)
+			//m_Position.x = _x;
+			//m_Position.y = _y;
+			m_quad.setPosition(_x, _y);
 		}
 
 		virtual void setTextureRect(int _x, int _y, int _w, int _h)
 		{
-			if (!m_pRect)
-				m_pRect = new RECT();
-			
-			m_pRect->left = _x;
-			m_pRect->top = _y;
-			m_pRect->bottom = _y + _h;
-			m_pRect->right = _x + _w;			
+			IntRect _rect(_x, _y, _w, _h);
+			if (m_textureRect != _rect)
+			{
+				m_textureRect = _rect;
+				float w = (float)m_textureRect.m_iW;
+				float h = (float)m_textureRect.m_iH;
+				//m_quad.setSize(w, h);
+				GL3Texture* pTexture = (GL3Texture*)m_pTexture;
+				if (pTexture)
+				{
+					w = (float)pTexture->getWidth();
+					h = (float)pTexture->getHeight();
+				}
+				FloatRect rectNormalised;
+				rectNormalised.m_fX = _rect.m_iX / w;
+				rectNormalised.m_fY = _rect.m_iY / h;
+				rectNormalised.m_fW = _rect.m_iW / w;
+				rectNormalised.m_fH = _rect.m_iH / h;
+				// UV
+				VertexUV uv[] = {
+					{ rectNormalised.m_fX , 1 - rectNormalised.m_fY - rectNormalised.m_fH},// bottom left
+					{ rectNormalised.m_fX, 1 - rectNormalised.m_fY},// top left 
+					{ rectNormalised.m_fX + rectNormalised.m_fW, 1 - rectNormalised.m_fY - rectNormalised.m_fH },// bottom right
+					{ rectNormalised.m_fX + rectNormalised.m_fW, 1 - rectNormalised.m_fY }// top right 
+				};
+				
+				m_quad.setVerticesUV(uv, 4); 
+				m_quad.setDisplaySize(_rect.m_iW, _rect.m_iH);
+			}
 		}
 
 		virtual void setScale(float _x, float _y)
 		{
-			if (!m_pScale)
-				m_pScale = new D3DXVECTOR2();
-
-			m_pScale->x = _x;
-			m_pScale->y = _y;
+			// todo: sprite scale (GL3)
+			//m_pScale->x = _x;
+			//m_pScale->y = _y;
+			m_quad.setScale(_x, _y);
 		}
 
 		virtual void setOrigin(float _x, float _y)
 		{
-			if (!m_pScaleCenter)
-				m_pScaleCenter = new D3DXVECTOR2(); // CB: why do we need (0,0), not nothing, nor (36, 36) in DirectX? 
-			
-			m_pScaleCenter->x = _x;
-			m_pScaleCenter->y = _y;
+			// todo: sprite origin (GL3)
+			//m_pScaleCenter->x = _x;
+			//m_pScaleCenter->y = _y;
+			m_quad.setOrigin(_x, _y);
 		}
-		*/
+
+		virtual GL3Sprite* clone() 
+		{
+			GL3Sprite* pSprite = new GL3Sprite();
+			// Material is already a clone
+			pSprite->setTexture(this->m_pTexture);
+			//todo: ici il faudrait cloner le quad correctement!
+			pSprite->m_quad = this->m_quad;
+			return pSprite;
+		}
 	};
 
 } // namespace crea

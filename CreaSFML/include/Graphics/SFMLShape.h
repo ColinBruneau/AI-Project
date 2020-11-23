@@ -24,17 +24,17 @@ namespace crea
 		virtual void draw()
 		{
 			sf::RenderWindow* pWin = SFMLFacade::Instance().m_pWindow;
-			pWin->draw(*this->m_pShape);
+			pWin->draw(*m_pShape);
 		}
 		
 		virtual void setColor(Color* _pColor)
 		{
-			m_pShape->setFillColor(((SFMLColor*)_pColor)->m_color);
+			m_pShape->setFillColor(((SFMLColor*)_pColor)->getColor());
 		}
 
 		virtual void setOutlineColor(Color* _pColor)
 		{
-			m_pShape->setOutlineColor(((SFMLColor*)_pColor)->m_color);
+			m_pShape->setOutlineColor(((SFMLColor*)_pColor)->getColor());
 		}
 
 		virtual void setOutlineThickness(float _fPixels)
@@ -45,6 +45,21 @@ namespace crea
 		virtual void setPosition(float _x, float _y)
 		{
 			m_pShape->setPosition(_x, _y);
+		}
+
+		virtual void setRotation(float _angle)
+		{
+			m_pShape->setRotation(_angle);
+		}
+
+		virtual void setScale(float _x, float _y)
+		{
+			m_pShape->setScale(_x, _y);
+		}
+
+		virtual void setOrigin(float _x, float _y)
+		{
+			m_pShape->setOrigin(_x, _y);
 		}
 
 	};
@@ -111,8 +126,7 @@ namespace crea
 
 		virtual void setSize(float _x, float _y)
 		{
-			sf::ConvexShape* pArrow = (sf::ConvexShape*) m_pShape;
-			pArrow->setScale(sf::Vector2f(_x, _y));
+			m_pShape->setScale(sf::Vector2f(_x, _y));
 		}
 		
 		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd)
@@ -140,10 +154,8 @@ namespace crea
 
 		SFMLLineShape()
 		{
-			sf::ConvexShape* pArrow = new sf::ConvexShape(2);
-			pArrow->setPoint(0, sf::Vector2f(0.0f, 0.0f));
-			pArrow->setPoint(1, sf::Vector2f(0.0f, 1.0f));
-			m_pShape = pArrow;
+			m_pShape = new sf::RectangleShape;
+			setSize(1, 1);			
 		}
 
 		~SFMLLineShape()
@@ -153,8 +165,7 @@ namespace crea
 
 		virtual void setSize(float _x, float _y)
 		{
-			sf::ConvexShape* pArrow = (sf::ConvexShape*) m_pShape;
-			pArrow->setScale(sf::Vector2f(_x, _y));
+			((sf::RectangleShape*)m_pShape)->setSize(sf::Vector2f(_x, _y));
 		}
 
 		virtual void setStartAndEnd(float _xStart, float _yStart, float _xEnd, float _yEnd)

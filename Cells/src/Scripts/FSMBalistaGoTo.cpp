@@ -7,6 +7,18 @@
 
 FSMBalistaGoTo::FSMBalistaGoTo(Vector2f _vTarget) : m_vTarget(_vTarget)
 {
+	m_pPathNodeShape = new RectangleShape;
+	Color* pBlueTransparent = m_pGM->getColor("BlueTransparent");
+	pBlueTransparent->setValues(0, 0, 255, 125);
+	m_pPathNodeShape->setColor(pBlueTransparent);
+	m_pPathNodeShape->setSize(10, 10);
+	m_pPathNodeShape->setOrigin(5, 5);
+
+	m_pPathNodeShapeOpen = new RectangleShape;
+	Color* pGreenTransparent = m_pGM->getColor("GreenTransparent");
+	pGreenTransparent->setValues(0, 255, 0, 125);
+	m_pPathNodeShapeOpen->setColor(pGreenTransparent);
+	m_pPathNodeShapeOpen->setSize(32, 32);
 }
 
 FSMBalistaGoTo::~FSMBalistaGoTo()
@@ -16,6 +28,9 @@ FSMBalistaGoTo::~FSMBalistaGoTo()
 		delete m_vPath[i];
 	}
 	m_vPath.clear();
+
+	delete m_pPathNodeShape;
+	delete m_pPathNodeShapeOpen;
 }
 
 bool FSMBalistaGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
@@ -24,8 +39,8 @@ bool FSMBalistaGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
 		//OnMsg(MSG_Teleport)
 		//SetState(STATE_CompletedPath);
 
-		/////////////////////////////////////////////////////////////////
-		State(STATE_Init)
+	/////////////////////////////////////////////////////////////////
+	State(STATE_Init)
 		OnEnter
 			// Get Entity
 			m_pEntity = getEntity();
@@ -35,22 +50,45 @@ bool FSMBalistaGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pMapSearch = m_pGM->getMapSearch("FSMBalistaGoTo");
 			// Get Agent
 			m_pAgent = m_pEntity->getComponent<Agent>();
-
 			// Set current agent for AA*
-			MapSearchManager::getSingleton()->setCurrentAgent(m_pAgent);
-			// Offset graphique
-			m_Offset = Vector2f(16.0f, 16.0f);
+			m_pMapSearch->setCurrentAgent(m_pAgent);
 
 		OnUpdate
 			SetState(STATE_SearchPath);
-		/////////////////////////////////////////////////////////////////
-		State(STATE_SearchPath)
+
+	/////////////////////////////////////////////////////////////////
+	State(STATE_SearchPath)
 		OnEnter
-			m_pMapSearch->setStartAndGoal(m_pEntity->getPosition()- m_Offset, m_vTarget);
-			m_pCharacterController->move(Vector2f(0.f, 0.f));
+			Map* pMap = MapSearchManager::getSingleton()->getCurrentMap();
+			// Reduce to a size 1 for start position (middle of upper-left node)
+			Vector2f start = m_pEntity->getPosition() - Vector2f(16.f, 16.f);
+			// Handle target on a size 1 tile 
+			Vector2f goal = m_vTarget;
+			Node* pNode = pMap->getNodeAtPosition(goal);
+			if (!pNode)
+			{
+				SetState(STATE_SearchFailed);
+			}
+			else
+			{
+				Node* pRight = pMap->getNode(pNode->getX() + 1, pNode->getY());
+				Node* pDown = pMap->getNode(pNode->getX(), pNode->getY() + 1);
+				if (!pRight || pRight->getTileCollisionId() == 9)
+				{
+					goal -= Vector2f(32.f, 0.f);
+				}
+				if (!pDown || pDown->getTileCollisionId() == 9)
+				{
+					goal -= Vector2f(0.f, 32.f);
+				}
+				m_pMapSearch->setStartAndGoal(start, goal);
+				m_pCharacterController->move(Vector2f(0.f, 0.f));
+			}
 
 		OnUpdate
 			MapSearch::SearchState s = m_pMapSearch->update();
+		m_pMapSearch->getOpenList(m_vOpenList);
+		m_bHasOpenList = true;
 			if (s == MapSearch::SEARCH_STATE_SUCCEEDED)
 			{
 				SetState(STATE_FollowPath);
@@ -62,33 +100,29 @@ bool FSMBalistaGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
 
 		OnExit
 
-		/////////////////////////////////////////////////////////////////
-		State(STATE_FollowPath)
+	/////////////////////////////////////////////////////////////////
+	State(STATE_FollowPath)
 		OnEnter
 			m_pMapSearch->getSolution(m_vPath);
-			m_uiPathIndex = 0;
-			m_pPathTarget = m_vPath[m_uiPathIndex];
-			m_TargetWithOffset = *m_pPathTarget + m_Offset;
+			m_bHasPath = true;
+			for (VectorVector2f::iterator it = m_vPath.begin(); it != m_vPath.end(); ++it)
+			{
+				**it += Vector2f(32.f, 32.f); // Visual offset (top left to center)
+			}
+			m_pCharacterController->followPath(m_vPath);
 
 		OnUpdate
-			if (GoTo(m_TargetWithOffset))
-			{ 
-				++m_uiPathIndex;
-				if (m_uiPathIndex == m_vPath.size())
-				{
-					SetState(STATE_CompletedPath);
-				}
-				else
-				{
-					m_pPathTarget = m_vPath[m_uiPathIndex];
-					m_TargetWithOffset = *m_pPathTarget + m_Offset;
-				}
+			if (!m_pCharacterController->isFollowingPath())
+			{
+				SetState(STATE_CompletedPath);
 			}
 
 		OnExit
+			m_pCharacterController->move(Vector2f(0.f, 0.f));
+			m_bHasPath = false;
 
-		/////////////////////////////////////////////////////////////////
-		State(STATE_SearchFailed)
+	/////////////////////////////////////////////////////////////////
+	State(STATE_SearchFailed)
 		OnEnter
 
 
@@ -109,26 +143,26 @@ bool FSMBalistaGoTo::States(StateMachineEvent _event, Msg* _msg, int _state)
 		EndStateMachine
 }
 
-bool FSMBalistaGoTo::GoTo(Vector2f& _vTargetPosition)
+bool FSMBalistaGoTo::draw()
 {
-	bool bArrived = false;
-	Vector2f vEntityPosition = m_pEntity->getPosition();
-	Vector2f vVelocity = _vTargetPosition - vEntityPosition;
-	if (vVelocity.length() > 1)
+	if (m_bHasPath)
 	{
-		m_pCharacterController->setAction(kAct_Walk);
+		for (VectorVector2f::iterator it = m_vPath.begin(); it != m_vPath.end(); ++it)
+		{
+			Vector2f p = **it;
+			m_pPathNodeShape->setPosition((float)p.getX(), (float)p.getY());
+			m_pPathNodeShape->draw();
+		}
 	}
-	else
+	else if (m_bHasOpenList)
 	{
-		bArrived = true;
-		vVelocity = Vector2f(0.f, 0.0f);
+		for (VectorVector2f::iterator it = m_vOpenList.begin(); it != m_vOpenList.end(); ++it)
+		{
+			Vector2f p = **it;
+			m_pPathNodeShapeOpen->setPosition((float)p.getX(), (float)p.getY());
+			m_pPathNodeShapeOpen->draw();
+		}
+		m_bHasOpenList = false;
 	}
-
-	// CB: adjust velocity with dexterity
-	int iDexterity = m_pAgent->getDexterity() * 20; // cb: 200 pixels/second when dexterity at 10 
-
-	vVelocity.normalize();
-	m_pCharacterController->move(vVelocity * (float)iDexterity);
-
-	return bArrived;
+	return true;
 }
