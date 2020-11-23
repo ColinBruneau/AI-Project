@@ -78,6 +78,10 @@ bool ScenePlanning::onUpdate()
 		m_pGM->setScene(new SceneSteering());
 		return true;
 	}
+	if (m_pGM->isKeyPressed(Key::Escape))
+	{
+		return false;
+	}
 
 	// AI Tools
 	if (m_bUseAITools)

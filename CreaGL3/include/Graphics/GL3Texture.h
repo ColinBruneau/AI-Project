@@ -13,24 +13,37 @@ namespace crea
 
 	class GL3Texture : public Texture
 	{
-		//LPDIRECT3DTEXTURE9 
-		void* m_pTexture;
+	protected:
+		string m_name;
+		unsigned int m_texture;
+		bool m_transparency;
+		unsigned char* m_data;
+		int m_width, m_height, m_nrChannels;
+		static bool m_flipVerticallyOnLoad;
+
+		void send();
+
 	public:
-		//LPDIRECT3DTEXTURE9 getTexture() { return m_pTexture; }
+		GL3Texture();
+		virtual ~GL3Texture();
 
-		GL3Texture() { m_pTexture = nullptr; }
-		~GL3Texture() { SafeDelete(m_pTexture); }
+		inline void setID(unsigned int _id) { m_texture = _id; }
+		inline unsigned int getID() { return m_texture; }
 
-		virtual bool loadFromFile(string _file)
-		{/*
-			if (FAILED(D3DXCreateTextureFromFile(GL3Facade::Instance().m_pDevice, _file.c_str(), &m_pTexture)))
-			{
-				cerr << "Failed to load texture Sprite." << endl;
-				return false;
-			}
-			*/
-			return true;
-		}
+		inline void setTransparency(bool _transparency) { m_transparency = _transparency; send(); }
+		inline bool getTransparency() { return m_transparency; }
+
+		static void flipVerticallyOnLoad(bool _flipVerticallyOnLoad) { m_flipVerticallyOnLoad = _flipVerticallyOnLoad; }
+
+		inline int getWidth() { return m_width; }
+		inline int getHeight() { return m_height; }
+		inline int getChannels() { return m_nrChannels; }
+
+		virtual bool loadFromFile(const string& _name);
+
+		// use the texture
+		virtual void bind(unsigned int _channel);
+		virtual void unbind(unsigned int _channel);
 	};
 
 } // namespace crea

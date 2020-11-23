@@ -22,7 +22,7 @@ namespace crea
 		{
 		}
 
-		~SFMLSprite()
+		virtual ~SFMLSprite()
 		{
 		}
 

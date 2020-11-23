@@ -13,6 +13,8 @@ using namespace std;
 #define DATAMAPPATH		"data/Map/"
 #define DATAAGENTPATH	"data/Agent/"
 #define DATAANIMATIONPATH	"data/Animation/"
+#define DATAMATERIALPATH	"data/Material/"
+#define DATASHADERPATH	"data/Shader/"
 
 namespace crea
 {
@@ -27,6 +29,8 @@ namespace crea
 	class Animation;
 	class ActionTable;
 	class Vehicle;
+	class Material;
+	class Shader;
 
 	class CREAENGINE_API MapStringFont : public map<string, Font*> {};
 	class CREAENGINE_API MapStringTexture : public map<string, Texture*> {};
@@ -39,6 +43,8 @@ namespace crea
 	class CREAENGINE_API MapStringAnimation : public map<string, Animation*> {};
 	class CREAENGINE_API MapStringActionTable : public map<string, ActionTable*> {};
 	class CREAENGINE_API MapStringVehicle : public map<string, Vehicle*> {};
+	class CREAENGINE_API MapStringMaterial : public map<string, Material*> {};
+	class CREAENGINE_API MapStringShader : public map<string, Shader*> {};
 
 	class CREAENGINE_API DataManager
 	{
@@ -63,6 +69,11 @@ namespace crea
 		MapStringActionTable m_pActionTables;
 
 		MapStringVehicle m_pVehicles;
+		
+		MapStringMaterial m_pMaterials;
+		int materialInstanceCount = 0;
+
+		MapStringShader m_pShaders;
 
 		bool m_bIsCleared;
 
@@ -93,7 +104,11 @@ namespace crea
 
 		ActionTable* getActionTable(const string& _szName, bool _bCloned = false);
 
-		Vehicle* getVehicle(string _szName, bool _bCloned = false);
+		Vehicle* getVehicle(const string& _szName, bool _bCloned = false);
+
+		Material* getMaterial(const string& _szName, bool _bCloned = false);
+
+		Shader* getShader(const string& _szName, bool _bCloned = false);
 
 		void clear();
 	};

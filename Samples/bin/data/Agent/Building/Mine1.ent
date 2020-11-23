@@ -1,0 +1,7 @@
+{ 	"components":[
+		{
+			"type":"SpriteRenderer",
+			"name":"Building/Mine1.sr"
+		}		
+	]
+} 

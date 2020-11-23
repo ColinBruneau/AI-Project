@@ -112,6 +112,7 @@ bool UserController::update()
 
 	m_vDirection.normalize();
 	m_pCharacterController->move(m_vDirection);
+	//cout << m_vDirection.getX() << " " << m_vDirection.getY() << endl;
 
 	return true;
 }

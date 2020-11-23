@@ -28,6 +28,7 @@ namespace crea
 		Renderer_Invalid = -1,
 		Renderer_SFML = 0,
 		Renderer_DX9 = 1,
+		Renderer_GL3 = 2,
 		Renderer_Max,
 	};
 
@@ -40,6 +41,8 @@ namespace crea
 		EnumRendererType m_rendererType;
 
 		LoggerFile* m_pLogger;
+
+		bool m_bContinueMainLoop = true;
 
 	public:
 		~GameManager();
@@ -121,6 +124,10 @@ namespace crea
 		inline Steering* getSteering(string _szName) { return EntityManager::getSingleton()->getSteering(_szName); }
 
 		inline Vehicle* getVehicle(string _szName) { return DataManager::getSingleton()->getVehicle(_szName); }
+
+		inline Material* getMaterial(string _szName, bool _bCloned = false) { return DataManager::getSingleton()->getMaterial(_szName, _bCloned); }
+
+		inline Shader* getShader(string _szName) { return DataManager::getSingleton()->getShader(_szName); }
 
 		// Selection
 		inline void selectEntities(Vector2f _vStart, Vector2f _vEnd) { EntityManager::getSingleton()->selectEntities(_vStart, _vEnd); }

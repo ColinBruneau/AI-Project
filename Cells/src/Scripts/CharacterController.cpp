@@ -161,8 +161,9 @@ bool CharacterController::update()
 		setDirection(m_vMotion);
 		setAction(kAct_Walk);
 	}
-
+	
 	m_pCurrentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(m_eDirection, m_eCondition, m_eAction));
+	//m_pCurrentAnimation = m_pGM->getAnimation(*m_pActionTable->getAnimation(kADir_Left, kACond_Default, kAct_Walk, nullptr));
 	m_pAnimator->play(*m_pCurrentAnimation);
 	m_pCurrentAnimation->setSpeed(1.0f); // Play full speed by default
 

@@ -29,12 +29,12 @@ namespace crea
 		
 		virtual void setColor(Color* _pColor)
 		{
-			m_pShape->setFillColor(((SFMLColor*)_pColor)->m_color);
+			m_pShape->setFillColor(((SFMLColor*)_pColor)->getColor());
 		}
 
 		virtual void setOutlineColor(Color* _pColor)
 		{
-			m_pShape->setOutlineColor(((SFMLColor*)_pColor)->m_color);
+			m_pShape->setOutlineColor(((SFMLColor*)_pColor)->getColor());
 		}
 
 		virtual void setOutlineThickness(float _fPixels)

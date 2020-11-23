@@ -6,26 +6,138 @@
 
 namespace crea
 {
+
 	GL3Facade::GL3Facade()
-		: m_rWindowRect(0, 0, 1280, 800)
+		: m_rWindowRect(0, 0, 1280, 800),
+		keysMap{
+			GLFW_KEY_Q,            ///< The A key in AZERTY
+			GLFW_KEY_B,            ///< The B key
+			GLFW_KEY_C,            ///< The C key
+			GLFW_KEY_D,            ///< The D key
+			GLFW_KEY_E,            ///< The E key
+			GLFW_KEY_F,            ///< The F key
+			GLFW_KEY_G,            ///< The G key
+			GLFW_KEY_H,            ///< The H key
+			GLFW_KEY_I,            ///< The I key
+			GLFW_KEY_J,            ///< The J key
+			GLFW_KEY_K,            ///< The K key
+			GLFW_KEY_L,            ///< The L key
+			GLFW_KEY_SEMICOLON,    ///< The M key in AZERTY
+			GLFW_KEY_N,            ///< The N key
+			GLFW_KEY_O,            ///< The O key
+			GLFW_KEY_P,            ///< The P key
+			GLFW_KEY_A,            ///< The Q key in AZERTY
+			GLFW_KEY_R,            ///< The R key
+			GLFW_KEY_S,            ///< The S key
+			GLFW_KEY_T,            ///< The T key
+			GLFW_KEY_U,            ///< The U key
+			GLFW_KEY_V,            ///< The V key
+			GLFW_KEY_Z,            ///< The W key in AZERTY
+			GLFW_KEY_X,            ///< The X key
+			GLFW_KEY_Y,            ///< The Y key
+			GLFW_KEY_W,            ///< The Z key in AZERTY
+			GLFW_KEY_0,            ///< The 0 key
+			GLFW_KEY_1,            ///< The 1 key
+			GLFW_KEY_2,            ///< The 2 key
+			GLFW_KEY_3,            ///< The 3 key
+			GLFW_KEY_4,            ///< The 4 key
+			GLFW_KEY_5,            ///< The 5 key
+			GLFW_KEY_6,            ///< The 6 key
+			GLFW_KEY_7,            ///< The 7 key
+			GLFW_KEY_8,            ///< The 8 key
+			GLFW_KEY_9,            ///< The 9 key
+			GLFW_KEY_ESCAPE,       ///< The Escape key
+			GLFW_KEY_LEFT_CONTROL,     ///< The left Control key
+			GLFW_KEY_LEFT_SHIFT,       ///< The left Shift key
+			GLFW_KEY_LEFT_ALT,         ///< The left Alt key
+			GLFW_KEY_LEFT_SUPER,      ///< The left OS specific key: window (Windows and Linux), apple (MacOS X), ...
+			GLFW_KEY_RIGHT_CONTROL,     ///< The right Control key
+			GLFW_KEY_RIGHT_SHIFT,       ///< The right Shift key
+			GLFW_KEY_RIGHT_ALT,         ///< The right Alt key
+			GLFW_KEY_RIGHT_SUPER,      ///< The right OS specific key: window (Windows and Linux), apple (MacOS X), ...
+			GLFW_KEY_MENU,         ///< The Menu key
+			GLFW_KEY_LEFT_BRACKET,     ///< The [ key
+			GLFW_KEY_RIGHT_BRACKET,     ///< The ] key
+			GLFW_KEY_M,			 ///< The ; key in AZERTY
+			GLFW_KEY_COMMA,        ///< The , key
+			GLFW_KEY_PERIOD,       ///< The . key
+			GLFW_KEY_APOSTROPHE,        ///< The ' key
+			GLFW_KEY_SLASH,        ///< The / key
+			GLFW_KEY_BACKSLASH,    ///< The \ key
+			GLFW_KEY_UNKNOWN,        ///< The ~ key
+			GLFW_KEY_EQUAL,        ///< The = key
+			GLFW_KEY_MINUS,         ///< The - key
+			GLFW_KEY_SPACE,        ///< The Space key
+			GLFW_KEY_ENTER,       ///< The Return key
+			GLFW_KEY_BACKSPACE,    ///< The Backspace key
+			GLFW_KEY_TAB,          ///< The Tabulation key
+			GLFW_KEY_PAGE_UP,       ///< The Page up key
+			GLFW_KEY_PAGE_DOWN,     ///< The Page down key
+			GLFW_KEY_END,          ///< The End key
+			GLFW_KEY_HOME,         ///< The Home key
+			GLFW_KEY_INSERT,       ///< The Insert key
+			GLFW_KEY_DELETE,       ///< The Delete key
+			GLFW_KEY_KP_ADD,          ///< The + key
+			GLFW_KEY_KP_SUBTRACT,     ///< The - key
+			GLFW_KEY_KP_MULTIPLY,     ///< The * key
+			GLFW_KEY_KP_DIVIDE,       ///< The / key
+			GLFW_KEY_LEFT,         ///< Left arrow
+			GLFW_KEY_RIGHT,        ///< Right arrow
+			GLFW_KEY_UP,           ///< Up arrow
+			GLFW_KEY_DOWN,         ///< Down arrow
+			GLFW_KEY_KP_0,      ///< The numpad 0 key
+			GLFW_KEY_KP_1,      ///< The numpad 1 key
+			GLFW_KEY_KP_2,      ///< The numpad 2 key
+			GLFW_KEY_KP_3,      ///< The numpad 3 key
+			GLFW_KEY_KP_4,      ///< The numpad 4 key
+			GLFW_KEY_KP_5,      ///< The numpad 5 key
+			GLFW_KEY_KP_6,      ///< The numpad 6 key
+			GLFW_KEY_KP_7,      ///< The numpad 7 key
+			GLFW_KEY_KP_8,      ///< The numpad 8 key
+			GLFW_KEY_KP_9,      ///< The numpad 9 key
+			GLFW_KEY_F1,           ///< The F1 key
+			GLFW_KEY_F2,           ///< The F2 key
+			GLFW_KEY_F3,           ///< The F3 key
+			GLFW_KEY_F4,           ///< The F4 key
+			GLFW_KEY_F5,           ///< The F5 key
+			GLFW_KEY_F6,           ///< The F6 key
+			GLFW_KEY_F7,           ///< The F7 key
+			GLFW_KEY_F8,           ///< The F8 key
+			GLFW_KEY_F9,           ///< The F9 key
+			GLFW_KEY_F10,          ///< The F10 key
+			GLFW_KEY_F11,          ///< The F11 key
+			GLFW_KEY_F12,          ///< The F12 key
+			GLFW_KEY_F13,          ///< The F13 key
+			GLFW_KEY_F14,          ///< The F14 key
+			GLFW_KEY_F15,          ///< The F15 key
+			GLFW_KEY_PAUSE,        ///< The Pause key
+	}
 	{
-		m_iR = 0;
-		m_iG = 0;
-		m_iB = 255;
+		m_ClearColor.setValues(0, 0, 0, 255);
 
-		m_szWindowName = "Application OpenGL3";
-
-		ZeroMemory(&m_abKeys, sizeof(m_abKeys));
-
+		m_szWindowTitle = "Application OpenGL3";
+		
 		m_iMousePosX = -1;
 		m_iMousePosY = -1;
 		m_bMouseLeftButtonDown = false;
 		m_bMouseRightButtonDown = false;
+
+		m_bDepthTest = false;
 	}
 
 	GL3Facade::~GL3Facade()
 	{
 
+	}
+
+	void GL3Facade::setWindowSize(int _width, int _height)
+	{
+		m_rWindowRect.m_iW = _width;
+		m_rWindowRect.m_iH = _height;
+
+		// make sure the viewport matches the new window dimensions; note that width and 
+		// height will be significantly larger than specified on retina displays.
+		glViewport(0, 0, m_rWindowRect.m_iW, m_rWindowRect.m_iH);
 	}
 
 	// Renvoie l'instance du renderer
@@ -41,14 +153,27 @@ namespace crea
 		{
 			// Turn off window cursor 
 			SetCursor(NULL);
-			//m_pDevice->ShowCursor(TRUE);
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			return true; // prevent Windows from setting cursor to window class cursor
 		}
 		else
 		{
-			//SetCursor(LoadCursor(NULL, IDC_ARROW));
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 		return false;
+	}
+
+	void GL3Facade::setDepthTest(bool _bDepthTest)
+	{
+		m_bDepthTest = _bDepthTest;
+		if (m_bDepthTest)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		else
+		{
+			glDisable(GL_DEPTH_TEST);
+		}
 	}
 
 	void GL3Facade::initialize()
@@ -63,47 +188,64 @@ namespace crea
 		glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // We want OpenGL 3.3
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL 
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // We don't want the old OpenGL
+#ifdef __APPLE__
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+#endif
 
-																	   // Open a window and create its OpenGL context
-		window = glfwCreateWindow(1024, 768, "Tutorial 01", NULL, NULL);
+
+		// Open a window and create its OpenGL context
+		window = glfwCreateWindow(m_rWindowRect.m_iW, m_rWindowRect.m_iH, m_szWindowTitle.c_str(), NULL, NULL);
 		if (window == NULL) {
-			fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
+			cout << "Failed to create GLFW window" << endl;
 			glfwTerminate();
 			return;
 		}
 		glfwMakeContextCurrent(window); // Initialize GLEW
-		glewExperimental = true; // Needed in core profile
-		if (glewInit() != GLEW_OK) {
-			fprintf(stderr, "Failed to initialize GLEW\n");
+		glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetScrollCallback(window, scroll_callback);
+
+		// tell GLFW to capture our mouse
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+		// glad: load all OpenGL function pointers
+		// ---------------------------------------
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			std::cout << "Failed to initialize GLAD" << std::endl;
 			return;
 		}
+
+		// configure global opengl state
+		// -----------------------------
+		//glEnable(GL_CULL_FACE);
+		//glCullFace(GL_BACK);
 	}
 	
 	bool GL3Facade::update()
 	{
-		// Ensure we can capture the escape key being pressed below
-		glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-
-		do {
-			// Draw nothing, see you in tutorial 2 !
-
-			// Swap buffers
-			glfwSwapBuffers(window);
-			glfwPollEvents();
-
-		} // Check if the ESC key was pressed or the window was closed
-		while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
-			glfwWindowShouldClose(window) == 0);
+		// render loop
+		// -----------
+		while (!glfwWindowShouldClose(window))
+		{
+			return true;
+		}
 
 		return false;
 	}
 
 	void GL3Facade::beginScene() const
 	{
-		//m_pDevice->Clear(0, NULL, D3DCLEAR_TARGET/*| D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL*/, D3DCOLOR_XRGB(m_iR, m_iG, m_iB), 1.0f, 0x00);
-		//m_pDevice->BeginScene();
+		glClearColor(m_ClearColor.getR(), m_ClearColor.getG(), m_ClearColor.getB(), m_ClearColor.getA());
+		if (m_bDepthTest)
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
+		}
+		else
+		{
+			glClear(GL_COLOR_BUFFER_BIT);
+		}
 	}
 	
 	// Rendu d'un objet
@@ -114,194 +256,29 @@ namespace crea
 
 	void GL3Facade::endScene() const
 	{
-		//m_pDevice->EndScene();
-		//m_pDevice->Present(NULL, NULL, NULL, NULL);
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	void GL3Facade::quit()
 	{
 		UnregisterClass("GL3Facade", GetModuleHandle(NULL)); // CB: to do, keep the instance to unregister it
 
-		//release le device
-		//SafeRelease(m_pDevice);
-
-		//release l'interface GL3
-		//SafeRelease(m_pD3D);
+		// glfw: terminate, clearing all previously allocated GLFW resources.
+		// ------------------------------------------------------------------
+		glfwTerminate();
 	}
 
-	void GL3Facade::keyDown(WPARAM _wParam, bool _bDown)
-	{
-		short nVirtKey = 0;
-		switch (_wParam)
-		{
-		case 'A': m_abKeys[Key::A] = _bDown; break;
-		case 'B': m_abKeys[Key::B] = _bDown; break;
-		case 'C': m_abKeys[Key::C] = _bDown; break;
-		case 'D': m_abKeys[Key::D] = _bDown; break;
-		case 'E': m_abKeys[Key::E] = _bDown; break;
-		case 'F': m_abKeys[Key::F] = _bDown; break;
-		case 'G': m_abKeys[Key::G] = _bDown; break;
-		case 'H': m_abKeys[Key::H] = _bDown; break;
-		case 'I': m_abKeys[Key::I] = _bDown; break;
-		case 'J': m_abKeys[Key::J] = _bDown; break;
-		case 'K': m_abKeys[Key::K] = _bDown; break;
-		case 'L': m_abKeys[Key::L] = _bDown; break;
-		case 'M': m_abKeys[Key::M] = _bDown; break;
-		case 'N': m_abKeys[Key::N] = _bDown; break;
-		case 'O': m_abKeys[Key::O] = _bDown; break;
-		case 'P': m_abKeys[Key::P] = _bDown; break;
-		case 'Q': m_abKeys[Key::Q] = _bDown; break;
-		case 'R': m_abKeys[Key::R] = _bDown; break;
-		case 'S': m_abKeys[Key::S] = _bDown; break;
-		case 'T': m_abKeys[Key::T] = _bDown; break;
-		case 'U': m_abKeys[Key::U] = _bDown; break;
-		case 'V': m_abKeys[Key::V] = _bDown; break;
-		case 'W': m_abKeys[Key::W] = _bDown; break;
-		case 'X': m_abKeys[Key::X] = _bDown; break;
-		case 'Y': m_abKeys[Key::Y] = _bDown; break;
-		case 'Z': m_abKeys[Key::Z] = _bDown; break;
-		case '0': m_abKeys[Key::Num0] = _bDown; break;
-		case '1': m_abKeys[Key::Num1] = _bDown; break;
-		case '2': m_abKeys[Key::Num2] = _bDown; break;
-		case '3': m_abKeys[Key::Num3] = _bDown; break;
-		case '4': m_abKeys[Key::Num4] = _bDown; break;
-		case '5': m_abKeys[Key::Num5] = _bDown; break;
-		case '6': m_abKeys[Key::Num6] = _bDown; break;
-		case '7': m_abKeys[Key::Num7] = _bDown; break;
-		case '8': m_abKeys[Key::Num8] = _bDown; break;
-		case '9': m_abKeys[Key::Num9] = _bDown; break;
-		case VK_ESCAPE: m_abKeys[Key::Escape] = _bDown; break;
-		case VK_CONTROL: 
-			nVirtKey = GetKeyState(VK_LCONTROL);
-			if ((nVirtKey & 0xff00)) m_abKeys[Key::LControl] = _bDown; 
-			nVirtKey = GetKeyState(VK_RCONTROL);
-			if ((nVirtKey & 0xff00)) m_abKeys[Key::RControl] = _bDown;
-			break;
-		case VK_SHIFT:
-			nVirtKey = GetKeyState(VK_LSHIFT);
-			if ((nVirtKey & 0xff00)) 
-				m_abKeys[Key::LShift] = _bDown;
-			nVirtKey = GetKeyState(VK_RSHIFT);
-			if ((nVirtKey & 0xff00)) 
-				m_abKeys[Key::RShift] = _bDown;
-			break; 
-		case VK_LMENU: m_abKeys[Key::LAlt] = _bDown; break; // CB: ne semble pas fonctionner
-		case VK_LWIN: m_abKeys[Key::LSystem] = _bDown; break; // CB: semble être la touche windows (à droite?)
-		case VK_RCONTROL: m_abKeys[Key::RControl] = _bDown; break;
-		case VK_RMENU: m_abKeys[Key::RAlt] = _bDown; break; // CB: ne semble pas fonctionner
-		case VK_RWIN: m_abKeys[Key::RSystem] = _bDown; break; // CB: ?
-		case VK_MENU: m_abKeys[Key::Menu] = _bDown; break; // Alt gr
-		//case ?: m_abKeys[Key::LBracket] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::RBracket] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::SemiColon] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Comma] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Period] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Quote] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Slash] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::BackSlash] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Tilde] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Equal] = _bDown; break; // CB: à vérifier...
-		//case ?: m_abKeys[Key::Dash] = _bDown; break; // CB: à vérifier...
-		case VK_SPACE: m_abKeys[Key::Space] = _bDown; break;
-		case VK_RETURN: m_abKeys[Key::Return] = _bDown; break; 
-		case VK_BACK: m_abKeys[Key::BackSpace] = _bDown; break; 
-		case VK_TAB: m_abKeys[Key::Tab] = _bDown; break; 
-		case VK_PRIOR: m_abKeys[Key::PageUp] = _bDown; break; 
-		case VK_NEXT: m_abKeys[Key::PageDown] = _bDown; break; 
-		case VK_END: m_abKeys[Key::End] = _bDown; break; 
-		case VK_HOME: m_abKeys[Key::Home] = _bDown; break; 
-		case VK_INSERT: m_abKeys[Key::Insert] = _bDown; break; 
-		case VK_DELETE: m_abKeys[Key::Delete] = _bDown; break; 
-		case VK_ADD: m_abKeys[Key::Add] = _bDown; break;
-		case VK_SUBTRACT: m_abKeys[Key::Subtract] = _bDown; break; 
-		case VK_MULTIPLY: m_abKeys[Key::Multiply] = _bDown; break; 
-		case VK_DIVIDE: m_abKeys[Key::Divide] = _bDown; break; 
-		case VK_LEFT: m_abKeys[Key::Left] = _bDown; break;
-		case VK_RIGHT: m_abKeys[Key::Right] = _bDown; break;
-		case VK_UP: m_abKeys[Key::Up] = _bDown; break;
-		case VK_DOWN: m_abKeys[Key::Down] = _bDown; break;
-		case VK_NUMPAD0: m_abKeys[Key::Numpad0] = _bDown; break;
-		case VK_NUMPAD1: m_abKeys[Key::Numpad1] = _bDown; break;
-		case VK_NUMPAD2: m_abKeys[Key::Numpad2] = _bDown; break;
-		case VK_NUMPAD3: m_abKeys[Key::Numpad3] = _bDown; break;
-		case VK_NUMPAD4: m_abKeys[Key::Numpad4] = _bDown; break;
-		case VK_NUMPAD5: m_abKeys[Key::Numpad5] = _bDown; break;
-		case VK_NUMPAD6: m_abKeys[Key::Numpad6] = _bDown; break;
-		case VK_NUMPAD7: m_abKeys[Key::Numpad7] = _bDown; break;
-		case VK_NUMPAD8: m_abKeys[Key::Numpad8] = _bDown; break;
-		case VK_NUMPAD9: m_abKeys[Key::Numpad9] = _bDown; break;
-		case VK_F1: m_abKeys[Key::F1] = _bDown; break;
-		case VK_F2: m_abKeys[Key::F2] = _bDown; break;
-		case VK_F3: m_abKeys[Key::F3] = _bDown; break;
-		case VK_F4: m_abKeys[Key::F4] = _bDown; break;
-		case VK_F5: m_abKeys[Key::F5] = _bDown; break;
-		case VK_F6: m_abKeys[Key::F6] = _bDown; break;
-		case VK_F7: m_abKeys[Key::F7] = _bDown; break;
-		case VK_F8: m_abKeys[Key::F8] = _bDown; break;
-		case VK_F9: m_abKeys[Key::F9] = _bDown; break;
-		case VK_F10: m_abKeys[Key::F10] = _bDown; break;
-		case VK_F11: m_abKeys[Key::F11] = _bDown; break;
-		case VK_F12: m_abKeys[Key::F12] = _bDown; break;
-		case VK_F13: m_abKeys[Key::F13] = _bDown; break;
-		case VK_F14: m_abKeys[Key::F14] = _bDown; break;
-		case VK_F15: m_abKeys[Key::F15] = _bDown; break;
-		case VK_PAUSE: m_abKeys[Key::Pause] = _bDown; break;
-		default:
-			cerr << "Key not recognized: " << _wParam << endl;
-			break;
-		}
-		
-	}
-
-	LRESULT WINAPI GL3Facade::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg)
-		{
-		case WM_DESTROY:
-			GL3Facade::Instance().quit();
-			PostQuitMessage(0);
-			return 0;
-
-		case WM_KEYDOWN:
-			GL3Facade::Instance().keyDown(wParam, true);
-			return 0;
-
-		case WM_KEYUP:
-			GL3Facade::Instance().keyDown(wParam, false);
-			return 0;
-
-		case WM_MOUSEMOVE:
-		{
-			// Retrieve mouse screen position
-			int x = (short)LOWORD(lParam);
-			int y = (short)HIWORD(lParam);
-			GL3Facade::Instance().setMousePosition(x, y);  //CB: Bug: returns 1263*760 on a 1280*800 window
-			cout << x << " " << y << endl;
-
-			// Check to see if the left button is held down:
-			bool bLeftButtonDown = (wParam & MK_LBUTTON) ? true : false;
-
-			// Check if right button down:
-			bool bRightButtonDown = (wParam & MK_RBUTTON) ? true : false;
-			
-			GL3Facade::Instance().setMouseButtonsDown(bLeftButtonDown, bRightButtonDown);
-			return 0;
-		}
-
-		case WM_PAINT:
-			ValidateRect(hWnd, NULL);
-			return 0;
-
-		case WM_SETCURSOR:
-			return GL3Facade::Instance().setCursor(false);
-		}
-
-		return DefWindowProc(hWnd, msg, wParam, lParam);
-	}
-
-	IFont* GL3Facade::createIFont(IFont* _pFrom)
+	Font* GL3Facade::createFont(Font* _pFrom)
 	{
 		return (_pFrom ? new GL3Font(*(GL3Font*)_pFrom) : new GL3Font);
+	}
+
+	void GL3Facade::destroyFont(Font* _pFont)
+	{
+		delete ((GL3Font*)_pFont);
 	}
 
 	Texture* GL3Facade::createTexture(Texture* _pFrom)
@@ -309,9 +286,19 @@ namespace crea
 		return (_pFrom ? new GL3Texture(*(GL3Texture*)_pFrom) : new GL3Texture);
 	}
 
+	void GL3Facade::destroyTexture(Texture* _pTexture)
+	{
+		delete ((GL3Texture*)_pTexture);
+	}
+
 	Color* GL3Facade::createColor(Color* _pFrom)
 	{
 		return (_pFrom ? new GL3Color(*(GL3Color*)_pFrom) : new GL3Color);
+	}
+
+	void GL3Facade::destroyColor(Color* _pColor)
+	{
+		delete ((GL3Color*)_pColor);
 	}
 
 	Text* GL3Facade::createText(Text* _pFrom)
@@ -319,18 +306,74 @@ namespace crea
 		return (_pFrom ? new GL3Text(*(GL3Text*)_pFrom) : new GL3Text);
 	}
 
+	void GL3Facade::destroyText(Text* _pText)
+	{
+		delete ((GL3Text*)_pText);
+	}
+
 	Sprite* GL3Facade::createSprite(Sprite* _pFrom)
 	{
 		return (_pFrom ? new GL3Sprite(*(GL3Sprite*)_pFrom) : new GL3Sprite);
 	}
 
+	void GL3Facade::destroySprite(Sprite* _pSprite)
+	{
+		delete ((GL3Sprite*)_pSprite);
+	}
+
+	Shape* GL3Facade::createShape(string _szType, Shape* _pFrom)
+	{
+		if (_szType == "Default")
+		{
+			return (_pFrom ? new GL3Shape(*(GL3Shape*)_pFrom) : new GL3Shape);
+		}
+		else if (_szType == "Rectangle")
+		{
+			return (_pFrom ? new GL3RectangleShape(*(GL3RectangleShape*)_pFrom) : new GL3RectangleShape);
+		}
+		else if (_szType == "Circle")
+		{
+			return (_pFrom ? new GL3CircleShape(*(GL3CircleShape*)_pFrom) : new GL3CircleShape);
+		}
+		else if (_szType == "Arrow")
+		{
+			return (_pFrom ? new GL3ArrowShape(*(GL3ArrowShape*)_pFrom) : new GL3ArrowShape);
+		}
+		else if (_szType == "Line")
+		{
+			return (_pFrom ? new GL3LineShape(*(GL3LineShape*)_pFrom) : new GL3LineShape);
+		}
+		return nullptr;
+	}
+
+	void GL3Facade::destroyShape(Shape* _pShape)
+	{
+		delete _pShape;
+	}
+
+	Shader* GL3Facade::createShader(Shader* _pFrom)
+	{
+		return (_pFrom ? new GL3Shader(*(GL3Shader*)_pFrom) : new GL3Shader);
+	}
+
+	void GL3Facade::destroyShader(Shader* _pShader)
+	{
+		delete _pShader;
+	}
+
+	Material* GL3Facade::createMaterial(Material* _pFrom)
+	{
+		return (_pFrom ? new GL3Material(*(GL3Material*)_pFrom) : new GL3Material);
+	}
+
+	void GL3Facade::destroyMaterial(Material* _pMaterial)
+	{
+		delete _pMaterial;
+	}
+
 	bool GL3Facade::isKeyPressed(Key _key)
 	{
-		if (m_abKeys[_key])
-		{
-			return true;
-		}
-		return false;
+		return (glfwGetKey(window, keysMap[_key]) == GLFW_PRESS);
 	}
 
 	bool GL3Facade::isMouseButtonPressed(Button _button)
@@ -360,4 +403,27 @@ namespace crea
 		return &GL3Facade::Instance();
 	}
 
+	// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+	// ---------------------------------------------------------------------------------------------
+	void framebuffer_size_callback(GLFWwindow* window, int _width, int _height)
+	{
+		GL3Facade* pGL3Facade = (GL3Facade*) GameManager::getSingleton()->getRenderer();
+		pGL3Facade->setWindowSize(_width, _height);
+	}
+
+	// glfw: whenever the mouse moves, this callback is called
+	// -------------------------------------------------------
+	void mouse_callback(GLFWwindow* window, double _xPos, double _yPos)
+	{
+		// todo: handle mouse move
+		//InputManager::getSingleton()->setMousePosition(_xPos, _yPos);
+	}
+
+	// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+	// ----------------------------------------------------------------------
+	void scroll_callback(GLFWwindow* window, double _xOffset, double _yOffset)
+	{
+		// todo: handle mouse scroll
+		//InputManager::getSingleton()->setMouseScroll(_xOffset, _yOffset);
+	}
 } // namespace crea

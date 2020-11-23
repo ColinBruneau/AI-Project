@@ -40,6 +40,10 @@ namespace crea
 		{
 			// Chargement de la bibliothèque dynamique
 			m_Library = LoadLibrary(Filename.c_str());
+			if (!m_Library)
+			{
+				cerr << "Cannot load library " << Filename.c_str() << endl;
+			}
 			assert(m_Library); // Impossible de charger la bibliothèque dynamique
 
 			// Récupération de la fonction

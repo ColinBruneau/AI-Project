@@ -11,6 +11,8 @@
 #include "Core\SceneManager.h"
 #include "Scene\SceneSteering.h"
 #include "Scene\ScenePlanning.h"
+#include "Scene\SceneMap.h"
+#include "Scene\SceneGame.h"
 
 using namespace crea;
 
@@ -18,8 +20,9 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	GameManager* pGM = GameManager::getSingleton();
 
-	pGM->setRendererType(Renderer_DX9);
+	//pGM->setRendererType(Renderer_DX9);
 	//pGM->setRendererType(Renderer_SFML);
+	pGM->setRendererType(Renderer_GL3);
 
 	pGM->setWindowRect(IntRect(0, 0, 1152, 896));
 

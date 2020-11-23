@@ -10,7 +10,7 @@ namespace crea
 #       define CREAENGINE_API __declspec(dllimport)
 #   endif
 
-} // namespace LibMath
+} // namespace crea
 
 #define INVALID_OBJECT_ID 0
 typedef unsigned int objectID;
@@ -37,11 +37,14 @@ namespace crea
 #include "Core\PhysicsManager.h"
 #include "Core\MsgManager.h"
 #include "Core\Msg.h"
+#include "Data\Asset.h"
 #include "Data\DataManager.h"
 #include "Data\Node.h"
 #include "Data\Map.h"
 #include "Data\Animation.h"
+#include "Graphics\Shader.h"
 #include "Graphics\Color.h"
+#include "Graphics\Material.h"
 #include "Graphics\Font.h"
 #include "Graphics\Text.h"
 #include "Graphics\Texture.h"

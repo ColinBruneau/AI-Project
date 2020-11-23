@@ -12,6 +12,7 @@ namespace crea
 #define PI 3.14159265f
 #define EPSILON 0.00001f
 #define ONEOVER128 0.0078125f
+#define ONEOVER255 0.00392156862745f
 
 	// Macros
 #define MIN(a, b) (a<b ? a : b)
@@ -98,6 +99,23 @@ namespace crea
 		inline int getWidth() const { return m_iW; }
 		inline int getHeight() const { return m_iH; }
 
+		bool operator!=(const IntRect& _r)
+		{
+			if (_r.m_iX != m_iX || _r.m_iY != m_iY || _r.m_iW != m_iW || _r.m_iH != m_iH)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		bool contains(Vector2f& _v)
+		{
+			if (_v.getX() > m_iX && _v.getX() < m_iX + m_iW && _v.getY() > m_iY && _v.getY() < m_iY + m_iH)
+			{
+				return true;
+			}
+			return false;
+		}
 	};
 
 	class CREAENGINE_API FloatRect

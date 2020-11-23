@@ -9,7 +9,7 @@
 namespace crea
 {
 	Animator::Animator()
-	{
+	{ 
 	}
 
 	Animator::~Animator()
@@ -142,11 +142,11 @@ namespace crea
 		if (m_pSprite && m_pAnimation)
 		{
 			m_pSprite->setTexture(m_pAnimation->getSpriteSheet());
-
+						
 			IntRect rect = m_pAnimation->getFrame(m_currentFrame);
 			float fFlipH = (rect.getWidth() < 0) ? -1.0f : 1.0f;// width < 0 means flipH
 			float fFlipV = (rect.getHeight() < 0) ? -1.0f : 1.0f;// height < 0 means flipV
-
+			
 			m_pSprite->setTextureRect(
 				rect.getLeft(),
 				rect.getTop(),

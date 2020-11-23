@@ -60,7 +60,7 @@ namespace crea
 
 		}
 
-		DX9Sprite::~DX9Sprite()
+		virtual DX9Sprite::~DX9Sprite()
 		{
 			SafeDelete(m_pRect);
 			SafeDelete(m_pCenter);

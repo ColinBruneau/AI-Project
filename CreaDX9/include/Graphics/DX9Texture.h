@@ -18,7 +18,11 @@ namespace crea
 		LPDIRECT3DTEXTURE9 getTexture() { return m_pTexture; }
 
 		DX9Texture() { m_pTexture = nullptr; }
-		~DX9Texture() { SafeRelease(m_pTexture); }
+		virtual ~DX9Texture() { SafeRelease(m_pTexture); }
+
+		virtual inline void setTransparency(bool _transparency) { /*todo: handletransparency for DX9*/ }
+
+		virtual inline bool getTransparency() { return false; }
 
 		virtual bool loadFromFile(const string& _file)
 		{
@@ -29,6 +33,10 @@ namespace crea
 			}
 			return true;
 		}
+
+		virtual void bind(unsigned int _channel) {}
+
+		virtual void unbind(unsigned int _channel) {}
 	};
 
 } // namespace crea

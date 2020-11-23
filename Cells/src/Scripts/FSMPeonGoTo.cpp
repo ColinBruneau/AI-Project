@@ -125,7 +125,7 @@ bool FSMPeonGoTo::draw()
 		{
 			Vector2f p = **it;
 			m_pPathNodeShape->setPosition((float)p.getX(), (float)p.getY());
-			m_pPathNodeShape->draw();
+			//m_pPathNodeShape->draw();
 		}
 	}
 	else if (m_bHasOpenList)
@@ -134,7 +134,7 @@ bool FSMPeonGoTo::draw()
 		{
 			Vector2f p = **it;
 			m_pPathNodeShapeOpen->setPosition((float)p.getX(), (float)p.getY());
-			m_pPathNodeShapeOpen->draw();
+			//m_pPathNodeShapeOpen->draw();
 		}
 		m_bHasOpenList = false;
 	}

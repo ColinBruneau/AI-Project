@@ -357,6 +357,9 @@ bool AITools::onUpdate()
 
 bool AITools::onDraw()
 {
+	// todo : temporary
+	return true;
+
 	// Selection
 	if (m_pGM->isMouseButtonPressed(Button::MouseLeft))
 	{

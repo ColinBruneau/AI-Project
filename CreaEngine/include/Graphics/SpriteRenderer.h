@@ -15,6 +15,8 @@ namespace crea
 	class CREAENGINE_API SpriteRenderer : public Component
 	{
 		Sprite* m_pSprite;
+		Material* m_pMaterial;
+		bool m_bShaderApplied;
 		IntRect* m_pTextureRect;
 		GameManager* m_pGM;
 		bool m_bActive;
@@ -25,6 +27,9 @@ namespace crea
 
 		inline void setSprite(Sprite* _pSprite) { m_pSprite = _pSprite; }
 		inline Sprite* getSprite() { return m_pSprite; }
+
+		inline void setMaterial(Material* _pMaterial) { m_pMaterial = _pMaterial; }
+		Material* getMaterial() { return m_pMaterial; }
 
 		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 		inline void setActive(bool _bActive) { m_bActive = _bActive; }

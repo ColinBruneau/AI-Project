@@ -18,6 +18,9 @@ namespace crea
 	public:
 		sf::Font m_font;
 
+		SFMLFont() {}
+		virtual ~SFMLFont() {}
+
 		virtual bool loadFromFile(const string& _file)
 		{
 			return m_font.loadFromFile(_file);

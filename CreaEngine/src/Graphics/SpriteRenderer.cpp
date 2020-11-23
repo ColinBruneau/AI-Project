@@ -52,7 +52,7 @@ namespace crea
 	
 	bool SpriteRenderer::draw()
 	{
-		if (m_pSprite && m_bActive)
+		if (m_pSprite && m_bActive) 
 		{
 			// Set sprite position
 			Vector2f vPos = getEntity()->getPosition();

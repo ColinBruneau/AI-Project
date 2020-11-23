@@ -128,13 +128,12 @@ namespace crea
 		{
 			cerr << "initD3D failed..." << endl;
 		}
+		ZeroMemory(&msg, sizeof(msg));
 	}
 	
 	bool DX9Facade::update()
 	{
 		// Enter the message loop
-		MSG msg;
-		ZeroMemory(&msg, sizeof(msg));
 		while (msg.message != WM_QUIT)
 		{
 			if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE))
@@ -441,7 +440,29 @@ namespace crea
 	{
 		delete _pShape;
 	}
-	
+
+	Shader* DX9Facade::createShader(Shader* _pFrom)
+	{
+		// todo: implement DX9 shaders
+		return nullptr;
+	}
+
+	void DX9Facade::destroyShader(Shader* _pShader)
+	{
+		// todo: implement DX9 shaders
+	}
+
+	Material* DX9Facade::createMaterial(Material* _pFrom)
+	{
+		// todo: implement DX9 materials
+		return nullptr;
+	}
+
+	void DX9Facade::destroyMaterial(Material* _pMaterial)
+	{
+		// todo: implement DX9 materials
+	}
+
 	bool DX9Facade::isKeyPressed(Key _key)
 	{
 		if (m_abKeys[_key])

@@ -90,6 +90,14 @@ namespace crea
 
 		virtual void destroyShape(Shape* _pShape) = 0;
 
+		virtual Shader* createShader(Shader* _pFrom = nullptr) = 0;
+
+		virtual void destroyShader(Shader* _pShader) = 0;
+
+		virtual Material* createMaterial(Material* _pFrom = nullptr) = 0;
+
+		virtual void destroyMaterial(Material* _pMaterial) = 0;
+
 		virtual bool isKeyPressed(Key _key) = 0;
 
 		virtual bool isMouseButtonPressed(Button _button) = 0;

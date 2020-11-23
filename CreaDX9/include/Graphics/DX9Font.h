@@ -31,7 +31,8 @@ namespace crea
 			m_szFont = "";
 			m_iHeight = 10;
 		}
-		~DX9Font() { SafeRelease(m_pFont); }
+
+		virtual ~DX9Font() { SafeRelease(m_pFont); }
 
 		LPD3DXFONT getFont() { return m_pFont; }
 

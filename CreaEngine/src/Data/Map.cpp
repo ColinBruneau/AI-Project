@@ -766,7 +766,6 @@ namespace crea
 				pTileSet->m_pSprite->draw();
 			}
 		}
-
 		return true;
 	}
 

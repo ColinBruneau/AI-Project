@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Data\DataManager.h"
+#include "Graphics\Color.h"
 
 namespace crea
 {
@@ -273,7 +274,7 @@ namespace crea
 		return nullptr;
 	}
 
-	Vehicle* DataManager::getVehicle(string _szName, bool _bCloned)
+	Vehicle* DataManager::getVehicle(const string& _szName, bool _bCloned)
 	{
 		MapStringVehicle::iterator it = m_pVehicles.find(_szName);
 		if (it == m_pVehicles.end())
@@ -302,6 +303,66 @@ namespace crea
 		return nullptr;
 	}
 
+	Material* DataManager::getMaterial(const string& _szName, bool _bCloned)
+	{
+		MapStringMaterial::iterator it = m_pMaterials.find(_szName);
+		if (it == m_pMaterials.end())
+		{
+			Material* pMaterial = IFacade::get().createMaterial(); // Create a default Material if none exist
+			if (!pMaterial->loadFromFile(DATAMATERIALPATH + _szName))
+			{
+				delete pMaterial;
+				cerr << "Unable to open Material" << endl;
+				return nullptr;
+			}
+			m_pMaterials[_szName] = pMaterial;
+			return pMaterial;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				Material* pMaterial = (Material*)it->second->clone();
+				m_pMaterials[_szName + to_string(++materialInstanceCount)] = pMaterial;
+				return pMaterial;
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
+	Shader* DataManager::getShader(const string& _szName, bool _bCloned)
+	{
+		MapStringShader::iterator it = m_pShaders.find(_szName);
+		if (it == m_pShaders.end())
+		{
+			Shader* pShader = IFacade::get().createShader(); // Create a default Shader if none exist
+			if (!pShader->loadFromFile(DATASHADERPATH + _szName))
+			{
+				delete pShader;
+				cerr << "Unable to open Shader" << endl;
+				return nullptr;
+			}
+			m_pShaders[_szName] = pShader;
+			return pShader;
+		}
+		else
+		{
+			if (_bCloned)
+			{
+				//return new Shader(it->second); // CB is it useful to clone?
+			}
+			else
+			{
+				return it->second;
+			}
+		}
+		return nullptr;
+	}
+
 	void DataManager::clear()
 	{
 		if (!m_bIsCleared)
@@ -317,6 +378,13 @@ namespace crea
 		while (itFont != m_pFonts.end()) {
 			delete (*itFont).second;
 			itFont = m_pFonts.erase(itFont);
+		}
+
+		// Clean Materials before textures
+		MapStringMaterial::iterator itMaterial = m_pMaterials.begin();
+		while (m_pMaterials.size()) {
+			delete (*itMaterial).second;
+			itMaterial = m_pMaterials.erase(itMaterial);
 		}
 
 		MapStringTexture::iterator itTexture = m_pTextures.begin();
@@ -377,6 +445,13 @@ namespace crea
 		while (m_pVehicles.size()) {
 			delete (*itVehicle).second;
 			itVehicle = m_pVehicles.erase(itVehicle);
+		}
+
+		MapStringShader::iterator itShader = m_pShaders.begin();
+		while (m_pShaders.size()) {
+			delete (*itShader).second;
+			itShader = m_pShaders.erase(itShader);
+
 		}
 	}
 

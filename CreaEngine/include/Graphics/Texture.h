@@ -14,9 +14,17 @@ namespace crea
 
 		Texture() {}
 
-		~Texture() {}
+		virtual ~Texture() {}
+
+		virtual inline void setTransparency(bool _transparency) { }
+
+		virtual inline bool getTransparency() { return false; }
 
 		virtual bool loadFromFile(const string& _file) { return false; }
+
+		virtual void bind(unsigned int _channel) {}
+
+		virtual void unbind(unsigned int _channel) {}
 
 	};
 

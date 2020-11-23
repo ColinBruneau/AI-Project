@@ -15,7 +15,7 @@ namespace crea
 
 		Sprite() {}
 		
-		~Sprite() {}
+		virtual ~Sprite() {}
 
 		virtual void draw() {}
 
